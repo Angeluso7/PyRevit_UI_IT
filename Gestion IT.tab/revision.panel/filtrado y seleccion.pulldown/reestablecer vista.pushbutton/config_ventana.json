@@ -1,0 +1,24 @@
+{
+    "Top": 441.0,
+    "Left": 850.0,
+    "Buttons": [
+        {
+            "Content": "Asignados",
+            "Margin": "0,0,0,10",
+            "Width": 180.0,
+            "Name": "btnAsignados",
+            "Height": 40.0
+        },
+        {
+            "Content": "No asignados",
+            "Margin": "0,0,0,0",
+            "Width": 180.0,
+            "Name": "btnNoAsignados",
+            "Height": 40.0
+        }
+    ],
+    "Title": "Seleccionar Filtros",
+    "ResizeMode": "NoResize",
+    "Width": 220.0,
+    "Height": 150.0
+}

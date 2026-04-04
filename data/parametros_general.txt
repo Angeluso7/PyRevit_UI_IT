@@ -1,0 +1,559 @@
+val-sql
+val-activos
+id
+inf-id
+ID SQL
+nombre
+nombre 1
+nombre 2
+nombre 3
+nombre 4
+nombre 5
+descripción
+estado
+Nodo
+Propietario
+Decreto
+Categoría VU
+Estructuras
+OOCC
+Número de Serie
+Año de Fabricación
+Tipo Tecnología
+Ten. Nom._Magnitud
+Ten. Nom._Unidad
+Corr. Nom._Magnitud
+Corr. Nom._Unidad
+Corr. Cortocirc_Magnitud
+Corr. Cortocirc_Unidad
+Tipo Desc.
+Tipo de Accionamiento
+Puesta a Tierra
+Clase dec. Panos_Id Clase SQL
+Clase dec. Panos_Desc. Clase SQL
+Tipo Desc. SQL
+Clase Acond. SQL
+Armario
+Paños Controladores
+Marca
+Marca 2
+Marca 3
+Marca 4
+DEA
+Tipo de Mit. Ambiental
+Valor Original Mit. Amb_Valor
+Valor Original Mit Amb_Und Monetaria
+Fecha Mitigación
+Línea
+Nivel de Tensión
+Fecha de Entr. en Op
+Subestación
+Metros Const._Magnitud
+Metros Const_Unidad
+Tipo de Distribución
+Tipo de Edif -Tipo de Const.
+Tipo de Edif_Tipo de Edif. SSGG
+Antecedentes Complementarios
+Comuna
+Largo Cámara_Magnitud
+Largo Cámara_Unidad
+Alto Cámara_Magnitud
+Alto Cámara_Unidad
+Ancho Cámara_Magnitud
+Ancho Cámara_Unidad
+Tipo de Conductor
+Largo Cond._Magnitud
+Largo Cond._Unidad
+Sección Conductor_Magnitud
+Sección Conductor_Unidad
+No de Cond. por Fase
+Aislación del Cond.
+Sist. de ventilación
+Sist. de Iluminación
+Material Tapa de Cámara
+Patio
+Tipo Barra
+Material Conductor
+Long. T.del No de Cond._Magnitud
+Long. T. del No de Cond._Unidad
+No de Separadores
+No de Barra en la Config,
+Capacidad Térmica_Magnitud
+Capacidad Térmica_Unidad
+Sala SSGG y-o Caseta
+Capacidad Nom._Magnitud
+Capacidad Nom_Unidad
+Tecnología Batería
+Tensión Nominal
+Pasos
+Tipo de Conexión
+Tensión de Operación
+Dist. De Fuga_Magnitud
+Dist. De Fuga_Unidad
+Ten. Mec. de Ruptura_Magnitud
+Ten. Mec. de Ruptura_Unidad
+Tipo Clase Aislador Sop_Id Clase SQL
+Tipo Clase Aislador Sop_Desc. Clase SQL
+Tramo
+Nodo 1
+Nodo 2
+Long. Cond._Magnitud
+Long. Cond_Unidad
+Long. del Vano_Magnitud
+Long. del Vano_Unidad
+Long.Cable Guard._Magnitud
+Long. Cable Guard._Unidad
+Cable Guardia
+Secc. Cable guard_Magnitud
+Secc Cable Guard_Unidad
+No de Cables Guardia
+Tipo de Cable Guardia
+Masa x Long. del Cond._Magnitud
+Masa x Long. del Cond._Unidad
+Fibra Optica
+Info. Complementaria
+Tipo Aislación Conductor
+Datos generales_Función
+Datos generales_Tipo Tecnología
+Datos generales_Fecha Ent. en Op.
+Datos generales_Marca
+Datos generales_Modelo
+Datos generales_No de Serie
+Datos generales_Año de Fabr.
+Datos de Interr._Tens. Nom_Magnitud
+Datos de Interr_Tens. Nom._Unidad
+Corr. Nom_Capa. de Cierre en Cortocirc.
+Datos Descon_Corr. Nom._Magnitud
+Datos Descon._Corr. Nom._Unidad
+Datos Descon_Posee Desconect a Tierra
+Datos Trafo de Corr_Corr. Nom. Prim._Magnitud
+Datos Trafo de Corr._ Corr.  Nom. Prim._Unidad
+Datos Trafo de Corr._Cor. Nom. Sec._Magnitud
+Datos Trafo de Corr._Corr. Nom. Sec_Unidad
+Datos Trafo de Corr._No de Núc. de Med.
+Datos Trafo de Corr._Clase Prec. de Núc. de Med.
+Datos Trafo de Corr._No de Núc. de Protec.
+Datos Trafo. de Corr._Clase Prec. de Núc. de Protec.
+Datos Trafo de Pot._Ten. Nom. Sec.
+Datos Trafo de Pot._No de núc. de med.
+Datos Trafo de Pot._Clase prec. de núc. de med.
+Datos Trafo de Pot._No de núc de protec.
+Datos Trafo de Pot._Clase prec. de núc. de protec.
+Posee otros eq._Pararrayos
+Posee otros eq._Sist. de Protec.
+Posee otros eq._Medidores
+Datos de Placa
+Posee otros eq._Id Clase SQL
+Posee otros eq._Desc. Clase SQL
+Clase celda_Id Clase SQL
+Clase celda_Desc. Clase SQL
+Long. del Túnel_Magnitud
+Long. del Túnel_Unidad
+Alto del Túnel_Magnitud
+Alto del Túnel_Unidad
+Ancho del Túnel_Magnitud
+Ancho del Túnel_Unidad
+Tens. Nom. Prim._Magnitud
+Tens. Nom. Prim._Unidad
+Tens. Nom. Sec._Magnitud
+Tens. Nom. Sec._Unidad
+Pot. Base Nom._Magnitud
+Pot. Base Nom._Unidad
+Pot. Interm._Magnitud
+Pot. Interm._Unidad
+Pot. Máx_Magnitud
+Pot. Máx_Unidad
+Tipo Cambiador de TAP
+Tipo de Refrigeración
+Cant.
+Modelo
+Modelo 1
+Modelo 2
+Modelo 3
+Cap. (VA)_Magnitud
+Cap. (VA)_Unidad
+Clase Precisión
+Pot. de cada Núc. de Med._Magnitud
+Pot. de cada Núc. de Med._Unidad
+No de Núc. de Med.
+Pot. Núc. de Protec._Magnitud
+Pot. Núc. de Protec._Unidad
+Tens. Núc. de Protec.
+Tipo de Aislante
+Clase Trafo Pot.l_Id Clase SQL
+Clase Trafo Pot.l_Desc. Clase SQL
+Relación de Transformación
+Pot. Nom._Magnitud
+Pot. Nom._Unidad
+Corr. Nom.  Prim._Magnitud
+Corr. Nom.  Prim._Unidad
+Corr. Nom.  Sec._Magnitud
+Corr. Nom.  Sec._Unidad
+Clase Protec. Núc. de Protec.
+Clase Prec. Núc. de Protec.
+Clase Prec. Núc de Med.
+No Núc. De Protec.
+Clase Trafo Corr._Id Clase SQL
+Clase Trafo Corr._Desc. Clase SQL
+Nodo 3
+Tens. Nom. Terc._Magnitud
+Tens. Nom. Terc._Unidad
+Tipo de Sist. de Refrigeración
+Pot. Base Terc. (Nom.)_Magnitud
+Pot. Base Terc. (Nom.)_Unidad
+Pot. Máx Terc._Magnitud 
+Pot. Máx Terc._Unidad
+Grupo de Conexiones
+Clase SQL Trafo_Id Clase SQL
+Clase SQL Trafo_Desc. Clase SQL
+Estado Operativo
+Volumen de Aceite
+Resistencia SC
+Reactancia SC
+Resistencia SP
+Reactancia SP
+Tasa de Falla
+Perdidas en Vacío
+Perdidas Carga Nom.
+Peso Trafo
+Tap Pasos
+Paso
+Tap Mínimo
+Posición Tap Mínimo
+Razón Tap Mínimo
+Tap Máximo
+Posición Tap Máximo
+Razón Tap Máximo
+Tipo Fase
+Tipo Trafo
+Tipo Aislación
+Sist. Contra Incendios
+No Enrollados
+Circuito
+Servidumbre
+Long. del Tramo_Magnitud
+Long. del Tramo_Unidad
+Susceptancia a SP
+Tasa Falla
+Cap. Máx_Magnitud
+Cap. Máx_Unidad
+Susceptancia a SC
+Corr. Transitoria_Magnitud
+Corr. Transitoria_Unidad
+ref-id
+SS.GG., Caseta y Salas de ER
+Tens. Nom. de Salida (C.C.)
+Corr. Nom. de Salida (C.C.)_Magnitud
+Corr. Nom. de Salida (C.C.)_Unidad
+Sist. Eléc.
+Tipo de Servidumbre
+Fecha Contrato de Compra-Venta 
+Tipo de Terreno
+Valor Adquisición_Valor
+Valor Adquisición_Unidad Monetaria
+Ancho Franja_Magnitud
+Ancho Franja_Unidad
+Largo Franja_Magnitud
+Largo Franja_Unidad
+Sup._Magnitud
+Sup._Unidad
+Sup. Utilizada_Magnitud
+Sup. Utilizada_Unidad
+Plano general de obras 
+Listado de prop. y el N° de Rol de cada propiedad
+Contrato de serv. voluntaria o Decreto.
+Informe de com. tasadoras x cada predio
+Nodo Paño_Barra
+Tipo de Protec.
+Tipo de Tecnología
+Protec.
+Función Principal de Protec.
+N° de Unidades
+Nodo SSEE
+Cerco Perimetral
+Tipo de Pararrayo
+Condensador de Acoplamiento
+Peso Est. Soporte Mufas_Magnitud
+Peso Est. Soporte Mufas_Unidad
+Tipo Cerco
+Tipo Sist. Vigilancia
+Corr. Carga Nom._Magnitud
+Corr. Carga Nom._Unidad
+Material Aislación
+Clase
+Tipo Pararrayo
+Función Paño
+Tipo de Protec. asociada
+Tipo de Sist. de Proteción
+No de Sist. de Protec.
+Nema Protec. Sist. 1
+Nema Protec. Sist. 2
+Ext. 1_ID Barra (Sep. por guión "-")
+Ext. 1_ID Paño (Sep. por guión "-")
+Ext. 1_ID Trafo 2 devanados (Sep. por Guión "-")
+Ext. 1_ID Trafo 3 devanados (Sep. por Guión "-")
+Ext. 1_ID Tramo (Sep. por Guión "-")
+Ext. 2_ID Barra (Sep. por Guión "-")
+Ext. 2_ID Paño (Sep. por Guión "-")
+Ext. 2_ID Trafo 2 devanados (Sep. por Guión "-")
+Ext. 2_ID Trafo 3 devanados (Sep. por Guión "-")
+Ext. 2_ID Tramo (Sep. por Guión "-")
+Caminos Interiores_Magnitud
+Caminos Interiores_Unidad
+Cerco Perim._Magnitud
+Cerco Perim._Unidad
+Malla P.T.
+Malla Aérea_Magnitud
+Malla Aérea_Unidad
+Cerco Peri._Tipo
+Cerco Peri._Long._Magnitud
+Cerco Peri._Long._Unidad
+Cerco Peri._Altura_Magnitud
+Cerco Peri._Altura_Unidad
+Conj. Lum._Pot. por Lum. (Promedio)_Cant.
+Conj. Lum._Pot. por Lum. (Promedio)_Magnitud
+Conj. Lum._Pot. por Lum. (Promedio)_Unidad
+Malla P.T._Magnitud
+Malla P.T._Unidad
+Cant. de Sist. de Alarmas
+Fecha Salida de Op.
+Cant._Magnitud
+Cant._Unidad
+Cant._Tipo de Elemento Paño
+Dim._Alto_Magnitud
+Dim._Alto_Unidad
+Dim._Ancho_Magnitud
+Dim._Ancho_Unidad
+Dim._Profundidad_Magnitud
+Dim._Profundidad_Unidad
+Nombre Armario (TAG)
+No de Ident. en Plano
+Cant. de Peinetas Anti pájaros
+Cant. de Placas Peligro de Muerte
+Anti Escalamiento
+Torre Pintada
+Cant. de Cuernos de Descarga
+Long. de Riendas_Magnitud
+Long. de Riendas_Unidad
+Cant. de Yugos de Ancl.
+Pletina P.T._Magnitud
+Pletina P.T._Unidad
+Caja de Empalme OPGW
+Ferr. de Cond._Conj. Susp. en I para 1 Cond.
+Ferr. de Cond._Conj. Susp. en I para 2 Cond.
+Ferr. de Cond._Conj. Susp. en I para 3 Cond.
+Ferr. de Cond._Conj. Susp. en I para 4 Cond.
+Ferr. de Cond._Conj. Susp. en V para 2 Cond.
+Ferr. de Cond._Conj. Susp. en V para 3 Cond.
+Ferr. de Cond._Conj. Susp. en V para 4 Cond.
+Ferr. de Cond._Conj. Ancl. para 1 Cond.
+Ferr. de Cond._Conj. Ancl. para 2 Cond.
+Ferr. de Cond._Conj. Ancl. para 3 Cond.
+Ferr. de Cond._Conj. Ancl. para 4 Cond.
+Ferr. de Cond._Conj. Ancl. doble para 2 Cond.
+Ferr. de Cond._Conj. Ancl. doble para 3 Cond.
+Ferr. de Cond._Conj. Ancl. doble para 4 Cond.
+Ferr. de Cond._Conj. Preformado para Cond.
+Ferr. de Cable de Guardia_Conj. de Susp. para Cable
+Ferr. de Cable de Guardia_Conj. de Ancl. para Cable
+Tipo de Aislación
+Aislación_Distancia de Fuga_Magnitud
+Aislación_Distancia de Fuga_Unidad
+Tens. de Rotura_Magnitud
+Tens. de Rotura_Unidad
+Nivel de Tens. de la Linea
+Clase Conj. Aislación_Id Clase SQL
+Clase Conj. Aislación_Desc. Clase SQL
+Cant. Conj. de Aislación
+Cant. Tensores
+Cant. Alargadores
+Cant. Eslabones
+Cant. Grampas
+Cant. Aisladores Normales
+Cant. Aisladores Tipo Neblina
+Cant. de Placas Numeración
+Coord. UTM_Coordenada Este
+Coord. UTM_Coordenada Norte
+Coord. UTM_Altitud Geog. (m.s.n.m.)
+Coord. UTM_Zona o Huso
+Coord. UTM_Datum
+Tipo de Acceso_Tipo Acceso
+Tipo de Acceso_Sup. Acceso Est._Magnitud
+Tipo de Acceso_Sup. Acceso Est._Unidad
+Tipo de Acceso_Largo Acceso Est._Magnitud
+Tipo de Acceso_Largo Acceso Est._Unidad
+Tipo de Acceso_Ancho Acceso Est._Magnitud
+Tipo de Acceso_Ancho Acceso Est._Unidad
+Est._Tipo de Est.
+Est._Función
+Est._Modelo
+Est. Metálica_Material
+Est. Metálica_Peso (Kg)
+Est. Metálica_Long. (m)
+Est. Metálica_Tipo
+Poste Hor._Long. (m)
+Poste Hor._Peso (Kg)
+Poste Hor._No de Postes
+Poste Madera_Long. (m)
+Poste Madera_Diámetro (m)
+Poste Madera_No de Postes
+Peso Pernos_Magnitud
+Peso Pernos_Unidad
+Tipo de Est. Metálica
+Tipo Est. SQL
+No de Placa SQL
+Cap. Rupt. SQL_Magnitud
+Cap. Rupt. SQL_Unidad
+Clase Poste de Madera SQL
+Tipo Poste de Madera SQL
+Tipo ambiente Est.
+Carga de Serv. en la Pta._Transversal_Magnitud
+Carga de Serv. en la Pta._Transversal_Unidad
+Carga de Serv. en la Pta._Long._Magnitud
+Carga de Serv. en la Pta._Long._Unidad
+Carga de Rupt. en la Pta._Transversal_Magnitud
+Carga de Rupt. en la Pta._Transversal_Unidad
+Carga de Rupt. en la Pta._Long._Magnitud
+Carga de Rupt. en la Pta._Long._Unidad
+Servidumbres
+D. unilineal funcional de la SE
+Plano Disp. de Eq. en planta de la SE
+Plano Disp. de Eq. en elev. o corte de la SE
+Plano arq. del Sist. de control y protec.
+Plano arq. de teleCom.
+Plano de la malla P.T. subte.
+Plano de la malla de tierra aérea
+D. unilineal de Serv.s auxiliares C. C.
+D. unilineal de Serv.s auxiliares C. A.
+Disp. de Eq. en planta y elev. o corte de sala de Serv.s grales, casetas y est. rep.
+Planos de Est. de Eq. (Est.s Bajas y Altas)
+Planos de Fundaciones de Eq. (Est.s Bajas y Altas)
+Plano de Disp. de Eq. en armarios y tablero con listado_tablero
+Planos de Dis. Civil de Sala Serv.s grales, casetas y est. rep.
+Plano Disp. de Eq. en Caseta de teleCom.
+Planos de Diseño Civil de Canaletas, Cámaras, Ductos, túneles de Cable y elementos Comunes
+Planos de Disp. de obras civiles
+SE móvil
+Tipo Patio
+Vano
+Tipo de Amortiguador
+Cant. de amortiguadores
+Cant. de Balizas
+Cant. de Desviadores de Vuelo
+Cant. de Manguitos
+Cant. de Señalización Aves
+Tipo de Espaciadores
+Cant. de Espaciadores
+Cant. de Sep. de Fase
+No de Sensores DLR 
+Nodo SS.GG. y Caseta
+Sist. de Aire Acondicionado
+Sist. de Protec. Contra Incendios
+Sist. de Alarma Contra Robos
+Sist. de Vigilancia
+Material de Oficina
+Sist. de Presurización
+Nodo Paño
+Tipo Sist. de Fact.
+No de Med. (Tag)
+No de Identificador en Plano
+Clase Med. Fact._Id Clase SQL
+Clase Med. Fact._Desc. Clase SQL
+Nombre Tablero (Tag)
+Block de Pruebas_Cant.
+Block de Pruebas_Marca
+Block de Pruebas_Modelo
+Switch de Control_Cant.
+Switch de Control_Marca
+Switch de Control_Modelo
+Switch de Com._Cant.
+Switch de Com._Marca
+Switch de Com._Modelo
+Router_Cant.
+Router_Marca
+Router_Modelo
+Inversor_Cant.
+Inversor_Marca
+Inversor_Modelo
+GPS_Cant.
+GPS_Marca
+GPS_Modelo
+HMI_Cant.
+HMI_Marca
+HMI_Modelo
+Cuchilla Tipo FT_Cant.
+Cuchilla Tipo FT_Marca
+Cuchilla Tipo FT_Modelo
+Controlador de Temperatura
+Cant. de Barras de Cu para P.T.
+Dist. de F.O. (ODF)_Cant.
+Dist. de F.O. (ODF)_Marca
+Dist. de F.O. (ODF)_Modelo
+Und Term. Remota (RTU)_Cant.
+Und Term. Remota (RTU)_Marca
+Und Term. Remota (RTU)_Modelo
+Conversor UTP_FO_Cant.
+Conversor UTP_FO_Marca
+Conversor UTP_FO_Modelo
+Hor. Armado_Tipo
+Hor. Armado_Cant._Magnitud
+Hor. Armado_Cant._Unidad
+Hor. Empl._Tipo
+Hor. Empl._Cant._Magnitud
+Hor. Empl._Cant._Unidad
+Relleno Compac._Magnitud
+Relleno Compac._Unidad
+Exc._Tipo
+Exc._Cant._Magnitud
+Exc._Cant._Unidad
+Cant. de Pernos de Ancl.
+Long. Pernos de Ancl._Magnitud
+Long. Pernos de Ancl._Unidad
+Peso Pernos de Ancl._Magnitud
+Peso Pernos de Ancl._Unidad
+Enf._Arm._Material Enfierradura
+Enf._Arm._Cant._Magnitud
+Enf._Arm._Cant._Unidad
+Malla Acga_Magnitud
+Retiro de Escombros_Magnitud
+Retiro de Escombros_Unidad
+Nodo de Est.
+Tipo de Mufa
+Material Aislados
+Cant. por Fase
+Material Aislador
+Tipo Mufas SQL
+Modo de Op.
+Tipo de Estanque
+Accionamiento
+Clase Interr. Paños_Id Clase SQL
+Clase Interr. Paños_Desc. Clase SQL
+No de Columnas por Polo
+Sincronizador
+Cap. de Cierre_Magnitud
+Cap. de Cierre_Unidad
+Cap. Simétrica_Magnitud
+Cap. Simétrica_Unidad
+Cap. Asimétrica_Magnitud
+Cap. Asimétrica_Unidad
+Tiempo de Op._Magnitud
+Tiempo de Op._Unidad
+Tiempo de Reconexión_Magnitud
+Tiempo de Reconexión_Unidad
+No de Intentos
+Tipo de Elemento Com.
+Reg. ref. para conex. de líneas de Trans.
+Pot._Magnitud
+Pot._Unidad
+Factor de Pot.
+Accesorio 1_Cant.
+Accesorio 1_Desc.
+Accesorio 1_Unid.
+Accesorio 2_Cant.
+Accesorio 2_Desc.
+Accesorio 2_Unid.
+Accesorio 3_Cant.
+Accesorio 3_Desc.
+Accesorio 3_Unid.
+Aislacion_Tipo Aislacion
+Aislación_Desc. Clase SQL

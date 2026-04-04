@@ -1,0 +1,20 @@
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Ayuda - Extensión PyRevit Infotécnica"
+        Height="700" Width="900"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0" Margin="5">
+            <TextBlock Text="Guía de Usuario - Extensión PyRevit Infotécnica"
+                       FontWeight="Bold" FontSize="14"/>
+        </DockPanel>
+
+        <!-- WebBrowser para mostrar HTML local -->
+        <WebBrowser x:Name="HelpBrowser" Grid.Row="1" />
+    </Grid>
+</Window>

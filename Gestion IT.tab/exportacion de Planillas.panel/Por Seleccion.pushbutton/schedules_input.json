@@ -1,0 +1,262 @@
+[
+  {
+    "name": "carga_masiva_accesorios-estructuras-lineas-aereas",
+    "id": 323250
+  },
+  {
+    "name": "carga_masiva_accesorios-estructuras-subestaciones",
+    "id": 323257
+  },
+  {
+    "name": "carga_masiva_accesorios-vanos",
+    "id": 323264
+  },
+  {
+    "name": "carga_masiva_aisladores",
+    "id": 323271
+  },
+  {
+    "name": "carga_masiva_armarios",
+    "id": 323278
+  },
+  {
+    "name": "carga_masiva_bancos-baterias",
+    "id": 323285
+  },
+  {
+    "name": "carga_masiva_barras",
+    "id": 323292
+  },
+  {
+    "name": "carga_masiva_camaras",
+    "id": 323299
+  },
+  {
+    "name": "carga_masiva_casas-servicios-generales-y-casetas",
+    "id": 323306
+  },
+  {
+    "name": "carga_masiva_celdas",
+    "id": 323313
+  },
+  {
+    "name": "carga_masiva_circuitos",
+    "id": 323320
+  },
+  {
+    "name": "carga_masiva_controladores-bahia",
+    "id": 323327
+  },
+  {
+    "name": "carga_masiva_desconectadores",
+    "id": 323334
+  },
+  {
+    "name": "carga_masiva_elementos-comunes-armarios",
+    "id": 323341
+  },
+  {
+    "name": "carga_masiva_elementos-comunes-panos",
+    "id": 323348
+  },
+  {
+    "name": "carga_masiva_elementos-comunes-ssee",
+    "id": 323355
+  },
+  {
+    "name": "carga_masiva_elementos-comunes-ssgg-casetas",
+    "id": 323362
+  },
+  {
+    "name": "carga_masiva_equipos-principales-comunicacion",
+    "id": 323369
+  },
+  {
+    "name": "carga_masiva_estructuras-subestaciones",
+    "id": 323376
+  },
+  {
+    "name": "carga_masiva_generadores-energia",
+    "id": 323383
+  },
+  {
+    "name": "carga_masiva_interruptores",
+    "id": 323390
+  },
+  {
+    "name": "carga_masiva_marcos-lineas",
+    "id": 323397
+  },
+  {
+    "name": "carga_masiva_medidores",
+    "id": 323404
+  },
+  {
+    "name": "carga_masiva_mitigaciones-ambientales",
+    "id": 323411
+  },
+  {
+    "name": "carga_masiva_mufas",
+    "id": 323418
+  },
+  {
+    "name": "carga_masiva_oocc",
+    "id": 323425
+  },
+  {
+    "name": "carga_masiva_otros-elementos-sistemas-proteccion",
+    "id": 323432
+  },
+  {
+    "name": "carga_masiva_otros-elementos-telecomunicaciones",
+    "id": 323439
+  },
+  {
+    "name": "carga_masiva_panos",
+    "id": 323446
+  },
+  {
+    "name": "carga_masiva_pararrayos",
+    "id": 323453
+  },
+  {
+    "name": "carga_masiva_patios-mufas",
+    "id": 323460
+  },
+  {
+    "name": "carga_masiva_patios-subestaciones",
+    "id": 323467
+  },
+  {
+    "name": "carga_masiva_reles-proteccion",
+    "id": 323474
+  },
+  {
+    "name": "carga_masiva_servidumbres",
+    "id": 323481
+  },
+  {
+    "name": "carga_masiva_subestaciones",
+    "id": 323488
+  },
+  {
+    "name": "carga_masiva_tableros",
+    "id": 323495
+  },
+  {
+    "name": "carga_masiva_torres",
+    "id": 323502
+  },
+  {
+    "name": "carga_masiva_tramos",
+    "id": 323509
+  },
+  {
+    "name": "carga_masiva_transformadores-corriente",
+    "id": 323516
+  },
+  {
+    "name": "carga_masiva_transformadores-2d",
+    "id": 323523
+  },
+  {
+    "name": "carga_masiva_transformadores-3d",
+    "id": 323530
+  },
+  {
+    "name": "carga_masiva_transformadores-potencial",
+    "id": 323537
+  },
+  {
+    "name": "carga_masiva_transformadores-ssaa",
+    "id": 323544
+  },
+  {
+    "name": "carga_masiva_tuneles",
+    "id": 323551
+  },
+  {
+    "name": "carga_masiva_vanos",
+    "id": 323558
+  },
+  {
+    "name": "carga_masiva_sistemas-respaldo-energia",
+    "id": 323565
+  },
+  {
+    "name": "carga_masiva_lineas",
+    "id": 664557
+  },
+  {
+    "name": "carga_masiva_accesorios-estructuras-lineas-subterraneas",
+    "id": 666518
+  },
+  {
+    "name": "carga_masiva_banco-condensadores",
+    "id": 667592
+  },
+  {
+    "name": "carga_masiva_compensadores-activos",
+    "id": 668375
+  },
+  {
+    "name": "carga_masiva_compensadores-estaticos-reactivos",
+    "id": 668576
+  },
+  {
+    "name": "carga_masiva_condensadores-series",
+    "id": 669068
+  },
+  {
+    "name": "carga_masiva_condensadores-acoplamiento",
+    "id": 669560
+  },
+  {
+    "name": "carga_masiva_dispositivos-reconexiones",
+    "id": 669955
+  },
+  {
+    "name": "carga_masiva_elementos-comunes-patios",
+    "id": 670350
+  },
+  {
+    "name": "carga_masiva_estaciones-repetidoras",
+    "id": 670454
+  },
+  {
+    "name": "carga_masiva_estructuras-lineas",
+    "id": 671431
+  },
+  {
+    "name": "carga_masiva_estudios-impacto-ambiental",
+    "id": 671729
+  },
+  {
+    "name": "carga_masiva_multiplexadores",
+    "id": 673676
+  },
+  {
+    "name": "carga_masiva_otros-elementos-sistemas-control",
+    "id": 674653
+  },
+  {
+    "name": "carga_masiva_paneles-antirruido",
+    "id": 674660
+  },
+  {
+    "name": "carga_masiva_pararrayos_mufas",
+    "id": 674861
+  },
+  {
+    "name": "carga_masiva_reactores",
+    "id": 674965
+  },
+  {
+    "name": "carga_masiva_trampas-ondas",
+    "id": 675651
+  },
+  {
+    "name": "carga_masiva_transformadores-zigzag",
+    "id": 729783
+  }
+]

@@ -1,0 +1,597 @@
+[2026-01-27 10:18:34] ==== Inicio ui_comparacion.py ====
+[2026-01-27 10:18:34] Argumentos:
+script_json=C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\script.json
+csv_codigos=C:\Users\Zbook HP\AppData\Roaming\PyRevitIT\data\comparacion\CODIGO.csv
+data_dir=C:\Users\Zbook HP\AppData\Roaming\PyRevitIT\data\comparacion
+formatear_script=C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\formatear_tablas_excel.py
+ruta_xlsx_salida=D:\SAESA\1.-PROYECTOS\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\NUBE\planilla-modelo_20260127_1018.xlsx
+python_exe=C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+modelo_json=C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\modelo_codint_por_cm.json
+headers_json_old=C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\headers_por_tabla.json
+[2026-01-27 10:18:34] leer_script_json: OK -> C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\script.json
+[2026-01-27 10:18:34] leer_csv_codigos: 4 filas desde C:\Users\Zbook HP\AppData\Roaming\PyRevitIT\data\comparacion\CODIGO.csv
+[2026-01-27 10:18:34] construir_excel_por_planilla: planilla_a_cm -> {'carga_masiva_subestaciones': 'CM01', 'carga_masiva_elementos-comunes-ssee': 'CM02', 'carga_masiva_patios-subestaciones': 'CM03', 'carga_masiva_elementos-comunes-patio': 'CM04', 'carga_masiva_barras': 'CM05', 'carga_masiva_panos': 'CM06', 'carga_masiva_elementos-comunes-panos': 'CM07', 'carga_masiva_transformadores-2d': 'CM08', 'carga_masiva_transformadores-3d': 'CM09', 'carga_masiva_interruptores': 'CM10', 'carga_masiva_desconectadores': 'CM11', 'carga_masiva_transformadores-corriente': 'CM12', 'carga_masiva_transformadores-potencial': 'CM13', 'carga_masiva_transformadores-ssaa': 'CM14', 'carga_masiva_pararrayos': 'CM15', 'carga_masiva_trampas-ondas': 'CM16', 'carga_masiva_aisladores': 'CM17', 'carga_masiva_medidores': 'CM18', 'carga_masiva_condensadores-asincronos': 'CM19', 'carga_masiva_compensadores-activos': 'CM20', 'carga_masiva_compensadores-series': 'CM21', 'carga_masiva_compensadores-estaticos-reactivos': 'CM22', 'carga_masiva_condensadores-acoplamiento': 'CM23', 'carga_masiva_banco-condensadores': 'CM24', 'carga_masiva_reactores': 'CM25', 'carga_masiva_dispositivos-reconexion': 'CM26', 'carga_masiva_celdas': 'CM27', 'carga_masiva_paneles-antirruido': 'CM28', 'carga_masiva_servidumbres': 'CM29', 'carga_masiva_casas-servicios-generales-y-casetas': 'CM30', 'carga_masiva_bancos-baterias': 'CM31', 'carga_masiva_generadores-energia': 'CM32', 'carga_masiva_tableros': 'CM33', 'carga_masiva_elementos-comunes-ssgg-casetas': 'CM34', 'carga_masiva_armarios': 'CM35', 'carga_masiva_multiplexadores': 'CM36', 'carga_masiva_equipos-principales-comunicación': 'CM37', 'carga_masiva_otros-elementos-telecomunicaciones': 'CM38', 'carga_masiva_reles-proteccion': 'CM39', 'carga_masiva_otros_elementos-sistemas-proteccion': 'CM40', 'carga_masiva_controladores-bahia': 'CM41', 'carga_masiva_otros_elementos-sistemas-control': 'CM42', 'carga_masiva_elementos-comunes-armarios': 'CM43', 'carga_masiva_sistemas-respaldo-energía': 'CM44', 'carga_masiva_estaciones-repetidoras': 'CM45', 'carga_masiva_lineas': 'CM46', 'carga_masiva_circuitos': 'CM47', 'carga_masiva_tramos': 'CM48', 'carga_masiva_vanos': 'CM49', 'carga_masiva_accesorios-vanos': 'CM50', 'carga_masiva_tuneles': 'CM51', 'carga_masiva_estructuras-subestaciones': 'CM52', 'carga_masiva_accesorios-estructuras-subestaciones': 'CM53', 'carga_masiva_estructuras-lineas': 'CM54', 'carga_masiva_torres': 'CM55', 'carga_masiva_marcos-lineas': 'CM56', 'carga_masiva_accesorios-estructuras-lineas-aéreas': 'CM57', 'carga_masiva_camaras': 'CM58', 'carga_masiva_accesorios-estructuras-lineas-subterráneas': 'CM59', 'carga_masiva_patios-mufas': 'CM60', 'carga_masiva_mufas': 'CM61', 'carga_masiva_pararrayos-mufas': 'CM62', 'carga_masiva_oocc': 'CM63', 'carga_masiva_tipos-oocc': 'CM64', 'carga_masiva_estudios-impacto-ambiental': 'CM65', 'carga_masiva_mitigaciones-ambientales': 'CM66'}
+[2026-01-27 10:18:34] cargar_headers_planilla: carga_masiva_barras -> 31 (clave carga_masiva_barras::CM05)
+[2026-01-27 10:18:34] cargar_headers_planilla: carga_masiva_transformadores-corriente -> 40 (clave carga_masiva_transformadores-corriente::CM12)
+[2026-01-27 10:18:34] cargar_headers_planilla: carga_masiva_transformadores-2d -> 65 (clave carga_masiva_transformadores-2d::CM08)
+[2026-01-27 10:18:34] construir_excel_por_planilla: 3 planillas construidas
+[2026-01-27 10:18:34] leer_modelo_por_cm: CM -> ['CM61', 'CM06', 'CM12', 'CM53', 'CM02', 'CM08', 'CM37', 'CM15', 'CM13', 'CM01', 'CM10', 'CM11', 'CM14', 'CM32', 'CM33'] desde C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\modelo_codint_por_cm.json
+[2026-01-27 10:18:34] cargar_json: cargado OK -> C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\config_proyecto_activo.json
+[2026-01-27 10:18:34] get_repo_activo_path: C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\repositorio_datos_NUP 3936.json
+[2026-01-27 10:18:34] cargar_json: cargado OK -> C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\repositorio_datos_NUP 3936.json
+[2026-01-27 10:18:34] cargar_repo_activo: 1 registros
+[2026-01-27 10:18:34] enriquecer_modelo_con_bd: índice BD con 1 claves
+[2026-01-27 10:18:34] enriquecer_modelo_con_bd: modelo enriquecido para 1 CM
+[2026-01-27 10:18:34] construir_tabla_comparativa: cm_to_planilla -> {'CM01': 'carga_masiva_subestaciones', 'CM02': 'carga_masiva_elementos-comunes-ssee', 'CM03': 'carga_masiva_patios-subestaciones', 'CM04': 'carga_masiva_elementos-comunes-patio', 'CM05': 'carga_masiva_barras', 'CM06': 'carga_masiva_panos', 'CM07': 'carga_masiva_elementos-comunes-panos', 'CM08': 'carga_masiva_transformadores-2d', 'CM09': 'carga_masiva_transformadores-3d', 'CM10': 'carga_masiva_interruptores', 'CM11': 'carga_masiva_desconectadores', 'CM12': 'carga_masiva_transformadores-corriente', 'CM13': 'carga_masiva_transformadores-potencial', 'CM14': 'carga_masiva_transformadores-ssaa', 'CM15': 'carga_masiva_pararrayos', 'CM16': 'carga_masiva_trampas-ondas', 'CM17': 'carga_masiva_aisladores', 'CM18': 'carga_masiva_medidores', 'CM19': 'carga_masiva_condensadores-asincronos', 'CM20': 'carga_masiva_compensadores-activos', 'CM21': 'carga_masiva_compensadores-series', 'CM22': 'carga_masiva_compensadores-estaticos-reactivos', 'CM23': 'carga_masiva_condensadores-acoplamiento', 'CM24': 'carga_masiva_banco-condensadores', 'CM25': 'carga_masiva_reactores', 'CM26': 'carga_masiva_dispositivos-reconexion', 'CM27': 'carga_masiva_celdas', 'CM28': 'carga_masiva_paneles-antirruido', 'CM29': 'carga_masiva_servidumbres', 'CM30': 'carga_masiva_casas-servicios-generales-y-casetas', 'CM31': 'carga_masiva_bancos-baterias', 'CM32': 'carga_masiva_generadores-energia', 'CM33': 'carga_masiva_tableros', 'CM34': 'carga_masiva_elementos-comunes-ssgg-casetas', 'CM35': 'carga_masiva_armarios', 'CM36': 'carga_masiva_multiplexadores', 'CM37': 'carga_masiva_equipos-principales-comunicación', 'CM38': 'carga_masiva_otros-elementos-telecomunicaciones', 'CM39': 'carga_masiva_reles-proteccion', 'CM40': 'carga_masiva_otros_elementos-sistemas-proteccion', 'CM41': 'carga_masiva_controladores-bahia', 'CM42': 'carga_masiva_otros_elementos-sistemas-control', 'CM43': 'carga_masiva_elementos-comunes-armarios', 'CM44': 'carga_masiva_sistemas-respaldo-energía', 'CM45': 'carga_masiva_estaciones-repetidoras', 'CM46': 'carga_masiva_lineas', 'CM47': 'carga_masiva_circuitos', 'CM48': 'carga_masiva_tramos', 'CM49': 'carga_masiva_vanos', 'CM50': 'carga_masiva_accesorios-vanos', 'CM51': 'carga_masiva_tuneles', 'CM52': 'carga_masiva_estructuras-subestaciones', 'CM53': 'carga_masiva_accesorios-estructuras-subestaciones', 'CM54': 'carga_masiva_estructuras-lineas', 'CM55': 'carga_masiva_torres', 'CM56': 'carga_masiva_marcos-lineas', 'CM57': 'carga_masiva_accesorios-estructuras-lineas-aéreas', 'CM58': 'carga_masiva_camaras', 'CM59': 'carga_masiva_accesorios-estructuras-lineas-subterráneas', 'CM60': 'carga_masiva_patios-mufas', 'CM61': 'carga_masiva_mufas', 'CM62': 'carga_masiva_pararrayos-mufas', 'CM63': 'carga_masiva_oocc', 'CM64': 'carga_masiva_tipos-oocc', 'CM65': 'carga_masiva_estudios-impacto-ambiental', 'CM66': 'carga_masiva_mitigaciones-ambientales'}
+[2026-01-27 10:18:34] cargar_headers_planilla: carga_masiva_mufas -> 21 (clave carga_masiva_mufas::CM61)
+[2026-01-27 10:18:34] cargar_headers_planilla: carga_masiva_panos -> 36 (clave carga_masiva_panos::CM06)
+[2026-01-27 10:18:34] cargar_headers_planilla: carga_masiva_accesorios-estructuras-subestaciones -> 56 (clave carga_masiva_accesorios-estructuras-subestaciones::CM53)
+[2026-01-27 10:18:34] cargar_headers_planilla: carga_masiva_elementos-comunes-ssee -> 33 (clave carga_masiva_elementos-comunes-ssee::CM02)
+[2026-01-27 10:18:34] cargar_headers_planilla: sin headers para carga_masiva_equipos-principales-comunicación / CM37
+[2026-01-27 10:18:34] cargar_headers_planilla: carga_masiva_pararrayos -> 27 (clave carga_masiva_pararrayos::CM15)
+[2026-01-27 10:18:34] cargar_headers_planilla: carga_masiva_transformadores-potencial -> 39 (clave carga_masiva_transformadores-potencial::CM13)
+[2026-01-27 10:18:34] cargar_headers_planilla: carga_masiva_subestaciones -> 42 (clave carga_masiva_subestaciones::CM01)
+[2026-01-27 10:18:34] cargar_headers_planilla: carga_masiva_interruptores -> 48 (clave carga_masiva_interruptores::CM10)
+[2026-01-27 10:18:34] cargar_headers_planilla: carga_masiva_desconectadores -> 36 (clave carga_masiva_desconectadores::CM11)
+[2026-01-27 10:18:34] cargar_headers_planilla: carga_masiva_transformadores-ssaa -> 35 (clave carga_masiva_transformadores-ssaa::CM14)
+[2026-01-27 10:18:34] cargar_headers_planilla: carga_masiva_generadores-energia -> 21 (clave carga_masiva_generadores-energia::CM32)
+[2026-01-27 10:18:34] cargar_headers_planilla: carga_masiva_tableros -> 23 (clave carga_masiva_tableros::CM33)
+[2026-01-27 10:18:34] construir_tabla_comparativa: 16 planillas en datos_comparacion
+[2026-01-27 10:18:34] main: datos_comparacion con 16 planillas
+[2026-01-27 10:20:55] exportar_json_y_formatear: comparacion.json -> C:\Users\Zbook HP\AppData\Roaming\PyRevitIT\data\comparacion\comparacion.json
+[2026-01-27 10:20:57] exportar_json_y_formatear CalledProcessError -> Traceback (most recent call last):
+  File "C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\ui_comparacion.py", line 630, in exportar_json_y_formatear
+    subprocess.check_call(
+    ~~~~~~~~~~~~~~~~~~~~~^
+        [python_exe, formatear_script, json_path, ruta_xlsx_salida],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        stderr=subprocess.STDOUT,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+        creationflags=CREATE_NO_WINDOW
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\subprocess.py", line 419, in check_call
+    raise CalledProcessError(retcode, cmd)
+subprocess.CalledProcessError: Command '['C:\\Users\\Zbook HP\\AppData\\Local\\Programs\\Python\\Python313\\python.exe', 'C:\\Users\\Zbook HP\\AppData\\\\Roaming\\\\MyPyRevitExtention\\\\PyRevitIT.extension\\\\data\\formatear_tablas_excel.py', 'C:\\Users\\Zbook HP\\AppData\\Roaming\\PyRevitIT\\data\\comparacion\\comparacion.json', 'D:\\SAESA\\1.-PROYECTOS\\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\\NUBE\\planilla-modelo_20260127_1018.xlsx']' returned non-zero exit status 120.
+
+[2026-01-27 10:20:59] ui_comparacion main error general -> Traceback (most recent call last):
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\tkinter\__init__.py", line 2074, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\ui_comparacion.py", line 755, in cmd_exportar
+    on_exportar()
+    ~~~~~~~~~~~^^
+  File "C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\ui_comparacion.py", line 916, in on_export
+    exportar_json_y_formatear(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        datos_comparacion,
+        ^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        python_exe
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\ui_comparacion.py", line 630, in exportar_json_y_formatear
+    subprocess.check_call(
+    ~~~~~~~~~~~~~~~~~~~~~^
+        [python_exe, formatear_script, json_path, ruta_xlsx_salida],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        stderr=subprocess.STDOUT,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+        creationflags=CREATE_NO_WINDOW
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\subprocess.py", line 419, in check_call
+    raise CalledProcessError(retcode, cmd)
+subprocess.CalledProcessError: Command '['C:\\Users\\Zbook HP\\AppData\\Local\\Programs\\Python\\Python313\\python.exe', 'C:\\Users\\Zbook HP\\AppData\\\\Roaming\\\\MyPyRevitExtention\\\\PyRevitIT.extension\\\\data\\formatear_tablas_excel.py', 'C:\\Users\\Zbook HP\\AppData\\Roaming\\PyRevitIT\\data\\comparacion\\comparacion.json', 'D:\\SAESA\\1.-PROYECTOS\\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\\NUBE\\planilla-modelo_20260127_1018.xlsx']' returned non-zero exit status 120.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\ui_comparacion.py", line 924, in <module>
+    mostrar_ui(datos_comparacion, on_export)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\ui_comparacion.py", line 785, in mostrar_ui
+    root.mainloop()
+    ~~~~~~~~~~~~~^^
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\tkinter\__init__.py", line 1599, in mainloop
+    self.tk.mainloop(n)
+    ~~~~~~~~~~~~~~~~^^^
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\tkinter\__init__.py", line 2078, in __call__
+    self.widget._report_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\tkinter\__init__.py", line 1788, in _report_exception
+    root.report_callback_exception(exc, val, tb)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\tkinter\__init__.py", line 2543, in report_callback_exception
+    print("Exception in Tkinter callback", file=sys.stderr)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 22] Invalid argument
+
+[2026-02-13 12:40:13] ==== Inicio ui_comparacion.py ====
+[2026-02-13 12:40:13] Argumentos:
+script_json=C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\script.json
+csv_codigos=C:\Users\Zbook HP\AppData\Roaming\PyRevitIT\data\comparacion\CODIGO.csv
+data_dir=C:\Users\Zbook HP\AppData\Roaming\PyRevitIT\data\comparacion
+formatear_script=C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\formatear_tablas_excel.py
+ruta_xlsx_salida=D:\SAESA\1.-PROYECTOS\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\NUBE\planilla-modelo_20260213_1240.xlsx
+python_exe=C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+modelo_json=C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\modelo_codint_por_cm.json
+headers_json_old=C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\headers_por_tabla.json
+[2026-02-13 12:40:13] leer_script_json: OK -> C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\script.json
+[2026-02-13 12:40:13] leer_csv_codigos: 7 filas desde C:\Users\Zbook HP\AppData\Roaming\PyRevitIT\data\comparacion\CODIGO.csv
+[2026-02-13 12:40:13] construir_excel_por_planilla: planilla_a_cm -> {'carga_masiva_subestaciones': 'CM01', 'carga_masiva_elementos-comunes-ssee': 'CM02', 'carga_masiva_patios-subestaciones': 'CM03', 'carga_masiva_elementos-comunes-patio': 'CM04', 'carga_masiva_barras': 'CM05', 'carga_masiva_panos': 'CM06', 'carga_masiva_elementos-comunes-panos': 'CM07', 'carga_masiva_transformadores-2d': 'CM08', 'carga_masiva_transformadores-3d': 'CM09', 'carga_masiva_interruptores': 'CM10', 'carga_masiva_desconectadores': 'CM11', 'carga_masiva_transformadores-corriente': 'CM12', 'carga_masiva_transformadores-potencial': 'CM13', 'carga_masiva_transformadores-ssaa': 'CM14', 'carga_masiva_pararrayos': 'CM15', 'carga_masiva_trampas-ondas': 'CM16', 'carga_masiva_aisladores': 'CM17', 'carga_masiva_medidores': 'CM18', 'carga_masiva_condensadores-asincronos': 'CM19', 'carga_masiva_compensadores-activos': 'CM20', 'carga_masiva_compensadores-series': 'CM21', 'carga_masiva_compensadores-estaticos-reactivos': 'CM22', 'carga_masiva_condensadores-acoplamiento': 'CM23', 'carga_masiva_banco-condensadores': 'CM24', 'carga_masiva_reactores': 'CM25', 'carga_masiva_dispositivos-reconexion': 'CM26', 'carga_masiva_celdas': 'CM27', 'carga_masiva_paneles-antirruido': 'CM28', 'carga_masiva_servidumbres': 'CM29', 'carga_masiva_casas-servicios-generales-y-casetas': 'CM30', 'carga_masiva_bancos-baterias': 'CM31', 'carga_masiva_generadores-energia': 'CM32', 'carga_masiva_tableros': 'CM33', 'carga_masiva_elementos-comunes-ssgg-casetas': 'CM34', 'carga_masiva_armarios': 'CM35', 'carga_masiva_multiplexadores': 'CM36', 'carga_masiva_equipos-principales-comunicación': 'CM37', 'carga_masiva_otros-elementos-telecomunicaciones': 'CM38', 'carga_masiva_reles-proteccion': 'CM39', 'carga_masiva_otros_elementos-sistemas-proteccion': 'CM40', 'carga_masiva_controladores-bahia': 'CM41', 'carga_masiva_otros_elementos-sistemas-control': 'CM42', 'carga_masiva_elementos-comunes-armarios': 'CM43', 'carga_masiva_sistemas-respaldo-energía': 'CM44', 'carga_masiva_estaciones-repetidoras': 'CM45', 'carga_masiva_lineas': 'CM46', 'carga_masiva_circuitos': 'CM47', 'carga_masiva_tramos': 'CM48', 'carga_masiva_vanos': 'CM49', 'carga_masiva_accesorios-vanos': 'CM50', 'carga_masiva_tuneles': 'CM51', 'carga_masiva_estructuras-subestaciones': 'CM52', 'carga_masiva_accesorios-estructuras-subestaciones': 'CM53', 'carga_masiva_estructuras-lineas': 'CM54', 'carga_masiva_torres': 'CM55', 'carga_masiva_marcos-lineas': 'CM56', 'carga_masiva_accesorios-estructuras-lineas-aéreas': 'CM57', 'carga_masiva_camaras': 'CM58', 'carga_masiva_accesorios-estructuras-lineas-subterráneas': 'CM59', 'carga_masiva_patios-mufas': 'CM60', 'carga_masiva_mufas': 'CM61', 'carga_masiva_pararrayos-mufas': 'CM62', 'carga_masiva_oocc': 'CM63', 'carga_masiva_tipos-oocc': 'CM64', 'carga_masiva_estudios-impacto-ambiental': 'CM65', 'carga_masiva_mitigaciones-ambientales': 'CM66'}
+[2026-02-13 12:40:13] cargar_headers_planilla: carga_masiva_barras -> 31 (clave carga_masiva_barras::CM05)
+[2026-02-13 12:40:13] cargar_headers_planilla: carga_masiva_transformadores-corriente -> 40 (clave carga_masiva_transformadores-corriente::CM12)
+[2026-02-13 12:40:13] cargar_headers_planilla: carga_masiva_transformadores-2d -> 65 (clave carga_masiva_transformadores-2d::CM08)
+[2026-02-13 12:40:13] cargar_headers_planilla: carga_masiva_elementos-comunes-ssee -> 33 (clave carga_masiva_elementos-comunes-ssee::CM02)
+[2026-02-13 12:40:13] cargar_headers_planilla: carga_masiva_elementos-comunes-ssee -> 33 (clave carga_masiva_elementos-comunes-ssee::CM02)
+[2026-02-13 12:40:13] cargar_headers_planilla: carga_masiva_transformadores-corriente -> 40 (clave carga_masiva_transformadores-corriente::CM12)
+[2026-02-13 12:40:13] construir_excel_por_planilla: 4 planillas construidas
+[2026-02-13 12:40:13] leer_modelo_por_cm: CM -> ['CM32', 'CM15', 'CM11', 'CM53', 'CM12', 'CM02', 'CM33', 'CM13', 'CM10', 'CM37', 'CM14', 'CM06', 'CM01', 'CM08', 'CM61'] desde C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\modelo_codint_por_cm.json
+[2026-02-13 12:40:13] cargar_json: cargado OK -> C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\config_proyecto_activo.json
+[2026-02-13 12:40:13] get_repo_activo_path: C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\repositorio_datos_NUP 1111.json
+[2026-02-13 12:40:13] cargar_json: cargado OK -> C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\repositorio_datos_NUP 1111.json
+[2026-02-13 12:40:13] cargar_repo_activo: 4 registros
+[2026-02-13 12:40:13] enriquecer_modelo_con_bd: índice BD con 4 claves
+[2026-02-13 12:40:13] enriquecer_modelo_con_bd: modelo enriquecido para 1 CM
+[2026-02-13 12:40:13] construir_tabla_comparativa: cm_to_planilla -> {'CM01': 'carga_masiva_subestaciones', 'CM02': 'carga_masiva_elementos-comunes-ssee', 'CM03': 'carga_masiva_patios-subestaciones', 'CM04': 'carga_masiva_elementos-comunes-patio', 'CM05': 'carga_masiva_barras', 'CM06': 'carga_masiva_panos', 'CM07': 'carga_masiva_elementos-comunes-panos', 'CM08': 'carga_masiva_transformadores-2d', 'CM09': 'carga_masiva_transformadores-3d', 'CM10': 'carga_masiva_interruptores', 'CM11': 'carga_masiva_desconectadores', 'CM12': 'carga_masiva_transformadores-corriente', 'CM13': 'carga_masiva_transformadores-potencial', 'CM14': 'carga_masiva_transformadores-ssaa', 'CM15': 'carga_masiva_pararrayos', 'CM16': 'carga_masiva_trampas-ondas', 'CM17': 'carga_masiva_aisladores', 'CM18': 'carga_masiva_medidores', 'CM19': 'carga_masiva_condensadores-asincronos', 'CM20': 'carga_masiva_compensadores-activos', 'CM21': 'carga_masiva_compensadores-series', 'CM22': 'carga_masiva_compensadores-estaticos-reactivos', 'CM23': 'carga_masiva_condensadores-acoplamiento', 'CM24': 'carga_masiva_banco-condensadores', 'CM25': 'carga_masiva_reactores', 'CM26': 'carga_masiva_dispositivos-reconexion', 'CM27': 'carga_masiva_celdas', 'CM28': 'carga_masiva_paneles-antirruido', 'CM29': 'carga_masiva_servidumbres', 'CM30': 'carga_masiva_casas-servicios-generales-y-casetas', 'CM31': 'carga_masiva_bancos-baterias', 'CM32': 'carga_masiva_generadores-energia', 'CM33': 'carga_masiva_tableros', 'CM34': 'carga_masiva_elementos-comunes-ssgg-casetas', 'CM35': 'carga_masiva_armarios', 'CM36': 'carga_masiva_multiplexadores', 'CM37': 'carga_masiva_equipos-principales-comunicación', 'CM38': 'carga_masiva_otros-elementos-telecomunicaciones', 'CM39': 'carga_masiva_reles-proteccion', 'CM40': 'carga_masiva_otros_elementos-sistemas-proteccion', 'CM41': 'carga_masiva_controladores-bahia', 'CM42': 'carga_masiva_otros_elementos-sistemas-control', 'CM43': 'carga_masiva_elementos-comunes-armarios', 'CM44': 'carga_masiva_sistemas-respaldo-energía', 'CM45': 'carga_masiva_estaciones-repetidoras', 'CM46': 'carga_masiva_lineas', 'CM47': 'carga_masiva_circuitos', 'CM48': 'carga_masiva_tramos', 'CM49': 'carga_masiva_vanos', 'CM50': 'carga_masiva_accesorios-vanos', 'CM51': 'carga_masiva_tuneles', 'CM52': 'carga_masiva_estructuras-subestaciones', 'CM53': 'carga_masiva_accesorios-estructuras-subestaciones', 'CM54': 'carga_masiva_estructuras-lineas', 'CM55': 'carga_masiva_torres', 'CM56': 'carga_masiva_marcos-lineas', 'CM57': 'carga_masiva_accesorios-estructuras-lineas-aéreas', 'CM58': 'carga_masiva_camaras', 'CM59': 'carga_masiva_accesorios-estructuras-lineas-subterráneas', 'CM60': 'carga_masiva_patios-mufas', 'CM61': 'carga_masiva_mufas', 'CM62': 'carga_masiva_pararrayos-mufas', 'CM63': 'carga_masiva_oocc', 'CM64': 'carga_masiva_tipos-oocc', 'CM65': 'carga_masiva_estudios-impacto-ambiental', 'CM66': 'carga_masiva_mitigaciones-ambientales'}
+[2026-02-13 12:40:13] cargar_headers_planilla: carga_masiva_generadores-energia -> 21 (clave carga_masiva_generadores-energia::CM32)
+[2026-02-13 12:40:13] cargar_headers_planilla: carga_masiva_pararrayos -> 27 (clave carga_masiva_pararrayos::CM15)
+[2026-02-13 12:40:13] cargar_headers_planilla: carga_masiva_desconectadores -> 36 (clave carga_masiva_desconectadores::CM11)
+[2026-02-13 12:40:13] cargar_headers_planilla: carga_masiva_accesorios-estructuras-subestaciones -> 56 (clave carga_masiva_accesorios-estructuras-subestaciones::CM53)
+[2026-02-13 12:40:13] cargar_headers_planilla: carga_masiva_tableros -> 23 (clave carga_masiva_tableros::CM33)
+[2026-02-13 12:40:13] cargar_headers_planilla: carga_masiva_transformadores-potencial -> 39 (clave carga_masiva_transformadores-potencial::CM13)
+[2026-02-13 12:40:13] cargar_headers_planilla: carga_masiva_interruptores -> 48 (clave carga_masiva_interruptores::CM10)
+[2026-02-13 12:40:13] cargar_headers_planilla: sin headers para carga_masiva_equipos-principales-comunicación / CM37
+[2026-02-13 12:40:13] cargar_headers_planilla: carga_masiva_transformadores-ssaa -> 35 (clave carga_masiva_transformadores-ssaa::CM14)
+[2026-02-13 12:40:13] cargar_headers_planilla: carga_masiva_panos -> 36 (clave carga_masiva_panos::CM06)
+[2026-02-13 12:40:13] cargar_headers_planilla: carga_masiva_subestaciones -> 42 (clave carga_masiva_subestaciones::CM01)
+[2026-02-13 12:40:13] cargar_headers_planilla: carga_masiva_mufas -> 21 (clave carga_masiva_mufas::CM61)
+[2026-02-13 12:40:13] construir_tabla_comparativa: 16 planillas en datos_comparacion
+[2026-02-13 12:40:13] main: datos_comparacion con 16 planillas
+[2026-02-13 12:42:19] exportar_json_y_formatear: comparacion.json -> C:\Users\Zbook HP\AppData\Roaming\PyRevitIT\data\comparacion\comparacion.json
+[2026-02-13 12:42:21] exportar_json_y_formatear CalledProcessError -> Traceback (most recent call last):
+  File "C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\ui_comparacion.py", line 630, in exportar_json_y_formatear
+    subprocess.check_call(
+    ~~~~~~~~~~~~~~~~~~~~~^
+        [python_exe, formatear_script, json_path, ruta_xlsx_salida],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        stderr=subprocess.STDOUT,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+        creationflags=CREATE_NO_WINDOW
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\subprocess.py", line 419, in check_call
+    raise CalledProcessError(retcode, cmd)
+subprocess.CalledProcessError: Command '['C:\\Users\\Zbook HP\\AppData\\Local\\Programs\\Python\\Python313\\python.exe', 'C:\\Users\\Zbook HP\\AppData\\\\Roaming\\\\MyPyRevitExtention\\\\PyRevitIT.extension\\\\data\\formatear_tablas_excel.py', 'C:\\Users\\Zbook HP\\AppData\\Roaming\\PyRevitIT\\data\\comparacion\\comparacion.json', 'D:\\SAESA\\1.-PROYECTOS\\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\\NUBE\\planilla-modelo_20260213_1240.xlsx']' returned non-zero exit status 120.
+
+[2026-02-13 12:42:24] ui_comparacion main error general -> Traceback (most recent call last):
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\tkinter\__init__.py", line 2074, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\ui_comparacion.py", line 755, in cmd_exportar
+    on_exportar()
+    ~~~~~~~~~~~^^
+  File "C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\ui_comparacion.py", line 916, in on_export
+    exportar_json_y_formatear(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        datos_comparacion,
+        ^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        python_exe
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\ui_comparacion.py", line 630, in exportar_json_y_formatear
+    subprocess.check_call(
+    ~~~~~~~~~~~~~~~~~~~~~^
+        [python_exe, formatear_script, json_path, ruta_xlsx_salida],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        stderr=subprocess.STDOUT,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+        creationflags=CREATE_NO_WINDOW
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\subprocess.py", line 419, in check_call
+    raise CalledProcessError(retcode, cmd)
+subprocess.CalledProcessError: Command '['C:\\Users\\Zbook HP\\AppData\\Local\\Programs\\Python\\Python313\\python.exe', 'C:\\Users\\Zbook HP\\AppData\\\\Roaming\\\\MyPyRevitExtention\\\\PyRevitIT.extension\\\\data\\formatear_tablas_excel.py', 'C:\\Users\\Zbook HP\\AppData\\Roaming\\PyRevitIT\\data\\comparacion\\comparacion.json', 'D:\\SAESA\\1.-PROYECTOS\\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\\NUBE\\planilla-modelo_20260213_1240.xlsx']' returned non-zero exit status 120.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\ui_comparacion.py", line 924, in <module>
+    mostrar_ui(datos_comparacion, on_export)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\ui_comparacion.py", line 785, in mostrar_ui
+    root.mainloop()
+    ~~~~~~~~~~~~~^^
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\tkinter\__init__.py", line 1599, in mainloop
+    self.tk.mainloop(n)
+    ~~~~~~~~~~~~~~~~^^^
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\tkinter\__init__.py", line 2078, in __call__
+    self.widget._report_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\tkinter\__init__.py", line 1788, in _report_exception
+    root.report_callback_exception(exc, val, tb)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\tkinter\__init__.py", line 2543, in report_callback_exception
+    print("Exception in Tkinter callback", file=sys.stderr)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 22] Invalid argument
+
+[2026-03-27 09:18:50] ==== Inicio ui_comparacion.py ====
+[2026-03-27 09:18:50] Argumentos:
+script_json=C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\script.json
+csv_codigos=C:\Users\Zbook HP\AppData\Roaming\PyRevitIT\data\comparacion\CODIGO.csv
+data_dir=C:\Users\Zbook HP\AppData\Roaming\PyRevitIT\data\comparacion
+formatear_script=C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\formatear_tablas_excel.py
+ruta_xlsx_salida=D:\SAESA\1.-PROYECTOS\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\NUBE\planilla-modelo_20260327_0918.xlsx
+python_exe=C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+modelo_json=C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\modelo_codint_por_cm.json
+headers_json_old=C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\headers_por_tabla.json
+[2026-03-27 09:18:50] leer_script_json: OK -> C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\script.json
+[2026-03-27 09:18:50] leer_csv_codigos: 2 filas desde C:\Users\Zbook HP\AppData\Roaming\PyRevitIT\data\comparacion\CODIGO.csv
+[2026-03-27 09:18:50] construir_excel_por_planilla: planilla_a_cm -> {'carga_masiva_subestaciones': 'CM01', 'carga_masiva_elementos-comunes-ssee': 'CM02', 'carga_masiva_patios-subestaciones': 'CM03', 'carga_masiva_elementos-comunes-patio': 'CM04', 'carga_masiva_barras': 'CM05', 'carga_masiva_panos': 'CM06', 'carga_masiva_elementos-comunes-panos': 'CM07', 'carga_masiva_transformadores-2d': 'CM08', 'carga_masiva_transformadores-3d': 'CM09', 'carga_masiva_interruptores': 'CM10', 'carga_masiva_desconectadores': 'CM11', 'carga_masiva_transformadores-corriente': 'CM12', 'carga_masiva_transformadores-potencial': 'CM13', 'carga_masiva_transformadores-ssaa': 'CM14', 'carga_masiva_pararrayos': 'CM15', 'carga_masiva_trampas-ondas': 'CM16', 'carga_masiva_aisladores': 'CM17', 'carga_masiva_medidores': 'CM18', 'carga_masiva_condensadores-asincronos': 'CM19', 'carga_masiva_compensadores-activos': 'CM20', 'carga_masiva_compensadores-series': 'CM21', 'carga_masiva_compensadores-estaticos-reactivos': 'CM22', 'carga_masiva_condensadores-acoplamiento': 'CM23', 'carga_masiva_banco-condensadores': 'CM24', 'carga_masiva_reactores': 'CM25', 'carga_masiva_dispositivos-reconexion': 'CM26', 'carga_masiva_celdas': 'CM27', 'carga_masiva_paneles-antirruido': 'CM28', 'carga_masiva_servidumbres': 'CM29', 'carga_masiva_casas-servicios-generales-y-casetas': 'CM30', 'carga_masiva_bancos-baterias': 'CM31', 'carga_masiva_generadores-energia': 'CM32', 'carga_masiva_tableros': 'CM33', 'carga_masiva_elementos-comunes-ssgg-casetas': 'CM34', 'carga_masiva_armarios': 'CM35', 'carga_masiva_multiplexadores': 'CM36', 'carga_masiva_equipos-principales-comunicación': 'CM37', 'carga_masiva_otros-elementos-telecomunicaciones': 'CM38', 'carga_masiva_reles-proteccion': 'CM39', 'carga_masiva_otros_elementos-sistemas-proteccion': 'CM40', 'carga_masiva_controladores-bahia': 'CM41', 'carga_masiva_otros_elementos-sistemas-control': 'CM42', 'carga_masiva_elementos-comunes-armarios': 'CM43', 'carga_masiva_sistemas-respaldo-energía': 'CM44', 'carga_masiva_estaciones-repetidoras': 'CM45', 'carga_masiva_lineas': 'CM46', 'carga_masiva_circuitos': 'CM47', 'carga_masiva_tramos': 'CM48', 'carga_masiva_vanos': 'CM49', 'carga_masiva_accesorios-vanos': 'CM50', 'carga_masiva_tuneles': 'CM51', 'carga_masiva_estructuras-subestaciones': 'CM52', 'carga_masiva_accesorios-estructuras-subestaciones': 'CM53', 'carga_masiva_estructuras-lineas': 'CM54', 'carga_masiva_torres': 'CM55', 'carga_masiva_marcos-lineas': 'CM56', 'carga_masiva_accesorios-estructuras-lineas-aéreas': 'CM57', 'carga_masiva_camaras': 'CM58', 'carga_masiva_accesorios-estructuras-lineas-subterráneas': 'CM59', 'carga_masiva_patios-mufas': 'CM60', 'carga_masiva_mufas': 'CM61', 'carga_masiva_pararrayos-mufas': 'CM62', 'carga_masiva_oocc': 'CM63', 'carga_masiva_tipos-oocc': 'CM64', 'carga_masiva_estudios-impacto-ambiental': 'CM65', 'carga_masiva_mitigaciones-ambientales': 'CM66'}
+[2026-03-27 09:18:50] cargar_headers_planilla: carga_masiva_tableros -> 23 (clave carga_masiva_tableros::CM33)
+[2026-03-27 09:18:50] construir_excel_por_planilla: 1 planillas construidas
+[2026-03-27 09:18:50] leer_modelo_por_cm: CM -> ['CM13', 'CM06', 'CM37', 'CM10', 'CM15', 'CM01', 'CM11', 'CM02', 'CM53', 'CM14', 'CM32', 'CM12', 'CM33', 'CM61', 'CM08'] desde C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\modelo_codint_por_cm.json
+[2026-03-27 09:18:50] cargar_json: cargado OK -> C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\config_proyecto_activo.json
+[2026-03-27 09:18:50] get_repo_activo_path: C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\repositorio_datos_NUP 1111.json
+[2026-03-27 09:18:50] cargar_json: cargado OK -> C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\repositorio_datos_NUP 1111.json
+[2026-03-27 09:18:50] cargar_repo_activo: 2 registros
+[2026-03-27 09:18:50] enriquecer_modelo_con_bd: índice BD con 2 claves
+[2026-03-27 09:18:50] enriquecer_modelo_con_bd: modelo enriquecido para 1 CM
+[2026-03-27 09:18:50] construir_tabla_comparativa: cm_to_planilla -> {'CM01': 'carga_masiva_subestaciones', 'CM02': 'carga_masiva_elementos-comunes-ssee', 'CM03': 'carga_masiva_patios-subestaciones', 'CM04': 'carga_masiva_elementos-comunes-patio', 'CM05': 'carga_masiva_barras', 'CM06': 'carga_masiva_panos', 'CM07': 'carga_masiva_elementos-comunes-panos', 'CM08': 'carga_masiva_transformadores-2d', 'CM09': 'carga_masiva_transformadores-3d', 'CM10': 'carga_masiva_interruptores', 'CM11': 'carga_masiva_desconectadores', 'CM12': 'carga_masiva_transformadores-corriente', 'CM13': 'carga_masiva_transformadores-potencial', 'CM14': 'carga_masiva_transformadores-ssaa', 'CM15': 'carga_masiva_pararrayos', 'CM16': 'carga_masiva_trampas-ondas', 'CM17': 'carga_masiva_aisladores', 'CM18': 'carga_masiva_medidores', 'CM19': 'carga_masiva_condensadores-asincronos', 'CM20': 'carga_masiva_compensadores-activos', 'CM21': 'carga_masiva_compensadores-series', 'CM22': 'carga_masiva_compensadores-estaticos-reactivos', 'CM23': 'carga_masiva_condensadores-acoplamiento', 'CM24': 'carga_masiva_banco-condensadores', 'CM25': 'carga_masiva_reactores', 'CM26': 'carga_masiva_dispositivos-reconexion', 'CM27': 'carga_masiva_celdas', 'CM28': 'carga_masiva_paneles-antirruido', 'CM29': 'carga_masiva_servidumbres', 'CM30': 'carga_masiva_casas-servicios-generales-y-casetas', 'CM31': 'carga_masiva_bancos-baterias', 'CM32': 'carga_masiva_generadores-energia', 'CM33': 'carga_masiva_tableros', 'CM34': 'carga_masiva_elementos-comunes-ssgg-casetas', 'CM35': 'carga_masiva_armarios', 'CM36': 'carga_masiva_multiplexadores', 'CM37': 'carga_masiva_equipos-principales-comunicación', 'CM38': 'carga_masiva_otros-elementos-telecomunicaciones', 'CM39': 'carga_masiva_reles-proteccion', 'CM40': 'carga_masiva_otros_elementos-sistemas-proteccion', 'CM41': 'carga_masiva_controladores-bahia', 'CM42': 'carga_masiva_otros_elementos-sistemas-control', 'CM43': 'carga_masiva_elementos-comunes-armarios', 'CM44': 'carga_masiva_sistemas-respaldo-energía', 'CM45': 'carga_masiva_estaciones-repetidoras', 'CM46': 'carga_masiva_lineas', 'CM47': 'carga_masiva_circuitos', 'CM48': 'carga_masiva_tramos', 'CM49': 'carga_masiva_vanos', 'CM50': 'carga_masiva_accesorios-vanos', 'CM51': 'carga_masiva_tuneles', 'CM52': 'carga_masiva_estructuras-subestaciones', 'CM53': 'carga_masiva_accesorios-estructuras-subestaciones', 'CM54': 'carga_masiva_estructuras-lineas', 'CM55': 'carga_masiva_torres', 'CM56': 'carga_masiva_marcos-lineas', 'CM57': 'carga_masiva_accesorios-estructuras-lineas-aéreas', 'CM58': 'carga_masiva_camaras', 'CM59': 'carga_masiva_accesorios-estructuras-lineas-subterráneas', 'CM60': 'carga_masiva_patios-mufas', 'CM61': 'carga_masiva_mufas', 'CM62': 'carga_masiva_pararrayos-mufas', 'CM63': 'carga_masiva_oocc', 'CM64': 'carga_masiva_tipos-oocc', 'CM65': 'carga_masiva_estudios-impacto-ambiental', 'CM66': 'carga_masiva_mitigaciones-ambientales'}
+[2026-03-27 09:18:50] cargar_headers_planilla: carga_masiva_transformadores-potencial -> 39 (clave carga_masiva_transformadores-potencial::CM13)
+[2026-03-27 09:18:50] cargar_headers_planilla: carga_masiva_panos -> 36 (clave carga_masiva_panos::CM06)
+[2026-03-27 09:18:50] cargar_headers_planilla: sin headers para carga_masiva_equipos-principales-comunicación / CM37
+[2026-03-27 09:18:50] cargar_headers_planilla: carga_masiva_interruptores -> 48 (clave carga_masiva_interruptores::CM10)
+[2026-03-27 09:18:50] cargar_headers_planilla: carga_masiva_pararrayos -> 27 (clave carga_masiva_pararrayos::CM15)
+[2026-03-27 09:18:50] cargar_headers_planilla: carga_masiva_subestaciones -> 42 (clave carga_masiva_subestaciones::CM01)
+[2026-03-27 09:18:50] cargar_headers_planilla: carga_masiva_desconectadores -> 36 (clave carga_masiva_desconectadores::CM11)
+[2026-03-27 09:18:50] cargar_headers_planilla: carga_masiva_elementos-comunes-ssee -> 33 (clave carga_masiva_elementos-comunes-ssee::CM02)
+[2026-03-27 09:18:50] cargar_headers_planilla: carga_masiva_accesorios-estructuras-subestaciones -> 56 (clave carga_masiva_accesorios-estructuras-subestaciones::CM53)
+[2026-03-27 09:18:50] cargar_headers_planilla: carga_masiva_transformadores-ssaa -> 35 (clave carga_masiva_transformadores-ssaa::CM14)
+[2026-03-27 09:18:50] cargar_headers_planilla: carga_masiva_generadores-energia -> 21 (clave carga_masiva_generadores-energia::CM32)
+[2026-03-27 09:18:50] cargar_headers_planilla: carga_masiva_transformadores-corriente -> 40 (clave carga_masiva_transformadores-corriente::CM12)
+[2026-03-27 09:18:50] cargar_headers_planilla: carga_masiva_mufas -> 21 (clave carga_masiva_mufas::CM61)
+[2026-03-27 09:18:50] cargar_headers_planilla: carga_masiva_transformadores-2d -> 65 (clave carga_masiva_transformadores-2d::CM08)
+[2026-03-27 09:18:50] construir_tabla_comparativa: 15 planillas en datos_comparacion
+[2026-03-27 09:18:50] main: datos_comparacion con 15 planillas
+[2026-03-27 09:19:33] exportar_json_y_formatear: comparacion.json -> C:\Users\Zbook HP\AppData\Roaming\PyRevitIT\data\comparacion\comparacion.json
+[2026-03-27 09:19:35] exportar_json_y_formatear CalledProcessError -> Traceback (most recent call last):
+  File "C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\ui_comparacion.py", line 630, in exportar_json_y_formatear
+    subprocess.check_call(
+    ~~~~~~~~~~~~~~~~~~~~~^
+        [python_exe, formatear_script, json_path, ruta_xlsx_salida],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        stderr=subprocess.STDOUT,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+        creationflags=CREATE_NO_WINDOW
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\subprocess.py", line 419, in check_call
+    raise CalledProcessError(retcode, cmd)
+subprocess.CalledProcessError: Command '['C:\\Users\\Zbook HP\\AppData\\Local\\Programs\\Python\\Python313\\python.exe', 'C:\\Users\\Zbook HP\\AppData\\\\Roaming\\\\MyPyRevitExtention\\\\PyRevitIT.extension\\\\data\\formatear_tablas_excel.py', 'C:\\Users\\Zbook HP\\AppData\\Roaming\\PyRevitIT\\data\\comparacion\\comparacion.json', 'D:\\SAESA\\1.-PROYECTOS\\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\\NUBE\\planilla-modelo_20260327_0918.xlsx']' returned non-zero exit status 120.
+
+[2026-03-27 09:19:36] ui_comparacion main error general -> Traceback (most recent call last):
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\tkinter\__init__.py", line 2074, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\ui_comparacion.py", line 755, in cmd_exportar
+    on_exportar()
+    ~~~~~~~~~~~^^
+  File "C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\ui_comparacion.py", line 916, in on_export
+    exportar_json_y_formatear(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        datos_comparacion,
+        ^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        python_exe
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\ui_comparacion.py", line 630, in exportar_json_y_formatear
+    subprocess.check_call(
+    ~~~~~~~~~~~~~~~~~~~~~^
+        [python_exe, formatear_script, json_path, ruta_xlsx_salida],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        stderr=subprocess.STDOUT,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+        creationflags=CREATE_NO_WINDOW
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\subprocess.py", line 419, in check_call
+    raise CalledProcessError(retcode, cmd)
+subprocess.CalledProcessError: Command '['C:\\Users\\Zbook HP\\AppData\\Local\\Programs\\Python\\Python313\\python.exe', 'C:\\Users\\Zbook HP\\AppData\\\\Roaming\\\\MyPyRevitExtention\\\\PyRevitIT.extension\\\\data\\formatear_tablas_excel.py', 'C:\\Users\\Zbook HP\\AppData\\Roaming\\PyRevitIT\\data\\comparacion\\comparacion.json', 'D:\\SAESA\\1.-PROYECTOS\\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\\NUBE\\planilla-modelo_20260327_0918.xlsx']' returned non-zero exit status 120.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\ui_comparacion.py", line 924, in <module>
+    mostrar_ui(datos_comparacion, on_export)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\ui_comparacion.py", line 785, in mostrar_ui
+    root.mainloop()
+    ~~~~~~~~~~~~~^^
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\tkinter\__init__.py", line 1599, in mainloop
+    self.tk.mainloop(n)
+    ~~~~~~~~~~~~~~~~^^^
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\tkinter\__init__.py", line 2078, in __call__
+    self.widget._report_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\tkinter\__init__.py", line 1788, in _report_exception
+    root.report_callback_exception(exc, val, tb)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\tkinter\__init__.py", line 2543, in report_callback_exception
+    print("Exception in Tkinter callback", file=sys.stderr)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 22] Invalid argument
+
+[2026-03-30 12:40:32] ==== Inicio ui_comparacion.py ====
+[2026-03-30 12:40:32] Argumentos:
+script_json=C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\script.json
+csv_codigos=C:\Users\Zbook HP\AppData\Roaming\PyRevitIT\data\comparacion\CODIGO.csv
+data_dir=C:\Users\Zbook HP\AppData\Roaming\PyRevitIT\data\comparacion
+formatear_script=C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\formatear_tablas_excel.py
+ruta_xlsx_salida=D:\SAESA\1.-PROYECTOS\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\NUBE\Documentos BIM - Cargas\planilla-modelo_20260330_1240.xlsx
+python_exe=C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+modelo_json=C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\modelo_codint_por_cm.json
+headers_json_old=C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\headers_por_tabla.json
+[2026-03-30 12:40:32] leer_script_json: OK -> C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\script.json
+[2026-03-30 12:40:32] leer_csv_codigos: 8 filas desde C:\Users\Zbook HP\AppData\Roaming\PyRevitIT\data\comparacion\CODIGO.csv
+[2026-03-30 12:40:32] construir_excel_por_planilla: planilla_a_cm -> {'carga_masiva_subestaciones': 'CM01', 'carga_masiva_elementos-comunes-ssee': 'CM02', 'carga_masiva_patios-subestaciones': 'CM03', 'carga_masiva_elementos-comunes-patio': 'CM04', 'carga_masiva_barras': 'CM05', 'carga_masiva_panos': 'CM06', 'carga_masiva_elementos-comunes-panos': 'CM07', 'carga_masiva_transformadores-2d': 'CM08', 'carga_masiva_transformadores-3d': 'CM09', 'carga_masiva_interruptores': 'CM10', 'carga_masiva_desconectadores': 'CM11', 'carga_masiva_transformadores-corriente': 'CM12', 'carga_masiva_transformadores-potencial': 'CM13', 'carga_masiva_transformadores-ssaa': 'CM14', 'carga_masiva_pararrayos': 'CM15', 'carga_masiva_trampas-ondas': 'CM16', 'carga_masiva_aisladores': 'CM17', 'carga_masiva_medidores': 'CM18', 'carga_masiva_condensadores-asincronos': 'CM19', 'carga_masiva_compensadores-activos': 'CM20', 'carga_masiva_compensadores-series': 'CM21', 'carga_masiva_compensadores-estaticos-reactivos': 'CM22', 'carga_masiva_condensadores-acoplamiento': 'CM23', 'carga_masiva_banco-condensadores': 'CM24', 'carga_masiva_reactores': 'CM25', 'carga_masiva_dispositivos-reconexion': 'CM26', 'carga_masiva_celdas': 'CM27', 'carga_masiva_paneles-antirruido': 'CM28', 'carga_masiva_servidumbres': 'CM29', 'carga_masiva_casas-servicios-generales-y-casetas': 'CM30', 'carga_masiva_bancos-baterias': 'CM31', 'carga_masiva_generadores-energia': 'CM32', 'carga_masiva_tableros': 'CM33', 'carga_masiva_elementos-comunes-ssgg-casetas': 'CM34', 'carga_masiva_armarios': 'CM35', 'carga_masiva_multiplexadores': 'CM36', 'carga_masiva_equipos-principales-comunicación': 'CM37', 'carga_masiva_otros-elementos-telecomunicaciones': 'CM38', 'carga_masiva_reles-proteccion': 'CM39', 'carga_masiva_otros_elementos-sistemas-proteccion': 'CM40', 'carga_masiva_controladores-bahia': 'CM41', 'carga_masiva_otros_elementos-sistemas-control': 'CM42', 'carga_masiva_elementos-comunes-armarios': 'CM43', 'carga_masiva_sistemas-respaldo-energía': 'CM44', 'carga_masiva_estaciones-repetidoras': 'CM45', 'carga_masiva_lineas': 'CM46', 'carga_masiva_circuitos': 'CM47', 'carga_masiva_tramos': 'CM48', 'carga_masiva_vanos': 'CM49', 'carga_masiva_accesorios-vanos': 'CM50', 'carga_masiva_tuneles': 'CM51', 'carga_masiva_estructuras-subestaciones': 'CM52', 'carga_masiva_accesorios-estructuras-subestaciones': 'CM53', 'carga_masiva_estructuras-lineas': 'CM54', 'carga_masiva_torres': 'CM55', 'carga_masiva_marcos-lineas': 'CM56', 'carga_masiva_accesorios-estructuras-lineas-aéreas': 'CM57', 'carga_masiva_camaras': 'CM58', 'carga_masiva_accesorios-estructuras-lineas-subterráneas': 'CM59', 'carga_masiva_patios-mufas': 'CM60', 'carga_masiva_mufas': 'CM61', 'carga_masiva_pararrayos-mufas': 'CM62', 'carga_masiva_oocc': 'CM63', 'carga_masiva_tipos-oocc': 'CM64', 'carga_masiva_estudios-impacto-ambiental': 'CM65', 'carga_masiva_mitigaciones-ambientales': 'CM66'}
+[2026-03-30 12:40:32] cargar_headers_planilla: carga_masiva_tableros -> 23 (clave carga_masiva_tableros::CM33)
+[2026-03-30 12:40:32] cargar_headers_planilla: carga_masiva_elementos-comunes-ssee -> 33 (clave carga_masiva_elementos-comunes-ssee::CM02)
+[2026-03-30 12:40:32] cargar_headers_planilla: carga_masiva_elementos-comunes-ssee -> 33 (clave carga_masiva_elementos-comunes-ssee::CM02)
+[2026-03-30 12:40:32] cargar_headers_planilla: carga_masiva_barras -> 31 (clave carga_masiva_barras::CM05)
+[2026-03-30 12:40:32] cargar_headers_planilla: carga_masiva_transformadores-2d -> 65 (clave carga_masiva_transformadores-2d::CM08)
+[2026-03-30 12:40:32] cargar_headers_planilla: carga_masiva_transformadores-corriente -> 40 (clave carga_masiva_transformadores-corriente::CM12)
+[2026-03-30 12:40:32] cargar_headers_planilla: carga_masiva_transformadores-corriente -> 40 (clave carga_masiva_transformadores-corriente::CM12)
+[2026-03-30 12:40:32] construir_excel_por_planilla: 5 planillas construidas
+[2026-03-30 12:40:32] leer_modelo_por_cm: CM -> ['CM64', 'CM01', 'CM53', 'CM49', 'CM47', 'CM43', 'CM02', 'CM35', 'CM32', 'CM39', 'CM10', 'CM33', 'CM08', '8CM0', 'CM37', 'CM31', 'CM27', 'CM30', 'CM14', 'CM13', 'CM18', 'CM15', 'CM34', 'CM44', 'CM06', 'CM05', 'CM12', 'CM55', 'CM11', 'CM63', 'CM52', 'CM61'] desde C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\modelo_codint_por_cm.json
+[2026-03-30 12:40:32] cargar_json: cargado OK -> C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\config_proyecto_activo.json
+[2026-03-30 12:40:32] get_repo_activo_path: C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\repositorio_datos_NUP 1111.json
+[2026-03-30 12:40:32] cargar_json: cargado OK -> C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\repositorio_datos_NUP 1111.json
+[2026-03-30 12:40:32] cargar_repo_activo: 5 registros
+[2026-03-30 12:40:32] enriquecer_modelo_con_bd: índice BD con 5 claves
+[2026-03-30 12:40:32] enriquecer_modelo_con_bd: modelo enriquecido para 1 CM
+[2026-03-30 12:40:32] construir_tabla_comparativa: cm_to_planilla -> {'CM01': 'carga_masiva_subestaciones', 'CM02': 'carga_masiva_elementos-comunes-ssee', 'CM03': 'carga_masiva_patios-subestaciones', 'CM04': 'carga_masiva_elementos-comunes-patio', 'CM05': 'carga_masiva_barras', 'CM06': 'carga_masiva_panos', 'CM07': 'carga_masiva_elementos-comunes-panos', 'CM08': 'carga_masiva_transformadores-2d', 'CM09': 'carga_masiva_transformadores-3d', 'CM10': 'carga_masiva_interruptores', 'CM11': 'carga_masiva_desconectadores', 'CM12': 'carga_masiva_transformadores-corriente', 'CM13': 'carga_masiva_transformadores-potencial', 'CM14': 'carga_masiva_transformadores-ssaa', 'CM15': 'carga_masiva_pararrayos', 'CM16': 'carga_masiva_trampas-ondas', 'CM17': 'carga_masiva_aisladores', 'CM18': 'carga_masiva_medidores', 'CM19': 'carga_masiva_condensadores-asincronos', 'CM20': 'carga_masiva_compensadores-activos', 'CM21': 'carga_masiva_compensadores-series', 'CM22': 'carga_masiva_compensadores-estaticos-reactivos', 'CM23': 'carga_masiva_condensadores-acoplamiento', 'CM24': 'carga_masiva_banco-condensadores', 'CM25': 'carga_masiva_reactores', 'CM26': 'carga_masiva_dispositivos-reconexion', 'CM27': 'carga_masiva_celdas', 'CM28': 'carga_masiva_paneles-antirruido', 'CM29': 'carga_masiva_servidumbres', 'CM30': 'carga_masiva_casas-servicios-generales-y-casetas', 'CM31': 'carga_masiva_bancos-baterias', 'CM32': 'carga_masiva_generadores-energia', 'CM33': 'carga_masiva_tableros', 'CM34': 'carga_masiva_elementos-comunes-ssgg-casetas', 'CM35': 'carga_masiva_armarios', 'CM36': 'carga_masiva_multiplexadores', 'CM37': 'carga_masiva_equipos-principales-comunicación', 'CM38': 'carga_masiva_otros-elementos-telecomunicaciones', 'CM39': 'carga_masiva_reles-proteccion', 'CM40': 'carga_masiva_otros_elementos-sistemas-proteccion', 'CM41': 'carga_masiva_controladores-bahia', 'CM42': 'carga_masiva_otros_elementos-sistemas-control', 'CM43': 'carga_masiva_elementos-comunes-armarios', 'CM44': 'carga_masiva_sistemas-respaldo-energía', 'CM45': 'carga_masiva_estaciones-repetidoras', 'CM46': 'carga_masiva_lineas', 'CM47': 'carga_masiva_circuitos', 'CM48': 'carga_masiva_tramos', 'CM49': 'carga_masiva_vanos', 'CM50': 'carga_masiva_accesorios-vanos', 'CM51': 'carga_masiva_tuneles', 'CM52': 'carga_masiva_estructuras-subestaciones', 'CM53': 'carga_masiva_accesorios-estructuras-subestaciones', 'CM54': 'carga_masiva_estructuras-lineas', 'CM55': 'carga_masiva_torres', 'CM56': 'carga_masiva_marcos-lineas', 'CM57': 'carga_masiva_accesorios-estructuras-lineas-aéreas', 'CM58': 'carga_masiva_camaras', 'CM59': 'carga_masiva_accesorios-estructuras-lineas-subterráneas', 'CM60': 'carga_masiva_patios-mufas', 'CM61': 'carga_masiva_mufas', 'CM62': 'carga_masiva_pararrayos-mufas', 'CM63': 'carga_masiva_oocc', 'CM64': 'carga_masiva_tipos-oocc', 'CM65': 'carga_masiva_estudios-impacto-ambiental', 'CM66': 'carga_masiva_mitigaciones-ambientales'}
+[2026-03-30 12:40:32] cargar_headers_planilla: sin headers para carga_masiva_tipos-oocc / CM64
+[2026-03-30 12:40:32] cargar_headers_planilla: carga_masiva_subestaciones -> 42 (clave carga_masiva_subestaciones::CM01)
+[2026-03-30 12:40:32] cargar_headers_planilla: carga_masiva_accesorios-estructuras-subestaciones -> 56 (clave carga_masiva_accesorios-estructuras-subestaciones::CM53)
+[2026-03-30 12:40:32] cargar_headers_planilla: carga_masiva_vanos -> 35 (clave carga_masiva_vanos::CM49)
+[2026-03-30 12:40:32] cargar_headers_planilla: carga_masiva_circuitos -> 15 (clave carga_masiva_circuitos::CM47)
+[2026-03-30 12:40:32] cargar_headers_planilla: carga_masiva_elementos-comunes-armarios -> 49 (clave carga_masiva_elementos-comunes-armarios::CM43)
+[2026-03-30 12:40:32] cargar_headers_planilla: carga_masiva_armarios -> 25 (clave carga_masiva_armarios::CM35)
+[2026-03-30 12:40:32] cargar_headers_planilla: carga_masiva_generadores-energia -> 21 (clave carga_masiva_generadores-energia::CM32)
+[2026-03-30 12:40:32] cargar_headers_planilla: carga_masiva_reles-proteccion -> 23 (clave carga_masiva_reles-proteccion::CM39)
+[2026-03-30 12:40:32] cargar_headers_planilla: carga_masiva_interruptores -> 48 (clave carga_masiva_interruptores::CM10)
+[2026-03-30 12:40:32] cargar_headers_planilla: sin headers para 8CM0 / 8CM0
+[2026-03-30 12:40:32] cargar_headers_planilla: sin headers para carga_masiva_equipos-principales-comunicación / CM37
+[2026-03-30 12:40:32] cargar_headers_planilla: carga_masiva_bancos-baterias -> 22 (clave carga_masiva_bancos-baterias::CM31)
+[2026-03-30 12:40:32] cargar_headers_planilla: carga_masiva_celdas -> 51 (clave carga_masiva_celdas::CM27)
+[2026-03-30 12:40:32] cargar_headers_planilla: carga_masiva_casas-servicios-generales-y-casetas -> 20 (clave carga_masiva_casas-servicios-generales-y-casetas::CM30)
+[2026-03-30 12:40:32] cargar_headers_planilla: carga_masiva_transformadores-ssaa -> 35 (clave carga_masiva_transformadores-ssaa::CM14)
+[2026-03-30 12:40:32] cargar_headers_planilla: carga_masiva_transformadores-potencial -> 39 (clave carga_masiva_transformadores-potencial::CM13)
+[2026-03-30 12:40:32] cargar_headers_planilla: carga_masiva_medidores -> 26 (clave carga_masiva_medidores::CM18)
+[2026-03-30 12:40:32] cargar_headers_planilla: carga_masiva_pararrayos -> 27 (clave carga_masiva_pararrayos::CM15)
+[2026-03-30 12:40:32] cargar_headers_planilla: carga_masiva_elementos-comunes-ssgg-casetas -> 25 (clave carga_masiva_elementos-comunes-ssgg-casetas::CM34)
+[2026-03-30 12:40:32] cargar_headers_planilla: sin headers para carga_masiva_sistemas-respaldo-energía / CM44
+[2026-03-30 12:40:32] cargar_headers_planilla: carga_masiva_panos -> 36 (clave carga_masiva_panos::CM06)
+[2026-03-30 12:40:32] cargar_headers_planilla: carga_masiva_torres -> 52 (clave carga_masiva_torres::CM55)
+[2026-03-30 12:40:32] cargar_headers_planilla: carga_masiva_desconectadores -> 36 (clave carga_masiva_desconectadores::CM11)
+[2026-03-30 12:40:32] cargar_headers_planilla: carga_masiva_oocc -> 45 (clave carga_masiva_oocc::CM63)
+[2026-03-30 12:40:32] cargar_headers_planilla: carga_masiva_estructuras-subestaciones -> 47 (clave carga_masiva_estructuras-subestaciones::CM52)
+[2026-03-30 12:40:32] cargar_headers_planilla: carga_masiva_mufas -> 21 (clave carga_masiva_mufas::CM61)
+[2026-03-30 12:40:32] construir_tabla_comparativa: 32 planillas en datos_comparacion
+[2026-03-30 12:40:32] main: datos_comparacion con 32 planillas
+[2026-03-30 12:40:55] exportar_json_y_formatear: comparacion.json -> C:\Users\Zbook HP\AppData\Roaming\PyRevitIT\data\comparacion\comparacion.json
+[2026-03-30 12:41:04] exportar_json_y_formatear CalledProcessError -> Traceback (most recent call last):
+  File "C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\ui_comparacion.py", line 630, in exportar_json_y_formatear
+    subprocess.check_call(
+    ~~~~~~~~~~~~~~~~~~~~~^
+        [python_exe, formatear_script, json_path, ruta_xlsx_salida],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        stderr=subprocess.STDOUT,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+        creationflags=CREATE_NO_WINDOW
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\subprocess.py", line 419, in check_call
+    raise CalledProcessError(retcode, cmd)
+subprocess.CalledProcessError: Command '['C:\\Users\\Zbook HP\\AppData\\Local\\Programs\\Python\\Python313\\python.exe', 'C:\\Users\\Zbook HP\\AppData\\\\Roaming\\\\MyPyRevitExtention\\\\PyRevitIT.extension\\\\data\\formatear_tablas_excel.py', 'C:\\Users\\Zbook HP\\AppData\\Roaming\\PyRevitIT\\data\\comparacion\\comparacion.json', 'D:\\SAESA\\1.-PROYECTOS\\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\\NUBE\\Documentos BIM - Cargas\\planilla-modelo_20260330_1240.xlsx']' returned non-zero exit status 120.
+
+[2026-03-30 12:41:05] ui_comparacion main error general -> Traceback (most recent call last):
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\tkinter\__init__.py", line 2074, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\ui_comparacion.py", line 755, in cmd_exportar
+    on_exportar()
+    ~~~~~~~~~~~^^
+  File "C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\ui_comparacion.py", line 916, in on_export
+    exportar_json_y_formatear(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        datos_comparacion,
+        ^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        python_exe
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\ui_comparacion.py", line 630, in exportar_json_y_formatear
+    subprocess.check_call(
+    ~~~~~~~~~~~~~~~~~~~~~^
+        [python_exe, formatear_script, json_path, ruta_xlsx_salida],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        stderr=subprocess.STDOUT,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+        creationflags=CREATE_NO_WINDOW
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\subprocess.py", line 419, in check_call
+    raise CalledProcessError(retcode, cmd)
+subprocess.CalledProcessError: Command '['C:\\Users\\Zbook HP\\AppData\\Local\\Programs\\Python\\Python313\\python.exe', 'C:\\Users\\Zbook HP\\AppData\\\\Roaming\\\\MyPyRevitExtention\\\\PyRevitIT.extension\\\\data\\formatear_tablas_excel.py', 'C:\\Users\\Zbook HP\\AppData\\Roaming\\PyRevitIT\\data\\comparacion\\comparacion.json', 'D:\\SAESA\\1.-PROYECTOS\\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\\NUBE\\Documentos BIM - Cargas\\planilla-modelo_20260330_1240.xlsx']' returned non-zero exit status 120.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\ui_comparacion.py", line 924, in <module>
+    mostrar_ui(datos_comparacion, on_export)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\ui_comparacion.py", line 785, in mostrar_ui
+    root.mainloop()
+    ~~~~~~~~~~~~~^^
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\tkinter\__init__.py", line 1599, in mainloop
+    self.tk.mainloop(n)
+    ~~~~~~~~~~~~~~~~^^^
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\tkinter\__init__.py", line 2078, in __call__
+    self.widget._report_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\tkinter\__init__.py", line 1788, in _report_exception
+    root.report_callback_exception(exc, val, tb)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\tkinter\__init__.py", line 2543, in report_callback_exception
+    print("Exception in Tkinter callback", file=sys.stderr)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 22] Invalid argument
+
+[2026-03-30 12:52:51] ==== Inicio ui_comparacion.py ====
+[2026-03-30 12:52:51] Argumentos:
+script_json=C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\script.json
+csv_codigos=C:\Users\Zbook HP\AppData\Roaming\PyRevitIT\data\comparacion\CODIGO.csv
+data_dir=C:\Users\Zbook HP\AppData\Roaming\PyRevitIT\data\comparacion
+formatear_script=C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\formatear_tablas_excel.py
+ruta_xlsx_salida=D:\SAESA\1.-PROYECTOS\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\NUBE\Documentos BIM - Cargas\planilla-modelo_20260330_1252.xlsx
+python_exe=C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+modelo_json=C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\modelo_codint_por_cm.json
+headers_json_old=C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\headers_por_tabla.json
+[2026-03-30 12:52:51] leer_script_json: OK -> C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\script.json
+[2026-03-30 12:52:51] leer_csv_codigos: 8 filas desde C:\Users\Zbook HP\AppData\Roaming\PyRevitIT\data\comparacion\CODIGO.csv
+[2026-03-30 12:52:51] construir_excel_por_planilla: planilla_a_cm -> {'carga_masiva_subestaciones': 'CM01', 'carga_masiva_elementos-comunes-ssee': 'CM02', 'carga_masiva_patios-subestaciones': 'CM03', 'carga_masiva_elementos-comunes-patio': 'CM04', 'carga_masiva_barras': 'CM05', 'carga_masiva_panos': 'CM06', 'carga_masiva_elementos-comunes-panos': 'CM07', 'carga_masiva_transformadores-2d': 'CM08', 'carga_masiva_transformadores-3d': 'CM09', 'carga_masiva_interruptores': 'CM10', 'carga_masiva_desconectadores': 'CM11', 'carga_masiva_transformadores-corriente': 'CM12', 'carga_masiva_transformadores-potencial': 'CM13', 'carga_masiva_transformadores-ssaa': 'CM14', 'carga_masiva_pararrayos': 'CM15', 'carga_masiva_trampas-ondas': 'CM16', 'carga_masiva_aisladores': 'CM17', 'carga_masiva_medidores': 'CM18', 'carga_masiva_condensadores-asincronos': 'CM19', 'carga_masiva_compensadores-activos': 'CM20', 'carga_masiva_compensadores-series': 'CM21', 'carga_masiva_compensadores-estaticos-reactivos': 'CM22', 'carga_masiva_condensadores-acoplamiento': 'CM23', 'carga_masiva_banco-condensadores': 'CM24', 'carga_masiva_reactores': 'CM25', 'carga_masiva_dispositivos-reconexion': 'CM26', 'carga_masiva_celdas': 'CM27', 'carga_masiva_paneles-antirruido': 'CM28', 'carga_masiva_servidumbres': 'CM29', 'carga_masiva_casas-servicios-generales-y-casetas': 'CM30', 'carga_masiva_bancos-baterias': 'CM31', 'carga_masiva_generadores-energia': 'CM32', 'carga_masiva_tableros': 'CM33', 'carga_masiva_elementos-comunes-ssgg-casetas': 'CM34', 'carga_masiva_armarios': 'CM35', 'carga_masiva_multiplexadores': 'CM36', 'carga_masiva_equipos-principales-comunicación': 'CM37', 'carga_masiva_otros-elementos-telecomunicaciones': 'CM38', 'carga_masiva_reles-proteccion': 'CM39', 'carga_masiva_otros_elementos-sistemas-proteccion': 'CM40', 'carga_masiva_controladores-bahia': 'CM41', 'carga_masiva_otros_elementos-sistemas-control': 'CM42', 'carga_masiva_elementos-comunes-armarios': 'CM43', 'carga_masiva_sistemas-respaldo-energía': 'CM44', 'carga_masiva_estaciones-repetidoras': 'CM45', 'carga_masiva_lineas': 'CM46', 'carga_masiva_circuitos': 'CM47', 'carga_masiva_tramos': 'CM48', 'carga_masiva_vanos': 'CM49', 'carga_masiva_accesorios-vanos': 'CM50', 'carga_masiva_tuneles': 'CM51', 'carga_masiva_estructuras-subestaciones': 'CM52', 'carga_masiva_accesorios-estructuras-subestaciones': 'CM53', 'carga_masiva_estructuras-lineas': 'CM54', 'carga_masiva_torres': 'CM55', 'carga_masiva_marcos-lineas': 'CM56', 'carga_masiva_accesorios-estructuras-lineas-aéreas': 'CM57', 'carga_masiva_camaras': 'CM58', 'carga_masiva_accesorios-estructuras-lineas-subterráneas': 'CM59', 'carga_masiva_patios-mufas': 'CM60', 'carga_masiva_mufas': 'CM61', 'carga_masiva_pararrayos-mufas': 'CM62', 'carga_masiva_oocc': 'CM63', 'carga_masiva_tipos-oocc': 'CM64', 'carga_masiva_estudios-impacto-ambiental': 'CM65', 'carga_masiva_mitigaciones-ambientales': 'CM66'}
+[2026-03-30 12:52:51] cargar_headers_planilla: carga_masiva_tableros -> 23 (clave carga_masiva_tableros::CM33)
+[2026-03-30 12:52:51] cargar_headers_planilla: carga_masiva_elementos-comunes-ssee -> 33 (clave carga_masiva_elementos-comunes-ssee::CM02)
+[2026-03-30 12:52:51] cargar_headers_planilla: carga_masiva_elementos-comunes-ssee -> 33 (clave carga_masiva_elementos-comunes-ssee::CM02)
+[2026-03-30 12:52:51] cargar_headers_planilla: carga_masiva_barras -> 31 (clave carga_masiva_barras::CM05)
+[2026-03-30 12:52:51] cargar_headers_planilla: carga_masiva_transformadores-2d -> 65 (clave carga_masiva_transformadores-2d::CM08)
+[2026-03-30 12:52:51] cargar_headers_planilla: carga_masiva_transformadores-corriente -> 40 (clave carga_masiva_transformadores-corriente::CM12)
+[2026-03-30 12:52:51] cargar_headers_planilla: carga_masiva_transformadores-corriente -> 40 (clave carga_masiva_transformadores-corriente::CM12)
+[2026-03-30 12:52:51] construir_excel_por_planilla: 5 planillas construidas
+[2026-03-30 12:52:51] leer_modelo_por_cm: CM -> ['CM64', 'CM01', 'CM53', 'CM49', 'CM47', 'CM43', 'CM02', 'CM35', 'CM32', 'CM39', 'CM10', 'CM33', 'CM08', '8CM0', 'CM37', 'CM31', 'CM27', 'CM30', 'CM14', 'CM13', 'CM18', 'CM15', 'CM34', 'CM44', 'CM06', 'CM05', 'CM12', 'CM55', 'CM11', 'CM63', 'CM52', 'CM61'] desde C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\modelo_codint_por_cm.json
+[2026-03-30 12:52:51] cargar_json: cargado OK -> C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\config_proyecto_activo.json
+[2026-03-30 12:52:51] get_repo_activo_path: C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\repositorio_datos_NUP 1111.json
+[2026-03-30 12:52:51] cargar_json: cargado OK -> C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\repositorio_datos_NUP 1111.json
+[2026-03-30 12:52:51] cargar_repo_activo: 5 registros
+[2026-03-30 12:52:51] enriquecer_modelo_con_bd: índice BD con 5 claves
+[2026-03-30 12:52:51] enriquecer_modelo_con_bd: modelo enriquecido para 1 CM
+[2026-03-30 12:52:51] construir_tabla_comparativa: cm_to_planilla -> {'CM01': 'carga_masiva_subestaciones', 'CM02': 'carga_masiva_elementos-comunes-ssee', 'CM03': 'carga_masiva_patios-subestaciones', 'CM04': 'carga_masiva_elementos-comunes-patio', 'CM05': 'carga_masiva_barras', 'CM06': 'carga_masiva_panos', 'CM07': 'carga_masiva_elementos-comunes-panos', 'CM08': 'carga_masiva_transformadores-2d', 'CM09': 'carga_masiva_transformadores-3d', 'CM10': 'carga_masiva_interruptores', 'CM11': 'carga_masiva_desconectadores', 'CM12': 'carga_masiva_transformadores-corriente', 'CM13': 'carga_masiva_transformadores-potencial', 'CM14': 'carga_masiva_transformadores-ssaa', 'CM15': 'carga_masiva_pararrayos', 'CM16': 'carga_masiva_trampas-ondas', 'CM17': 'carga_masiva_aisladores', 'CM18': 'carga_masiva_medidores', 'CM19': 'carga_masiva_condensadores-asincronos', 'CM20': 'carga_masiva_compensadores-activos', 'CM21': 'carga_masiva_compensadores-series', 'CM22': 'carga_masiva_compensadores-estaticos-reactivos', 'CM23': 'carga_masiva_condensadores-acoplamiento', 'CM24': 'carga_masiva_banco-condensadores', 'CM25': 'carga_masiva_reactores', 'CM26': 'carga_masiva_dispositivos-reconexion', 'CM27': 'carga_masiva_celdas', 'CM28': 'carga_masiva_paneles-antirruido', 'CM29': 'carga_masiva_servidumbres', 'CM30': 'carga_masiva_casas-servicios-generales-y-casetas', 'CM31': 'carga_masiva_bancos-baterias', 'CM32': 'carga_masiva_generadores-energia', 'CM33': 'carga_masiva_tableros', 'CM34': 'carga_masiva_elementos-comunes-ssgg-casetas', 'CM35': 'carga_masiva_armarios', 'CM36': 'carga_masiva_multiplexadores', 'CM37': 'carga_masiva_equipos-principales-comunicación', 'CM38': 'carga_masiva_otros-elementos-telecomunicaciones', 'CM39': 'carga_masiva_reles-proteccion', 'CM40': 'carga_masiva_otros_elementos-sistemas-proteccion', 'CM41': 'carga_masiva_controladores-bahia', 'CM42': 'carga_masiva_otros_elementos-sistemas-control', 'CM43': 'carga_masiva_elementos-comunes-armarios', 'CM44': 'carga_masiva_sistemas-respaldo-energía', 'CM45': 'carga_masiva_estaciones-repetidoras', 'CM46': 'carga_masiva_lineas', 'CM47': 'carga_masiva_circuitos', 'CM48': 'carga_masiva_tramos', 'CM49': 'carga_masiva_vanos', 'CM50': 'carga_masiva_accesorios-vanos', 'CM51': 'carga_masiva_tuneles', 'CM52': 'carga_masiva_estructuras-subestaciones', 'CM53': 'carga_masiva_accesorios-estructuras-subestaciones', 'CM54': 'carga_masiva_estructuras-lineas', 'CM55': 'carga_masiva_torres', 'CM56': 'carga_masiva_marcos-lineas', 'CM57': 'carga_masiva_accesorios-estructuras-lineas-aéreas', 'CM58': 'carga_masiva_camaras', 'CM59': 'carga_masiva_accesorios-estructuras-lineas-subterráneas', 'CM60': 'carga_masiva_patios-mufas', 'CM61': 'carga_masiva_mufas', 'CM62': 'carga_masiva_pararrayos-mufas', 'CM63': 'carga_masiva_oocc', 'CM64': 'carga_masiva_tipos-oocc', 'CM65': 'carga_masiva_estudios-impacto-ambiental', 'CM66': 'carga_masiva_mitigaciones-ambientales'}
+[2026-03-30 12:52:51] cargar_headers_planilla: sin headers para carga_masiva_tipos-oocc / CM64
+[2026-03-30 12:52:51] cargar_headers_planilla: carga_masiva_subestaciones -> 42 (clave carga_masiva_subestaciones::CM01)
+[2026-03-30 12:52:51] cargar_headers_planilla: carga_masiva_accesorios-estructuras-subestaciones -> 56 (clave carga_masiva_accesorios-estructuras-subestaciones::CM53)
+[2026-03-30 12:52:51] cargar_headers_planilla: carga_masiva_vanos -> 35 (clave carga_masiva_vanos::CM49)
+[2026-03-30 12:52:51] cargar_headers_planilla: carga_masiva_circuitos -> 15 (clave carga_masiva_circuitos::CM47)
+[2026-03-30 12:52:51] cargar_headers_planilla: carga_masiva_elementos-comunes-armarios -> 49 (clave carga_masiva_elementos-comunes-armarios::CM43)
+[2026-03-30 12:52:51] cargar_headers_planilla: carga_masiva_armarios -> 25 (clave carga_masiva_armarios::CM35)
+[2026-03-30 12:52:51] cargar_headers_planilla: carga_masiva_generadores-energia -> 21 (clave carga_masiva_generadores-energia::CM32)
+[2026-03-30 12:52:51] cargar_headers_planilla: carga_masiva_reles-proteccion -> 23 (clave carga_masiva_reles-proteccion::CM39)
+[2026-03-30 12:52:51] cargar_headers_planilla: carga_masiva_interruptores -> 48 (clave carga_masiva_interruptores::CM10)
+[2026-03-30 12:52:51] cargar_headers_planilla: sin headers para 8CM0 / 8CM0
+[2026-03-30 12:52:51] cargar_headers_planilla: sin headers para carga_masiva_equipos-principales-comunicación / CM37
+[2026-03-30 12:52:51] cargar_headers_planilla: carga_masiva_bancos-baterias -> 22 (clave carga_masiva_bancos-baterias::CM31)
+[2026-03-30 12:52:51] cargar_headers_planilla: carga_masiva_celdas -> 51 (clave carga_masiva_celdas::CM27)
+[2026-03-30 12:52:51] cargar_headers_planilla: carga_masiva_casas-servicios-generales-y-casetas -> 20 (clave carga_masiva_casas-servicios-generales-y-casetas::CM30)
+[2026-03-30 12:52:51] cargar_headers_planilla: carga_masiva_transformadores-ssaa -> 35 (clave carga_masiva_transformadores-ssaa::CM14)
+[2026-03-30 12:52:51] cargar_headers_planilla: carga_masiva_transformadores-potencial -> 39 (clave carga_masiva_transformadores-potencial::CM13)
+[2026-03-30 12:52:51] cargar_headers_planilla: carga_masiva_medidores -> 26 (clave carga_masiva_medidores::CM18)
+[2026-03-30 12:52:51] cargar_headers_planilla: carga_masiva_pararrayos -> 27 (clave carga_masiva_pararrayos::CM15)
+[2026-03-30 12:52:51] cargar_headers_planilla: carga_masiva_elementos-comunes-ssgg-casetas -> 25 (clave carga_masiva_elementos-comunes-ssgg-casetas::CM34)
+[2026-03-30 12:52:51] cargar_headers_planilla: sin headers para carga_masiva_sistemas-respaldo-energía / CM44
+[2026-03-30 12:52:51] cargar_headers_planilla: carga_masiva_panos -> 36 (clave carga_masiva_panos::CM06)
+[2026-03-30 12:52:51] cargar_headers_planilla: carga_masiva_torres -> 52 (clave carga_masiva_torres::CM55)
+[2026-03-30 12:52:51] cargar_headers_planilla: carga_masiva_desconectadores -> 36 (clave carga_masiva_desconectadores::CM11)
+[2026-03-30 12:52:51] cargar_headers_planilla: carga_masiva_oocc -> 45 (clave carga_masiva_oocc::CM63)
+[2026-03-30 12:52:51] cargar_headers_planilla: carga_masiva_estructuras-subestaciones -> 47 (clave carga_masiva_estructuras-subestaciones::CM52)
+[2026-03-30 12:52:51] cargar_headers_planilla: carga_masiva_mufas -> 21 (clave carga_masiva_mufas::CM61)
+[2026-03-30 12:52:51] construir_tabla_comparativa: 32 planillas en datos_comparacion
+[2026-03-30 12:52:51] main: datos_comparacion con 32 planillas
+[2026-03-30 12:53:05] exportar_json_y_formatear: comparacion.json -> C:\Users\Zbook HP\AppData\Roaming\PyRevitIT\data\comparacion\comparacion.json
+[2026-03-30 12:53:13] exportar_json_y_formatear CalledProcessError -> Traceback (most recent call last):
+  File "C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\ui_comparacion.py", line 630, in exportar_json_y_formatear
+    subprocess.check_call(
+    ~~~~~~~~~~~~~~~~~~~~~^
+        [python_exe, formatear_script, json_path, ruta_xlsx_salida],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        stderr=subprocess.STDOUT,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+        creationflags=CREATE_NO_WINDOW
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\subprocess.py", line 419, in check_call
+    raise CalledProcessError(retcode, cmd)
+subprocess.CalledProcessError: Command '['C:\\Users\\Zbook HP\\AppData\\Local\\Programs\\Python\\Python313\\python.exe', 'C:\\Users\\Zbook HP\\AppData\\\\Roaming\\\\MyPyRevitExtention\\\\PyRevitIT.extension\\\\data\\formatear_tablas_excel.py', 'C:\\Users\\Zbook HP\\AppData\\Roaming\\PyRevitIT\\data\\comparacion\\comparacion.json', 'D:\\SAESA\\1.-PROYECTOS\\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\\NUBE\\Documentos BIM - Cargas\\planilla-modelo_20260330_1252.xlsx']' returned non-zero exit status 120.
+
+[2026-03-30 12:53:15] ui_comparacion main error general -> Traceback (most recent call last):
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\tkinter\__init__.py", line 2074, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\ui_comparacion.py", line 755, in cmd_exportar
+    on_exportar()
+    ~~~~~~~~~~~^^
+  File "C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\ui_comparacion.py", line 916, in on_export
+    exportar_json_y_formatear(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        datos_comparacion,
+        ^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        python_exe
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\ui_comparacion.py", line 630, in exportar_json_y_formatear
+    subprocess.check_call(
+    ~~~~~~~~~~~~~~~~~~~~~^
+        [python_exe, formatear_script, json_path, ruta_xlsx_salida],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        stderr=subprocess.STDOUT,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+        creationflags=CREATE_NO_WINDOW
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\subprocess.py", line 419, in check_call
+    raise CalledProcessError(retcode, cmd)
+subprocess.CalledProcessError: Command '['C:\\Users\\Zbook HP\\AppData\\Local\\Programs\\Python\\Python313\\python.exe', 'C:\\Users\\Zbook HP\\AppData\\\\Roaming\\\\MyPyRevitExtention\\\\PyRevitIT.extension\\\\data\\formatear_tablas_excel.py', 'C:\\Users\\Zbook HP\\AppData\\Roaming\\PyRevitIT\\data\\comparacion\\comparacion.json', 'D:\\SAESA\\1.-PROYECTOS\\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\\NUBE\\Documentos BIM - Cargas\\planilla-modelo_20260330_1252.xlsx']' returned non-zero exit status 120.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\ui_comparacion.py", line 924, in <module>
+    mostrar_ui(datos_comparacion, on_export)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\ui_comparacion.py", line 785, in mostrar_ui
+    root.mainloop()
+    ~~~~~~~~~~~~~^^
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\tkinter\__init__.py", line 1599, in mainloop
+    self.tk.mainloop(n)
+    ~~~~~~~~~~~~~~~~^^^
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\tkinter\__init__.py", line 2078, in __call__
+    self.widget._report_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\tkinter\__init__.py", line 1788, in _report_exception
+    root.report_callback_exception(exc, val, tb)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\tkinter\__init__.py", line 2543, in report_callback_exception
+    print("Exception in Tkinter callback", file=sys.stderr)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 22] Invalid argument
+

@@ -1,0 +1,886 @@
+[script.py] 2026-01-27 10:03:27 | script.py iniciado (modo assembly ya cargado).
+[script.py] 2026-01-27 10:03:27 | Intentando clr.AddReference("RevitBatchUpdater")...
+[script.py] 2026-01-27 10:03:27 | Referencia a RevitBatchUpdater obtenida correctamente.
+[script.py] 2026-01-27 10:03:27 | Import AddinEntry OK.
+[script.py] 2026-01-27 10:03:27 | Llamando AddinEntry.LanzarActualizador()...
+[AddinEntry] 2026-01-27 10:03:27 | LanzarActualizador llamado desde script.py.
+[AddinEntry] 2026-01-27 10:03:27 | ExEvent.Raise() será llamado.
+[AddinEntry] 2026-01-27 10:03:27 | ExEvent.Raise() llamado correctamente.
+[script.py] 2026-01-27 10:03:27 | AddinEntry.LanzarActualizador() ejecutado sin excepción.
+[BatchUpdateHandler] 2026-01-27 10:03:31 | Execute iniciado.
+[BatchUpdateHandler] 2026-01-27 10:03:31 | Execute: documento host=BDATx_SSEE_TRINIDAD
+[BatchUpdateHandler] 2026-01-27 10:03:31 | GetConfigPath: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\config_proyecto_activo.json
+[BatchUpdateHandler] 2026-01-27 10:03:31 | ResolverRutaBDDesdeConfig: config leído, longitud 229
+[BatchUpdateHandler] 2026-01-27 10:03:31 | ResolverRutaBDDesdeConfig: ruta_repositorio_activo=C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\repositorio_datos_NUP 3936.json
+[BatchUpdateHandler] 2026-01-27 10:03:31 | ResolverRutaBDDesdeConfig: nombreBD extraído=repositorio_datos_NUP 3936.json
+[BatchUpdateHandler] 2026-01-27 10:03:31 | ResolverRutaBDDesdeConfig: bdPath final (forzado a dataDir)=C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\repositorio_datos_NUP 3936.json
+[BatchUpdateHandler] 2026-01-27 10:03:31 | CargarEntradasBD: leyendo C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\repositorio_datos_NUP 3936.json
+[BatchUpdateHandler] 2026-01-27 10:03:31 | CargarEntradasBD: longitud JSON 2956
+[BatchUpdateHandler] 2026-01-27 10:03:31 | CargarEntradasBD: entradas totales 1
+[BatchUpdateHandler] 2026-01-27 10:03:31 | Execute: llamando ActualizarArchivosExternos (modo sólo Archivo/ElementId).
+[BatchUpdateHandler] 2026-01-27 10:03:31 | ActualizarArchivosExternos: inicio.
+[BatchUpdateHandler] 2026-01-27 10:03:31 | ActualizarArchivosExternos: procesando archivo='D:\SAESA\1.-PROYECTOS\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\2.-DESARROLLO\MODELOS ACC\20240902_actualizados\03.2.10.5 EE- INGENIERIA ELECTROMECANICA\DISP. EQUIPOS.rvt'.
+[BatchUpdateHandler] 2026-01-27 10:03:31 | ActualizarArchivosExternos: objetosParaActualizar=1 para D:\SAESA\1.-PROYECTOS\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\2.-DESARROLLO\MODELOS ACC\20240902_actualizados\03.2.10.5 EE- INGENIERIA ELECTROMECANICA\DISP. EQUIPOS.rvt.
+[BatchUpdateHandler] 2026-01-27 10:03:31 | ActualizarArchivoRvt: inicio para D:\SAESA\1.-PROYECTOS\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\2.-DESARROLLO\MODELOS ACC\20240902_actualizados\03.2.10.5 EE- INGENIERIA ELECTROMECANICA\DISP. EQUIPOS.rvt.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: documento abierto 'DISP. EQUIPOS', objetos=1.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: actualizando elemento 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Pot. Interm._Magnitud'='0' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Tens. Nom. Prim._Unidad'='kV' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: parámetro 'Raz�n Tap M�ximo' no existe en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: parámetro 'descripci�n' no existe en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'No de Serie'='-' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Tipo Cambiador de TAP'='Desplegable' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Grupo de Conexiones'='Dyn1' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: parámetro 'Posici�n Tap M�ximo' no existe en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Tipo'='-' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Pot. Base Nom._Unidad'='MVA' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: parámetro 'Tipo de Sist. de Refrigeraci�n' no existe en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Tipo Trafo'='Desplegable' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Estructuras'='EST T2D S/E TRINIDAD 66/13.2 kV  112-16 MVA' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Tens. Nom. Prim._Magnitud'='66' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: parámetro 'Perdidas en Vac�o' no existe en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Reactancia SP'='0' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: parámetro 'Raz�n Tap M�nimo' no existe en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Sist. Contra Incendios'='Desplegable' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: parámetro 'Categor�a VU' no existe en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'estado'='EN PROYECTO' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Propietario'='SISTEMA DE TRANSMISI�N DEL SUR S.A.' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Pot. Base Nom._Magnitud'='112' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Angulo de Desfase'='-' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: parámetro 'Posici�n Tap M�nimo' no existe en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'val-sql'='-' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Resistencia SC'='0' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Resistencia SP'='0' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'inf-id'='-' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Estado Operativo'='-' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: parámetro 'Tap M�nimo' no existe en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: parámetro 'Tap M�ximo' no existe en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Pot. Interm._Unidad'='MVA' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: parámetro 'Pot. M�x_Magnitud' no existe en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'OOCC'='OC T2D S/E TRINIDAD 66/13.2 kV  112-16 MVA' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Perdidas Carga Nom.'='0' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'id'='Martes' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'CodIntBIM'='CM08SE-T2DTCRA1-0001' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: parámetro 'Tipo Aislaci�n' no existe en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: parámetro 'Tipo Tecnolog�a' no existe en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: parámetro 'A�o de Fab.' no existe en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'nombre'='T2D S/E TRINIDAD BT1' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Tasa de Falla'='0' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: parámetro 'Pot. Paso Trif�sica' no existe en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'val-activos'='-' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Peso Trafo'='0' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Nodo 1'='PA S/E TRINIDAD BT1' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Nodo 2'='PA S/E TRINIDAD CT1' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Tens. Nom. Sec._Unidad'='kV' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Decreto'='NUP 3936' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Clase SQL Trafo-desf_Desc. Clase SQL'='-' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Tipo Fase'='3' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Datos de Placa'='-' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Clase SQL Trafo-desf_Id Clase SQL'='-' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Vol. Aceite'='0' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'ID SQL'='-' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Reactancia SC'='0' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Tens. Nom. Sec._Magnitud'='13.2' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Marca'='NARI-BORI' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Tap Pasos'='0' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Modelo'='SWFZ-16000/66' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Paso'='0' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Fecha de Entr. en Op'='-' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'No Enrollados'='2' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: parámetro 'Pot. M�x_Unidad' no existe en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: Set param 'Tipo Movil'='False' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:03:39 | ActualizarArchivoRvt: commit OK. Actualizados=1, errores=0.
+[BatchUpdateHandler] 2026-01-27 10:03:43 | ActualizarArchivoRvt: documento guardado.
+[BatchUpdateHandler] 2026-01-27 10:03:44 | ActualizarArchivoRvt: documento cerrado.
+[BatchUpdateHandler] 2026-01-27 10:03:44 | ActualizarArchivoRvt: fin para D:\SAESA\1.-PROYECTOS\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\2.-DESARROLLO\MODELOS ACC\20240902_actualizados\03.2.10.5 EE- INGENIERIA ELECTROMECANICA\DISP. EQUIPOS.rvt.
+[BatchUpdateHandler] 2026-01-27 10:03:44 | ActualizarArchivosExternos: fin. archivosProcesados=1
+[BatchUpdateHandler] 2026-01-27 10:03:44 | Execute: limpiando repositorio de entradas procesadas.
+[BatchUpdateHandler] 2026-01-27 10:03:44 | LimpiarRepositorio: inicio. Entradas antes=1
+[BatchUpdateHandler] 2026-01-27 10:03:44 | LimpiarRepositorio: eliminadas 1, quedan 0
+[BatchUpdateHandler] 2026-01-27 10:03:44 | GuardarEntradasBD: escribiendo C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\repositorio_datos_NUP 3936.json, entradas 0
+[BatchUpdateHandler] 2026-01-27 10:03:44 | GuardarEntradasBD: escritura OK.
+[BatchUpdateHandler] 2026-01-27 10:03:44 | Execute: resultado final='¡Actualización exitosa!'
+[BatchUpdateHandler] 2026-01-27 10:03:44 | EXCEPCION en Execute: System.NotImplementedException: The method or operation is not implemented.
+   at System.Windows.MessageBox.Show(String v1, String v2)
+   at RevitBatchUpdater.BatchUpdateHandler.Execute(UIApplication uiapp)
+[BatchUpdateHandler] 2026-01-27 10:03:44 | Execute finalizado.
+[script.py] 2026-01-27 10:09:07 | script.py iniciado (modo assembly ya cargado).
+[script.py] 2026-01-27 10:09:07 | Intentando clr.AddReference("RevitBatchUpdater")...
+[script.py] 2026-01-27 10:09:07 | Referencia a RevitBatchUpdater obtenida correctamente.
+[script.py] 2026-01-27 10:09:07 | Import AddinEntry OK.
+[script.py] 2026-01-27 10:09:07 | Llamando AddinEntry.LanzarActualizador()...
+[AddinEntry] 2026-01-27 10:09:07 | LanzarActualizador llamado desde script.py.
+[AddinEntry] 2026-01-27 10:09:07 | ExEvent.Raise() será llamado.
+[AddinEntry] 2026-01-27 10:09:07 | ExEvent.Raise() llamado correctamente.
+[script.py] 2026-01-27 10:09:07 | AddinEntry.LanzarActualizador() ejecutado sin excepción.
+[BatchUpdateHandler] 2026-01-27 10:09:11 | Execute iniciado.
+[BatchUpdateHandler] 2026-01-27 10:09:11 | Execute: documento host=BDATx_SSEE_TRINIDAD
+[BatchUpdateHandler] 2026-01-27 10:09:11 | GetConfigPath: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\config_proyecto_activo.json
+[BatchUpdateHandler] 2026-01-27 10:09:11 | ResolverRutaBDDesdeConfig: config leído, longitud 229
+[BatchUpdateHandler] 2026-01-27 10:09:11 | ResolverRutaBDDesdeConfig: ruta_repositorio_activo=C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\repositorio_datos_NUP 3936.json
+[BatchUpdateHandler] 2026-01-27 10:09:11 | ResolverRutaBDDesdeConfig: nombreBD extraído=repositorio_datos_NUP 3936.json
+[BatchUpdateHandler] 2026-01-27 10:09:11 | ResolverRutaBDDesdeConfig: bdPath final (forzado a dataDir)=C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\repositorio_datos_NUP 3936.json
+[BatchUpdateHandler] 2026-01-27 10:09:11 | CargarEntradasBD: leyendo C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\repositorio_datos_NUP 3936.json
+[BatchUpdateHandler] 2026-01-27 10:09:11 | CargarEntradasBD: longitud JSON 4326
+[BatchUpdateHandler] 2026-01-27 10:09:11 | CargarEntradasBD: entradas totales 2
+[BatchUpdateHandler] 2026-01-27 10:09:11 | Execute: llamando ActualizarArchivosExternos (modo sólo Archivo/ElementId).
+[BatchUpdateHandler] 2026-01-27 10:09:11 | ActualizarArchivosExternos: inicio.
+[BatchUpdateHandler] 2026-01-27 10:09:11 | ActualizarArchivosExternos: procesando archivo='D:\SAESA\1.-PROYECTOS\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\2.-DESARROLLO\MODELOS ACC\20240902_actualizados\03.2.10.5 EE- INGENIERIA ELECTROMECANICA\DISP. EQUIPOS.rvt'.
+[BatchUpdateHandler] 2026-01-27 10:09:11 | ActualizarArchivosExternos: objetosParaActualizar=2 para D:\SAESA\1.-PROYECTOS\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\2.-DESARROLLO\MODELOS ACC\20240902_actualizados\03.2.10.5 EE- INGENIERIA ELECTROMECANICA\DISP. EQUIPOS.rvt.
+[BatchUpdateHandler] 2026-01-27 10:09:11 | ActualizarArchivoRvt: inicio para D:\SAESA\1.-PROYECTOS\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\2.-DESARROLLO\MODELOS ACC\20240902_actualizados\03.2.10.5 EE- INGENIERIA ELECTROMECANICA\DISP. EQUIPOS.rvt.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: documento abierto 'DISP. EQUIPOS', objetos=2.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: actualizando elemento 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Tipo Aislante'='Gran Volumen Aceite' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Ten. Nom._Unidad'='kV' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Clase Prec. Núc.s de Med.'='-' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'No de Núc. de Med.'='-' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'descripción'='G' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'No de Serie'='-' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'No Núc. De Protec.'='-' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Clase Trafo Corr._Desc. Clase SQL'='-' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Ten. Nom._Magnitud'='-' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Estructuras'='-' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Nodo'='-' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'estado'='-' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Categoría VU'='-' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Propietario'='-' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Pot. Nom._Magnitud'='-' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'val-sql'='A' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'inf-id'='-' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'OOCC'='-' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Cant.'='Dato automatizado' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'id'='C' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'CodIntBIM'='CM12SE-TCA1-0001' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Tipo Tecnología'='AIS' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Año de Fab.'='-' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'nombre'='F' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Corr. Nom.  Prim._Unidad'='A' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Clase Prec. Núc. de Protec.'='-' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Corr. Nom.  Prim._Magnitud'='-' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Corr. Cortocirc_Magnitud'='-' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Pot. Nom._Unidad'='VA' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Corr. Nom.  Sec._Magnitud'='-' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'val-activos'='-' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Clase Trafo Corr._Id Clase SQL'='-' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Decreto'='-' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Datos de Placa'='-' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'ID SQL'='E' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Marca'='-' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Corr. Nom.  Sec._Unidad'='A' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Modelo'='-' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Corr. Cortocirc_Unidad'='kA' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Fecha de Entr. en Op'='-' en elem 245366.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: actualizando elemento 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Pot. Interm._Magnitud'='0' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Tens. Nom. Prim._Unidad'='kV' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Razón Tap Máximo'='0' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'descripción'='TRANSFORMADOR DE PODER CON ACEITE VEGETAL 66/13,2 kV, KNAN-KNAF' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'No de Serie'='-' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Tipo Cambiador de TAP'='Desplegable' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Grupo de Conexiones'='Dyn1' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Posición Tap Máximo'='0' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Tipo'='-' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Pot. Base Nom._Unidad'='MVA' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Tipo de Sist. de Refrigeración'='Desplegable' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Tipo Trafo'='Desplegable' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Tens. Nom. Prim._Magnitud'='66' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Perdidas en Vacío'='0' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Razón Tap Mínimo'='0' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Reactancia SP'='0' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Sist. Contra Incendios'='Desplegable' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Estructuras'='EST T2D S/E TRINIDAD 66/13.2 kV  112-16 MVA' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Posición Tap Mínimo'='0' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'estado'='EN PROYECTO' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Pot. Base Nom._Magnitud'='112' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Propietario'='SISTEMA DE TRANSMISIÓN DEL SUR S.A.' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Angulo de Desfase'='-' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Categoría VU'='TRANSFORMADORES DE PODER' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Resistencia SC'='0' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'val-sql'='-' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Resistencia SP'='0' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Estado Operativo'='-' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Tap Mínimo'='0' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'inf-id'='-' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Tap Máximo'='0' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Pot. Interm._Unidad'='MVA' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Pot. Máx_Magnitud'='0' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'OOCC'='OC T2D S/E TRINIDAD 66/13.2 kV  112-16 MVA' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Perdidas Carga Nom.'='0' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'id'='Cambio' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'CodIntBIM'='CM08SE-T2DTCRA1-0001' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Tipo Aislación'='Desplegable' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Tipo Tecnología'='AIS' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Tasa de Falla'='0' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'nombre'='T2D S/E TRINIDAD BT1' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Año de Fab.'='-' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Pot. Paso Trifásica'='-' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Peso Trafo'='0' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'val-activos'='-' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Tens. Nom. Sec._Unidad'='kV' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Tipo Fase'='3' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Nodo 1'='PA S/E TRINIDAD BT1' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Decreto'='NUP 3936' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Clase SQL Trafo-desf_Desc. Clase SQL'='-' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Nodo 2'='PA S/E TRINIDAD CT1' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Datos de Placa'='-' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Vol. Aceite'='0' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Clase SQL Trafo-desf_Id Clase SQL'='-' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Reactancia SC'='0' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'ID SQL'='-' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Tap Pasos'='0' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Tens. Nom. Sec._Magnitud'='13.2' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Marca'='35' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Modelo'='SWFZ-16000/66' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Paso'='0' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Fecha de Entr. en Op'='-' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'No Enrollados'='2' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Pot. Máx_Unidad'='MVA' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: Set param 'Tipo Movil'='False' en elem 763374.
+[BatchUpdateHandler] 2026-01-27 10:09:19 | ActualizarArchivoRvt: commit OK. Actualizados=2, errores=0.
+[BatchUpdateHandler] 2026-01-27 10:09:23 | ActualizarArchivoRvt: documento guardado.
+[BatchUpdateHandler] 2026-01-27 10:09:24 | ActualizarArchivoRvt: documento cerrado.
+[BatchUpdateHandler] 2026-01-27 10:09:24 | ActualizarArchivoRvt: fin para D:\SAESA\1.-PROYECTOS\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\2.-DESARROLLO\MODELOS ACC\20240902_actualizados\03.2.10.5 EE- INGENIERIA ELECTROMECANICA\DISP. EQUIPOS.rvt.
+[BatchUpdateHandler] 2026-01-27 10:09:24 | ActualizarArchivosExternos: fin. archivosProcesados=1
+[BatchUpdateHandler] 2026-01-27 10:09:24 | Execute: limpiando repositorio de entradas procesadas.
+[BatchUpdateHandler] 2026-01-27 10:09:24 | LimpiarRepositorio: inicio. Entradas antes=2
+[BatchUpdateHandler] 2026-01-27 10:09:24 | LimpiarRepositorio: eliminadas 2, quedan 0
+[BatchUpdateHandler] 2026-01-27 10:09:24 | GuardarEntradasBD: escribiendo C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\repositorio_datos_NUP 3936.json, entradas 0
+[BatchUpdateHandler] 2026-01-27 10:09:24 | GuardarEntradasBD: escritura OK.
+[BatchUpdateHandler] 2026-01-27 10:09:24 | Execute: resultado final='¡Actualización exitosa!'
+[BatchUpdateHandler] 2026-01-27 10:09:24 | EXCEPCION en Execute: System.NotImplementedException: The method or operation is not implemented.
+   at System.Windows.MessageBox.Show(String v1, String v2)
+   at RevitBatchUpdater.BatchUpdateHandler.Execute(UIApplication uiapp)
+[BatchUpdateHandler] 2026-01-27 10:09:24 | Execute finalizado.
+[AddinEntry] 2026-01-27 10:48:24 | OnShutdown iniciado.
+[AddinEntry] 2026-01-27 10:48:24 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-01-27 10:48:24 | Handler puesto a null.
+[AddinEntry] 2026-01-27 10:48:24 | OnShutdown finalizado OK.
+[AddinEntry] 2026-01-30 08:37:55 | OnStartup iniciado.
+[AddinEntry] 2026-01-30 08:37:55 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-01-30 08:37:55 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-01-30 08:37:55 | OnStartup finalizado OK.
+[AddinEntry] 2026-02-02 10:14:37 | OnStartup iniciado.
+[AddinEntry] 2026-02-02 10:14:37 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-02-02 10:14:37 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-02-02 10:14:37 | OnStartup finalizado OK.
+[AddinEntry] 2026-02-04 17:33:21 | OnStartup iniciado.
+[AddinEntry] 2026-02-04 17:33:21 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-02-04 17:33:21 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-02-04 17:33:21 | OnStartup finalizado OK.
+[AddinEntry] 2026-02-05 16:51:41 | OnShutdown iniciado.
+[AddinEntry] 2026-02-05 16:51:41 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-02-05 16:51:41 | Handler puesto a null.
+[AddinEntry] 2026-02-05 16:51:41 | OnShutdown finalizado OK.
+[AddinEntry] 2026-02-06 08:17:51 | OnShutdown iniciado.
+[AddinEntry] 2026-02-06 08:17:51 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-02-06 08:17:51 | Handler puesto a null.
+[AddinEntry] 2026-02-06 08:17:51 | OnShutdown finalizado OK.
+[AddinEntry] 2026-02-06 08:21:52 | OnStartup iniciado.
+[AddinEntry] 2026-02-06 08:21:52 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-02-06 08:21:52 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-02-06 08:21:52 | OnStartup finalizado OK.
+[AddinEntry] 2026-02-07 22:13:10 | OnStartup iniciado.
+[AddinEntry] 2026-02-07 22:13:10 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-02-07 22:13:10 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-02-07 22:13:10 | OnStartup finalizado OK.
+[AddinEntry] 2026-02-07 22:14:39 | OnShutdown iniciado.
+[AddinEntry] 2026-02-07 22:14:39 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-02-07 22:14:39 | Handler puesto a null.
+[AddinEntry] 2026-02-07 22:14:39 | OnShutdown finalizado OK.
+[AddinEntry] 2026-02-10 10:22:36 | OnStartup iniciado.
+[AddinEntry] 2026-02-10 10:22:36 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-02-10 10:22:36 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-02-10 10:22:36 | OnStartup finalizado OK.
+[AddinEntry] 2026-02-11 20:48:38 | OnShutdown iniciado.
+[AddinEntry] 2026-02-11 20:48:38 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-02-11 20:48:38 | Handler puesto a null.
+[AddinEntry] 2026-02-11 20:48:38 | OnShutdown finalizado OK.
+[AddinEntry] 2026-02-12 10:21:58 | OnStartup iniciado.
+[AddinEntry] 2026-02-12 10:21:58 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-02-12 10:21:58 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-02-12 10:21:58 | OnStartup finalizado OK.
+[AddinEntry] 2026-02-12 12:09:07 | OnStartup iniciado.
+[AddinEntry] 2026-02-12 12:09:07 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-02-12 12:09:07 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-02-12 12:09:07 | OnStartup finalizado OK.
+[AddinEntry] 2026-02-12 13:57:01 | OnStartup iniciado.
+[AddinEntry] 2026-02-12 13:57:01 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-02-12 13:57:01 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-02-12 13:57:01 | OnStartup finalizado OK.
+[AddinEntry] 2026-02-12 14:42:51 | OnStartup iniciado.
+[AddinEntry] 2026-02-12 14:42:51 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-02-12 14:42:51 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-02-12 14:42:51 | OnStartup finalizado OK.
+[AddinEntry] 2026-02-12 16:18:18 | OnStartup iniciado.
+[AddinEntry] 2026-02-12 16:18:18 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-02-12 16:18:18 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-02-12 16:18:18 | OnStartup finalizado OK.
+[AddinEntry] 2026-02-13 11:30:42 | OnStartup iniciado.
+[AddinEntry] 2026-02-13 11:30:42 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-02-13 11:30:42 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-02-13 11:30:42 | OnStartup finalizado OK.
+[script.py] 2026-02-13 11:45:57 | script.py iniciado (modo assembly ya cargado).
+[script.py] 2026-02-13 11:45:57 | Intentando clr.AddReference("RevitBatchUpdater")...
+[script.py] 2026-02-13 11:45:57 | Referencia a RevitBatchUpdater obtenida correctamente.
+[script.py] 2026-02-13 11:45:57 | Import AddinEntry OK.
+[script.py] 2026-02-13 11:45:57 | Llamando AddinEntry.LanzarActualizador()...
+[AddinEntry] 2026-02-13 11:45:57 | LanzarActualizador llamado desde script.py.
+[AddinEntry] 2026-02-13 11:45:57 | ExEvent.Raise() será llamado.
+[AddinEntry] 2026-02-13 11:45:57 | ExEvent.Raise() llamado correctamente.
+[script.py] 2026-02-13 11:45:57 | AddinEntry.LanzarActualizador() ejecutado sin excepción.
+[BatchUpdateHandler] 2026-02-13 11:45:59 | Execute iniciado.
+[BatchUpdateHandler] 2026-02-13 11:45:59 | Execute: documento host=BDATx_SSEE_TRINIDAD
+[BatchUpdateHandler] 2026-02-13 11:45:59 | GetConfigPath: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\config_proyecto_activo.json
+[BatchUpdateHandler] 2026-02-13 11:45:59 | ResolverRutaBDDesdeConfig: config leído, longitud 229
+[BatchUpdateHandler] 2026-02-13 11:45:59 | ResolverRutaBDDesdeConfig: ruta_repositorio_activo=C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\repositorio_datos_NUP 1111.json
+[BatchUpdateHandler] 2026-02-13 11:45:59 | ResolverRutaBDDesdeConfig: nombreBD extraído=repositorio_datos_NUP 1111.json
+[BatchUpdateHandler] 2026-02-13 11:45:59 | ResolverRutaBDDesdeConfig: bdPath final (forzado a dataDir)=C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\repositorio_datos_NUP 1111.json
+[BatchUpdateHandler] 2026-02-13 11:45:59 | ResolverRutaBDDesdeConfig: BD NO encontrada en bdPath.
+[BatchUpdateHandler] 2026-02-13 11:45:59 | Execute: bdPath es null o vacío. Abortando.
+[BatchUpdateHandler] 2026-02-13 11:45:59 | EXCEPCION en Execute: System.NotImplementedException: The method or operation is not implemented.
+   at System.Windows.MessageBox.Show(String v1, String v2)
+   at RevitBatchUpdater.BatchUpdateHandler.Execute(UIApplication uiapp)
+[BatchUpdateHandler] 2026-02-13 11:45:59 | Execute finalizado.
+[script.py] 2026-02-13 11:47:31 | script.py iniciado (modo assembly ya cargado).
+[script.py] 2026-02-13 11:47:31 | Intentando clr.AddReference("RevitBatchUpdater")...
+[script.py] 2026-02-13 11:47:31 | Referencia a RevitBatchUpdater obtenida correctamente.
+[script.py] 2026-02-13 11:47:31 | Import AddinEntry OK.
+[script.py] 2026-02-13 11:47:31 | Llamando AddinEntry.LanzarActualizador()...
+[AddinEntry] 2026-02-13 11:47:31 | LanzarActualizador llamado desde script.py.
+[AddinEntry] 2026-02-13 11:47:31 | ExEvent.Raise() será llamado.
+[AddinEntry] 2026-02-13 11:47:31 | ExEvent.Raise() llamado correctamente.
+[script.py] 2026-02-13 11:47:31 | AddinEntry.LanzarActualizador() ejecutado sin excepción.
+[BatchUpdateHandler] 2026-02-13 11:47:34 | Execute iniciado.
+[BatchUpdateHandler] 2026-02-13 11:47:34 | Execute: documento host=BDATx_SSEE_TRINIDAD
+[BatchUpdateHandler] 2026-02-13 11:47:34 | GetConfigPath: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\config_proyecto_activo.json
+[BatchUpdateHandler] 2026-02-13 11:47:34 | ResolverRutaBDDesdeConfig: config leído, longitud 229
+[BatchUpdateHandler] 2026-02-13 11:47:34 | ResolverRutaBDDesdeConfig: ruta_repositorio_activo=C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\repositorio_datos_NUP 1111.json
+[BatchUpdateHandler] 2026-02-13 11:47:34 | ResolverRutaBDDesdeConfig: nombreBD extraído=repositorio_datos_NUP 1111.json
+[BatchUpdateHandler] 2026-02-13 11:47:34 | ResolverRutaBDDesdeConfig: bdPath final (forzado a dataDir)=C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\repositorio_datos_NUP 1111.json
+[BatchUpdateHandler] 2026-02-13 11:47:34 | CargarEntradasBD: leyendo C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\repositorio_datos_NUP 1111.json
+[BatchUpdateHandler] 2026-02-13 11:47:34 | CargarEntradasBD: longitud JSON 1388
+[BatchUpdateHandler] 2026-02-13 11:47:34 | CargarEntradasBD: entradas totales 1
+[BatchUpdateHandler] 2026-02-13 11:47:34 | Execute: llamando ActualizarArchivosExternos (modo sólo Archivo/ElementId).
+[BatchUpdateHandler] 2026-02-13 11:47:34 | ActualizarArchivosExternos: inicio.
+[BatchUpdateHandler] 2026-02-13 11:47:34 | ActualizarArchivosExternos: procesando archivo='D:\SAESA\1.-PROYECTOS\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\2.-DESARROLLO\MODELOS ACC\20240902_actualizados\03.2.10.5 EE- INGENIERIA ELECTROMECANICA\DISP. EQUIPOS.rvt'.
+[BatchUpdateHandler] 2026-02-13 11:47:34 | ActualizarArchivosExternos: objetosParaActualizar=1 para D:\SAESA\1.-PROYECTOS\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\2.-DESARROLLO\MODELOS ACC\20240902_actualizados\03.2.10.5 EE- INGENIERIA ELECTROMECANICA\DISP. EQUIPOS.rvt.
+[BatchUpdateHandler] 2026-02-13 11:47:34 | ActualizarArchivoRvt: inicio para D:\SAESA\1.-PROYECTOS\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\2.-DESARROLLO\MODELOS ACC\20240902_actualizados\03.2.10.5 EE- INGENIERIA ELECTROMECANICA\DISP. EQUIPOS.rvt.
+[BatchUpdateHandler] 2026-02-13 11:47:34 | ActualizarArchivoRvt: documento abierto 'DISP. EQUIPOS', objetos=1.
+[BatchUpdateHandler] 2026-02-13 11:47:34 | EXCEPCION en ActualizarArchivoRvt (archivo D:\SAESA\1.-PROYECTOS\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\2.-DESARROLLO\MODELOS ACC\20240902_actualizados\03.2.10.5 EE- INGENIERIA ELECTROMECANICA\DISP. EQUIPOS.rvt): Autodesk.Revit.Exceptions.ArgumentException: Document is a linked file. Transactions can only be used in primary documents (projects or families.)
+Parameter name: document
+   at ?A0x55fdfb9c.TransactionProxy_constructor(Document document, String name)
+   at Autodesk.Revit.DB.Transaction..ctor(Document document, String name)
+   at RevitBatchUpdater.BatchUpdateHandler.ActualizarArchivoRvt(String filePath, List`1 objetosParaActualizar)
+[BatchUpdateHandler] 2026-02-13 11:47:34 | EXCEPCION en ActualizarArchivosExternos: System.NotImplementedException: The method or operation is not implemented.
+   at System.Windows.MessageBox.Show(String v1, String v2)
+   at RevitBatchUpdater.BatchUpdateHandler.ActualizarArchivoRvt(String filePath, List`1 objetosParaActualizar)
+   at RevitBatchUpdater.BatchUpdateHandler.ActualizarArchivosExternos(String bdPath, List`1 entradas)
+[BatchUpdateHandler] 2026-02-13 11:47:34 | EXCEPCION en Execute: System.NotImplementedException: The method or operation is not implemented.
+   at System.Windows.MessageBox.Show(String v1, String v2)
+   at RevitBatchUpdater.BatchUpdateHandler.ActualizarArchivosExternos(String bdPath, List`1 entradas)
+   at RevitBatchUpdater.BatchUpdateHandler.Execute(UIApplication uiapp)
+[BatchUpdateHandler] 2026-02-13 11:47:34 | Execute finalizado.
+[script.py] 2026-02-13 11:47:44 | script.py iniciado (modo assembly ya cargado).
+[script.py] 2026-02-13 11:47:44 | Intentando clr.AddReference("RevitBatchUpdater")...
+[script.py] 2026-02-13 11:47:44 | Referencia a RevitBatchUpdater obtenida correctamente.
+[script.py] 2026-02-13 11:47:44 | Import AddinEntry OK.
+[script.py] 2026-02-13 11:47:44 | Llamando AddinEntry.LanzarActualizador()...
+[AddinEntry] 2026-02-13 11:47:44 | LanzarActualizador llamado desde script.py.
+[AddinEntry] 2026-02-13 11:47:44 | ExEvent.Raise() será llamado.
+[AddinEntry] 2026-02-13 11:47:44 | ExEvent.Raise() llamado correctamente.
+[script.py] 2026-02-13 11:47:44 | AddinEntry.LanzarActualizador() ejecutado sin excepción.
+[BatchUpdateHandler] 2026-02-13 11:47:46 | Execute iniciado.
+[BatchUpdateHandler] 2026-02-13 11:47:46 | Execute: documento host=BDATx_SSEE_TRINIDAD
+[BatchUpdateHandler] 2026-02-13 11:47:46 | GetConfigPath: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\config_proyecto_activo.json
+[BatchUpdateHandler] 2026-02-13 11:47:46 | ResolverRutaBDDesdeConfig: config leído, longitud 229
+[BatchUpdateHandler] 2026-02-13 11:47:46 | ResolverRutaBDDesdeConfig: ruta_repositorio_activo=C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\repositorio_datos_NUP 1111.json
+[BatchUpdateHandler] 2026-02-13 11:47:46 | ResolverRutaBDDesdeConfig: nombreBD extraído=repositorio_datos_NUP 1111.json
+[BatchUpdateHandler] 2026-02-13 11:47:46 | ResolverRutaBDDesdeConfig: bdPath final (forzado a dataDir)=C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\repositorio_datos_NUP 1111.json
+[BatchUpdateHandler] 2026-02-13 11:47:46 | CargarEntradasBD: leyendo C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\repositorio_datos_NUP 1111.json
+[BatchUpdateHandler] 2026-02-13 11:47:46 | CargarEntradasBD: longitud JSON 1388
+[BatchUpdateHandler] 2026-02-13 11:47:46 | CargarEntradasBD: entradas totales 1
+[BatchUpdateHandler] 2026-02-13 11:47:46 | Execute: llamando ActualizarArchivosExternos (modo sólo Archivo/ElementId).
+[BatchUpdateHandler] 2026-02-13 11:47:46 | ActualizarArchivosExternos: inicio.
+[BatchUpdateHandler] 2026-02-13 11:47:46 | ActualizarArchivosExternos: procesando archivo='D:\SAESA\1.-PROYECTOS\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\2.-DESARROLLO\MODELOS ACC\20240902_actualizados\03.2.10.5 EE- INGENIERIA ELECTROMECANICA\DISP. EQUIPOS.rvt'.
+[BatchUpdateHandler] 2026-02-13 11:47:46 | ActualizarArchivosExternos: objetosParaActualizar=1 para D:\SAESA\1.-PROYECTOS\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\2.-DESARROLLO\MODELOS ACC\20240902_actualizados\03.2.10.5 EE- INGENIERIA ELECTROMECANICA\DISP. EQUIPOS.rvt.
+[BatchUpdateHandler] 2026-02-13 11:47:46 | ActualizarArchivoRvt: inicio para D:\SAESA\1.-PROYECTOS\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\2.-DESARROLLO\MODELOS ACC\20240902_actualizados\03.2.10.5 EE- INGENIERIA ELECTROMECANICA\DISP. EQUIPOS.rvt.
+[BatchUpdateHandler] 2026-02-13 11:47:46 | ActualizarArchivoRvt: documento abierto 'DISP. EQUIPOS', objetos=1.
+[BatchUpdateHandler] 2026-02-13 11:47:46 | EXCEPCION en ActualizarArchivoRvt (archivo D:\SAESA\1.-PROYECTOS\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\2.-DESARROLLO\MODELOS ACC\20240902_actualizados\03.2.10.5 EE- INGENIERIA ELECTROMECANICA\DISP. EQUIPOS.rvt): Autodesk.Revit.Exceptions.ArgumentException: Document is a linked file. Transactions can only be used in primary documents (projects or families.)
+Parameter name: document
+   at ?A0x55fdfb9c.TransactionProxy_constructor(Document document, String name)
+   at Autodesk.Revit.DB.Transaction..ctor(Document document, String name)
+   at RevitBatchUpdater.BatchUpdateHandler.ActualizarArchivoRvt(String filePath, List`1 objetosParaActualizar)
+[BatchUpdateHandler] 2026-02-13 11:47:46 | EXCEPCION en ActualizarArchivosExternos: System.NotImplementedException: The method or operation is not implemented.
+   at System.Windows.MessageBox.Show(String v1, String v2)
+   at RevitBatchUpdater.BatchUpdateHandler.ActualizarArchivoRvt(String filePath, List`1 objetosParaActualizar)
+   at RevitBatchUpdater.BatchUpdateHandler.ActualizarArchivosExternos(String bdPath, List`1 entradas)
+[BatchUpdateHandler] 2026-02-13 11:47:46 | EXCEPCION en Execute: System.NotImplementedException: The method or operation is not implemented.
+   at System.Windows.MessageBox.Show(String v1, String v2)
+   at RevitBatchUpdater.BatchUpdateHandler.ActualizarArchivosExternos(String bdPath, List`1 entradas)
+   at RevitBatchUpdater.BatchUpdateHandler.Execute(UIApplication uiapp)
+[BatchUpdateHandler] 2026-02-13 11:47:46 | Execute finalizado.
+[script.py] 2026-02-13 11:50:13 | script.py iniciado (modo assembly ya cargado).
+[script.py] 2026-02-13 11:50:13 | Intentando clr.AddReference("RevitBatchUpdater")...
+[script.py] 2026-02-13 11:50:13 | Referencia a RevitBatchUpdater obtenida correctamente.
+[script.py] 2026-02-13 11:50:13 | Import AddinEntry OK.
+[script.py] 2026-02-13 11:50:13 | Llamando AddinEntry.LanzarActualizador()...
+[AddinEntry] 2026-02-13 11:50:13 | LanzarActualizador llamado desde script.py.
+[AddinEntry] 2026-02-13 11:50:13 | ExEvent.Raise() será llamado.
+[AddinEntry] 2026-02-13 11:50:13 | ExEvent.Raise() llamado correctamente.
+[script.py] 2026-02-13 11:50:13 | AddinEntry.LanzarActualizador() ejecutado sin excepción.
+[BatchUpdateHandler] 2026-02-13 11:50:16 | Execute iniciado.
+[BatchUpdateHandler] 2026-02-13 11:50:16 | Execute: documento host=BDATx_SSEE_TRINIDAD
+[BatchUpdateHandler] 2026-02-13 11:50:16 | GetConfigPath: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\config_proyecto_activo.json
+[BatchUpdateHandler] 2026-02-13 11:50:16 | ResolverRutaBDDesdeConfig: config leído, longitud 229
+[BatchUpdateHandler] 2026-02-13 11:50:16 | ResolverRutaBDDesdeConfig: ruta_repositorio_activo=C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\repositorio_datos_NUP 1111.json
+[BatchUpdateHandler] 2026-02-13 11:50:16 | ResolverRutaBDDesdeConfig: nombreBD extraído=repositorio_datos_NUP 1111.json
+[BatchUpdateHandler] 2026-02-13 11:50:16 | ResolverRutaBDDesdeConfig: bdPath final (forzado a dataDir)=C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\repositorio_datos_NUP 1111.json
+[BatchUpdateHandler] 2026-02-13 11:50:16 | CargarEntradasBD: leyendo C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\repositorio_datos_NUP 1111.json
+[BatchUpdateHandler] 2026-02-13 11:50:16 | CargarEntradasBD: longitud JSON 1172
+[BatchUpdateHandler] 2026-02-13 11:50:16 | CargarEntradasBD: entradas totales 1
+[BatchUpdateHandler] 2026-02-13 11:50:16 | Execute: llamando ActualizarArchivosExternos (modo sólo Archivo/ElementId).
+[BatchUpdateHandler] 2026-02-13 11:50:16 | ActualizarArchivosExternos: inicio.
+[BatchUpdateHandler] 2026-02-13 11:50:16 | ActualizarArchivosExternos: procesando archivo='D:\SAESA\1.-PROYECTOS\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\2.-DESARROLLO\MODELOS ACC\20240902_actualizados\03.2.10.5 EE- INGENIERIA ELECTROMECANICA\DISP. EQUIPOS.rvt'.
+[BatchUpdateHandler] 2026-02-13 11:50:16 | ActualizarArchivosExternos: objetosParaActualizar=1 para D:\SAESA\1.-PROYECTOS\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\2.-DESARROLLO\MODELOS ACC\20240902_actualizados\03.2.10.5 EE- INGENIERIA ELECTROMECANICA\DISP. EQUIPOS.rvt.
+[BatchUpdateHandler] 2026-02-13 11:50:16 | ActualizarArchivoRvt: inicio para D:\SAESA\1.-PROYECTOS\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\2.-DESARROLLO\MODELOS ACC\20240902_actualizados\03.2.10.5 EE- INGENIERIA ELECTROMECANICA\DISP. EQUIPOS.rvt.
+[BatchUpdateHandler] 2026-02-13 11:50:16 | ActualizarArchivoRvt: documento abierto 'DISP. EQUIPOS', objetos=1.
+[BatchUpdateHandler] 2026-02-13 11:50:16 | EXCEPCION en ActualizarArchivoRvt (archivo D:\SAESA\1.-PROYECTOS\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\2.-DESARROLLO\MODELOS ACC\20240902_actualizados\03.2.10.5 EE- INGENIERIA ELECTROMECANICA\DISP. EQUIPOS.rvt): Autodesk.Revit.Exceptions.ArgumentException: Document is a linked file. Transactions can only be used in primary documents (projects or families.)
+Parameter name: document
+   at ?A0x55fdfb9c.TransactionProxy_constructor(Document document, String name)
+   at Autodesk.Revit.DB.Transaction..ctor(Document document, String name)
+   at RevitBatchUpdater.BatchUpdateHandler.ActualizarArchivoRvt(String filePath, List`1 objetosParaActualizar)
+[BatchUpdateHandler] 2026-02-13 11:50:16 | EXCEPCION en ActualizarArchivosExternos: System.NotImplementedException: The method or operation is not implemented.
+   at System.Windows.MessageBox.Show(String v1, String v2)
+   at RevitBatchUpdater.BatchUpdateHandler.ActualizarArchivoRvt(String filePath, List`1 objetosParaActualizar)
+   at RevitBatchUpdater.BatchUpdateHandler.ActualizarArchivosExternos(String bdPath, List`1 entradas)
+[BatchUpdateHandler] 2026-02-13 11:50:16 | EXCEPCION en Execute: System.NotImplementedException: The method or operation is not implemented.
+   at System.Windows.MessageBox.Show(String v1, String v2)
+   at RevitBatchUpdater.BatchUpdateHandler.ActualizarArchivosExternos(String bdPath, List`1 entradas)
+   at RevitBatchUpdater.BatchUpdateHandler.Execute(UIApplication uiapp)
+[BatchUpdateHandler] 2026-02-13 11:50:16 | Execute finalizado.
+[script.py] 2026-02-13 11:51:39 | script.py iniciado (modo assembly ya cargado).
+[script.py] 2026-02-13 11:51:39 | Intentando clr.AddReference("RevitBatchUpdater")...
+[script.py] 2026-02-13 11:51:39 | Referencia a RevitBatchUpdater obtenida correctamente.
+[script.py] 2026-02-13 11:51:39 | Import AddinEntry OK.
+[script.py] 2026-02-13 11:51:39 | Llamando AddinEntry.LanzarActualizador()...
+[AddinEntry] 2026-02-13 11:51:39 | LanzarActualizador llamado desde script.py.
+[AddinEntry] 2026-02-13 11:51:39 | ExEvent.Raise() será llamado.
+[AddinEntry] 2026-02-13 11:51:39 | ExEvent.Raise() llamado correctamente.
+[script.py] 2026-02-13 11:51:39 | AddinEntry.LanzarActualizador() ejecutado sin excepción.
+[script.py] 2026-02-13 11:51:47 | script.py iniciado (modo assembly ya cargado).
+[script.py] 2026-02-13 11:51:47 | Intentando clr.AddReference("RevitBatchUpdater")...
+[script.py] 2026-02-13 11:51:47 | Referencia a RevitBatchUpdater obtenida correctamente.
+[script.py] 2026-02-13 11:51:47 | Import AddinEntry OK.
+[script.py] 2026-02-13 11:51:47 | Llamando AddinEntry.LanzarActualizador()...
+[AddinEntry] 2026-02-13 11:51:47 | LanzarActualizador llamado desde script.py.
+[AddinEntry] 2026-02-13 11:51:47 | ExEvent.Raise() será llamado.
+[AddinEntry] 2026-02-13 11:51:47 | ExEvent.Raise() llamado correctamente.
+[script.py] 2026-02-13 11:51:47 | AddinEntry.LanzarActualizador() ejecutado sin excepción.
+[script.py] 2026-02-13 11:52:14 | script.py iniciado (modo assembly ya cargado).
+[script.py] 2026-02-13 11:52:14 | Intentando clr.AddReference("RevitBatchUpdater")...
+[script.py] 2026-02-13 11:52:14 | Referencia a RevitBatchUpdater obtenida correctamente.
+[script.py] 2026-02-13 11:52:14 | Import AddinEntry OK.
+[script.py] 2026-02-13 11:52:14 | Llamando AddinEntry.LanzarActualizador()...
+[AddinEntry] 2026-02-13 11:52:14 | LanzarActualizador llamado desde script.py.
+[AddinEntry] 2026-02-13 11:52:14 | ExEvent.Raise() será llamado.
+[AddinEntry] 2026-02-13 11:52:14 | ExEvent.Raise() llamado correctamente.
+[script.py] 2026-02-13 11:52:14 | AddinEntry.LanzarActualizador() ejecutado sin excepción.
+[script.py] 2026-02-13 11:58:23 | script.py iniciado (modo assembly ya cargado).
+[script.py] 2026-02-13 11:58:23 | Intentando clr.AddReference("RevitBatchUpdater")...
+[script.py] 2026-02-13 11:58:23 | Referencia a RevitBatchUpdater obtenida correctamente.
+[script.py] 2026-02-13 11:58:23 | Import AddinEntry OK.
+[script.py] 2026-02-13 11:58:23 | Llamando AddinEntry.LanzarActualizador()...
+[AddinEntry] 2026-02-13 11:58:23 | LanzarActualizador llamado desde script.py.
+[AddinEntry] 2026-02-13 11:58:23 | ExEvent.Raise() será llamado.
+[AddinEntry] 2026-02-13 11:58:23 | ExEvent.Raise() llamado correctamente.
+[script.py] 2026-02-13 11:58:23 | AddinEntry.LanzarActualizador() ejecutado sin excepción.
+[script.py] 2026-02-13 11:59:58 | script.py iniciado (modo assembly ya cargado).
+[script.py] 2026-02-13 11:59:58 | Intentando clr.AddReference("RevitBatchUpdater")...
+[script.py] 2026-02-13 11:59:58 | Referencia a RevitBatchUpdater obtenida correctamente.
+[script.py] 2026-02-13 11:59:58 | Import AddinEntry OK.
+[script.py] 2026-02-13 11:59:58 | Llamando AddinEntry.LanzarActualizador()...
+[AddinEntry] 2026-02-13 11:59:58 | LanzarActualizador llamado desde script.py.
+[AddinEntry] 2026-02-13 11:59:58 | ExEvent.Raise() será llamado.
+[AddinEntry] 2026-02-13 11:59:58 | ExEvent.Raise() llamado correctamente.
+[script.py] 2026-02-13 11:59:58 | AddinEntry.LanzarActualizador() ejecutado sin excepción.
+[script.py] 2026-02-13 12:00:54 | script.py iniciado (modo assembly ya cargado).
+[script.py] 2026-02-13 12:00:54 | Intentando clr.AddReference("RevitBatchUpdater")...
+[script.py] 2026-02-13 12:00:54 | Referencia a RevitBatchUpdater obtenida correctamente.
+[script.py] 2026-02-13 12:00:54 | Import AddinEntry OK.
+[script.py] 2026-02-13 12:00:54 | Llamando AddinEntry.LanzarActualizador()...
+[AddinEntry] 2026-02-13 12:00:54 | LanzarActualizador llamado desde script.py.
+[AddinEntry] 2026-02-13 12:00:54 | ExEvent.Raise() será llamado.
+[AddinEntry] 2026-02-13 12:00:54 | ExEvent.Raise() llamado correctamente.
+[script.py] 2026-02-13 12:00:54 | AddinEntry.LanzarActualizador() ejecutado sin excepción.
+[script.py] 2026-02-13 12:02:55 | script.py iniciado (modo assembly ya cargado).
+[script.py] 2026-02-13 12:02:55 | Intentando clr.AddReference("RevitBatchUpdater")...
+[script.py] 2026-02-13 12:02:55 | Referencia a RevitBatchUpdater obtenida correctamente.
+[script.py] 2026-02-13 12:02:55 | Import AddinEntry OK.
+[script.py] 2026-02-13 12:02:55 | Llamando AddinEntry.LanzarActualizador()...
+[AddinEntry] 2026-02-13 12:02:55 | LanzarActualizador llamado desde script.py.
+[AddinEntry] 2026-02-13 12:02:55 | ExEvent.Raise() será llamado.
+[AddinEntry] 2026-02-13 12:02:55 | ExEvent.Raise() llamado correctamente.
+[script.py] 2026-02-13 12:02:55 | AddinEntry.LanzarActualizador() ejecutado sin excepción.
+[AddinEntry] 2026-02-14 11:08:33 | OnShutdown iniciado.
+[AddinEntry] 2026-02-14 11:08:33 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-02-14 11:08:33 | Handler puesto a null.
+[AddinEntry] 2026-02-14 11:08:33 | OnShutdown finalizado OK.
+[AddinEntry] 2026-02-27 09:54:26 | OnStartup iniciado.
+[AddinEntry] 2026-02-27 09:54:26 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-02-27 09:54:26 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-02-27 09:54:26 | OnStartup finalizado OK.
+[AddinEntry] 2026-02-27 09:58:41 | OnShutdown iniciado.
+[AddinEntry] 2026-02-27 09:58:41 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-02-27 09:58:41 | Handler puesto a null.
+[AddinEntry] 2026-02-27 09:58:41 | OnShutdown finalizado OK.
+[AddinEntry] 2026-03-02 08:58:56 | OnStartup iniciado.
+[AddinEntry] 2026-03-02 08:58:56 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-02 08:58:56 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-02 08:58:56 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-02 08:58:56 | OnStartup iniciado.
+[AddinEntry] 2026-03-02 08:58:56 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-02 08:58:56 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-02 08:58:56 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-02 08:59:41 | OnStartup iniciado.
+[AddinEntry] 2026-03-02 08:59:41 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-02 08:59:41 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-02 08:59:41 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-02 09:04:21 | OnStartup iniciado.
+[AddinEntry] 2026-03-02 09:04:21 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-02 09:04:21 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-02 09:04:21 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-02 09:29:30 | OnShutdown iniciado.
+[AddinEntry] 2026-03-02 09:29:30 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-03-02 09:29:30 | Handler puesto a null.
+[AddinEntry] 2026-03-02 09:29:30 | OnShutdown finalizado OK.
+[AddinEntry] 2026-03-02 09:29:48 | OnShutdown iniciado.
+[AddinEntry] 2026-03-02 09:29:48 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-03-02 09:29:48 | Handler puesto a null.
+[AddinEntry] 2026-03-02 09:29:48 | OnShutdown finalizado OK.
+[AddinEntry] 2026-03-02 09:52:18 | OnStartup iniciado.
+[AddinEntry] 2026-03-02 09:52:18 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-02 09:52:18 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-02 09:52:18 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-03 08:42:43 | OnStartup iniciado.
+[AddinEntry] 2026-03-03 08:42:43 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-03 08:42:43 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-03 08:42:43 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-03 08:44:17 | OnShutdown iniciado.
+[AddinEntry] 2026-03-03 08:44:17 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-03-03 08:44:17 | Handler puesto a null.
+[AddinEntry] 2026-03-03 08:44:17 | OnShutdown finalizado OK.
+[AddinEntry] 2026-03-04 12:08:47 | OnStartup iniciado.
+[AddinEntry] 2026-03-04 12:08:47 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-04 12:08:47 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-04 12:08:47 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-04 12:15:31 | OnStartup iniciado.
+[AddinEntry] 2026-03-04 12:15:31 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-04 12:15:31 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-04 12:15:31 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-04 21:39:23 | OnShutdown iniciado.
+[AddinEntry] 2026-03-04 21:39:23 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-03-04 21:39:23 | Handler puesto a null.
+[AddinEntry] 2026-03-04 21:39:23 | OnShutdown finalizado OK.
+[AddinEntry] 2026-03-04 21:39:39 | OnShutdown iniciado.
+[AddinEntry] 2026-03-04 21:39:39 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-03-04 21:39:39 | Handler puesto a null.
+[AddinEntry] 2026-03-04 21:39:39 | OnShutdown finalizado OK.
+[AddinEntry] 2026-03-05 14:58:09 | OnStartup iniciado.
+[AddinEntry] 2026-03-05 14:58:09 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-05 14:58:09 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-05 14:58:09 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-05 15:00:11 | OnStartup iniciado.
+[AddinEntry] 2026-03-05 15:00:11 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-05 15:00:11 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-05 15:00:11 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-06 08:43:16 | OnStartup iniciado.
+[AddinEntry] 2026-03-06 08:43:16 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-06 08:43:16 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-06 08:43:16 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-06 12:15:48 | OnStartup iniciado.
+[AddinEntry] 2026-03-06 12:15:48 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-06 12:15:48 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-06 12:15:48 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-08 20:02:03 | OnShutdown iniciado.
+[AddinEntry] 2026-03-08 20:02:03 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-03-08 20:02:03 | Handler puesto a null.
+[AddinEntry] 2026-03-08 20:02:03 | OnShutdown finalizado OK.
+[AddinEntry] 2026-03-09 12:09:02 | OnStartup iniciado.
+[AddinEntry] 2026-03-09 12:09:02 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-09 12:09:02 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-09 12:09:02 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-09 22:35:58 | OnShutdown iniciado.
+[AddinEntry] 2026-03-09 22:35:58 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-03-09 22:35:58 | Handler puesto a null.
+[AddinEntry] 2026-03-09 22:35:58 | OnShutdown finalizado OK.
+[AddinEntry] 2026-03-10 08:23:24 | OnStartup iniciado.
+[AddinEntry] 2026-03-10 08:23:24 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-10 08:23:24 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-10 08:23:24 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-10 09:09:18 | OnShutdown iniciado.
+[AddinEntry] 2026-03-10 09:09:18 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-03-10 09:09:18 | Handler puesto a null.
+[AddinEntry] 2026-03-10 09:09:18 | OnShutdown finalizado OK.
+[AddinEntry] 2026-03-10 16:25:00 | OnShutdown iniciado.
+[AddinEntry] 2026-03-10 16:25:00 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-03-10 16:25:00 | Handler puesto a null.
+[AddinEntry] 2026-03-10 16:25:00 | OnShutdown finalizado OK.
+[AddinEntry] 2026-03-10 16:36:18 | OnShutdown iniciado.
+[AddinEntry] 2026-03-10 16:36:18 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-03-10 16:36:18 | Handler puesto a null.
+[AddinEntry] 2026-03-10 16:36:18 | OnShutdown finalizado OK.
+[AddinEntry] 2026-03-16 20:22:35 | OnStartup iniciado.
+[AddinEntry] 2026-03-16 20:22:35 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-16 20:22:35 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-16 20:22:35 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-17 17:35:57 | OnStartup iniciado.
+[AddinEntry] 2026-03-17 17:35:57 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-17 17:35:57 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-17 17:35:57 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-17 22:06:55 | OnStartup iniciado.
+[AddinEntry] 2026-03-17 22:06:55 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-17 22:06:55 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-17 22:06:55 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-17 22:47:48 | OnStartup iniciado.
+[AddinEntry] 2026-03-17 22:47:48 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-17 22:47:48 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-17 22:47:48 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-18 11:40:41 | OnStartup iniciado.
+[AddinEntry] 2026-03-18 11:40:41 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-18 11:40:41 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-18 11:40:41 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-18 12:04:13 | OnStartup iniciado.
+[AddinEntry] 2026-03-18 12:04:13 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-18 12:04:13 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-18 12:04:13 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-18 23:18:41 | OnShutdown iniciado.
+[AddinEntry] 2026-03-18 23:18:41 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-03-18 23:18:41 | Handler puesto a null.
+[AddinEntry] 2026-03-18 23:18:41 | OnShutdown finalizado OK.
+[AddinEntry] 2026-03-18 23:20:12 | OnStartup iniciado.
+[AddinEntry] 2026-03-18 23:20:12 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-18 23:20:12 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-18 23:20:12 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-18 23:43:04 | OnStartup iniciado.
+[AddinEntry] 2026-03-18 23:43:04 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-18 23:43:04 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-18 23:43:04 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-18 23:51:13 | OnStartup iniciado.
+[AddinEntry] 2026-03-18 23:51:13 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-18 23:51:13 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-18 23:51:13 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-19 23:29:06 | OnShutdown iniciado.
+[AddinEntry] 2026-03-19 23:29:06 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-03-19 23:29:06 | Handler puesto a null.
+[AddinEntry] 2026-03-19 23:29:06 | OnShutdown finalizado OK.
+[AddinEntry] 2026-03-20 09:58:28 | OnShutdown iniciado.
+[AddinEntry] 2026-03-20 09:58:28 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-03-20 09:58:28 | Handler puesto a null.
+[AddinEntry] 2026-03-20 09:58:28 | OnShutdown finalizado OK.
+[AddinEntry] 2026-03-24 09:23:12 | OnStartup iniciado.
+[AddinEntry] 2026-03-24 09:23:12 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-24 09:23:12 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-24 09:23:12 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-24 09:32:55 | OnStartup iniciado.
+[AddinEntry] 2026-03-24 09:32:55 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-24 09:32:55 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-24 09:32:55 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-24 09:53:51 | OnShutdown iniciado.
+[AddinEntry] 2026-03-24 09:53:51 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-03-24 09:53:51 | Handler puesto a null.
+[AddinEntry] 2026-03-24 09:53:51 | OnShutdown finalizado OK.
+[AddinEntry] 2026-03-24 10:40:37 | OnStartup iniciado.
+[AddinEntry] 2026-03-24 10:40:37 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-24 10:40:37 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-24 10:40:37 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-24 20:46:06 | OnShutdown iniciado.
+[AddinEntry] 2026-03-24 20:46:06 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-03-24 20:46:06 | Handler puesto a null.
+[AddinEntry] 2026-03-24 20:46:06 | OnShutdown finalizado OK.
+[AddinEntry] 2026-03-24 20:46:15 | OnShutdown iniciado.
+[AddinEntry] 2026-03-24 20:46:15 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-03-24 20:46:15 | Handler puesto a null.
+[AddinEntry] 2026-03-24 20:46:15 | OnShutdown finalizado OK.
+[AddinEntry] 2026-03-25 11:24:28 | OnStartup iniciado.
+[AddinEntry] 2026-03-25 11:24:28 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-25 11:24:28 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-25 11:24:28 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-25 11:26:25 | OnStartup iniciado.
+[AddinEntry] 2026-03-25 11:26:25 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-25 11:26:25 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-25 11:26:25 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-25 11:30:34 | OnStartup iniciado.
+[AddinEntry] 2026-03-25 11:30:34 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-25 11:30:34 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-25 11:30:34 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-25 16:51:12 | OnShutdown iniciado.
+[AddinEntry] 2026-03-25 16:51:12 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-03-25 16:51:12 | Handler puesto a null.
+[AddinEntry] 2026-03-25 16:51:12 | OnShutdown finalizado OK.
+[AddinEntry] 2026-03-26 12:11:35 | OnStartup iniciado.
+[AddinEntry] 2026-03-26 12:11:35 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-26 12:11:35 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-26 12:11:35 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-26 21:15:18 | OnStartup iniciado.
+[AddinEntry] 2026-03-26 21:15:18 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-26 21:15:18 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-26 21:15:18 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-26 22:19:34 | OnStartup iniciado.
+[AddinEntry] 2026-03-26 22:19:34 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-26 22:19:34 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-26 22:19:34 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-26 22:44:55 | OnStartup iniciado.
+[AddinEntry] 2026-03-26 22:44:55 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-26 22:44:55 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-26 22:44:55 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-26 23:08:57 | OnShutdown iniciado.
+[AddinEntry] 2026-03-26 23:08:57 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-03-26 23:08:57 | Handler puesto a null.
+[AddinEntry] 2026-03-26 23:08:57 | OnShutdown finalizado OK.
+[AddinEntry] 2026-03-26 23:09:18 | OnStartup iniciado.
+[AddinEntry] 2026-03-26 23:09:18 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-26 23:09:18 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-26 23:09:18 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-26 23:41:55 | OnShutdown iniciado.
+[AddinEntry] 2026-03-26 23:41:55 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-03-26 23:41:55 | Handler puesto a null.
+[AddinEntry] 2026-03-26 23:41:55 | OnShutdown finalizado OK.
+[AddinEntry] 2026-03-27 00:36:21 | OnStartup iniciado.
+[AddinEntry] 2026-03-27 00:36:21 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-27 00:36:21 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-27 00:36:21 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-27 00:38:41 | OnShutdown iniciado.
+[AddinEntry] 2026-03-27 00:38:41 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-03-27 00:38:41 | Handler puesto a null.
+[AddinEntry] 2026-03-27 00:38:41 | OnShutdown finalizado OK.
+[AddinEntry] 2026-03-27 00:39:07 | OnStartup iniciado.
+[AddinEntry] 2026-03-27 00:39:07 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-27 00:39:07 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-27 00:39:07 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-27 01:27:30 | OnShutdown iniciado.
+[AddinEntry] 2026-03-27 01:27:30 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-03-27 01:27:30 | Handler puesto a null.
+[AddinEntry] 2026-03-27 01:27:30 | OnShutdown finalizado OK.
+[AddinEntry] 2026-03-27 08:29:32 | OnShutdown iniciado.
+[AddinEntry] 2026-03-27 08:29:32 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-03-27 08:29:32 | Handler puesto a null.
+[AddinEntry] 2026-03-27 08:29:32 | OnShutdown finalizado OK.
+[AddinEntry] 2026-03-27 08:30:55 | OnShutdown iniciado.
+[AddinEntry] 2026-03-27 08:30:55 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-03-27 08:30:55 | Handler puesto a null.
+[AddinEntry] 2026-03-27 08:30:55 | OnShutdown finalizado OK.
+[AddinEntry] 2026-03-27 08:31:54 | OnStartup iniciado.
+[AddinEntry] 2026-03-27 08:31:54 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-27 08:31:54 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-27 08:31:54 | OnStartup finalizado OK.
+[script.py] 2026-03-27 09:05:31 | script.py iniciado (modo assembly ya cargado).
+[script.py] 2026-03-27 09:05:31 | Intentando clr.AddReference("RevitBatchUpdater")...
+[script.py] 2026-03-27 09:05:31 | Referencia a RevitBatchUpdater obtenida correctamente.
+[script.py] 2026-03-27 09:05:31 | Import AddinEntry OK.
+[script.py] 2026-03-27 09:05:31 | Llamando AddinEntry.LanzarActualizador()...
+[AddinEntry] 2026-03-27 09:05:31 | LanzarActualizador llamado desde script.py.
+[AddinEntry] 2026-03-27 09:05:31 | ExEvent.Raise() será llamado.
+[AddinEntry] 2026-03-27 09:05:31 | ExEvent.Raise() llamado correctamente.
+[script.py] 2026-03-27 09:05:31 | AddinEntry.LanzarActualizador() ejecutado sin excepción.
+[BatchUpdateHandler] 2026-03-27 09:05:34 | Execute iniciado.
+[BatchUpdateHandler] 2026-03-27 09:05:34 | Execute: documento host=BDATx_SSEE_TRINIDAD
+[BatchUpdateHandler] 2026-03-27 09:05:34 | GetConfigPath: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\config_proyecto_activo.json
+[BatchUpdateHandler] 2026-03-27 09:05:34 | ResolverRutaBDDesdeConfig: config leído, longitud 229
+[BatchUpdateHandler] 2026-03-27 09:05:34 | ResolverRutaBDDesdeConfig: ruta_repositorio_activo=C:\Users\Zbook HP\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\repositorio_datos_NUP 1111.json
+[BatchUpdateHandler] 2026-03-27 09:05:34 | ResolverRutaBDDesdeConfig: nombreBD extraído=repositorio_datos_NUP 1111.json
+[BatchUpdateHandler] 2026-03-27 09:05:34 | ResolverRutaBDDesdeConfig: bdPath final (forzado a dataDir)=C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\repositorio_datos_NUP 1111.json
+[BatchUpdateHandler] 2026-03-27 09:05:34 | CargarEntradasBD: leyendo C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\repositorio_datos_NUP 1111.json
+[BatchUpdateHandler] 2026-03-27 09:05:34 | CargarEntradasBD: longitud JSON 3397
+[BatchUpdateHandler] 2026-03-27 09:05:34 | CargarEntradasBD: entradas totales 2
+[BatchUpdateHandler] 2026-03-27 09:05:34 | Execute: llamando ActualizarArchivosExternos (modo sólo Archivo/ElementId).
+[BatchUpdateHandler] 2026-03-27 09:05:34 | ActualizarArchivosExternos: inicio.
+[BatchUpdateHandler] 2026-03-27 09:05:34 | ActualizarArchivosExternos: procesando archivo='D:\SAESA\1.-PROYECTOS\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\2.-DESARROLLO\MODELOS ACC\20260204_actualizados\03.2.10.5 EE- INGENIERIA ELECTROMECANICA\DISP. EQUIPOS.rvt'.
+[BatchUpdateHandler] 2026-03-27 09:05:34 | ActualizarArchivosExternos: objetosParaActualizar=2 para D:\SAESA\1.-PROYECTOS\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\2.-DESARROLLO\MODELOS ACC\20260204_actualizados\03.2.10.5 EE- INGENIERIA ELECTROMECANICA\DISP. EQUIPOS.rvt.
+[BatchUpdateHandler] 2026-03-27 09:05:34 | ActualizarArchivoRvt: inicio para D:\SAESA\1.-PROYECTOS\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\2.-DESARROLLO\MODELOS ACC\20260204_actualizados\03.2.10.5 EE- INGENIERIA ELECTROMECANICA\DISP. EQUIPOS.rvt.
+[BatchUpdateHandler] 2026-03-27 09:05:34 | ActualizarArchivoRvt: documento abierto 'DISP. EQUIPOS', objetos=2.
+[BatchUpdateHandler] 2026-03-27 09:05:34 | EXCEPCION en ActualizarArchivoRvt (archivo D:\SAESA\1.-PROYECTOS\1.- SUBESTACION TRINIDAD_FELIPE OLIVOS\2.-DESARROLLO\MODELOS ACC\20260204_actualizados\03.2.10.5 EE- INGENIERIA ELECTROMECANICA\DISP. EQUIPOS.rvt): Autodesk.Revit.Exceptions.ArgumentException: Document is a linked file. Transactions can only be used in primary documents (projects or families.)
+Parameter name: document
+   at ?A0x55fdfb9c.TransactionProxy_constructor(Document document, String name)
+   at Autodesk.Revit.DB.Transaction..ctor(Document document, String name)
+   at RevitBatchUpdater.BatchUpdateHandler.ActualizarArchivoRvt(String filePath, List`1 objetosParaActualizar)
+[BatchUpdateHandler] 2026-03-27 09:05:34 | EXCEPCION en ActualizarArchivosExternos: System.NotImplementedException: The method or operation is not implemented.
+   at System.Windows.MessageBox.Show(String v1, String v2)
+   at RevitBatchUpdater.BatchUpdateHandler.ActualizarArchivoRvt(String filePath, List`1 objetosParaActualizar)
+   at RevitBatchUpdater.BatchUpdateHandler.ActualizarArchivosExternos(String bdPath, List`1 entradas)
+[BatchUpdateHandler] 2026-03-27 09:05:34 | EXCEPCION en Execute: System.NotImplementedException: The method or operation is not implemented.
+   at System.Windows.MessageBox.Show(String v1, String v2)
+   at RevitBatchUpdater.BatchUpdateHandler.ActualizarArchivosExternos(String bdPath, List`1 entradas)
+   at RevitBatchUpdater.BatchUpdateHandler.Execute(UIApplication uiapp)
+[BatchUpdateHandler] 2026-03-27 09:05:34 | Execute finalizado.
+[AddinEntry] 2026-03-27 10:58:11 | OnStartup iniciado.
+[AddinEntry] 2026-03-27 10:58:11 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-27 10:58:11 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-27 10:58:11 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-27 11:51:39 | OnStartup iniciado.
+[AddinEntry] 2026-03-27 11:51:39 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-27 11:51:39 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-27 11:51:39 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-28 21:49:50 | OnStartup iniciado.
+[AddinEntry] 2026-03-28 21:49:50 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-28 21:49:50 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-28 21:49:50 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-28 21:56:08 | OnShutdown iniciado.
+[AddinEntry] 2026-03-28 21:56:08 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-03-28 21:56:08 | Handler puesto a null.
+[AddinEntry] 2026-03-28 21:56:08 | OnShutdown finalizado OK.
+[AddinEntry] 2026-03-29 13:56:03 | OnStartup iniciado.
+[AddinEntry] 2026-03-29 13:56:03 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-29 13:56:03 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-29 13:56:03 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-29 14:50:56 | OnShutdown iniciado.
+[AddinEntry] 2026-03-29 14:50:56 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-03-29 14:50:56 | Handler puesto a null.
+[AddinEntry] 2026-03-29 14:50:56 | OnShutdown finalizado OK.
+[AddinEntry] 2026-03-29 17:26:06 | OnStartup iniciado.
+[AddinEntry] 2026-03-29 17:26:06 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-29 17:26:06 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-29 17:26:06 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-29 17:37:37 | OnStartup iniciado.
+[AddinEntry] 2026-03-29 17:37:37 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-29 17:37:37 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-29 17:37:37 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-29 22:23:00 | OnStartup iniciado.
+[AddinEntry] 2026-03-29 22:23:00 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-29 22:23:00 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-29 22:23:00 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-30 08:55:00 | OnShutdown iniciado.
+[AddinEntry] 2026-03-30 08:55:00 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-03-30 08:55:00 | Handler puesto a null.
+[AddinEntry] 2026-03-30 08:55:00 | OnShutdown finalizado OK.
+[AddinEntry] 2026-03-30 09:00:30 | OnStartup iniciado.
+[AddinEntry] 2026-03-30 09:00:30 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-03-30 09:00:30 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-03-30 09:00:30 | OnStartup finalizado OK.
+[AddinEntry] 2026-03-31 08:48:45 | OnShutdown iniciado.
+[AddinEntry] 2026-03-31 08:48:45 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-03-31 08:48:45 | Handler puesto a null.
+[AddinEntry] 2026-03-31 08:48:45 | OnShutdown finalizado OK.
+[AddinEntry] 2026-04-02 13:34:29 | OnStartup iniciado.
+[AddinEntry] 2026-04-02 13:34:29 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-04-02 13:34:29 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-04-02 13:34:29 | OnStartup finalizado OK.
+[AddinEntry] 2026-04-02 13:47:32 | OnStartup iniciado.
+[AddinEntry] 2026-04-02 13:47:32 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-04-02 13:47:32 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-04-02 13:47:32 | OnStartup finalizado OK.
+[AddinEntry] 2026-04-02 14:16:50 | OnShutdown iniciado.
+[AddinEntry] 2026-04-02 14:16:50 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-04-02 14:16:50 | Handler puesto a null.
+[AddinEntry] 2026-04-02 14:16:50 | OnShutdown finalizado OK.
+[AddinEntry] 2026-04-02 14:19:49 | OnStartup iniciado.
+[AddinEntry] 2026-04-02 14:19:49 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-04-02 14:19:49 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-04-02 14:19:49 | OnStartup finalizado OK.
+[AddinEntry] 2026-04-02 15:01:01 | OnStartup iniciado.
+[AddinEntry] 2026-04-02 15:01:01 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-04-02 15:01:01 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-04-02 15:01:01 | OnStartup finalizado OK.
+[AddinEntry] 2026-04-02 16:26:59 | OnStartup iniciado.
+[AddinEntry] 2026-04-02 16:26:59 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-04-02 16:26:59 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-04-02 16:26:59 | OnStartup finalizado OK.
