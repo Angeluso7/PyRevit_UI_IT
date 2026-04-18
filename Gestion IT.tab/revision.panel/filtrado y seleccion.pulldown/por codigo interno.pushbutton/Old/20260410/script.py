@@ -43,7 +43,6 @@ import subprocess
 import clr
 import time
 from pyrevit import forms
-from System.Collections.Generic import List
 
 clr.AddReference("RevitAPI")
 from Autodesk.Revit.DB import (
@@ -55,9 +54,6 @@ from Autodesk.Revit.DB import (
     ParameterFilterRuleFactory,
     ElementParameterFilter,
     ElementId,
-    Category,
-    BuiltInCategory,
-    LogicalAndFilter,
 )
 
 
@@ -248,60 +244,7 @@ def get_param_id_by_name(doc_local, param_name):
             break
     return param_id
 
-def get_filter_by_name(doc_local, filter_name):
-    for f in FilteredElementCollector(doc_local).OfClass(ParameterFilterElement):
-        if f.Name == filter_name:
-            return f
-    return None
 
-
-def get_filter_category_ids(filter_elem):
-    try:
-        return list(filter_elem.GetCategories())
-    except Exception:
-        return []
-
-
-def get_sample_element_for_category(doc_local, category_id):
-    try:
-        for el in FilteredElementCollector(doc_local).WhereElementIsNotElementType():
-            try:
-                if el.Category and el.Category.Id.IntegerValue == category_id.IntegerValue:
-                    return el
-            except Exception:
-                pass
-    except Exception:
-        pass
-    return None
-
-
-def category_has_parameter(doc_local, category_id, param_name):
-    el = get_sample_element_for_category(doc_local, category_id)
-    if el is None:
-        return False
-    try:
-        p = el.LookupParameter(param_name)
-        return p is not None
-    except Exception:
-        return False
-
-
-def split_valid_invalid_categories(doc_local, filter_elem, param_name):
-    valid_ids = []
-    invalid_names = []
-
-    for cat_id in get_filter_category_ids(filter_elem):
-        if category_has_parameter(doc_local, cat_id, param_name):
-            valid_ids.append(cat_id)
-        else:
-            try:
-                cat = Category.GetCategory(doc_local, cat_id)
-                invalid_names.append(cat.Name if cat else str(cat_id.IntegerValue))
-            except Exception:
-                invalid_names.append(str(cat_id.IntegerValue))
-
-    return valid_ids, invalid_names
-    
 # -------------------------------------------------------
 # Lógica renglón 2 (Asignados / No asignados) c_cod_int / s_cod_int
 # -------------------------------------------------------
@@ -380,59 +323,14 @@ def modificar_filtros_codint(doc_local, nombres_filtros, valor_codint, nombre_pa
 
     filtro_x_id = None
     filtro_y_id = None
-    mensajes = []
 
     with Transaction(doc_local, "Modificar reglas filtros f_element_x / f_element_y") as t:
         t.Start()
-
         for filtro_obj in filtros_encontrados:
-            categorias_validas, categorias_invalidas = split_valid_invalid_categories(
-                doc_local, filtro_obj, nombre_parametro
-            )
-
-            if categorias_invalidas:
-                mensajes.append(
-                    u"Filtro '{}': se excluyeron categorías incompatibles con {}: {}".format(
-                        filtro_obj.Name,
-                        nombre_parametro,
-                        ", ".join(categorias_invalidas)
-                    )
-                )
-
-            if not categorias_validas:
-                mensajes.append(
-                    u"Filtro '{}': no quedó ninguna categoría válida para '{}'.".format(
-                        filtro_obj.Name, nombre_parametro
-                    )
-                )
-                continue
-
-            try:
-                filtro_obj.SetCategories(List[ElementId](categorias_validas))
-            except Exception:
-                try:
-                    from System.Collections.Generic import List
-                    lista_ids = List[ElementId]()
-                    for cid in categorias_validas:
-                        lista_ids.Add(cid)
-                    filtro_obj.SetCategories(lista_ids)
-                except Exception as e:
-                    mensajes.append(
-                        u"No se pudieron reasignar categorías al filtro '{}': {}".format(
-                            filtro_obj.Name, e
-                        )
-                    )
-                    continue
-
             if filtro_obj.Name == "f_element_x":
-                try:
-                    regla_nueva = ParameterFilterRuleFactory.CreateEqualsRule(
-                        param_id, valor_codint, False
-                    )
-                except Exception:
-                    regla_nueva = ParameterFilterRuleFactory.CreateEqualsRule(
-                        param_id, valor_codint
-                    )
+                regla_nueva = ParameterFilterRuleFactory.CreateEqualsRule(
+                    param_id, valor_codint, False
+                )
                 filtro_x_id = filtro_obj.Id
             else:
                 regla_nueva = ParameterFilterRuleFactory.CreateNotEqualsRule(
@@ -440,23 +338,10 @@ def modificar_filtros_codint(doc_local, nombres_filtros, valor_codint, nombre_pa
                 )
                 filtro_y_id = filtro_obj.Id
 
-            try:
-                filtro_nuevo = ElementParameterFilter(regla_nueva)
-                filtro_obj.SetElementFilter(filtro_nuevo)
-            except Exception as e:
-                mensajes.append(
-                    u"No se pudo actualizar la regla del filtro '{}': {}".format(
-                        filtro_obj.Name, e
-                    )
-                )
+            filtro_nuevo = ElementParameterFilter(regla_nueva)
+            filtro_obj.SetElementFilter(filtro_nuevo)
 
         t.Commit()
-
-    if mensajes:
-        forms.alert("\n\n".join(mensajes), title="Validación de filtros")
-
-    if filtro_x_id is None or filtro_y_id is None:
-        return None, None
 
     return filtro_x_id, filtro_y_id
 

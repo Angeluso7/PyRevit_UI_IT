@@ -40,5 +40,33 @@
     "estado": "En Operación",
     "comuna": "Marchigüe",
     "descripcion": "Estación en operación en este momento."
+  },
+  "CNE.OF.ORD. N 569-2020": {
+    "Decreto": "CNE.OF.ORD. N 569-2020",
+    "nombre_proyecto": "S/E RECOLETA",
+    "ruta_repositorio": "C:\\Users\\Zbook HP\\AppData\\\\Roaming\\\\MyPyRevitExtention\\\\PyRevitIT.extension\\\\data\\repositorio_datos_CNE.OF.ORD. N 569-2020.json",
+    "documentos": {
+      "24069-ISEP-AR1-ZZZ-FE-GE-D-007.rvt": "e244c3ba-d6e8-531a-9d46-2932a15132b1",
+      "24069-ISEP-AR1-ZZZ-DO-EE-D-001.rvt": "81c0458f-52ee-5945-9802-ae7e398c9892",
+      "24069-ISEP-AR1-ZZZ-FE-EE-B-008.rvt": "8d9c6edb-6c2e-5309-b5c1-1af24a9d3404",
+      "24069-ISEP-AR1-ZZZ-MS-EE-D-004.rvt": "1cb1a905-605a-501d-90df-310c2d77aaed",
+      "24069-ISEP-AR1-ZZZ-FD-CI-D-001.rvt": "fe1f19f4-5cfc-5c60-83f5-e233f1a91d09",
+      "24069-ISEP-AR1-ZZZ-DO-EE-D-003.rvt": "57be0bf7-8e94-5e91-8d93-ddcd3bc46a23",
+      "24069-ISEP-AR1-ZZZ-CP-EE-D-002.rvt": "58c5833a-4673-57a0-a70e-3b33c2511457",
+      "24069-ISEP-AR1-ZZZ-CM-EE-D-005.rvt": "1afaef21-22c5-549d-ad2f-c3bb856f969d",
+      "24069-ISEP-AR1-ZZZ-CS-CI-D-004.rvt": "01daa844-6e40-50aa-a89a-10136d3a2cc6",
+      "24069-ISEP-AR1-ZZZ-EA-CI-D-003.rvt": "b1224f7a-26b1-54dc-b8a3-5af01b37c26b",
+      "24069-ISEP-AR1-ZZZ-EB-CI-D-002.rvt": "9ac971a3-ffce-5fd2-aafe-e2ef29ee2c5a",
+      "24069-ISEP-AR1-ZZZ-MQ-CI-D-010.rvt": "a6a75ee3-81a8-5c44-8c57-e831295a365e",
+      "24069-ISEP-AR1-ZZZ-AG-EE-D-003.rvt": "6b156af0-8ebe-5e79-a0f6-d08b4ae187cb"
+    },
+    "tipo_codigo": "CM01",
+    "tipo_texto": "Subestaciones",
+    "fecha_entrada": "2005/09/01",
+    "fecha_salida": "",
+    "propietario": "SOCIEDAD TRANSMISORA METROPOLITANA S.A.",
+    "estado": "En Operación",
+    "comuna": "",
+    "descripcion": "Verificación de elementos por UI IT."
   }
 }
