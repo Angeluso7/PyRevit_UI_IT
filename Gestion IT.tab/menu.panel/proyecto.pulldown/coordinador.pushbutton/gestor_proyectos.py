@@ -20,6 +20,9 @@ MASTER_DIR contiene:
 
 Las BD por proyecto se guardan en:
 - data/proyectos/repositorio_datos_<NUP>.json
+
+Estilo: sv-ttk dark (Sun Valley theme).
+  pip install sv-ttk
 """
 
 import sys
@@ -28,6 +31,12 @@ import json
 import tkinter as tk
 from tkinter import ttk, messagebox
 from datetime import datetime
+
+try:
+    import sv_ttk
+    _HAS_SV_TTK = True
+except ImportError:
+    _HAS_SV_TTK = False
 
 
 # ----------------- Utilidades -----------------
@@ -57,10 +66,6 @@ def guardar_json(ruta, data):
 
 
 def merge_documentos(existentes, nuevos):
-    """
-    Combina GUIDs de documentos sin borrar los de sesiones/equipos anteriores.
-    Agrega o actualiza, pero NUNCA elimina claves que ya existian.
-    """
     resultado = dict(existentes)
     for nombre, uid in nuevos.items():
         if uid:
@@ -74,10 +79,7 @@ class GestorProyectosApp:
         self.root       = root
         self.master_dir = master_dir
 
-        # data/ es el padre de master/
         self.data_dir = os.path.dirname(master_dir)
-
-        # data/proyectos/ es donde viven las BD por proyecto
         self.proyectos_dir = os.path.join(self.data_dir, "proyectos")
         if not os.path.exists(self.proyectos_dir):
             os.makedirs(self.proyectos_dir)
@@ -111,34 +113,33 @@ class GestorProyectosApp:
         self.root.title("Gestor de Proyectos")
         self.root.geometry("540x460")
         self.root.minsize(480, 400)
-
         self.root.columnconfigure(0, weight=1)
         self.root.rowconfigure(0, weight=1)
 
-        main_frame = ttk.Frame(self.root, padding=10)
+        main_frame = ttk.Frame(self.root, padding=14)
         main_frame.grid(row=0, column=0, sticky="nsew")
         main_frame.columnconfigure(1, weight=1)
 
         ttk.Label(main_frame, text="Decreto:").grid(
-            row=0, column=0, sticky="w", pady=(0, 5))
+            row=0, column=0, sticky="w", pady=(0, 6))
         self.entry_nup = ttk.Entry(main_frame)
-        self.entry_nup.grid(row=0, column=1, sticky="ew", pady=(0, 5))
+        self.entry_nup.grid(row=0, column=1, sticky="ew", pady=(0, 6))
 
         ttk.Label(main_frame, text="Nombre de Proyecto:").grid(
-            row=1, column=0, sticky="w", pady=(0, 5))
+            row=1, column=0, sticky="w", pady=(0, 6))
         self.entry_nombre = ttk.Entry(main_frame)
-        self.entry_nombre.grid(row=1, column=1, sticky="ew", pady=(0, 5))
+        self.entry_nombre.grid(row=1, column=1, sticky="ew", pady=(0, 6))
 
         ttk.Label(main_frame, text="Modelo abierto:").grid(
-            row=2, column=0, sticky="w", pady=(0, 5))
+            row=2, column=0, sticky="w", pady=(0, 6))
         txt_modelo = self.doc_activo_nombre if self.doc_activo_nombre else "(desconocido)"
-        ttk.Label(main_frame, text=txt_modelo, foreground="#555").grid(
-            row=2, column=1, sticky="w", pady=(0, 5))
+        ttk.Label(main_frame, text=txt_modelo).grid(
+            row=2, column=1, sticky="w", pady=(0, 6))
 
         ttk.Label(main_frame, text="Proyecto activo:").grid(
-            row=3, column=0, sticky="w", pady=(0, 5))
+            row=3, column=0, sticky="w", pady=(0, 6))
         self.label_activo_valor = ttk.Label(main_frame, text="-")
-        self.label_activo_valor.grid(row=3, column=1, sticky="w", pady=(0, 5))
+        self.label_activo_valor.grid(row=3, column=1, sticky="w", pady=(0, 6))
 
         ttk.Separator(main_frame, orient="horizontal").grid(
             row=4, column=0, columnspan=2, sticky="ew", pady=10)
@@ -167,11 +168,11 @@ class GestorProyectosApp:
         self.frame_radios.rowconfigure(0, weight=1)
 
         btn_frame = ttk.Frame(main_frame)
-        btn_frame.grid(row=7, column=0, columnspan=2, sticky="e", pady=(10, 0))
+        btn_frame.grid(row=7, column=0, columnspan=2, sticky="e", pady=(12, 0))
 
-        ttk.Button(btn_frame, text="Eliminar",  command=self.on_eliminar).grid(row=0, column=0, padx=(0, 5))
-        ttk.Button(btn_frame, text="Editar",    command=self.on_editar).grid(row=0, column=1, padx=(0, 5))
-        ttk.Button(btn_frame, text="Cancelar",  command=self.on_cancelar).grid(row=0, column=2, padx=(0, 5))
+        ttk.Button(btn_frame, text="Eliminar",  command=self.on_eliminar).grid(row=0, column=0, padx=(0, 6))
+        ttk.Button(btn_frame, text="Editar",    command=self.on_editar).grid(row=0, column=1, padx=(0, 6))
+        ttk.Button(btn_frame, text="Cancelar",  command=self.on_cancelar).grid(row=0, column=2, padx=(0, 6))
         ttk.Button(btn_frame, text="Aceptar",   command=self.on_aceptar).grid(row=0, column=3)
 
     # ---------- Preseleccion por GUID ----------
@@ -218,7 +219,6 @@ class GestorProyectosApp:
 
     # ---------- Helper ruta repositorio ----------
     def _ruta_repositorio(self, nup):
-        """Devuelve la ruta canonica en data/proyectos/ para un NUP dado."""
         return os.path.join(self.proyectos_dir, "repositorio_datos_{}.json".format(nup))
 
     # ---------- Botones ----------
@@ -263,52 +263,41 @@ class GestorProyectosApp:
     def on_cancelar(self):
         self.root.destroy()
 
-    # ---------- Logica Aceptar ----------
     def on_aceptar(self):
         nup    = self.entry_nup.get().strip()
         nombre = self.entry_nombre.get().strip()
 
-        # --- 1) Eliminar ---
         if self.modo_eliminar:
             nup_sel = self.proyecto_seleccionado.get()
             if not nup_sel:
                 messagebox.showinfo("Informacion", "No hay proyecto seleccionado para eliminar.")
                 return
-
             nup_activo = self.config.get("nup_activo", "")
             if nup_sel == nup_activo:
                 messagebox.showwarning("Aviso", "No se puede eliminar el proyecto que esta activo.")
                 self.modo_eliminar = False
                 return
-
             info_sel = self.registro.get(nup_sel, {})
             confirmar = messagebox.askyesno(
                 "Confirmar eliminacion",
                 "Se eliminara el proyecto:\n\n"
                 "  Decreto: {}\n"
                 "  Nombre:  {}\n\n"
-                "Esta accion no se puede deshacer. ¿Continuar?".format(
-                    nup_sel,
-                    info_sel.get("nombre_proyecto", "")
-                )
+                "Esta accion no se puede deshacer. Continuar?".format(
+                    nup_sel, info_sel.get("nombre_proyecto", ""))
             )
             if not confirmar:
                 self.modo_eliminar = False
                 return
 
-            # Buscar el archivo en data/proyectos/ (ruta canonica)
             ruta_repo = self._ruta_repositorio(nup_sel)
-            # Fallback: ruta guardada en el registro (puede ser ruta legacy)
             if not os.path.exists(ruta_repo):
                 ruta_repo = info_sel.get("ruta_repositorio", "")
             if ruta_repo and os.path.exists(ruta_repo):
                 try:
                     os.remove(ruta_repo)
                 except Exception as e:
-                    messagebox.showwarning(
-                        "Aviso",
-                        "No se pudo eliminar el archivo de datos:\n{}\n{}".format(ruta_repo, e)
-                    )
+                    messagebox.showwarning("Aviso", "No se pudo eliminar el archivo:\n{}\n{}".format(ruta_repo, e))
 
             if nup_sel in self.registro:
                 del self.registro[nup_sel]
@@ -329,17 +318,13 @@ class GestorProyectosApp:
             self._refrescar_label_activo()
             return
 
-        # --- 2) Crear o actualizar proyecto ---
         if nup:
             nup_original = None
             if self.modo_edicion and self.proyecto_seleccionado.get():
                 nup_original = self.proyecto_seleccionado.get()
 
-            # Ruta canonica en data/proyectos/
             if nup_original and nup_original in self.registro:
-                # Edicion: si cambio el NUP, renombrar el archivo
                 vieja_ruta = self._ruta_repositorio(nup_original)
-                # Fallback a ruta legacy si el archivo canonico no existe
                 if not os.path.exists(vieja_ruta):
                     vieja_ruta = self.registro[nup_original].get("ruta_repositorio", "")
                 nueva_ruta = self._ruta_repositorio(nup)
@@ -351,12 +336,10 @@ class GestorProyectosApp:
                 elif not os.path.exists(nueva_ruta):
                     guardar_json(nueva_ruta, {})
             else:
-                # Proyecto nuevo: crear BD vacia en data/proyectos/
                 nueva_ruta = self._ruta_repositorio(nup)
                 if not os.path.exists(nueva_ruta):
                     guardar_json(nueva_ruta, {})
 
-            # Merge de GUIDs
             existentes = {}
             if nup_original and nup_original in self.registro:
                 existentes = self.registro[nup_original].get("documentos", {})
@@ -373,7 +356,6 @@ class GestorProyectosApp:
                         nuevos_docs[link.get("nombre", "Link")] = link["unique_id"]
 
             documentos_finales = merge_documentos(existentes, nuevos_docs)
-
             ahora = _now_iso()
             fecha_creacion = ahora
             if nup_original and nup_original in self.registro:
@@ -396,12 +378,10 @@ class GestorProyectosApp:
 
             if not guardar_json(self.registro_path, self.registro):
                 return
-
             nup_activo = nup
         else:
             nup_activo = self.proyecto_seleccionado.get()
 
-        # --- 3) Verificar GUID antes de activar ---
         if nup_activo and self.doc_activo_uid:
             info_check = self.registro.get(nup_activo, {})
             match = any(uid == self.doc_activo_uid for uid in info_check.get("documentos", {}).values())
@@ -412,7 +392,6 @@ class GestorProyectosApp:
                     "Verifica que estas trabajando en el proyecto correcto.".format(nup_activo)
                 )
 
-        # --- 4) Actualizar proyecto activo en config ---
         if nup_activo and nup_activo in self.registro:
             info = self.registro[nup_activo]
             cfg  = {
@@ -434,10 +413,7 @@ class GestorProyectosApp:
 # ----------------- main -----------------
 def main():
     if len(sys.argv) < 2:
-        messagebox.showerror(
-            "Error",
-            "Uso: gestor_proyectos.py <MASTER_DIR> [DOCS_INFO_JSON]"
-        )
+        messagebox.showerror("Error", "Uso: gestor_proyectos.py <MASTER_DIR> [DOCS_INFO_JSON]")
         return
 
     master_dir = sys.argv[1]
@@ -452,13 +428,14 @@ def main():
         try:
             os.makedirs(master_dir)
         except Exception as e:
-            messagebox.showerror(
-                "Error",
-                "No se pudo crear la carpeta de datos:\n{}\n{}".format(master_dir, e)
-            )
+            messagebox.showerror("Error", "No se pudo crear la carpeta:\n{}\n{}".format(master_dir, e))
             return
 
     root = tk.Tk()
+
+    if _HAS_SV_TTK:
+        sv_ttk.set_theme("dark")
+
     app  = GestorProyectosApp(root, master_dir, docs_info)
     root.mainloop()
 
