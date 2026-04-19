@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 __title__   = "Parametros por planilla"
-__doc__     = """Version = 1.1
+__doc__     = """Version = 1.2
 Date    = 19.04.2026
 ________________________________________________________________
 Description:
@@ -10,11 +10,13 @@ usando planillas y un repositorio JSON.
 
 ________________________________________________________________
 Last Updates:
+- [19.04.2026] v1.2  load_script_config tolerante; codigo zombie comentado;
+                     archivos runtime movidos a data/temp y data/cache.
 - [19.04.2026] v1.1  Rutas centralizadas via config.paths.
 ________________________________________________________________
 Author: Erik Frits + ajustes Angeluso"""
 
-# ╦╔╦╗╔═╗╔═╗╦═╗╔╦╗╔═╗
+# ╬╔╦╗╔═╗╔═╗╦═╗╔╦╗╔═╗
 # ║║║║╠═╝║ ║╠╦╝ ║ ╚═╗
 # ╩╩ ╩╩  ╚═╝╩╚═ ╩ ╚═╝
 #==================================================
@@ -37,7 +39,7 @@ from Autodesk.Revit.DB import (
     ViewSchedule,
 )
 
-# ╦  ╦╔═╗╦═╗╦╔═╗╔╗ ╦  ╔═╗╔═╗
+# ╬  ╬╔═╗╦═╗╦╔═╗╔╗ ╬  ╔═╗╔═╗
 # ╚╗╔╝╠═╣╠╦╝║╠═╣╠╩╗║  ║╣ ╚═╗
 #  ╚╝ ╩ ╩╩╚═╩╩ ╩╚═╝╩═╝╚═╝╚═╝
 #==================================================
@@ -49,7 +51,7 @@ doc   = uidoc.Document
 # ╩ ╩╩ ╩╩╝╚╝
 #==================================================
 
-# ── Rutas centralizadas desde config.paths ───────────────────────────────────
+# ── Rutas centralizadas desde config.paths ────────────────────────────────────
 try:
     _this_dir = os.path.dirname(os.path.abspath(__file__))
 except Exception:
@@ -189,9 +191,17 @@ def load_repo():
     return repo or {}
 
 #--------------------------------------------------
-# script.json
+# script.json  — tolerante: si no existe, continua con config vacia
 
 def load_script_config():
+    """
+    Carga la configuracion desde data/master/script.json.
+    Si el archivo no existe o tiene error, devuelve {} y continua
+    sin interrumpir el flujo del boton.
+    """
+    if not os.path.exists(SCRIPT_JSON_PATH):
+        # No es un error critico: el boton puede funcionar sin script.json
+        return {}
     data = load_json(SCRIPT_JSON_PATH, show_error=True, title="Error script.json")
     return data or {}
 
@@ -317,11 +327,11 @@ def get_filtered_rows_from_model(headers, codigo_planilla):
     if not isinstance(cache_modelo, dict):
         cache_modelo = {}
 
-    result         = {}
-    cods_por_clave = {}
+    result            = {}
+    cods_por_clave    = {}
     valores_por_clave = {}
 
-    filtrados = []
+    filtrados             = []
     element_ids_filtrados = set()
 
     link_instances = (
@@ -424,7 +434,7 @@ def get_filtered_rows_from_model(headers, codigo_planilla):
                 datos_cache = cache_modelo.get(clave_repo)
                 datos = dict(datos_cache) if datos_cache and isinstance(datos_cache, dict) else datos_modelo
 
-            cod_oficial              = datos.get("CodIntBIM", "") or codint_modelo
+            cod_oficial               = datos.get("CodIntBIM", "") or codint_modelo
             cods_por_clave[clave_repo] = cod_oficial
 
             fila = {
@@ -448,7 +458,7 @@ def get_filtered_rows_from_model(headers, codigo_planilla):
                 fila[h]           = _norm(valor_h)
                 valores_header[h] = valor_h
 
-            result[clave_repo]          = fila
+            result[clave_repo]            = fila
             valores_por_clave[clave_repo] = valores_header
 
         except Exception:
@@ -495,17 +505,16 @@ def main():
     if not REPO_PATH:
         return
 
+    # script.json es opcional: si no existe el boton continua igual
     script_cfg = load_script_config()
-    if not script_cfg:
-        return
 
     meta_sel = run_selector_tk()
     if not meta_sel:
         return
 
-    nombre_original  = meta_sel.get("NombrePlanillaOriginal", "")
-    nombre_alias     = meta_sel.get("NombrePlanillaAlias", "")
-    codigo_planilla  = meta_sel.get("CodigoPlanilla", "")
+    nombre_original = meta_sel.get("NombrePlanillaOriginal", "")
+    nombre_alias    = meta_sel.get("NombrePlanillaAlias", "")
+    codigo_planilla = meta_sel.get("CodigoPlanilla", "")
 
     if not nombre_original or not codigo_planilla:
         forms.alert(
@@ -522,12 +531,12 @@ def main():
     save_json(filas, PLANILLA_DATA_PATH, show_error=False)
 
     planilla_meta = {
-        "Headers":          headers,
-        "CodigoPlanilla":   codigo_planilla,
-        "NombrePlanilla":   nombre_alias or nombre_original,
-        "DataPath":         PLANILLA_DATA_PATH,
-        "CodsPorClave":     cods_por_clave,
-        "ValoresPorClave":  valores_por_clave,
+        "Headers":         headers,
+        "CodigoPlanilla":  codigo_planilla,
+        "NombrePlanilla":  nombre_alias or nombre_original,
+        "DataPath":        PLANILLA_DATA_PATH,
+        "CodsPorClave":    cods_por_clave,
+        "ValoresPorClave": valores_por_clave,
     }
 
     run_viewer_tk(planilla_meta)
@@ -537,6 +546,6 @@ if __name__ == "__main__":
     main()
 
 #==================================================
-#🚫 DELETE BELOW
-from Snippets._customprint import kit_button_clicked    # Import Reusable Function from 'lib/Snippets/_customprint.py'
-kit_button_clicked(btn_name=__title__)                  # Display Default Print Message
+# 🚫 DELETE BELOW (codigo legacy desactivado)
+# from Snippets._customprint import kit_button_clicked
+# kit_button_clicked(btn_name=__title__)
