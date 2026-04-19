@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
 __title__   = "SAESA"
-__doc__     = """Version = 1.1
-Date    = 18.04.2026
+__doc__     = """Version = 2.0
+Date    = 19.04.2026
 ________________________________________________________________
 Description:
 
 Abre el gestor de datos SAESA del proyecto activo.
 ________________________________________________________________
+Last Updates:
+- [19.04.2026] v2.0 Fix rutas -> MASTER_DIR; crea carpetas necesarias
+- [18.04.2026] v1.1 Version anterior
+________________________________________________________________
 Author: Argenis Angel"""
 
-# ╬══╬═╦══╬═╬══╬══╬═╦═╦══
-# ║║║╠═╣║╚╗ ║║ ═╝
-# ╚╚ ╚╚  ╚═╝╚═╝ ╚ ╚═╝
 #==================================================
 import os
 import sys
@@ -19,15 +20,14 @@ import subprocess
 import json
 from pyrevit import forms
 
-# ── Rutas centralizadas desde config.paths ──────────────────────────────────────
+# ── Rutas centralizadas desde config.paths ───────────────────────────────────
 try:
     _this_dir = os.path.dirname(os.path.abspath(__file__))
 except Exception:
     _this_dir = os.getcwd()
 
 # pushbutton(1) -> pulldown(2) -> panel(3) -> tab(4) -> EXT_ROOT
-_EXT_ROOT = os.path.join(_this_dir, '..', '..', '..', '..')
-_EXT_ROOT = os.path.abspath(_EXT_ROOT)
+_EXT_ROOT = os.path.abspath(os.path.join(_this_dir, '..', '..', '..', '..'))
 _LIB_DIR  = os.path.join(_EXT_ROOT, 'lib')
 if _LIB_DIR not in sys.path:
     sys.path.insert(0, _LIB_DIR)
@@ -40,13 +40,13 @@ try:
     ensure_runtime_dirs()
     PYTHON_EXE = get_python_exe()
 except Exception as _path_err:
-    _DATA_DIR       = os.path.join(_EXT_ROOT, 'data')
-    DATA_DIR        = _DATA_DIR
-    MASTER_DIR      = os.path.join(_DATA_DIR, 'master')
-    TEMP_DIR        = os.path.join(_DATA_DIR, 'temp')
-    CACHE_DIR       = os.path.join(_DATA_DIR, 'cache')
-    CONFIG_PROYECTO = os.path.join(MASTER_DIR, 'config_proyecto_activo.json')
-    REGISTRO_PROYECTOS  = os.path.join(MASTER_DIR, 'registro_proyectos.json')
+    _DATA_DIR            = os.path.join(_EXT_ROOT, 'data')
+    DATA_DIR             = _DATA_DIR
+    MASTER_DIR           = os.path.join(_DATA_DIR, 'master')
+    TEMP_DIR             = os.path.join(_DATA_DIR, 'temp')
+    CACHE_DIR            = os.path.join(_DATA_DIR, 'cache')
+    CONFIG_PROYECTO      = os.path.join(MASTER_DIR, 'config_proyecto_activo.json')
+    REGISTRO_PROYECTOS   = os.path.join(MASTER_DIR, 'registro_proyectos.json')
     SCRIPT_JSON_PATH_LIB = os.path.join(MASTER_DIR, 'script.json')
     import glob as _glob
     def _fb_python():
@@ -61,11 +61,7 @@ except Exception as _path_err:
         return None
     PYTHON_EXE = _fb_python()
 
-# ╔╦╦╗╔═╗╬╔╗╔╗
-# ║║║╠═╣║║║║
-# ╚ ╚╚ ╚╚╚╚╝╚╝
 #==================================================
-
 _CPYTHON_DIR = os.path.join(_EXT_ROOT, 'scripts_cpython')
 
 
@@ -88,10 +84,18 @@ def run_cpython_script(script_name, args=None):
 
 
 def main():
-    if not os.path.exists(DATA_DIR):
-        os.makedirs(DATA_DIR)
-    # Pasar DATA_DIR a CPython
-    run_cpython_script("datos_proyecto.py", [DATA_DIR])
+    # Asegurar que existen todas las carpetas necesarias
+    for d in (DATA_DIR, MASTER_DIR, TEMP_DIR, CACHE_DIR):
+        if not os.path.exists(d):
+            os.makedirs(d)
+
+    # Se pasa MASTER_DIR para que registro y config queden en data/master/
+    rc = run_cpython_script("datos_proyecto.py", [MASTER_DIR])
+    if rc != 0:
+        forms.alert(
+            u"El gestor de datos termino con codigo: {}".format(rc),
+            title=u"Advertencia"
+        )
 
 
 if __name__ == '__main__':
