@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
+"""
+Script CPython — Lee hoja CODIGO del .xlsm y genera TXT temporal con filas.
+Uso: python carga_excel.py <ruta_xlsm> <ruta_repo_tmp>
+"""
 import os
 import sys
-from openpyxl import load_workbook  # pip install openpyxl
+from openpyxl import load_workbook
 
 
 def read_codigos_sheet(xlsm_path):
-    """Lee la hoja CODIGO empezando en la fila 2 (salta encabezados)."""
     try:
         wb = load_workbook(xlsm_path, data_only=True)
     except Exception as e:
@@ -34,7 +37,7 @@ def main():
         print(u"Uso: carga_excel.py <ruta_xlsm> <ruta_repo_tmp>")
         sys.exit(1)
 
-    xlsm_path = sys.argv[1]
+    xlsm_path    = sys.argv[1]
     repo_tmp_path = sys.argv[2]
 
     if not os.path.exists(xlsm_path):
@@ -48,7 +51,7 @@ def main():
             with open(repo_tmp_path, "w", encoding="utf-8") as f:
                 f.write("")
         except Exception as e:
-            print(u"ERROR creando/limpiando el archivo temporal:\n{}".format(e))
+            print(u"ERROR creando archivo temporal:\n{}".format(e))
             sys.exit(1)
         sys.exit(0)
 
@@ -56,13 +59,12 @@ def main():
         with open(repo_tmp_path, "w", encoding="utf-8") as f:
             for row in filas:
                 valores = ["" if v is None else str(v) for v in row]
-                linea = ";".join(valores)
-                f.write(linea + "\n")
+                f.write(";".join(valores) + "\n")
     except Exception as e:
-        print(u"ERROR escribiendo el repositorio temporal:\n{}".format(e))
+        print(u"ERROR escribiendo repositorio temporal:\n{}".format(e))
         sys.exit(1)
 
-    print(u"Datos de la hoja CODIGO (desde fila 2) escritos en:\n{}".format(repo_tmp_path))
+    print(u"Datos escritos en:\n{}".format(repo_tmp_path))
     sys.exit(0)
 
 
