@@ -24,17 +24,21 @@ import glob
 import json
 import subprocess
 
-
-def get_data_dir():
-    return os.path.join(
+# TEMP_DIR viene de config.paths para no hardcodear la ruta de usuario.
+# Fallback manual solo si se ejecuta fuera del contexto de la extension
+# (p.ej. pruebas directas en CPython sin lib/ en sys.path).
+try:
+    from config.paths import TEMP_DIR as _TEMP_DIR
+except ImportError:
+    _TEMP_DIR = os.path.join(
         os.path.expanduser("~"),
         "AppData", "Roaming", "MyPyRevitExtention",
-        "PyRevitIT.extension", "data"
+        "PyRevitIT.extension", "data", "temp"
     )
 
 
 def _cache_path():
-    return os.path.join(get_data_dir(), "temp", "env_cache.json")
+    return os.path.join(_TEMP_DIR, "env_cache.json")
 
 
 def _read_cache():
