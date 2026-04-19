@@ -1,74 +1,69 @@
 # -*- coding: utf-8 -*-
 __title__ = "Parametros por elemento"
-__doc__ = """Version = 1.1
+__doc__ = """Version = 1.2
 Date = 19.04.2026
 ________________________________________________________________
 Description:
 
-Editor de parámetros por elemento sobre modelo linkeado,
+Editor de parametros por elemento sobre modelo linkeado,
 usando planillas y un repositorio JSON.
 
+Cambios v1.2:
+- Clave repo normalizada: basename_sin_ext + "_" + ElementId
+  (consistente entre sesiones independiente del path de red)
+- Busqueda en repo por (archivo_basename, ElementId) en vez
+  de path completo (resuelve el bug de seleccion/no-match)
+- Delimitador de clave cambiado a "||" para evitar colisiones
+  con "_" dentro de rutas
+- ui.xaml con estilo dark
 ________________________________________________________________
-Last Updates:
-- [19.04.2026] v1.1  Rutas centralizadas via config.paths.
-________________________________________________________________
-Author: Erik Frits + ajustes Angeluso
+Author: Angeluso
 """
 
 # ╦╔╦╗╔═╗╔═╗╦═╗╔╦╗╔═╗
 # ║║║║╠═╝║ ║╠╦╝ ║ ╚═╗
 # ╩╩ ╩╩  ╚═╝╩╚═ ╩ ╚═╝
-#==================================================
 import unicodedata
-import clr
 import os
 import sys
 import json
-import threading
-import time
 
-from Autodesk.Revit.DB import Transaction, ViewSchedule, FilteredElementCollector
+from Autodesk.Revit.DB import ViewSchedule, FilteredElementCollector
 from Autodesk.Revit.UI import ExternalEvent, IExternalEventHandler
 from Autodesk.Revit.UI.Selection import ObjectType
 
 from pyrevit import forms
 
-# ------------------------------------------------------------
-# Normalización de texto (acentos, ñ)
-# ------------------------------------------------------------
 
+# ── Normalizacion ────────────────────────────────────────────────────────────
 def normalizar_clave(texto):
-    """Quita acentos/virgulillas y convierte ñ/Ñ en n/N."""
+    """Quita acentos/virgulillas y convierte n/N."""
     if texto is None:
         return None
     if not isinstance(texto, str):
         texto = str(texto)
     nfkd = unicodedata.normalize('NFKD', texto)
     sin_tildes = u"".join(c for c in nfkd if not unicodedata.combining(c))
-    sin_enies = sin_tildes.replace(u"ñ", u"n").replace(u"Ñ", u"N")
-    return sin_enies
+    return sin_tildes.replace(u"\xf1", u"n").replace(u"\xd1", u"N")
 
 
-# ------------------------------------------------------------
-# Rutas centralizadas desde config.paths
-# ------------------------------------------------------------
+# ── Rutas centralizadas ──────────────────────────────────────────────────────
 try:
     _this_dir = os.path.dirname(os.path.abspath(__file__))
 except Exception:
     _this_dir = os.getcwd()
 
-# pushbutton(1) -> pulldown(2) -> panel(3) -> tab(4) -> EXT_ROOT
 _EXT_ROOT = os.path.abspath(os.path.join(_this_dir, '..', '..', '..', '..'))
 _LIB_DIR  = os.path.join(_EXT_ROOT, 'lib')
 if _LIB_DIR not in sys.path:
     sys.path.insert(0, _LIB_DIR)
 
 try:
-    from config.paths import DATA_DIR, MASTER_DIR, TEMP_DIR, CACHE_DIR, \
-                             CONFIG_PROYECTO, REGISTRO_PROYECTOS, \
-                             SCRIPT_JSON_PATH_LIB, ensure_runtime_dirs
+    from config.paths import (DATA_DIR, MASTER_DIR, TEMP_DIR, CACHE_DIR,
+                               CONFIG_PROYECTO, REGISTRO_PROYECTOS,
+                               SCRIPT_JSON_PATH_LIB, ensure_runtime_dirs)
     ensure_runtime_dirs()
-except Exception as _path_err:
+except Exception:
     _DATA_DIR            = os.path.join(_EXT_ROOT, 'data')
     DATA_DIR             = _DATA_DIR
     MASTER_DIR           = os.path.join(_DATA_DIR, 'master')
@@ -78,53 +73,39 @@ except Exception as _path_err:
     REGISTRO_PROYECTOS   = os.path.join(MASTER_DIR, 'registro_proyectos.json')
     SCRIPT_JSON_PATH_LIB = os.path.join(MASTER_DIR, 'script.json')
 
-# Alias locales para compatibilidad con el resto del script
 CONFIG_PATH      = CONFIG_PROYECTO
 SCRIPT_JSON_PATH = SCRIPT_JSON_PATH_LIB
 
 
-# ------------------------------------------------------------
-# Funciones de repositorio
-# ------------------------------------------------------------
-
+# ── Repositorio ──────────────────────────────────────────────────────────────
 def load_active_repo_path():
     if not os.path.exists(CONFIG_PATH):
         raise Exception(
-            u"No se encontró config_proyecto_activo.json en:\n{}".format(CONFIG_PATH)
-        )
+            u"No se encontro config_proyecto_activo.json en:\n{}".format(CONFIG_PATH))
     with open(CONFIG_PATH, "r") as f:
         cfg = json.load(f)
-
-    ruta_repo = (cfg.get("ruta_repositorio_activo") or "").strip()
-    if not ruta_repo:
-        raise Exception(
-            u"config_proyecto_activo.json no tiene 'ruta_repositorio_activo'."
-        )
-    return ruta_repo
+    ruta = (cfg.get("ruta_repositorio_activo") or "").strip()
+    if not ruta:
+        raise Exception(u"config_proyecto_activo.json no tiene 'ruta_repositorio_activo'.")
+    return ruta
 
 
 def load_repo():
     try:
         bd_path = load_active_repo_path()
     except Exception as e:
-        forms.alert(
-            u"Error obteniendo ruta del repositorio:\n{}".format(e),
-            title="Error repositorio",
-        )
+        forms.alert(u"Error obteniendo ruta del repositorio:\n{}".format(e),
+                    title="Error repositorio")
         return {}
-
     if not os.path.exists(bd_path):
         return {}
-
     try:
         with open(bd_path, "r") as f:
             data = json.load(f)
         return data if isinstance(data, dict) else {}
     except Exception as e:
-        forms.alert(
-            u"Error leyendo repositorio:\n{}\nSe usará uno vacío.".format(e),
-            title="Error repositorio",
-        )
+        forms.alert(u"Error leyendo repositorio:\n{}\nSe usara uno vacio.".format(e),
+                    title="Error repositorio")
         return {}
 
 
@@ -132,48 +113,91 @@ def save_repo(repo_dict):
     try:
         bd_path = load_active_repo_path()
     except Exception as e:
-        forms.alert(
-            u"Error obteniendo ruta del repositorio para guardar:\n{}".format(e),
-            title="Error repositorio",
-        )
+        forms.alert(u"Error obteniendo ruta para guardar:\n{}".format(e),
+                    title="Error repositorio")
         return
-
     try:
         with open(bd_path, "w") as f:
             json.dump(repo_dict, f, indent=4, ensure_ascii=False)
     except Exception as e:
-        forms.alert(
-            u"Error guardando repositorio:\n{}".format(e),
-            title="Error repositorio",
-        )
+        forms.alert(u"Error guardando repositorio:\n{}".format(e),
+                    title="Error repositorio")
 
 
 def load_script_json():
     if not os.path.exists(SCRIPT_JSON_PATH):
-        forms.alert(
-            u"No se encontró script.json en:\n{}".format(SCRIPT_JSON_PATH),
-            title="Error script.json",
-        )
+        forms.alert(u"No se encontro script.json en:\n{}".format(SCRIPT_JSON_PATH),
+                    title="Error script.json")
         return None
     try:
         with open(SCRIPT_JSON_PATH, "r") as f:
             return json.load(f)
     except Exception as e:
-        forms.alert(
-            u"Error leyendo script.json:\n{}\n\nRevisa sintaxis JSON.".format(e),
-            title="Error script.json",
-        )
+        forms.alert(u"Error leyendo script.json:\n{}".format(e),
+                    title="Error script.json")
         return None
 
 
-# ------------------------------------------------------------
-# Clases de datos y handler
-# ------------------------------------------------------------
+# ── Helpers de clave repo ────────────────────────────────────────────────────
+def _archivo_basename(doc):
+    """
+    Devuelve solo el nombre de archivo sin extension y sin path.
+    Ejemplo: 'C:/work/Proyecto_v2.rvt' -> 'Proyecto_v2'
+    Funciona aunque PathName este vacio (usa Title como fallback).
+    """
+    path = (doc.PathName or "").strip()
+    if path:
+        base = os.path.splitext(os.path.basename(path))[0]
+        if base:
+            return base
+    # Fallback: Title del documento
+    try:
+        title = (doc.Title or "").strip()
+        if title:
+            return os.path.splitext(title)[0]
+    except Exception:
+        pass
+    return "unknown_file"
 
+
+def _make_repo_key(archivo_basename, element_id_str):
+    """
+    Clave unica de repositorio: 'basename||ElementId'
+    Usar '||' evita colisiones con '_' dentro de nombres de archivo.
+    """
+    return u"{}||{}".format(archivo_basename, element_id_str)
+
+
+def _buscar_en_repo(repo, archivo_basename, element_id_str):
+    """
+    Busca la entrada del repo por (archivo_basename, ElementId).
+    Acepta tanto claves con '||' (nuevo formato) como claves legacy con '_'.
+    Retorna (key, entry) o (None, None).
+    """
+    target_key = _make_repo_key(archivo_basename, element_id_str)
+
+    # Busqueda exacta por clave nueva
+    if target_key in repo and isinstance(repo[target_key], dict):
+        return target_key, repo[target_key]
+
+    # Busqueda por campos Archivo (basename) + ElementId en valores
+    for k, v in repo.items():
+        if not isinstance(v, dict):
+            continue
+        v_archivo = v.get("Archivo", "")
+        # Comparar basename normalizado
+        v_basename = os.path.splitext(os.path.basename(v_archivo))[0] if v_archivo else ""
+        if v_basename == archivo_basename and str(v.get("ElementId", "")) == element_id_str:
+            return k, v
+
+    return None, None
+
+
+# ── Clases de datos ──────────────────────────────────────────────────────────
 class ParamItem(object):
     def __init__(self, name, value, revit_param):
-        self.Name = name
-        self.Value = value
+        self.Name       = name
+        self.Value      = value
         self.RevitParam = revit_param
 
 
@@ -183,162 +207,114 @@ class UpdateParamsHandler(IExternalEventHandler):
 
     def Execute(self, uiapp):
         if self._editor:
-            self._editor.on_update_complete(True, u"Actualización completada.")
+            self._editor.on_update_complete(True, u"Actualizacion completada.")
 
     def GetName(self):
         return "UpdateParamsHandler"
 
 
-# ------------------------------------------------------------
-# Editor WPF (pyRevit.forms.WPFWindow)
-# ------------------------------------------------------------
-
+# ── Editor WPF ───────────────────────────────────────────────────────────────
 class ParamsEditor(forms.WPFWindow):
     def __init__(self, linked_doc, element, external_event, handler):
         xaml_path = os.path.join(os.path.dirname(__file__), "ui.xaml")
         forms.WPFWindow.__init__(self, xaml_path)
 
-        self._doc = linked_doc
-        self.element = element
+        self._doc            = linked_doc
+        self.element         = element
         self._external_event = external_event
-        self._handler = handler
+        self._handler        = handler
         if self._handler:
             self._handler._editor = self
 
         # Datos auxiliares
-        self._repo = load_repo()
-        self._script_data = load_script_json() or {}
+        self._repo         = load_repo()
+        self._script_data  = load_script_json() or {}
 
-        # Diccionario original de reemplazos y versión normalizada
         self._reemplazos_raw = self._script_data.get("reemplazos_de_nombres", {})
         self._reemplazos = {
             normalizar_clave(k): v
             for k, v in self._reemplazos_raw.items()
         }
 
-        # Colección de parámetros (lista python)
-        self.params = []
+        self.params           = []
+        self._original_values = {}
+        self._changes_saved   = False
+
+        # Clave normalizada para repo
+        self._archivo_base = _archivo_basename(self._doc)
+        self._element_id   = str(self.element.Id.IntegerValue)
+        self._repo_key     = _make_repo_key(self._archivo_base, self._element_id)
+
         self.paramsListView.ItemsSource = self.params
 
-        self._original_values = {}
-        self._changes_saved = False
-        self._background_updater = None
-
-        # Clave base para este elemento (file + id)
-        self._key = self._build_key()
-
-        # Botones
-        self.btnSave.Click += self.on_save
+        self.btnSave.Click   += self.on_save
         self.btnCancel.Click += self.on_cancel
 
-        # Cargar parámetros según planilla
+        # Titulo de ventana con info del elemento
+        self.Title = u"Editor Parametros  —  {} | ID {}".format(
+            self._archivo_base, self._element_id)
+
         try:
             self.load_parameters_from_repo_or_model()
         except Exception as e:
-            forms.alert(
-                u"Error inicializando editor de parámetros:\n{}".format(e),
-                title="Error editor",
-            )
+            forms.alert(u"Error inicializando editor:\n{}".format(e),
+                        title="Error editor")
 
-    # ---------------- helpers de clave y archivo ----------------
-
-    def _build_key(self):
-        file_path = self._doc.PathName or "unknown_file"
-        eid = self.element.Id.IntegerValue
-        return u"{}_{}".format(file_path, eid)
-
-    def _get_archivo_y_id(self):
-        """Devuelve (archivo_completo, element_id_str) según la clave."""
-        base_key = self._key.rsplit("_", 1)[0]
-        archivo_completo = base_key
-        element_id_str = str(self.element.Id.IntegerValue)
-        return archivo_completo, element_id_str
-
-    # ---------------- lógica de planilla y encabezados ---------
-
+    # ── logica de planilla ────────────────────────────────────────────────────
     def _get_headers_order(self):
-        """Obtiene clave de planilla y encabezados en orden, usando CodIntBIM y script.json."""
         try:
-            p_cod = self.element.LookupParameter("CodIntBIM")
+            p_cod  = self.element.LookupParameter("CodIntBIM")
             cod_val = p_cod.AsString() if p_cod and p_cod.HasValue else ""
         except Exception as e:
-            forms.alert(
-                u"Error leyendo CodIntBIM:\n{}".format(e),
-                title="Error CodIntBIM",
-            )
+            forms.alert(u"Error leyendo CodIntBIM:\n{}".format(e), title="Error CodIntBIM")
             return None, []
 
         if not cod_val or len(cod_val) < 4:
             forms.alert(
-                u"CodIntBIM vacío o con menos de 4 caracteres.\nValor: '{}'".format(cod_val),
-                title="CodIntBIM inválido",
-            )
+                u"CodIntBIM vacio o con menos de 4 caracteres.\nValor: '{}'".format(cod_val),
+                title="CodIntBIM invalido")
             return None, []
 
-        pref_cod = cod_val[:4]
-
+        pref_cod    = cod_val[:4]
         script_data = self._script_data or load_script_json() or {}
         codigos_planillas = script_data.get("codigos_planillas", {})
+
         if not codigos_planillas:
-            forms.alert(
-                u"En script.json no se encontró 'codigos_planillas' o está vacío.",
-                title="Error script.json",
-            )
+            forms.alert(u"script.json no tiene 'codigos_planillas'.",
+                        title="Error script.json")
             return None, []
 
         clave_planilla = None
-        try:
-            for clave, vals in codigos_planillas.items():
-                if isinstance(vals, list) and any(
-                    isinstance(v, str) and v.startswith(pref_cod) for v in vals
-                ):
+        for clave, vals in codigos_planillas.items():
+            if isinstance(vals, list):
+                if any(isinstance(v, str) and v.startswith(pref_cod) for v in vals):
                     clave_planilla = clave
                     break
-                elif isinstance(vals, str) and vals.startswith(pref_cod):
-                    clave_planilla = clave
-                    break
-                else:
-                    vals_str = str(vals)
-                    if vals_str.startswith(pref_cod):
-                        clave_planilla = clave
-                        break
-        except Exception as e:
-            forms.alert(
-                u"Error procesando 'codigos_planillas':\n{}".format(e),
-                title="Error script.json",
-            )
-            return None, []
+            elif isinstance(vals, str) and vals.startswith(pref_cod):
+                clave_planilla = clave
+                break
 
         if not clave_planilla:
             forms.alert(
-                u"No se encontró planilla asociada para el prefijo '{}'.".format(pref_cod),
-                title="Planilla no definida",
-            )
+                u"No se encontro planilla para el prefijo '{}'.".format(pref_cod),
+                title="Planilla no definida")
             return None, []
 
         try:
             host_doc = __revit__.ActiveUIDocument.Document
-            schedules = (
-                FilteredElementCollector(host_doc)
-                .OfClass(ViewSchedule)
-                .ToElements()
-            )
+            schedules = (FilteredElementCollector(host_doc)
+                         .OfClass(ViewSchedule).ToElements())
             planilla_obj = next(
                 (s for s in schedules if not s.IsTemplate and s.Name == clave_planilla),
-                None,
-            )
+                None)
         except Exception as e:
-            forms.alert(
-                u"Error buscando la planilla '{}':\n{}".format(clave_planilla, e),
-                title="Error planilla",
-            )
+            forms.alert(u"Error buscando planilla '{}':\n{}".format(clave_planilla, e),
+                        title="Error planilla")
             return None, []
 
         if planilla_obj is None:
-            forms.alert(
-                u"No se encontró la planilla '{}' en el modelo.".format(clave_planilla),
-                title="Planilla no encontrada",
-            )
+            forms.alert(u"No se encontro la planilla '{}' en el modelo.".format(clave_planilla),
+                        title="Planilla no encontrada")
             return None, []
 
         headers_order = []
@@ -348,51 +324,34 @@ class ParamsEditor(forms.WPFWindow):
                 if field:
                     headers_order.append(field.GetName())
         except Exception as e:
-            forms.alert(
-                u"Error obteniendo encabezados de '{}':\n{}".format(clave_planilla, e),
-                title="Error encabezados",
-            )
+            forms.alert(u"Error obteniendo encabezados:\n{}".format(e),
+                        title="Error encabezados")
             return None, []
 
         if not headers_order:
-            forms.alert(
-                u"No se obtuvieron encabezados para la planilla '{}'.\n"
-                u"Verifica que tenga columnas de datos.".format(clave_planilla),
-                title="Sin encabezados",
-            )
+            forms.alert(u"Planilla '{}' sin columnas.".format(clave_planilla),
+                        title="Sin encabezados")
             return None, []
 
         return clave_planilla, headers_order
 
-    # ---------------- carga repo -> modelo ----------------------
-
+    # ── carga parametros ──────────────────────────────────────────────────────
     def load_parameters_from_repo_or_model(self):
-        """Construye la lista de parámetros siguiendo el orden de la planilla."""
         self.params = []
         self.paramsListView.ItemsSource = self.params
         self._original_values = {}
 
         try:
-            archivo_completo, element_id_str = self._get_archivo_y_id()
-            repo_all = self._repo
-            datos_repo_por_id = None
-            for k, v in repo_all.items():
-                try:
-                    if (
-                        isinstance(v, dict)
-                        and v.get("Archivo") == archivo_completo
-                        and v.get("ElementId") == element_id_str
-                    ):
-                        datos_repo_por_id = v
-                        break
-                except Exception:
-                    continue
+            # Buscar entrada en repo por basename + ElementId (tolerante a cambios de path)
+            _, datos_repo = _buscar_en_repo(
+                self._repo, self._archivo_base, self._element_id)
 
             clave_planilla, headers_order = self._get_headers_order()
             if not headers_order:
                 self.statusLabel.Content = u"No se pudieron obtener encabezados."
                 return
 
+            # Mapear parametros del elemento (modelo)
             parametros = {}
             for p in self.element.Parameters:
                 try:
@@ -401,120 +360,98 @@ class ParamsEditor(forms.WPFWindow):
                     val = p.AsString() or p.AsValueString()
                     if not val or not val.strip():
                         continue
-                    pname = p.Definition.Name
-                    parametros[pname] = (p, val.strip())
+                    parametros[p.Definition.Name] = (p, val.strip())
                 except Exception:
                     continue
 
+            # Aplicar reemplazos de nombres
             parametros_renombrados = {}
             for k, (p_obj, v) in parametros.items():
-                k_norm = normalizar_clave(k)
-                nuevo_nombre = self._reemplazos.get(k_norm, k_norm)
-                parametros_renombrados[nuevo_nombre] = (p_obj, v)
+                nuevo = self._reemplazos.get(normalizar_clave(k), normalizar_clave(k))
+                parametros_renombrados[nuevo] = (p_obj, v)
 
+            # Construir lista respetando el orden de la planilla
             for head in headers_order:
-                head_norm = normalizar_clave(head)
-                p = None
-                val_model = ""
+                head_norm  = normalizar_clave(head)
+                p_obj      = None
+                val_model  = ""
                 if head_norm in parametros_renombrados:
-                    p, val_model = parametros_renombrados[head_norm]
-                if datos_repo_por_id and head in datos_repo_por_id:
-                    valor_final = datos_repo_por_id.get(head, "")
+                    p_obj, val_model = parametros_renombrados[head_norm]
+
+                # Repo tiene prioridad sobre el modelo
+                if datos_repo and head in datos_repo:
+                    valor_final = datos_repo.get(head, "")
                 else:
                     valor_final = val_model
-                self.params.append(ParamItem(head, valor_final, p))
+
+                self.params.append(ParamItem(head, valor_final, p_obj))
                 self._original_values[head] = valor_final
 
             self.paramsListView.ItemsSource = None
             self.paramsListView.ItemsSource = self.params
-            self.statusLabel.Content = u"Datos cargados (planilla '{}').".format(clave_planilla)
+            self.statusLabel.Content = u"Datos cargados  —  planilla: '{}'".format(
+                clave_planilla)
 
         except Exception as e:
             self.statusLabel.Content = u"Error cargando datos."
-            forms.alert(
-                u"Error en load_parameters_from_repo_or_model:\n{}".format(e),
-                title="Error editor",
-            )
+            forms.alert(u"Error en load_parameters_from_repo_or_model:\n{}".format(e),
+                        title="Error editor")
 
-    # ---------------- utilidades de cambios / guardado ---------
-
+    # ── cambios y guardado ────────────────────────────────────────────────────
     def _has_changes(self):
         for p in self.params:
-            orig = self._original_values.get(p.Name, "")
-            if (p.Value or "") != (orig or ""):
+            if (p.Value or "") != (self._original_values.get(p.Name, "") or ""):
                 return True
         return False
 
     def save_params_to_repo(self):
-        """Actualiza/crea registro para Archivo + ElementId si hay cambios."""
         if not self._has_changes():
             return False
-
         try:
             repo = load_repo()
             if not isinstance(repo, dict):
                 repo = {}
 
-            archivo_completo, element_id_str = self._get_archivo_y_id()
-            nombre_archivo = (
-                os.path.basename(archivo_completo) if archivo_completo else ""
-            )
-
-            existing_key = None
-            for k, v in repo.items():
-                if not isinstance(v, dict):
-                    continue
-                if (
-                    v.get("Archivo") == archivo_completo
-                    and v.get("ElementId") == element_id_str
-                ):
-                    existing_key = k
-                    break
-
+            # Buscar si ya existe una entrada (legacy o nueva clave)
+            existing_key, _ = _buscar_en_repo(repo, self._archivo_base, self._element_id)
             if existing_key is None:
-                existing_key = self._key
-                i = 1
-                while existing_key in repo:
-                    existing_key = "{}_{}".format(self._key, i)
-                    i += 1
-                repo[existing_key] = {}
+                existing_key = self._repo_key
 
-            entry = repo[existing_key]
-            entry["Archivo"]        = archivo_completo
-            entry["nombre_archivo"] = nombre_archivo
-            entry["ElementId"]      = element_id_str
+            entry = dict(repo.get(existing_key, {})) if existing_key in repo else {}
+
+            # Guardar siempre el path completo + basename para compatibilidad
+            path_completo = (self._doc.PathName or "").strip()
+            entry["Archivo"]        = path_completo if path_completo else self._archivo_base
+            entry["nombre_archivo"] = self._archivo_base
+            entry["ElementId"]      = self._element_id
+            entry["CodIntBIM"]      = ""  # se sobreescribira si existe el parametro
 
             for p in self.params:
                 entry[p.Name] = p.Value
 
+            repo[existing_key] = entry
             save_repo(repo)
-            self._repo = repo
+
+            self._repo            = repo
             self._original_values = {p.Name: p.Value for p in self.params}
             return True
 
         except Exception as e:
-            forms.alert(
-                u"Error guardando datos en el repositorio:\n{}".format(e),
-                title="Error guardado",
-            )
+            forms.alert(u"Error guardando datos:\n{}".format(e), title="Error guardado")
             return False
 
-    # ---------------- eventos de botones -----------------------
-
+    # ── eventos ───────────────────────────────────────────────────────────────
     def on_save(self, sender, e):
         try:
             if not self._has_changes():
-                self.statusLabel.Content = u"Sin cambios. No se actualizó el repositorio."
-                self._changes_saved = False
+                self.statusLabel.Content = u"Sin cambios."
                 self.Close()
                 return
-            self.statusLabel.Content = u"Guardando datos..."
+            self.statusLabel.Content = u"Guardando..."
             ok = self.save_params_to_repo()
             if ok:
                 self._changes_saved = True
-                self.statusLabel.Content = u"Datos guardados en repositorio."
-            else:
-                self._changes_saved = False
+                self.statusLabel.Content = u"Guardado correctamente."
             self.Close()
         except Exception as e:
             forms.alert(u"Error en on_save:\n{}".format(e), title="Error guardar")
@@ -533,16 +470,10 @@ class ParamsEditor(forms.WPFWindow):
                 self._repo = load_repo()
                 self.load_parameters_from_repo_or_model()
         except Exception as e:
-            forms.alert(
-                u"Error en callback de actualización:\n{}".format(e),
-                title="Error actualización",
-            )
+            forms.alert(u"Error en callback:\n{}".format(e), title="Error actualizacion")
 
 
-# ------------------------------------------------------------
-# main
-# ------------------------------------------------------------
-
+# ── main ─────────────────────────────────────────────────────────────────────
 def main():
     uidoc = __revit__.ActiveUIDocument
     doc   = uidoc.Document
@@ -550,27 +481,26 @@ def main():
     try:
         ref = uidoc.Selection.PickObject(
             ObjectType.LinkedElement,
-            "Selecciona un elemento en un archivo linkeado",
+            u"Selecciona un elemento en un archivo vinculado",
         )
     except Exception:
-        forms.alert("Selección cancelada.")
+        # Usuario cancelo la seleccion
         return
 
     try:
         link_instance = doc.GetElement(ref.ElementId)
         linked_doc    = link_instance.GetLinkDocument()
         if linked_doc is None:
-            forms.alert("No se pudo obtener el documento linkeado.")
+            forms.alert(u"No se pudo obtener el documento vinculado.\n"
+                        u"Verifica que el link este cargado.")
             return
         element = linked_doc.GetElement(ref.LinkedElementId)
         if element is None:
-            forms.alert("No se pudo obtener el elemento.")
+            forms.alert(u"No se pudo obtener el elemento seleccionado.")
             return
     except Exception as e:
-        forms.alert(
-            u"Error accediendo al elemento linkeado:\n{}".format(e),
-            title="Error selección",
-        )
+        forms.alert(u"Error accediendo al elemento vinculado:\n{}".format(e),
+                    title="Error seleccion")
         return
 
     handler        = UpdateParamsHandler()
@@ -581,8 +511,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-#==================================================
-#🚫 DELETE BELOW
-#from Snippets._customprint import kit_button_clicked  # Import Reusable Function
-#kit_button_clicked(btn_name=__title__)  # Display Default Print Message
