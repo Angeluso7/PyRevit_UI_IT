@@ -1,26 +1,25 @@
 # -*- coding: utf-8 -*-
 __title__   = "Parametros por planilla"
-__doc__     = """Version = 1.2
+__doc__     = """Version = 1.3
 Date    = 19.04.2026
 ________________________________________________________________
 Description:
 
-Editor de parámetros por planilla sobre modelo linkeado,
+Editor de parametros por planilla sobre modelo linkeado,
 usando planillas y un repositorio JSON.
 
 ________________________________________________________________
 Last Updates:
+- [19.04.2026] v1.3  REPO_PATH resuelto via get_ruta_repositorio(nup)
+                     desde lib/config/paths.py — elimina ruta absoluta
+                     hardcodeada en config_proyecto_activo.json.
 - [19.04.2026] v1.2  load_script_config tolerante; codigo zombie comentado;
                      archivos runtime movidos a data/temp y data/cache.
 - [19.04.2026] v1.1  Rutas centralizadas via config.paths.
 ________________________________________________________________
 Author: Erik Frits + ajustes Angeluso"""
 
-# ╬╔╦╗╔═╗╔═╗╦═╗╔╦╗╔═╗
-# ║║║║╠═╝║ ║╠╦╝ ║ ╚═╗
-# ╩╩ ╩╩  ╚═╝╩╚═ ╩ ╚═╝
-#==================================================
-
+# ==================================================
 import clr
 import os
 import sys
@@ -39,19 +38,12 @@ from Autodesk.Revit.DB import (
     ViewSchedule,
 )
 
-# ╬  ╬╔═╗╦═╗╦╔═╗╔╗ ╬  ╔═╗╔═╗
-# ╚╗╔╝╠═╣╠╦╝║╠═╣╠╩╗║  ║╣ ╚═╗
-#  ╚╝ ╩ ╩╩╚═╩╩ ╩╚═╝╩═╝╚═╝╚═╝
-#==================================================
+# ==================================================
 uidoc = __revit__.ActiveUIDocument
 doc   = uidoc.Document
 
-# ╔╦╗╔═╗╦╔╗╔
-# ║║║╠═╣║║║║
-# ╩ ╩╩ ╩╩╝╚╝
-#==================================================
-
-# ── Rutas centralizadas desde config.paths ────────────────────────────────────
+# ==================================================
+# Rutas centralizadas desde lib/config/paths.py
 try:
     _this_dir = os.path.dirname(os.path.abspath(__file__))
 except Exception:
@@ -64,9 +56,12 @@ if _LIB_DIR not in sys.path:
     sys.path.insert(0, _LIB_DIR)
 
 try:
-    from config.paths import DATA_DIR, MASTER_DIR, TEMP_DIR, CACHE_DIR, \
-                             CONFIG_PROYECTO, REGISTRO_PROYECTOS, \
-                             SCRIPT_JSON_PATH_LIB, ensure_runtime_dirs
+    from config.paths import (
+        DATA_DIR, MASTER_DIR, TEMP_DIR, CACHE_DIR,
+        CONFIG_PROYECTO, REGISTRO_PROYECTOS,
+        SCRIPT_JSON_PATH_LIB, ensure_runtime_dirs,
+        get_ruta_repositorio
+    )
     from core.env_config import get_python_exe
     ensure_runtime_dirs()
     PYTHON_EXE = get_python_exe()
@@ -80,6 +75,9 @@ except Exception as _path_err:
     REGISTRO_PROYECTOS   = os.path.join(MASTER_DIR, 'registro_proyectos.json')
     SCRIPT_JSON_PATH_LIB = os.path.join(MASTER_DIR, 'script.json')
     import glob as _glob
+    def get_ruta_repositorio(nup):
+        nombre = u'repositorio_datos_{}.json'.format(nup)
+        return os.path.join(_DATA_DIR, 'proyectos', nombre)
     def _fb_python():
         base = os.path.join(os.path.expanduser('~'), 'AppData', 'Local', 'Programs', 'Python')
         for exe in ('python.exe', 'pythonw.exe'):
@@ -96,25 +94,25 @@ except Exception as _path_err:
 CONFIG_PATH      = CONFIG_PROYECTO
 SCRIPT_JSON_PATH = SCRIPT_JSON_PATH_LIB
 
-# Scripts CPython — en la carpeta del botón
+# Scripts CPython — en la carpeta del boton
 BASE_PATH        = os.path.dirname(os.path.abspath(__file__))
 CPYTHON_SELECTOR = os.path.join(BASE_PATH, "selector_planillas.pyw")
 CPYTHON_VIEWER   = os.path.join(BASE_PATH, "mostrar_tabla_tk.pyw")
 
-# Temporales y cache — en data/temp y data/cache
+# Temporales y cache
 PLANILLA_META_PATH = os.path.join(TEMP_DIR,  "planilla_meta_tmp.json")
 PLANILLA_DATA_PATH = os.path.join(TEMP_DIR,  "planilla_data_tmp.json")
 HEADERS_CACHE_PATH = os.path.join(CACHE_DIR, "planillas_headers_order.json")
 CACHE_MODELO_PATH  = os.path.join(CACHE_DIR, "cache_modelo_por_clave.json")
 
-#--------------------------------------------------
+# ==================================================
 # Utilidades JSON
 
 def load_json(path, show_error=True, title="Error"):
     if not os.path.exists(path):
         if show_error:
             forms.alert(
-                u"No se encontró archivo JSON:\n{}".format(path),
+                u"No se encontro archivo JSON:\n{}".format(path),
                 title=title
             )
         return None
@@ -146,13 +144,18 @@ def save_json(data, path, show_error=True, title="Error"):
             )
         return False
 
-#--------------------------------------------------
-# Repositorio principal
+# ==================================================
+# Repositorio principal — resuelto via nup_activo + get_ruta_repositorio
 
 def get_repo_path_from_config():
+    """
+    Lee nup_activo de config_proyecto_activo.json y construye la ruta
+    del repositorio de forma portable usando get_ruta_repositorio(nup).
+    Nunca depende de ruta_repositorio_activo absoluta.
+    """
     if not os.path.exists(CONFIG_PATH):
         forms.alert(
-            u"No se encontró config_proyecto_activo.json en:\n{}\n\n"
+            u"No se encontro config_proyecto_activo.json en:\n{}\n\n"
             u"No se puede determinar el repositorio de datos activo."
             .format(CONFIG_PATH),
             title="Config no encontrada"
@@ -161,13 +164,20 @@ def get_repo_path_from_config():
     try:
         with open(CONFIG_PATH, "r", encoding="utf-8") as f:
             cfg = json.load(f)
-        ruta = (cfg.get("ruta_repositorio_activo") or "").strip()
-        if not ruta:
+        nup = (cfg.get("nup_activo") or "").strip()
+        if not nup:
             forms.alert(
-                u"En config_proyecto_activo.json no se encontró la clave "
-                u"'ruta_repositorio_activo' o está vacía.\n\n"
+                u"En config_proyecto_activo.json no se encontro 'nup_activo' o esta vacia.\n\n"
                 u"No se puede determinar el repositorio de datos activo.",
                 title="Config incompleta"
+            )
+            return None
+        ruta = get_ruta_repositorio(nup)
+        if not os.path.exists(ruta):
+            forms.alert(
+                u"No se encontro el archivo de repositorio para el proyecto activo:\n{}\n\n"
+                u"Verifica que exista en data/proyectos/".format(ruta),
+                title="Repositorio no encontrado"
             )
             return None
         return ruta
@@ -190,23 +200,17 @@ def load_repo():
     repo = load_json(REPO_PATH, show_error=False)
     return repo or {}
 
-#--------------------------------------------------
-# script.json  — tolerante: si no existe, continua con config vacia
+# ==================================================
+# script.json — tolerante: si no existe, continua con config vacia
 
 def load_script_config():
-    """
-    Carga la configuracion desde data/master/script.json.
-    Si el archivo no existe o tiene error, devuelve {} y continua
-    sin interrumpir el flujo del boton.
-    """
     if not os.path.exists(SCRIPT_JSON_PATH):
-        # No es un error critico: el boton puede funcionar sin script.json
         return {}
     data = load_json(SCRIPT_JSON_PATH, show_error=True, title="Error script.json")
     return data or {}
 
-#--------------------------------------------------
-# Encabezados desde ViewSchedule + caché local
+# ==================================================
+# Encabezados desde ViewSchedule + cache local
 
 def get_headers_from_view_schedule(host_doc, nombre_original_planilla):
     try:
@@ -222,7 +226,7 @@ def get_headers_from_view_schedule(host_doc, nombre_original_planilla):
         )
         if not planilla:
             forms.alert(
-                u"No se encontró la planilla '{}' en el modelo."
+                u"No se encontro la planilla '{}' en el modelo."
                 .format(nombre_original_planilla),
                 title="Planilla no encontrada"
             )
@@ -238,7 +242,7 @@ def get_headers_from_view_schedule(host_doc, nombre_original_planilla):
             forms.alert(
                 u"La planilla '{}' no tiene encabezados de datos."
                 .format(nombre_original_planilla),
-                title="Encabezados vacíos"
+                title="Encabezados vacios"
             )
             return []
 
@@ -265,11 +269,10 @@ def get_headers_cached(host_doc, nombre_original, codigo_planilla):
             save_json(cache, HEADERS_CACHE_PATH, show_error=False)
     return headers
 
-#--------------------------------------------------
+# ==================================================
 # Selector externo (Tk)
 
 def run_selector_tk():
-    """Lanza selector_planillas.pyw y espera meta en PLANILLA_META_PATH."""
     if os.path.exists(PLANILLA_META_PATH):
         try:
             os.remove(PLANILLA_META_PATH)
@@ -278,8 +281,8 @@ def run_selector_tk():
 
     if not PYTHON_EXE or not os.path.isfile(PYTHON_EXE):
         forms.alert(
-            u"No se encontró Python 3 en este equipo.\n"
-            u"Verifica la instalación o configura PYREVIT_PYTHON_EXE.",
+            u"No se encontro Python 3 en este equipo.\n"
+            u"Verifica la instalacion o configura PYREVIT_PYTHON_EXE.",
             title="Python no encontrado"
         )
         return None
@@ -301,7 +304,7 @@ def run_selector_tk():
         return None
     return meta
 
-#--------------------------------------------------
+# ==================================================
 # Dataset modelo + BD
 
 def make_repo_key(archivo, elem_id_str):
@@ -309,7 +312,6 @@ def make_repo_key(archivo, elem_id_str):
 
 
 def _norm(val):
-    """Normaliza valores vacíos a '-' para la vista."""
     if val in (None, "", " "):
         return "-"
     return val
@@ -434,7 +436,7 @@ def get_filtered_rows_from_model(headers, codigo_planilla):
                 datos_cache = cache_modelo.get(clave_repo)
                 datos = dict(datos_cache) if datos_cache and isinstance(datos_cache, dict) else datos_modelo
 
-            cod_oficial               = datos.get("CodIntBIM", "") or codint_modelo
+            cod_oficial                = datos.get("CodIntBIM", "") or codint_modelo
             cods_por_clave[clave_repo] = cod_oficial
 
             fila = {
@@ -476,14 +478,14 @@ def build_combined_dataset(headers, codigo_planilla):
     rows.sort(key=lambda r: str(r.get("CodIntBIM", "") or "").lower())
     return rows, cods_por_clave, valores_por_clave
 
-#--------------------------------------------------
-# Lanzar visor Tkinter (editor de planilla)
+# ==================================================
+# Lanzar visor Tkinter
 
 def run_viewer_tk(planilla_meta):
     save_json(planilla_meta, PLANILLA_META_PATH, show_error=False)
     if not PYTHON_EXE or not os.path.isfile(PYTHON_EXE):
         forms.alert(
-            u"No se encontró Python 3 en este equipo.",
+            u"No se encontro Python 3 en este equipo.",
             title="Python no encontrado"
         )
         return
@@ -498,14 +500,13 @@ def run_viewer_tk(planilla_meta):
             title="Error visor"
         )
 
-#--------------------------------------------------
+# ==================================================
 # main
 
 def main():
     if not REPO_PATH:
         return
 
-    # script.json es opcional: si no existe el boton continua igual
     script_cfg = load_script_config()
 
     meta_sel = run_selector_tk()
@@ -518,7 +519,7 @@ def main():
 
     if not nombre_original or not codigo_planilla:
         forms.alert(
-            u"El selector no devolvió NombrePlanillaOriginal o CodigoPlanilla.",
+            u"El selector no devolvio NombrePlanillaOriginal o CodigoPlanilla.",
             title="Meta incompleta"
         )
         return
@@ -544,9 +545,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-#==================================================
-#🚫 DELETE BELOW
-#from Snippets._customprint import kit_button_clicked    
-#kit_button_clicked(btn_name=__title__)                  
-
