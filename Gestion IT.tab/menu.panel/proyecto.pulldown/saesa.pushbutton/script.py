@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 __title__   = "SAESA"
-__doc__     = """Version = 2.0
+__doc__     = """Version = 2.1
 Date    = 19.04.2026
 ________________________________________________________________
 Description:
@@ -8,6 +8,7 @@ Description:
 Abre el gestor de datos SAESA del proyecto activo.
 ________________________________________________________________
 Last Updates:
+- [19.04.2026] v2.1 Fix: datos_proyecto.py se busca en _this_dir (pushbutton)
 - [19.04.2026] v2.0 Fix rutas -> MASTER_DIR; crea carpetas necesarias
 - [18.04.2026] v1.1 Version anterior
 ________________________________________________________________
@@ -20,7 +21,7 @@ import subprocess
 import json
 from pyrevit import forms
 
-# ── Rutas centralizadas desde config.paths ───────────────────────────────────
+# ── Rutas centralizadas desde config.paths ────────────────────────────────────
 try:
     _this_dir = os.path.dirname(os.path.abspath(__file__))
 except Exception:
@@ -62,14 +63,14 @@ except Exception as _path_err:
     PYTHON_EXE = _fb_python()
 
 #==================================================
-_CPYTHON_DIR = os.path.join(_EXT_ROOT, 'scripts_cpython')
+# datos_proyecto.py vive en la misma carpeta que este script (pushbutton)
+_DATOS_SCRIPT = os.path.join(_this_dir, 'datos_proyecto.py')
 
 
-def run_cpython_script(script_name, args=None):
-    script_path = os.path.join(_CPYTHON_DIR, script_name)
-    if not os.path.isfile(script_path):
+def run_datos_proyecto(args=None):
+    if not os.path.isfile(_DATOS_SCRIPT):
         forms.alert(
-            u"No se encontro el script CPython:\n{}".format(script_path),
+            u"No se encontro el script CPython:\n{}".format(_DATOS_SCRIPT),
             title=u"Error"
         )
         return 1
@@ -79,7 +80,7 @@ def run_cpython_script(script_name, args=None):
             title=u"Error"
         )
         return 1
-    cmd = [PYTHON_EXE, script_path] + (args or [])
+    cmd = [PYTHON_EXE, _DATOS_SCRIPT] + (args or [])
     return subprocess.call(cmd)
 
 
@@ -90,7 +91,7 @@ def main():
             os.makedirs(d)
 
     # Se pasa MASTER_DIR para que registro y config queden en data/master/
-    rc = run_cpython_script("datos_proyecto.py", [MASTER_DIR])
+    rc = run_datos_proyecto([MASTER_DIR])
     if rc != 0:
         forms.alert(
             u"El gestor de datos termino con codigo: {}".format(rc),
