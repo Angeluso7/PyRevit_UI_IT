@@ -25,13 +25,14 @@ def main():
     selector_script = os.path.join(bundle_dir, 'codint_selector.py')
     if not lanzar_selector(doc, bundle_dir, selector_script):
         return
-    salida = None
     for _ in range(300):
         salida = leer_salida_selector()
         if salida:
             break
         time.sleep(0.1)
-    if not salida or salida.get('opcion', '') == 'cancelar':
+    else:
+        return
+    if salida.get('opcion', '') == 'cancelar':
         return
     aplicar_opcion(doc, doc.ActiveView, salida)
 

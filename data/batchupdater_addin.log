@@ -10775,3 +10775,15 @@ Parameter name: document
    at RevitBatchUpdater.BatchUpdateHandler.ActualizarArchivosExternos(String bdPath, List`1 entradas)
    at RevitBatchUpdater.BatchUpdateHandler.Execute(UIApplication uiapp)
 [BatchUpdateHandler] 2026-04-17 12:24:56 | Execute finalizado.
+[AddinEntry] 2026-04-18 17:48:25 | OnShutdown iniciado.
+[AddinEntry] 2026-04-18 17:48:25 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-04-18 17:48:25 | Handler puesto a null.
+[AddinEntry] 2026-04-18 17:48:25 | OnShutdown finalizado OK.
+[AddinEntry] 2026-04-18 17:49:31 | OnShutdown iniciado.
+[AddinEntry] 2026-04-18 17:49:31 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-04-18 17:49:31 | Handler puesto a null.
+[AddinEntry] 2026-04-18 17:49:31 | OnShutdown finalizado OK.
+[AddinEntry] 2026-04-18 18:00:17 | OnStartup iniciado.
+[AddinEntry] 2026-04-18 18:00:17 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-04-18 18:00:17 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-04-18 18:00:17 | OnStartup finalizado OK.
