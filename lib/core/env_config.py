@@ -30,11 +30,11 @@ import subprocess
 try:
     from config.paths import TEMP_DIR as _TEMP_DIR
 except ImportError:
-    _TEMP_DIR = os.path.join(
-        os.path.expanduser("~"),
-        "AppData", "Roaming", "MyPyRevitExtention",
-        "PyRevitIT.extension", "data", "temp"
-    )
+    # Fallback: resolver desde la ubicacion de este archivo
+    # lib/core/env_config.py -> lib/core/ -> lib/ -> EXT_ROOT -> data/temp
+    _here     = os.path.dirname(os.path.abspath(__file__))
+    _ext_root = os.path.abspath(os.path.join(_here, '..', '..'))
+    _TEMP_DIR = os.path.join(_ext_root, 'data', 'temp')
 
 
 def _cache_path():
