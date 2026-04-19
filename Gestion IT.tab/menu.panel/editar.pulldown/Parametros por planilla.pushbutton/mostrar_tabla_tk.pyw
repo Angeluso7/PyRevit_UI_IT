@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-mostrar_tabla_tk.pyw  v2.1
+mostrar_tabla_tk.pyw  v2.2
 Visor/editor de parametros por planilla, agrupado por CodIntBIM.
 
 Estilo: sv-ttk dark (Sun Valley theme).
@@ -11,6 +11,10 @@ Estilo: sv-ttk dark (Sun Valley theme).
 - <<VARIOS>> cuando hay distintos valores en el grupo.
 - Doble clic edita y propaga a todos los elementos del grupo.
 - CodIntBIM / Archivo / ElementId / nombre_archivo: solo lectura.
+
+v2.2: get_repo_path_from_config resuelve la ruta del repositorio
+      usando nup_activo + convencion data/proyectos/repositorio_datos_<nup>.json
+      en lugar de depender de ruta_repositorio_activo absoluta.
 """
 
 import os
@@ -29,9 +33,10 @@ except ImportError:
 MARKER_VARIOS = "<<VARIOS>>"
 
 # ── Rutas dinamicas ──────────────────────────────────────────────────────────
-_THIS_DIR = os.path.dirname(os.path.abspath(__file__))
-_EXT_ROOT = os.path.abspath(os.path.join(_THIS_DIR, '..', '..', '..', '..'))
-_MASTER   = os.path.join(_EXT_ROOT, 'data', 'master')
+_THIS_DIR   = os.path.dirname(os.path.abspath(__file__))
+_EXT_ROOT   = os.path.abspath(os.path.join(_THIS_DIR, '..', '..', '..', '..'))
+_MASTER     = os.path.join(_EXT_ROOT, 'data', 'master')
+_PROYECTOS  = os.path.join(_EXT_ROOT, 'data', 'proyectos')
 CONFIG_PATH = os.path.join(_MASTER, 'config_proyecto_activo.json')
 
 if len(sys.argv) > 1:
@@ -73,6 +78,12 @@ def guardar_json(ruta, datos):
 
 
 def get_repo_path_from_config():
+    """
+    Lee nup_activo de config_proyecto_activo.json y construye la ruta
+    del repositorio de forma portable:
+        data/proyectos/repositorio_datos_<nup>.json
+    Nunca usa ruta_repositorio_activo absoluta.
+    """
     if not os.path.exists(CONFIG_PATH):
         messagebox.showerror(
             "Config no encontrada",
@@ -81,15 +92,25 @@ def get_repo_path_from_config():
     try:
         with open(CONFIG_PATH, "r", encoding="utf-8") as f:
             cfg = json.load(f)
-        ruta = (cfg.get("ruta_repositorio_activo") or "").strip()
-        if not ruta:
-            messagebox.showerror("Config incompleta",
-                                 "'ruta_repositorio_activo' vacia en config.")
+        nup = (cfg.get("nup_activo") or "").strip()
+        if not nup:
+            messagebox.showerror(
+                "Config incompleta",
+                "'nup_activo' vacia en config_proyecto_activo.json.")
+            return None
+        nombre_archivo = u'repositorio_datos_{}.json'.format(nup)
+        ruta = os.path.join(_PROYECTOS, nombre_archivo)
+        if not os.path.exists(ruta):
+            messagebox.showerror(
+                "Repositorio no encontrado",
+                "No se encontro el repositorio del proyecto activo:\n{}\n\n"
+                "Verifica que exista en data/proyectos/".format(ruta))
             return None
         return ruta
     except Exception:
-        messagebox.showerror("Error config",
-                             "Error leyendo config:\n{}".format(traceback.format_exc()))
+        messagebox.showerror(
+            "Error config",
+            "Error leyendo config:\n{}".format(traceback.format_exc()))
         return None
 
 
@@ -385,7 +406,7 @@ def main():
     btn_frame.columnconfigure(0, weight=1)
     btn_frame.columnconfigure(1, weight=1)
 
-    ttk.Button(btn_frame, text="Guardar — propagar a todos los elementos del grupo",
+    ttk.Button(btn_frame, text="Guardar - propagar a todos los elementos del grupo",
                command=guardar).grid(row=0, column=0, sticky="ew", padx=(0, 4))
     ttk.Button(btn_frame, text="Cancelar",
                command=cancelar).grid(row=0, column=1, sticky="ew", padx=(4, 0))
