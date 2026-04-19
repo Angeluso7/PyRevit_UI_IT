@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 __title__ = "Parametros por elemento"
-__doc__ = """Version = 1.0
-Date = 15.06.2024
+__doc__ = """Version = 1.1
+Date = 19.04.2026
 ________________________________________________________________
 Description:
 
@@ -9,18 +9,21 @@ Editor de parámetros por elemento sobre modelo linkeado,
 usando planillas y un repositorio JSON.
 
 ________________________________________________________________
+Last Updates:
+- [19.04.2026] v1.1  Rutas centralizadas via config.paths.
+________________________________________________________________
 Author: Erik Frits + ajustes Angeluso
 """
 
 # ╦╔╦╗╔═╗╔═╗╦═╗╔╦╗╔═╗
 # ║║║║╠═╝║ ║╠╦╝ ║ ╚═╗
-# ╩╩ ╩╩ ╚═╝╩╚═ ╩ ╚═╝
+# ╩╩ ╩╩  ╚═╝╩╚═ ╩ ╚═╝
 #==================================================
 import unicodedata
 import clr
 import os
+import sys
 import json
-import unicodedata  # <-- NUEVO
 import threading
 import time
 
@@ -34,15 +37,12 @@ from pyrevit import forms
 # Normalización de texto (acentos, ñ)
 # ------------------------------------------------------------
 
-
-
 def normalizar_clave(texto):
     """Quita acentos/virgulillas y convierte ñ/Ñ en n/N."""
     if texto is None:
         return None
     if not isinstance(texto, str):
         texto = str(texto)
-
     nfkd = unicodedata.normalize('NFKD', texto)
     sin_tildes = u"".join(c for c in nfkd if not unicodedata.combining(c))
     sin_enies = sin_tildes.replace(u"ñ", u"n").replace(u"Ñ", u"N")
@@ -50,23 +50,42 @@ def normalizar_clave(texto):
 
 
 # ------------------------------------------------------------
-# Rutas base (data, config, script.json)
+# Rutas centralizadas desde config.paths
 # ------------------------------------------------------------
+try:
+    _this_dir = os.path.dirname(os.path.abspath(__file__))
+except Exception:
+    _this_dir = os.getcwd()
 
-def get_data_dir():
-    appdata = os.environ.get("APPDATA", "")
-    data_dir = os.path.join(appdata, "MyPyRevitExtention", "PyRevitIT.extension", "data")
-    if not os.path.isdir(data_dir):
-        try:
-            os.makedirs(data_dir)
-        except:
-            pass
-    return data_dir
+# pushbutton(1) -> pulldown(2) -> panel(3) -> tab(4) -> EXT_ROOT
+_EXT_ROOT = os.path.abspath(os.path.join(_this_dir, '..', '..', '..', '..'))
+_LIB_DIR  = os.path.join(_EXT_ROOT, 'lib')
+if _LIB_DIR not in sys.path:
+    sys.path.insert(0, _LIB_DIR)
 
-DATA_DIR = get_data_dir()
-CONFIG_PATH = os.path.join(DATA_DIR, "config_proyecto_activo.json")
-SCRIPT_JSON_PATH = os.path.join(DATA_DIR, "script.json")
+try:
+    from config.paths import DATA_DIR, MASTER_DIR, TEMP_DIR, CACHE_DIR, \
+                             CONFIG_PROYECTO, REGISTRO_PROYECTOS, \
+                             SCRIPT_JSON_PATH_LIB, ensure_runtime_dirs
+    ensure_runtime_dirs()
+except Exception as _path_err:
+    _DATA_DIR            = os.path.join(_EXT_ROOT, 'data')
+    DATA_DIR             = _DATA_DIR
+    MASTER_DIR           = os.path.join(_DATA_DIR, 'master')
+    TEMP_DIR             = os.path.join(_DATA_DIR, 'temp')
+    CACHE_DIR            = os.path.join(_DATA_DIR, 'cache')
+    CONFIG_PROYECTO      = os.path.join(MASTER_DIR, 'config_proyecto_activo.json')
+    REGISTRO_PROYECTOS   = os.path.join(MASTER_DIR, 'registro_proyectos.json')
+    SCRIPT_JSON_PATH_LIB = os.path.join(MASTER_DIR, 'script.json')
 
+# Alias locales para compatibilidad con el resto del script
+CONFIG_PATH      = CONFIG_PROYECTO
+SCRIPT_JSON_PATH = SCRIPT_JSON_PATH_LIB
+
+
+# ------------------------------------------------------------
+# Funciones de repositorio
+# ------------------------------------------------------------
 
 def load_active_repo_path():
     if not os.path.exists(CONFIG_PATH):
@@ -81,11 +100,7 @@ def load_active_repo_path():
         raise Exception(
             u"config_proyecto_activo.json no tiene 'ruta_repositorio_activo'."
         )
-
-    # Forzar BD en carpeta data usando solo el nombre del archivo
-    nombre_bd = os.path.basename(ruta_repo)
-    bd_path = os.path.join(DATA_DIR, nombre_bd)
-    return bd_path
+    return ruta_repo
 
 
 def load_repo():
@@ -150,6 +165,7 @@ def load_script_json():
         )
         return None
 
+
 # ------------------------------------------------------------
 # Clases de datos y handler
 # ------------------------------------------------------------
@@ -171,6 +187,7 @@ class UpdateParamsHandler(IExternalEventHandler):
 
     def GetName(self):
         return "UpdateParamsHandler"
+
 
 # ------------------------------------------------------------
 # Editor WPF (pyRevit.forms.WPFWindow)
@@ -241,7 +258,6 @@ class ParamsEditor(forms.WPFWindow):
 
     def _get_headers_order(self):
         """Obtiene clave de planilla y encabezados en orden, usando CodIntBIM y script.json."""
-        # 1) leer CodIntBIM
         try:
             p_cod = self.element.LookupParameter("CodIntBIM")
             cod_val = p_cod.AsString() if p_cod and p_cod.HasValue else ""
@@ -254,9 +270,7 @@ class ParamsEditor(forms.WPFWindow):
 
         if not cod_val or len(cod_val) < 4:
             forms.alert(
-                u"CodIntBIM vacío o con menos de 4 caracteres.\nValor: '{}'".format(
-                    cod_val
-                ),
+                u"CodIntBIM vacío o con menos de 4 caracteres.\nValor: '{}'".format(cod_val),
                 title="CodIntBIM inválido",
             )
             return None, []
@@ -272,7 +286,6 @@ class ParamsEditor(forms.WPFWindow):
             )
             return None, []
 
-        # 2) buscar la clave de planilla por prefijo
         clave_planilla = None
         try:
             for clave, vals in codigos_planillas.items():
@@ -298,14 +311,11 @@ class ParamsEditor(forms.WPFWindow):
 
         if not clave_planilla:
             forms.alert(
-                u"No se encontró planilla asociada para el prefijo '{}'.".format(
-                    pref_cod
-                ),
+                u"No se encontró planilla asociada para el prefijo '{}'.".format(pref_cod),
                 title="Planilla no definida",
             )
             return None, []
 
-        # 3) buscar ViewSchedule en host
         try:
             host_doc = __revit__.ActiveUIDocument.Document
             schedules = (
@@ -314,11 +324,7 @@ class ParamsEditor(forms.WPFWindow):
                 .ToElements()
             )
             planilla_obj = next(
-                (
-                    s
-                    for s in schedules
-                    if (not s.IsTemplate and s.Name == clave_planilla)
-                ),
+                (s for s in schedules if not s.IsTemplate and s.Name == clave_planilla),
                 None,
             )
         except Exception as e:
@@ -330,14 +336,11 @@ class ParamsEditor(forms.WPFWindow):
 
         if planilla_obj is None:
             forms.alert(
-                u"No se encontró la planilla '{}' en el modelo.".format(
-                    clave_planilla
-                ),
+                u"No se encontró la planilla '{}' en el modelo.".format(clave_planilla),
                 title="Planilla no encontrada",
             )
             return None, []
 
-        # 4) encabezados en orden de columnas
         headers_order = []
         try:
             for fid in planilla_obj.Definition.GetFieldOrder():
@@ -346,9 +349,7 @@ class ParamsEditor(forms.WPFWindow):
                     headers_order.append(field.GetName())
         except Exception as e:
             forms.alert(
-                u"Error obteniendo encabezados de '{}':\n{}".format(
-                    clave_planilla, e
-                ),
+                u"Error obteniendo encabezados de '{}':\n{}".format(clave_planilla, e),
                 title="Error encabezados",
             )
             return None, []
@@ -372,7 +373,6 @@ class ParamsEditor(forms.WPFWindow):
         self._original_values = {}
 
         try:
-            # 1) localizar registro en repositorio para este Archivo + ElementId
             archivo_completo, element_id_str = self._get_archivo_y_id()
             repo_all = self._repo
             datos_repo_por_id = None
@@ -388,13 +388,11 @@ class ParamsEditor(forms.WPFWindow):
                 except Exception:
                     continue
 
-            # 2) encabezados de planilla
             clave_planilla, headers_order = self._get_headers_order()
             if not headers_order:
                 self.statusLabel.Content = u"No se pudieron obtener encabezados."
                 return
 
-            # 3) parámetros del elemento con valor
             parametros = {}
             for p in self.element.Parameters:
                 try:
@@ -408,40 +406,28 @@ class ParamsEditor(forms.WPFWindow):
                 except Exception:
                     continue
 
-            # 4) aplicar reemplazos de nombres con normalización
             parametros_renombrados = {}
             for k, (p_obj, v) in parametros.items():
                 k_norm = normalizar_clave(k)
                 nuevo_nombre = self._reemplazos.get(k_norm, k_norm)
                 parametros_renombrados[nuevo_nombre] = (p_obj, v)
 
-            # 5) construir valores finales siguiendo orden de planilla
             for head in headers_order:
-                # Normalizar encabezado para buscar en diccionarios
                 head_norm = normalizar_clave(head)
-
                 p = None
                 val_model = ""
-
-                # Buscar por nombre normalizado
                 if head_norm in parametros_renombrados:
                     p, val_model = parametros_renombrados[head_norm]
-
-                # Para el repositorio, las claves se guardan tal cual head
                 if datos_repo_por_id and head in datos_repo_por_id:
                     valor_final = datos_repo_por_id.get(head, "")
                 else:
                     valor_final = val_model
-
                 self.params.append(ParamItem(head, valor_final, p))
                 self._original_values[head] = valor_final
 
             self.paramsListView.ItemsSource = None
             self.paramsListView.ItemsSource = self.params
-
-            self.statusLabel.Content = u"Datos cargados (planilla '{}').".format(
-                clave_planilla
-            )
+            self.statusLabel.Content = u"Datos cargados (planilla '{}').".format(clave_planilla)
 
         except Exception as e:
             self.statusLabel.Content = u"Error cargando datos."
@@ -474,7 +460,6 @@ class ParamsEditor(forms.WPFWindow):
                 os.path.basename(archivo_completo) if archivo_completo else ""
             )
 
-            # buscar registro existente
             existing_key = None
             for k, v in repo.items():
                 if not isinstance(v, dict):
@@ -486,7 +471,6 @@ class ParamsEditor(forms.WPFWindow):
                     existing_key = k
                     break
 
-            # si no existe, crear nueva clave basada en self._key
             if existing_key is None:
                 existing_key = self._key
                 i = 1
@@ -496,11 +480,10 @@ class ParamsEditor(forms.WPFWindow):
                 repo[existing_key] = {}
 
             entry = repo[existing_key]
-            entry["Archivo"] = archivo_completo
+            entry["Archivo"]        = archivo_completo
             entry["nombre_archivo"] = nombre_archivo
-            entry["ElementId"] = element_id_str
+            entry["ElementId"]      = element_id_str
 
-            # Guardamos claves tal cual se muestran (head), sin normalizar
             for p in self.params:
                 entry[p.Name] = p.Value
 
@@ -521,13 +504,10 @@ class ParamsEditor(forms.WPFWindow):
     def on_save(self, sender, e):
         try:
             if not self._has_changes():
-                self.statusLabel.Content = (
-                    u"Sin cambios. No se actualizó el repositorio."
-                )
+                self.statusLabel.Content = u"Sin cambios. No se actualizó el repositorio."
                 self._changes_saved = False
                 self.Close()
                 return
-
             self.statusLabel.Content = u"Guardando datos..."
             ok = self.save_params_to_repo()
             if ok:
@@ -537,20 +517,14 @@ class ParamsEditor(forms.WPFWindow):
                 self._changes_saved = False
             self.Close()
         except Exception as e:
-            forms.alert(
-                u"Error en on_save:\n{}".format(e),
-                title="Error guardar",
-            )
+            forms.alert(u"Error en on_save:\n{}".format(e), title="Error guardar")
 
     def on_cancel(self, sender, e):
         try:
             self._changes_saved = False
             self.Close()
         except Exception as e:
-            forms.alert(
-                u"Error en on_cancel:\n{}".format(e),
-                title="Error cancelar",
-            )
+            forms.alert(u"Error en on_cancel:\n{}".format(e), title="Error cancelar")
 
     def on_update_complete(self, success, message):
         try:
@@ -564,13 +538,14 @@ class ParamsEditor(forms.WPFWindow):
                 title="Error actualización",
             )
 
+
 # ------------------------------------------------------------
 # main
 # ------------------------------------------------------------
 
 def main():
     uidoc = __revit__.ActiveUIDocument
-    doc = uidoc.Document
+    doc   = uidoc.Document
 
     try:
         ref = uidoc.Selection.PickObject(
@@ -583,7 +558,7 @@ def main():
 
     try:
         link_instance = doc.GetElement(ref.ElementId)
-        linked_doc = link_instance.GetLinkDocument()
+        linked_doc    = link_instance.GetLinkDocument()
         if linked_doc is None:
             forms.alert("No se pudo obtener el documento linkeado.")
             return
@@ -598,9 +573,9 @@ def main():
         )
         return
 
-    handler = UpdateParamsHandler()
+    handler        = UpdateParamsHandler()
     external_event = ExternalEvent.Create(handler)
-    editor = ParamsEditor(linked_doc, element, external_event, handler)
+    editor         = ParamsEditor(linked_doc, element, external_event, handler)
     editor.ShowDialog()
 
 
