@@ -1,37 +1,38 @@
 # -*- coding: utf-8 -*-
 __title__ = "Por Elemento"
 
-__doc__ = """Version = 1.0
-Date = 01.09.2024
+__doc__ = """Version = 1.1
+Date    = 01.09.2024
 _______________________________________________________________
 Description:
 
-Selecciona un elemento (host o link), arma sus datos según la planilla
-asociada a CodIntBIM tomando primero el repositorio activo
-(ruta_repositorio_activo) y, si no hay datos, desde el modelo.
-Pasa la información a un visor CPython (Tkinter) en modo solo lectura.
+Selecciona un elemento (host o link), arma sus datos según la
+planilla asociada a CodIntBIM tomando primero el repositorio
+activo (ruta_repositorio_activo) y, si no hay datos, desde el
+modelo. Pasa la información a un visor CPython (Tkinter) en
+modo solo lectura.
 ________________________________________________________________
 How-To:
 1. [Hold ALT + CLICK] on the button to open its source folder.
-You will be able to override this placeholder.
 2. Automate Your Boring Work ;)
 ________________________________________________________________
-TODO:
-[FEATURE] - Describe Your ToDo Tasks Here
-________________________________________________________________
 Last Updates:
-- [01.09.2025] v0.1 Inicio de Aplicación.
+- [01.09.2025] v0.1  Inicio de Aplicación.
+- [18.04.2026] v1.1  Rutas robustecidas, búsqueda automática de
+                     Python, eliminado import residual de Snippets.
 ________________________________________________________________
 Author: Argenis Angel"""
 
 # ╦╔╦╗╔═╗╔═╗╦═╗╔╦╗╔═╗
 # ║║║║╠═╝║ ║╠╦╝ ║ ╚═╗
-# ╩╩ ╩╩ ╚═╝╩╚═ ╩ ╚═╝
+# ╩╩ ╩╩  ╚═╝╩╚═ ╩ ╚═╝
 #==================================================
 
 import clr
 import os
+import sys
 import json
+import glob
 import subprocess
 
 clr.AddReference("RevitAPI")
@@ -46,47 +47,60 @@ from Autodesk.Revit.DB import (
 from Autodesk.Revit.UI.Selection import ObjectType
 from System.Windows.Forms import MessageBox
 
-# ╦ ╦╔═╗╦═╗╦╔═╗╔╗ ╦ ╔═╗╔═╗
-# ╚╗╔╝╠═╣╠╦╝║╠═╣╠╩╗║ ║╣ ╚═╗
-# ╚╝ ╩ ╩╩╚═╩╩ ╩╚═╝╩═╝╚═╝╚═╝
+# ╦  ╦╔═╗╦═╗╦╔═╗╔╗ ╦  ╔═╗╔═╗
+# ╚╗╔╝╠═╣╠╦╝║╠═╣╠╩╗║  ║╣ ╚═╗
+#  ╚╝ ╩ ╩╩╚═╩╩ ╩╚═╝╩═╝╚═╝╚═╝
 #==================================================
 
-app = __revit__.Application
+app   = __revit__.Application
 uidoc = __revit__.ActiveUIDocument
-doc = uidoc.Document
+doc   = uidoc.Document
 
 # ╔╦╗╔═╗╦╔╗╔
 # ║║║╠═╣║║║║
 # ╩ ╩╩ ╩╩╝╚╝
 #==================================================
 
-#==================================================
-# Rutas comunes de datos
+# --------------------------------------------------
+# Rutas base — todas relativas al perfil de usuario
+# --------------------------------------------------
+_ROAMING     = os.path.join(os.path.expanduser("~"), "AppData", "Roaming")
+DATA_DIR     = os.path.join(_ROAMING, "MyPyRevitExtention", "PyRevitIT.extension", "data")
+CONFIG_PATH  = os.path.join(DATA_DIR, "config_proyecto_activo.json")
+SCRIPT_JSON  = os.path.join(DATA_DIR, "script.json")
 
-DATA_DIR = os.path.join(
-    os.path.expanduser("~"),
-    r"AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data"
-)
+CURRENT_FOLDER        = os.path.dirname(__file__)
+PLANILLAS_ORDER_PATH  = os.path.join(CURRENT_FOLDER, "planillas_headers_order.json")
+REPO_ELEMENTO_TMP     = os.path.join(CURRENT_FOLDER, "repo_elemento_tmp.json")
+CPYTHON_VIEWER_PATH   = os.path.join(CURRENT_FOLDER, "visor_elemento.pyw")
 
-CONFIG_PATH = os.path.join(DATA_DIR, "config_proyecto_activo.json")
-SCRIPT_JSON_PATH = os.path.join(DATA_DIR, "script.json")
+# --------------------------------------------------
+# Búsqueda automática de pythonw.exe
+# --------------------------------------------------
+def _find_pythonw():
+    """Busca pythonw.exe en LocalAppData\\Programs\\Python\\*\\pythonw.exe
+    y en PATH. Devuelve la ruta o None."""
+    local_base = os.path.join(os.path.expanduser("~"), "AppData", "Local",
+                              "Programs", "Python")
+    if os.path.isdir(local_base):
+        hits = sorted(
+            glob.glob(os.path.join(local_base, "Python*", "pythonw.exe")),
+            reverse=True
+        )
+        if hits:
+            return hits[0]
+    # Fallback: buscar en PATH
+    for folder in os.environ.get("PATH", "").split(os.pathsep):
+        candidate = os.path.join(folder.strip('"'), "pythonw.exe")
+        if os.path.isfile(candidate):
+            return candidate
+    return None
 
-# Carpeta del pushbutton actual
-CURRENT_FOLDER = os.path.dirname(__file__)
+PYTHON_EXE = _find_pythonw()
 
-# JSON local para orden de encabezados por planilla
-PLANILLAS_ORDER_PATH = os.path.join(CURRENT_FOLDER, "planillas_headers_order.json")
-
-# JSON temporal para el visor CPython
-REPO_ELEMENTO_TMP_PATH = os.path.join(CURRENT_FOLDER, "repo_elemento_tmp.json")
-
-# Ruta del ejecutable CPython y del visor
-PYTHON_EXE = r"C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\pythonw.exe"
-CPYTHON_VIEWER_PATH = os.path.join(CURRENT_FOLDER, "visor_elemento.pyw")
-
-#==================================================
+# --------------------------------------------------
 # Utilidades JSON
-
+# --------------------------------------------------
 def load_json(path, show_error=True):
     if not os.path.exists(path):
         if show_error:
@@ -106,7 +120,6 @@ def load_json(path, show_error=True):
             )
         return None
 
-
 def save_json(data, path, show_error=True):
     try:
         folder = os.path.dirname(path)
@@ -123,9 +136,9 @@ def save_json(data, path, show_error=True):
             )
         return False
 
-#==================================================
-# Repositorio activo desde config_proyecto_activo.json
-
+# --------------------------------------------------
+# Repositorio activo
+# --------------------------------------------------
 def get_repo_path_from_config():
     if not os.path.exists(CONFIG_PATH):
         MessageBox.Show(
@@ -141,8 +154,8 @@ def get_repo_path_from_config():
         ruta = (cfg.get("ruta_repositorio_activo") or "").strip()
         if not ruta:
             MessageBox.Show(
-                u"En config_proyecto_activo.json no se encontró la clave "
-                u"'ruta_repositorio_activo' o está vacía.\n\n"
+                u"'ruta_repositorio_activo' no encontrada o vacía en\n"
+                u"config_proyecto_activo.json.\n\n"
                 u"No se puede determinar el repositorio de datos activo.",
                 "Config incompleta"
             )
@@ -157,21 +170,17 @@ def get_repo_path_from_config():
         )
         return None
 
-
 REPO_PATH = get_repo_path_from_config()
-
 
 def load_repo():
     if not REPO_PATH:
         return {}
-    repo = load_json(REPO_PATH, show_error=False)
-    return repo or {}
+    return load_json(REPO_PATH, show_error=False) or {}
 
-#==================================================
-# Selección de elemento
-
+# --------------------------------------------------
+# Selección de elemento (link o host)
+# --------------------------------------------------
 def seleccionar_elemento():
-    """Selecciona un elemento (link o host)."""
     try:
         ref = uidoc.Selection.PickObject(
             ObjectType.LinkedElement,
@@ -192,35 +201,33 @@ def seleccionar_elemento():
                     MessageBox.Show("Elemento linkeado no encontrado.", "Error")
                     return None, None
                 return elem, linked_doc
-        except:
+        except Exception:
             pass
-    except:
-        try:
-            ref = uidoc.Selection.PickObject(
-                ObjectType.Element,
-                "Seleccione un elemento del modelo"
-            )
-            elem = doc.GetElement(ref.ElementId)
-            if elem is None:
-                MessageBox.Show("Elemento no encontrado.", "Error")
-                return None, None
-            return elem, doc
-        except Exception as e:
-            MessageBox.Show(
-                u"Error/cancelación en selección:\n{}".format(e),
-                "Aviso"
-            )
+    except Exception:
+        pass
+
+    try:
+        ref = uidoc.Selection.PickObject(
+            ObjectType.Element,
+            "Seleccione un elemento del modelo"
+        )
+        elem = doc.GetElement(ref.ElementId)
+        if elem is None:
+            MessageBox.Show("Elemento no encontrado.", "Error")
             return None, None
+        return elem, doc
+    except Exception as e:
+        MessageBox.Show(
+            u"Error/cancelación en selección:\n{}".format(e),
+            "Aviso"
+        )
+        return None, None
 
-    return None, None
-
-#==================================================
+# --------------------------------------------------
 # Planilla y orden de encabezados
-
+# --------------------------------------------------
 def load_script_json():
-    data = load_json(SCRIPT_JSON_PATH)
-    return data or {}
-
+    return load_json(SCRIPT_JSON) or {}
 
 def obtener_encabezados_planilla(host_doc, codintbim_val, script_data):
     codigos_planillas = script_data.get("codigos_planillas", {})
@@ -252,15 +259,12 @@ def obtener_encabezados_planilla(host_doc, codintbim_val, script_data):
             .WhereElementIsNotElementType()
             .ToElements()
         )
-
         planilla_obj = next(
             (s for s in schedules if s.Name == clave_planilla), None
         )
-
         if planilla_obj is None:
             MessageBox.Show(
-                u"No se encontró la planilla '{}'."
-                .format(clave_planilla),
+                u"No se encontró la planilla '{}'.".format(clave_planilla),
                 "Error"
             )
             return None, None
@@ -292,7 +296,6 @@ def obtener_encabezados_planilla(host_doc, codintbim_val, script_data):
 
     return clave_planilla, headers_order
 
-
 def obtener_headers_desde_cache_o_planilla(host_doc, codintbim_val, script_data):
     planillas_order = load_json(PLANILLAS_ORDER_PATH, show_error=False) or {}
 
@@ -311,20 +314,19 @@ def obtener_headers_desde_cache_o_planilla(host_doc, codintbim_val, script_data)
 
     return clave_planilla, headers
 
-#==================================================
-# Construcción de datos para mostrar
-
+# --------------------------------------------------
+# Construcción de datos del elemento
+# --------------------------------------------------
 def construir_datos_elemento(elem, linked_doc, headers_order, script_data):
-    """Usa primero repo activo y, si no hay, modelo."""
+    """Prioriza repo activo; si no hay datos, lee desde el modelo."""
     reemplazos_nombres = script_data.get("reemplazos_de_nombres", {})
-
     repo_datos = load_repo()
 
     elem_id_str = str(elem.Id.IntegerValue)
     archivo = linked_doc.PathName if linked_doc is not None else (doc.PathName or "")
     base_key = u"{}_{}".format(archivo, elem_id_str)
 
-    data_elemento = repo_datos.get(base_key, None)
+    data_elemento = repo_datos.get(base_key)
     resultado = {}
 
     try:
@@ -345,7 +347,7 @@ def construir_datos_elemento(elem, linked_doc, headers_order, script_data):
                         val = p.AsString() or p.AsValueString()
                         if val and val.strip():
                             parametros[p.Definition.Name] = val.strip()
-                except:
+                except Exception:
                     continue
             tmp = {reemplazos_nombres.get(k, k): v for k, v in parametros.items()}
             for head in headers_order:
@@ -360,10 +362,28 @@ def construir_datos_elemento(elem, linked_doc, headers_order, script_data):
 
     return resultado, archivo, elem_id_str
 
-#==================================================
-# main
-
+# --------------------------------------------------
+# MAIN
+# --------------------------------------------------
 def main():
+    # Verificación temprana de dependencias externas
+    if not os.path.isfile(CPYTHON_VIEWER_PATH):
+        MessageBox.Show(
+            u"No se encontró el visor externo:\n{}\n\n"
+            u"Verifique que 'visor_elemento.pyw' esté en la carpeta del botón."
+            .format(CPYTHON_VIEWER_PATH),
+            "Visor no encontrado"
+        )
+        return
+
+    if PYTHON_EXE is None:
+        MessageBox.Show(
+            u"No se encontró ninguna instalación de Python (pythonw.exe) "
+            u"en el equipo.\n\nInstale Python 3 y vuelva a intentarlo.",
+            "Python no encontrado"
+        )
+        return
+
     elem, linked_doc = seleccionar_elemento()
     if elem is None:
         return
@@ -373,15 +393,13 @@ def main():
         return
 
     try:
-        p_cod = elem.LookupParameter("CodIntBIM")
+        p_cod  = elem.LookupParameter("CodIntBIM")
         cod_val = p_cod.AsString() if (p_cod and p_cod.HasValue) else ""
-    except:
+    except Exception:
         cod_val = ""
 
-    host_doc = doc
-
     clave_planilla, headers_order = obtener_headers_desde_cache_o_planilla(
-        host_doc, cod_val, script_data
+        doc, cod_val, script_data
     )
     if not headers_order:
         return
@@ -393,32 +411,26 @@ def main():
         return
 
     json_temporal = {
-        "Archivo": archivo,
+        "Archivo":   archivo,
         "ElementId": elem_id_str,
-        "Planilla": clave_planilla,
-        "Headers": headers_order,
-        "Row": resultado
+        "Planilla":  clave_planilla,
+        "Headers":   headers_order,
+        "Row":       resultado
     }
 
-    if not save_json(json_temporal, REPO_ELEMENTO_TMP_PATH):
+    if not save_json(json_temporal, REPO_ELEMENTO_TMP):
         return
 
     try:
         subprocess.Popen(
-            [PYTHON_EXE, CPYTHON_VIEWER_PATH, REPO_ELEMENTO_TMP_PATH],
+            [PYTHON_EXE, CPYTHON_VIEWER_PATH, REPO_ELEMENTO_TMP],
             shell=False
         )
     except Exception as e:
         MessageBox.Show(
-            u"No se pudo ejecutar visor externo:\n{}".format(e),
+            u"No se pudo ejecutar el visor externo:\n{}".format(e),
             "Error"
         )
 
-
 if __name__ == "__main__":
     main()
-
-#==================================================
-#🚫 DELETE BELOW
-from Snippets._customprint import kit_button_clicked  # Import Reusable Function from 'lib/Snippets/_customprint.py'
-kit_button_clicked(btn_name=__title__)  # Display Default Print Message

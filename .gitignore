@@ -1,0 +1,38 @@
+# Temporales de operacion
+data/temp/
+data/logs/
+data/exports/
+data/cache/
+
+# JSONs temporales raiz
+data/_temp_datos.json
+data/tempdatos.json
+data/codint_selector_in.json
+data/codint_selector_out.json
+data/comparacion_meta_tmp.json
+data/resultado_actualizacion_*.json
+data/repositorio_datos_*.json
+
+# Logs y txt grandes
+data/planilla_vs_modelo_log.txt
+data/ui_comparacion_log.txt
+data/batchupdater_addin.log
+*.log
+
+# Scripts prototipo en data/ (ya integrados en lib/ o scripts_cpython/)
+data/formatear_tablas_excel.py
+data/formatear_tablas_excel_v2.py
+data/extraer_parametros_general.py
+data/ui_comparacion.py
+data/leer_xlsm_codigos.py
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Mantener carpetas vacias
+!data/temp/.gitkeep
+!data/logs/.gitkeep
+!data/exports/.gitkeep
+!data/cache/.gitkeep
