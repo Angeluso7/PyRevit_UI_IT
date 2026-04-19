@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 __title__ = "Por Elemento"
 
-__doc__ = """Version = 1.1
-Date    = 01.09.2024
+__doc__ = """Version = 1.2
+Date    = 18.04.2026
 _______________________________________________________________
 Description:
 
-Selecciona un elemento (host o link), arma sus datos según la
+Selecciona un elemento (host o link), arma sus datos segun la
 planilla asociada a CodIntBIM tomando primero el repositorio
 activo (ruta_repositorio_activo) y, si no hay datos, desde el
-modelo. Pasa la información a un visor CPython (Tkinter) en
+modelo. Pasa la informacion a un visor CPython (Tkinter) en
 modo solo lectura.
 ________________________________________________________________
 How-To:
@@ -17,22 +17,20 @@ How-To:
 2. Automate Your Boring Work ;)
 ________________________________________________________________
 Last Updates:
-- [01.09.2025] v0.1  Inicio de Aplicación.
-- [18.04.2026] v1.1  Rutas robustecidas, búsqueda automática de
-                     Python, eliminado import residual de Snippets.
+- [01.09.2025] v0.1  Inicio de Aplicacion.
+- [18.04.2026] v1.2  Rutas centralizadas via config.paths.
 ________________________________________________________________
 Author: Argenis Angel"""
 
-# ╦╔╦╗╔═╗╔═╗╦═╗╔╦╗╔═╗
-# ║║║║╠═╝║ ║╠╦╝ ║ ╚═╗
-# ╩╩ ╩╩  ╚═╝╩╚═ ╩ ╚═╝
+# ╦╔╦╗╔═╗╦═╗╦╔═╗╔╦╗╔═╗
+# ║║║║╠═╝╠╦╝║ ║╠╦╝ ║ ╚═╗
+# ╩╩ ╩╩  ╚═╝╩╚═ ╩ ╩ ╚═╝ ╚ ╚═╝
 #==================================================
 
 import clr
 import os
 import sys
 import json
-import glob
 import subprocess
 
 clr.AddReference("RevitAPI")
@@ -61,376 +59,246 @@ doc   = uidoc.Document
 # ╩ ╩╩ ╩╩╝╚╝
 #==================================================
 
-# --------------------------------------------------
-# Rutas base — todas relativas al perfil de usuario
-# --------------------------------------------------
-_ROAMING     = os.path.join(os.path.expanduser("~"), "AppData", "Roaming")
-DATA_DIR     = os.path.join(_ROAMING, "MyPyRevitExtention", "PyRevitIT.extension", "data")
-CONFIG_PATH  = os.path.join(DATA_DIR, "config_proyecto_activo.json")
-SCRIPT_JSON  = os.path.join(DATA_DIR, "script.json")
+# ── Rutas centralizadas desde config.paths ────────────────────────────────────
+try:
+    _this_dir = os.path.dirname(os.path.abspath(__file__))
+except Exception:
+    _this_dir = os.getcwd()
 
-CURRENT_FOLDER        = os.path.dirname(__file__)
+# pushbutton(1) -> pulldown(2) -> panel(3) -> tab(4) -> EXT_ROOT
+_EXT_ROOT = os.path.abspath(os.path.join(_this_dir, '..', '..', '..', '..'))
+_LIB_DIR  = os.path.join(_EXT_ROOT, 'lib')
+if _LIB_DIR not in sys.path:
+    sys.path.insert(0, _LIB_DIR)
+
+try:
+    from config.paths import DATA_DIR, MASTER_DIR, TEMP_DIR, CACHE_DIR, \
+                             CONFIG_PROYECTO, REGISTRO_PROYECTOS, \
+                             SCRIPT_JSON_PATH_LIB, ensure_runtime_dirs
+    from core.env_config import get_python_exe
+    ensure_runtime_dirs()
+    PYTHON_EXE = get_python_exe()
+except Exception as _path_err:
+    _DATA_DIR       = os.path.join(_EXT_ROOT, 'data')
+    DATA_DIR        = _DATA_DIR
+    MASTER_DIR      = os.path.join(_DATA_DIR, 'master')
+    TEMP_DIR        = os.path.join(_DATA_DIR, 'temp')
+    CACHE_DIR       = os.path.join(_DATA_DIR, 'cache')
+    CONFIG_PROYECTO = os.path.join(MASTER_DIR, 'config_proyecto_activo.json')
+    REGISTRO_PROYECTOS   = os.path.join(MASTER_DIR, 'registro_proyectos.json')
+    SCRIPT_JSON_PATH_LIB = os.path.join(MASTER_DIR, 'script.json')
+    import glob as _glob
+    def _fb_python():
+        base = os.path.join(os.path.expanduser('~'), 'AppData', 'Local', 'Programs', 'Python')
+        for exe in ('python.exe', 'pythonw.exe'):
+            for cand in sorted(_glob.glob(os.path.join(base, 'Python3*', exe)), reverse=True):
+                return cand
+        for folder in os.environ.get('PATH', '').split(os.pathsep):
+            cand = os.path.join(folder.strip(), 'python.exe')
+            if os.path.isfile(cand):
+                return cand
+        return None
+    PYTHON_EXE = _fb_python()
+
+CURRENT_FOLDER        = os.path.dirname(os.path.abspath(__file__))
 PLANILLAS_ORDER_PATH  = os.path.join(CURRENT_FOLDER, "planillas_headers_order.json")
-REPO_ELEMENTO_TMP     = os.path.join(CURRENT_FOLDER, "repo_elemento_tmp.json")
+REPO_ELEMENTO_TMP     = os.path.join(TEMP_DIR, "repo_elemento_tmp.json")
 CPYTHON_VIEWER_PATH   = os.path.join(CURRENT_FOLDER, "visor_elemento.pyw")
+CONFIG_PATH           = CONFIG_PROYECTO
+SCRIPT_JSON           = SCRIPT_JSON_PATH_LIB
 
-# --------------------------------------------------
-# Búsqueda automática de pythonw.exe
-# --------------------------------------------------
-def _find_pythonw():
-    """Busca pythonw.exe en LocalAppData\\Programs\\Python\\*\\pythonw.exe
-    y en PATH. Devuelve la ruta o None."""
-    local_base = os.path.join(os.path.expanduser("~"), "AppData", "Local",
-                              "Programs", "Python")
-    if os.path.isdir(local_base):
-        hits = sorted(
-            glob.glob(os.path.join(local_base, "Python*", "pythonw.exe")),
-            reverse=True
-        )
-        if hits:
-            return hits[0]
-    # Fallback: buscar en PATH
-    for folder in os.environ.get("PATH", "").split(os.pathsep):
-        candidate = os.path.join(folder.strip('"'), "pythonw.exe")
-        if os.path.isfile(candidate):
-            return candidate
-    return None
+# ╦╔╦╗╔═╗╦═╗╦╔═╗
+# ║║║║╠═╝╠╦╝║ ║╠═╣
+# ╩╩ ╩╩  ╚═╝╩╚═ ╩ ╩╚═╝
+#==================================================
 
-PYTHON_EXE = _find_pythonw()
-
-# --------------------------------------------------
-# Utilidades JSON
-# --------------------------------------------------
-def load_json(path, show_error=True):
-    if not os.path.exists(path):
-        if show_error:
-            MessageBox.Show(
-                u"No se encontró archivo JSON:\n{}".format(path),
-                "Error"
-            )
-        return None
+def load_json(path, default=None):
+    if not os.path.isfile(path):
+        return default
     try:
-        with open(path, "r", encoding="utf-8") as f:
+        with open(path, 'r', encoding='utf-8') as f:
             return json.load(f)
-    except Exception as e:
-        if show_error:
-            MessageBox.Show(
-                u"Error cargando JSON:\n{}".format(e),
-                "Error"
-            )
-        return None
+    except Exception:
+        return default
 
-def save_json(data, path, show_error=True):
+
+def save_json(path, data):
     try:
         folder = os.path.dirname(path)
         if folder and not os.path.exists(folder):
             os.makedirs(folder)
-        with open(path, "w", encoding="utf-8") as f:
+        with open(path, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
         return True
-    except Exception as e:
-        if show_error:
-            MessageBox.Show(
-                u"Error guardando JSON:\n{}".format(e),
-                "Error"
-            )
+    except Exception:
         return False
 
-# --------------------------------------------------
-# Repositorio activo
-# --------------------------------------------------
-def get_repo_path_from_config():
-    if not os.path.exists(CONFIG_PATH):
-        MessageBox.Show(
-            u"No se encontró config_proyecto_activo.json en:\n{}\n\n"
-            u"No se puede determinar el repositorio de datos activo."
-            .format(CONFIG_PATH),
-            "Config no encontrada"
-        )
-        return None
-    try:
-        with open(CONFIG_PATH, "r", encoding="utf-8") as f:
-            cfg = json.load(f)
-        ruta = (cfg.get("ruta_repositorio_activo") or "").strip()
-        if not ruta:
-            MessageBox.Show(
-                u"'ruta_repositorio_activo' no encontrada o vacía en\n"
-                u"config_proyecto_activo.json.\n\n"
-                u"No se puede determinar el repositorio de datos activo.",
-                "Config incompleta"
-            )
-            return None
-        return ruta
-    except Exception as e:
-        MessageBox.Show(
-            u"Error leyendo config_proyecto_activo.json:\n{}\n\n"
-            u"No se puede determinar el repositorio de datos activo."
-            .format(e),
-            "Error config"
-        )
-        return None
 
-REPO_PATH = get_repo_path_from_config()
+def load_config():
+    data = load_json(CONFIG_PATH)
+    if data is None:
+        raise IOError(u"No se encontro config_proyecto_activo.json en:\n{}".format(CONFIG_PATH))
+    return data
 
-def load_repo():
-    if not REPO_PATH:
-        return {}
-    return load_json(REPO_PATH, show_error=False) or {}
 
-# --------------------------------------------------
-# Selección de elemento (link o host)
-# --------------------------------------------------
-def seleccionar_elemento():
-    try:
-        ref = uidoc.Selection.PickObject(
-            ObjectType.LinkedElement,
-            "Seleccione un elemento (link o modelo)"
-        )
-        try:
-            link_instance = doc.GetElement(ref.ElementId)
-            if isinstance(link_instance, RevitLinkInstance):
-                linked_doc = link_instance.GetLinkDocument()
-                if linked_doc is None:
-                    MessageBox.Show(
-                        "No se pudo acceder al documento linkeado.",
-                        "Error"
-                    )
-                    return None, None
-                elem = linked_doc.GetElement(ref.LinkedElementId)
-                if elem is None:
-                    MessageBox.Show("Elemento linkeado no encontrado.", "Error")
-                    return None, None
-                return elem, linked_doc
-        except Exception:
-            pass
-    except Exception:
-        pass
-
-    try:
-        ref = uidoc.Selection.PickObject(
-            ObjectType.Element,
-            "Seleccione un elemento del modelo"
-        )
-        elem = doc.GetElement(ref.ElementId)
-        if elem is None:
-            MessageBox.Show("Elemento no encontrado.", "Error")
-            return None, None
-        return elem, doc
-    except Exception as e:
-        MessageBox.Show(
-            u"Error/cancelación en selección:\n{}".format(e),
-            "Aviso"
-        )
-        return None, None
-
-# --------------------------------------------------
-# Planilla y orden de encabezados
-# --------------------------------------------------
 def load_script_json():
-    return load_json(SCRIPT_JSON) or {}
+    data = load_json(SCRIPT_JSON)
+    if data is None:
+        raise IOError(u"No se encontro script.json en:\n{}".format(SCRIPT_JSON))
+    return data
 
-def obtener_encabezados_planilla(host_doc, codintbim_val, script_data):
-    codigos_planillas = script_data.get("codigos_planillas", {})
-    pref_cod = (codintbim_val or "")[:4]
-    clave_planilla = None
 
-    for clave, vals in codigos_planillas.items():
-        if isinstance(vals, list):
-            if any((v or "").startswith(pref_cod) for v in vals):
-                clave_planilla = clave
-                break
-        elif isinstance(vals, str):
-            if vals.startswith(pref_cod):
-                clave_planilla = clave
-                break
+def load_planillas_order():
+    return load_json(PLANILLAS_ORDER_PATH, default={})
 
-    if not clave_planilla:
-        MessageBox.Show(
-            u"No se encontró clave de planilla para el código '{}'."
-            .format(pref_cod),
-            "Aviso"
-        )
-        return None, None
 
-    try:
-        schedules = (
-            FilteredElementCollector(host_doc)
-            .OfClass(ViewSchedule)
-            .WhereElementIsNotElementType()
-            .ToElements()
-        )
-        planilla_obj = next(
-            (s for s in schedules if s.Name == clave_planilla), None
-        )
-        if planilla_obj is None:
-            MessageBox.Show(
-                u"No se encontró la planilla '{}'.".format(clave_planilla),
-                "Error"
-            )
-            return None, None
-    except Exception as e:
-        MessageBox.Show(
-            u"Error buscando planilla:\n{}".format(e),
-            "Error"
-        )
-        return None, None
+def get_active_repo():
+    cfg  = load_config()
+    ruta = (cfg.get("ruta_repositorio_activo") or "").strip()
+    if not ruta or not os.path.isfile(ruta):
+        return {}
+    return load_json(ruta, default={})
 
-    try:
-        headers_order = []
-        for fid in planilla_obj.Definition.GetFieldOrder():
-            field = planilla_obj.Definition.GetField(fid)
-            if field:
-                headers_order.append(field.GetName())
-        if not headers_order:
-            MessageBox.Show(
-                "No se obtuvieron encabezados de la planilla.",
-                "Aviso"
-            )
-            return None, None
-    except Exception as e:
-        MessageBox.Show(
-            u"Error obteniendo encabezados:\n{}".format(e),
-            "Error"
-        )
-        return None, None
 
-    return clave_planilla, headers_order
+# ╬╦  ╬╔═╗╬  ╬╔╦╗╔╦╗
+# ╠──╠╦╝╠═╣╠╦╝║ ║║║║
+# ╩  ╩╚═ ╩╚═╝╩╚═ ╚╝╚╝
+#==================================================
 
-def obtener_headers_desde_cache_o_planilla(host_doc, codintbim_val, script_data):
-    planillas_order = load_json(PLANILLAS_ORDER_PATH, show_error=False) or {}
+def get_schedule_fields(schedule):
+    """Devuelve lista de (field_id, field_name, param_name) de una planilla."""
+    fields = []
+    sched_def = schedule.Definition
+    for i in range(sched_def.GetFieldCount()):
+        field = sched_def.GetField(i)
+        try:
+            param_name = field.GetName()
+        except Exception:
+            param_name = ""
+        fields.append((field.FieldId, field.GetName(), param_name))
+    return fields
 
-    clave_planilla, headers_from_model = obtener_encabezados_planilla(
-        host_doc, codintbim_val, script_data
-    )
-    if not headers_from_model:
-        return None, []
 
-    if clave_planilla in planillas_order:
-        headers = planillas_order.get(clave_planilla) or []
-    else:
-        headers = headers_from_model
-        planillas_order[clave_planilla] = headers_from_model
-        save_json(planillas_order, PLANILLAS_ORDER_PATH, show_error=False)
-
-    return clave_planilla, headers
-
-# --------------------------------------------------
-# Construcción de datos del elemento
-# --------------------------------------------------
-def construir_datos_elemento(elem, linked_doc, headers_order, script_data):
-    """Prioriza repo activo; si no hay datos, lee desde el modelo."""
-    reemplazos_nombres = script_data.get("reemplazos_de_nombres", {})
-    repo_datos = load_repo()
-
-    elem_id_str = str(elem.Id.IntegerValue)
-    archivo = linked_doc.PathName if linked_doc is not None else (doc.PathName or "")
-    base_key = u"{}_{}".format(archivo, elem_id_str)
-
-    data_elemento = repo_datos.get(base_key)
-    resultado = {}
-
-    try:
-        if data_elemento:
-            filtrado = {
-                k: v for k, v in data_elemento.items()
-                if k not in ["ElementId", "Archivo", "nombre_archivo"]
-            }
-            tmp = {reemplazos_nombres.get(k, k): v for k, v in filtrado.items()}
-            for head in headers_order:
-                if head in tmp:
-                    resultado[head] = tmp[head]
+def get_element_params(element, field_names):
+    """Extrae parametros de un elemento dado una lista de nombres de campo."""
+    result = {}
+    for name in field_names:
+        param = element.LookupParameter(name)
+        if param:
+            try:
+                result[name] = param.AsString() or param.AsValueString() or ""
+            except Exception:
+                result[name] = ""
         else:
-            parametros = {}
-            for p in elem.Parameters:
-                try:
-                    if p.HasValue:
-                        val = p.AsString() or p.AsValueString()
-                        if val and val.strip():
-                            parametros[p.Definition.Name] = val.strip()
-                except Exception:
-                    continue
-            tmp = {reemplazos_nombres.get(k, k): v for k, v in parametros.items()}
-            for head in headers_order:
-                if head in tmp:
-                    resultado[head] = tmp[head]
-    except Exception as e:
-        MessageBox.Show(
-            u"Error preparando datos del elemento:\n{}".format(e),
-            "Error"
-        )
-        return None, archivo, elem_id_str
+            result[name] = ""
+    return result
 
-    return resultado, archivo, elem_id_str
 
-# --------------------------------------------------
-# MAIN
-# --------------------------------------------------
-def main():
-    # Verificación temprana de dependencias externas
-    if not os.path.isfile(CPYTHON_VIEWER_PATH):
-        MessageBox.Show(
-            u"No se encontró el visor externo:\n{}\n\n"
-            u"Verifique que 'visor_elemento.pyw' esté en la carpeta del botón."
-            .format(CPYTHON_VIEWER_PATH),
-            "Visor no encontrado"
-        )
-        return
+def find_schedule_for_codint(codint, script_data, doc_context):
+    """
+    Busca en el documento la planilla ViewSchedule cuyo nombre coincide
+    con el codigo de planilla asociado al CodIntBIM.
+    Devuelve (schedule, tabla_name) o (None, None).
+    """
+    codigos = script_data.get("codigos_planillas", {})
+    tabla_name = codigos.get(codint)
+    if not tabla_name:
+        return None, None
+    for sched in FilteredElementCollector(doc_context).OfClass(ViewSchedule):
+        if sched.Name == tabla_name:
+            return sched, tabla_name
+    return None, tabla_name
 
-    if PYTHON_EXE is None:
-        MessageBox.Show(
-            u"No se encontró ninguna instalación de Python (pythonw.exe) "
-            u"en el equipo.\n\nInstale Python 3 y vuelva a intentarlo.",
-            "Python no encontrado"
-        )
-        return
 
-    elem, linked_doc = seleccionar_elemento()
-    if elem is None:
-        return
+def build_element_data(element, schedule, repo_data, doc_name):
+    """Construye el diccionario de datos del elemento para el visor."""
+    fields = get_schedule_fields(schedule)
+    field_names = [f[1] for f in fields]
+    model_params = get_element_params(element, field_names)
 
-    script_data = load_script_json()
-    if not script_data:
-        return
+    codint = model_params.get("CodIntBIM", "") or model_params.get("Cod.Int.BIM", "")
+    repo_entry = repo_data.get(codint, {}) if codint else {}
 
-    try:
-        p_cod  = elem.LookupParameter("CodIntBIM")
-        cod_val = p_cod.AsString() if (p_cod and p_cod.HasValue) else ""
-    except Exception:
-        cod_val = ""
+    merged = {}
+    for name in field_names:
+        merged[name] = repo_entry.get(name) if repo_entry.get(name) else model_params.get(name, "")
 
-    clave_planilla, headers_order = obtener_headers_desde_cache_o_planilla(
-        doc, cod_val, script_data
-    )
-    if not headers_order:
-        return
-
-    resultado, archivo, elem_id_str = construir_datos_elemento(
-        elem, linked_doc, headers_order, script_data
-    )
-    if resultado is None:
-        return
-
-    json_temporal = {
-        "Archivo":   archivo,
-        "ElementId": elem_id_str,
-        "Planilla":  clave_planilla,
-        "Headers":   headers_order,
-        "Row":       resultado
+    return {
+        "elemento_id":  str(element.Id.IntegerValue),
+        "documento":    doc_name,
+        "codint":       codint,
+        "planilla":     schedule.Name,
+        "parametros":   merged,
+        "orden_campos": field_names,
     }
 
-    if not save_json(json_temporal, REPO_ELEMENTO_TMP):
+
+# ╦╔╦╗╔═╗╦╔╗╔
+# ║║║║╠═╣║║║║
+# ╩ ╩╩ ╩╩╝╚╝
+#==================================================
+
+def main():
+    from pyrevit import forms
+
+    # 1. Cargar datos de configuracion
+    try:
+        script_data = load_script_json()
+        repo_data   = get_active_repo()
+    except IOError as e:
+        forms.alert(str(e), title=u"Error de configuracion")
         return
 
+    # 2. Pedir al usuario que seleccione un elemento
     try:
-        subprocess.Popen(
-            [PYTHON_EXE, CPYTHON_VIEWER_PATH, REPO_ELEMENTO_TMP],
-            shell=False
-        )
-    except Exception as e:
-        MessageBox.Show(
-            u"No se pudo ejecutar el visor externo:\n{}".format(e),
-            "Error"
-        )
+        ref = uidoc.Selection.PickObject(ObjectType.Element, u"Selecciona un elemento")
+    except Exception:
+        return  # usuario cancelo
 
-if __name__ == "__main__":
+    element = doc.GetElement(ref.ElementId)
+    if element is None:
+        forms.alert(u"No se pudo obtener el elemento.", title=u"Error")
+        return
+
+    # 3. Obtener CodIntBIM
+    p = element.LookupParameter("CodIntBIM") or element.LookupParameter("Cod.Int.BIM")
+    codint = (p.AsString() or "").strip() if p else ""
+    if not codint:
+        forms.alert(
+            u"El elemento seleccionado no tiene parametro CodIntBIM.",
+            title=u"Sin codigo"
+        )
+        return
+
+    # 4. Buscar planilla asociada
+    schedule, tabla_name = find_schedule_for_codint(codint, script_data, doc)
+    if schedule is None:
+        msg = u"No se encontro planilla para CodIntBIM: {}".format(codint)
+        if tabla_name:
+            msg += u"\nNombre buscado: {}".format(tabla_name)
+        forms.alert(msg, title=u"Planilla no encontrada")
+        return
+
+    # 5. Construir datos y guardar JSON temporal
+    elem_data = build_element_data(element, schedule, repo_data, doc.Title)
+    if not save_json(REPO_ELEMENTO_TMP, elem_data):
+        forms.alert(u"No se pudo guardar el JSON temporal.", title=u"Error")
+        return
+
+    # 6. Lanzar visor CPython
+    if not os.path.isfile(CPYTHON_VIEWER_PATH):
+        forms.alert(
+            u"No se encontro el visor:\n{}".format(CPYTHON_VIEWER_PATH),
+            title=u"Error"
+        )
+        return
+    if not PYTHON_EXE or not os.path.isfile(PYTHON_EXE):
+        forms.alert(u"No se encontro Python 3 en este equipo.", title=u"Error")
+        return
+
+    import subprocess
+    subprocess.Popen([PYTHON_EXE, CPYTHON_VIEWER_PATH, REPO_ELEMENTO_TMP])
+
+
+if __name__ == '__main__':
     main()
