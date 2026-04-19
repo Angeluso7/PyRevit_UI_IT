@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 __title__ = "Carga de datos"
-__doc__ = """Version = 1.3
+__doc__ = """Version = 1.4
 Date    = 19.04.2026
 ________________________________________________________________
 Description:
@@ -9,6 +9,8 @@ extrae sus filas via CPython (carga_excel.py) y las combina
 con el repositorio activo del proyecto (combinar_datos.py).
 ________________________________________________________________
 Last Updates:
+- [19.04.2026] v1.4  Rutas centralizadas via config.paths.
+                     Eliminado bloque expanduser manual.
 - [19.04.2026] v1.3  Script completo y limpio.
                      Eliminada _find_python() duplicada.
                      get_python_exe() unificado en lib/core/env_config.
@@ -18,9 +20,9 @@ Last Updates:
 ________________________________________________________________
 Author: Argenis Angel"""
 
-# ╦╔╦╗╔═╗╔═╗╦═╗╔╦╗╔═╗
-# ║║║║╠═╝║ ║╠╦╝ ║ ╚═╗
-# ╩╩ ╩╩  ╚═╝╩╚═ ╩ ╚═╝
+# ╬╔╦╗╔═╦╔═╣
+# ║║║╠═╣║ ║╔═╣
+# ╩╩ ╩╩  ╩╚═╝╚═╝
 import os
 import sys
 import glob
@@ -31,35 +33,32 @@ from pyrevit import forms
 clr.AddReference("RevitAPI")
 from Autodesk.Revit.DB import Document
 
-# ╦  ╦╔═╗╦═╗╦╔═╗╔╗ ╦  ╔═╗╔═╗
-# ╚╗╔╝╠═╣╠╦╝║╠═╣╠╩╗║  ║╣ ╚═╗
-#  ╚╝ ╩ ╩╩╚═╩╩ ╩╚═╝╩═╝╚═╝╚═╝
+# ╬╚╗╔═╦╔╦╠╦╔╦  ╔╦╝  ╔═╣
+# ║┘╔╝╠╣╔╣║║╠╠┸╣╤╧╚═╣╚═╣
+#  ╚╝ ╩ ╩╩╩╩╩ ╩╚╩╚═╝╚═╝
 doc = __revit__.ActiveUIDocument.Document
 
-# ── Rutas centralizadas ────────────────────────────────────────
-EXT_ROOT = os.path.join(
-    os.path.expanduser("~"),
-    "AppData", "Roaming", "MyPyRevitExtention", "PyRevitIT.extension"
-)
-DATA_DIR    = os.path.join(os.path.expanduser("~"), r"AppData\Roaming\...")
-CONFIG_PATH = os.path.join(DATA_DIR, "config_proyecto_activo.json")
-MASTER_DIR = os.path.join(DATA_DIR, "master")
-TEMP_DIR   = os.path.join(DATA_DIR, "temp")
-LIB_DIR    = os.path.join(EXT_ROOT, "lib")
-
-if LIB_DIR not in sys.path:
-    sys.path.insert(0, LIB_DIR)
-
-REPO_TMP_PATH = os.path.join(TEMP_DIR, "repo_tmp_codigos.txt")
-
+# ── Rutas centralizadas desde config.paths ────────────────────────────────
 try:
-    CURRENT_FOLDER = os.path.dirname(os.path.abspath(__file__))
+    _this_dir = os.path.dirname(os.path.abspath(__file__))
 except Exception:
-    CURRENT_FOLDER = os.getcwd()
+    _this_dir = os.getcwd()
 
-# ╔═╗╦ ╦╔╦╗╦ ╦╔═╗╔╗╔  ╔═╗═╗ ╦╔═╗
-# ╠═╝╚╗╔╝ ║ ╠═╣║ ║║║║  ║╣ ╔╩╦╝║╣
-# ╩   ╚╝  ╩ ╩ ╩╚═╝╝╚╝  ╚═╝╩ ╚═╚═╝
+# Subir hasta la raiz de la extension (pushbutton -> pulldown -> panel -> tab -> root)
+_EXT_ROOT = os.path.abspath(os.path.join(_this_dir, '..', '..', '..', '..'))
+_LIB_DIR  = os.path.join(_EXT_ROOT, 'lib')
+
+if _LIB_DIR not in sys.path:
+    sys.path.insert(0, _LIB_DIR)
+
+from config.paths import DATA_DIR, MASTER_DIR, TEMP_DIR
+
+CURRENT_FOLDER = _this_dir
+REPO_TMP_PATH  = os.path.join(TEMP_DIR, 'repo_tmp_codigos.txt')
+
+# ╬╔╦╔═╣╔╣╚╗╚╗  ╚╗╔═╣╔═╣╔╗╚╗╚╗
+# ╠╣ ║╔═╣╔╩╚╨╚╨  └╨╠╣ ║ ╔╩║╠╗╚╨
+# ╩╚═╝╩  ╚╝╚═╝  ╚═╝╚═╝╚═╝╚═╝
 
 def _find_python_fallback():
     """
@@ -101,9 +100,9 @@ def _resolve_python_exe():
 # Resolucion unica al cargar el modulo
 PYTHON_EXE = _resolve_python_exe()
 
-# ╔╦╗╔═╗╦╔╗╔
-# ║║║╠═╣║║║║
-# ╩ ╩╩ ╩╩╝╚╝
+# ╬╔╦╔╗╔╗╚╗
+# ║║║╠╣╠╣╚╨
+# ╩ ╩╩╩ ╩╚═╝
 
 def select_excel_file():
     try:
@@ -209,7 +208,7 @@ def main():
     if not xlsm_path:
         return
 
-    # 2) Ejecutar carga_excel.py (CPython) → TXT temporal
+    # 2) Ejecutar carga_excel.py (CPython) -> TXT temporal
     rc1, out1, err1 = run_cpython_script("carga_excel.py", [xlsm_path, REPO_TMP_PATH])
     if rc1 != 0:
         forms.alert(
