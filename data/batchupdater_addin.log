@@ -10787,3 +10787,7 @@ Parameter name: document
 [AddinEntry] 2026-04-18 18:00:17 | BatchUpdateHandler creado correctamente.
 [AddinEntry] 2026-04-18 18:00:17 | ExternalEvent creado correctamente.
 [AddinEntry] 2026-04-18 18:00:17 | OnStartup finalizado OK.
+[AddinEntry] 2026-04-19 13:42:54 | OnStartup iniciado.
+[AddinEntry] 2026-04-19 13:42:54 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-04-19 13:42:54 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-04-19 13:42:54 | OnStartup finalizado OK.
