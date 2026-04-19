@@ -1,31 +1,19 @@
 # -*- coding: utf-8 -*-
 __title__   = "Coordinador"
-__doc__     = """Version = 1.0
-Date    = 15.06.2024
+__doc__     = """Version = 2.0
+Date    = 19.04.2026
 ________________________________________________________________
 Description:
 
-This is the placeholder for a .pushbutton
-You can use it to start your pyRevit Add-In
+Gestiona proyectos IT vinculando el modelo Revit activo (y sus
+links) a un registro central mediante GUIDs.
 
-________________________________________________________________
-How-To:
-
-1. [Hold ALT + CLICK] on the button to open its source folder.
-You will be able to override this placeholder.
-
-2. Automate Your Boring Work ;)
-
-________________________________________________________________
-TODO:
-[FEATURE] - Describe Your ToDo Tasks Here
 ________________________________________________________________
 Last Updates:
-- [15.06.2024] v1.0 Change Description
-- [10.06.2024] v0.5 Change Description
-- [05.06.2024] v0.1 Change Description 
+- [19.04.2026] v2.0 Fix rutas -> MASTER_DIR; validacion modelo sin guardar
+- [15.06.2024] v1.0 Version inicial
 ________________________________________________________________
-Author: Erik Frits"""
+Author: Angel Uso"""
 
 # ╦╔╦╗╔═╗╔═╗╦═╗╔╦╗╔═╗
 # ║║║║╠═╝║ ║╠╦╝ ║ ╚═╗
@@ -46,9 +34,7 @@ from Autodesk.Revit.DB import Document, FilteredElementCollector, RevitLinkInsta
 # ╚╗╔╝╠═╣╠╦╝║╠═╣╠╩╗║  ║╣ ╚═╗
 #  ╚╝ ╩ ╩╩╚═╩╩ ╩╚═╝╩═╝╚═╝╚═╝
 #==================================================
-#app    = __revit__.Application
-#uidoc  = __revit__.ActiveUIDocument
-doc    = __revit__.ActiveUIDocument.Document #type:Document
+doc = __revit__.ActiveUIDocument.Document  # type: Document
 
 
 # ── Rutas centralizadas desde config.paths ────────────────────────────────────
@@ -71,12 +57,12 @@ try:
     ensure_runtime_dirs()
     PYTHON_EXE = get_python_exe()
 except Exception as _path_err:
-    _DATA_DIR       = os.path.join(_EXT_ROOT, 'data')
-    DATA_DIR        = _DATA_DIR
-    MASTER_DIR      = os.path.join(_DATA_DIR, 'master')
-    TEMP_DIR        = os.path.join(_DATA_DIR, 'temp')
-    CACHE_DIR       = os.path.join(_DATA_DIR, 'cache')
-    CONFIG_PROYECTO = os.path.join(MASTER_DIR, 'config_proyecto_activo.json')
+    _DATA_DIR            = os.path.join(_EXT_ROOT, 'data')
+    DATA_DIR             = _DATA_DIR
+    MASTER_DIR           = os.path.join(_DATA_DIR, 'master')
+    TEMP_DIR             = os.path.join(_DATA_DIR, 'temp')
+    CACHE_DIR            = os.path.join(_DATA_DIR, 'cache')
+    CONFIG_PROYECTO      = os.path.join(MASTER_DIR, 'config_proyecto_activo.json')
     REGISTRO_PROYECTOS   = os.path.join(MASTER_DIR, 'registro_proyectos.json')
     SCRIPT_JSON_PATH_LIB = os.path.join(MASTER_DIR, 'script.json')
     import glob as _glob
@@ -110,20 +96,23 @@ def build_docs_info():
         ...
       ]
     }
-    El UniqueId del documento se obtiene como GUID basado en su PathName.
     """
+    nombre_activo = os.path.basename(doc.PathName) if doc.PathName else ""
+    uid_activo    = doc.ProjectInformation.UniqueId if doc.ProjectInformation else ""
+
     info = {
         "activo": {
-            "nombre": os.path.basename(doc.PathName) if doc.PathName else "<sin guardar>",
-            "unique_id": doc.ProjectInformation.UniqueId if doc.ProjectInformation else ""
+            "nombre":    nombre_activo,
+            "unique_id": uid_activo
         },
         "links": []
     }
+
     for li in FilteredElementCollector(doc).OfClass(RevitLinkInstance):
         link_doc = li.GetLinkDocument()
         if link_doc:
             info["links"].append({
-                "nombre": os.path.basename(link_doc.PathName),
+                "nombre":    os.path.basename(link_doc.PathName),
                 "unique_id": link_doc.ProjectInformation.UniqueId if link_doc.ProjectInformation else ""
             })
     return info
@@ -148,12 +137,25 @@ def run_cpython_script(script_name, args=None):
 
 
 def main():
-    if not os.path.exists(DATA_DIR):
-        os.makedirs(DATA_DIR)
+    # Validar que el modelo este guardado
+    if not doc.PathName:
+        forms.alert(
+            u"El modelo activo no ha sido guardado aun.\n"
+            u"Guarda el archivo antes de gestionar proyectos.",
+            title=u"Modelo sin guardar"
+        )
+        return
 
-    docs_info = build_docs_info()
+    # Asegurar que existen las carpetas necesarias
+    for d in (DATA_DIR, MASTER_DIR, TEMP_DIR, CACHE_DIR):
+        if not os.path.exists(d):
+            os.makedirs(d)
+
+    docs_info      = build_docs_info()
     docs_info_json = json.dumps(docs_info, ensure_ascii=False)
-    rc = run_cpython_script("gestor_proyectos.py", [DATA_DIR, docs_info_json])
+
+    # Se pasa MASTER_DIR para que registro y config queden en data/master/
+    rc = run_cpython_script("gestor_proyectos.py", [MASTER_DIR, docs_info_json])
     if rc != 0:
         forms.alert(
             u"El gestor de proyectos termino con codigo: {}".format(rc),
