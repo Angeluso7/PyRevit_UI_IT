@@ -49,6 +49,8 @@ clr.AddReference('System.Windows.Forms')
 clr.AddReference('System.Drawing')
 
 import System
+import sys as _sys
+
 
 from Autodesk.Revit.DB import (
     FilteredElementCollector,
@@ -84,23 +86,34 @@ uidoc = __revit__.ActiveUIDocument
 #==================================================
 
 # Carpeta de datos
-DATA_DIR = os.path.join(
-    os.path.expanduser("~"),
-    r"AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data"
-)
+_lib = os.path.normpath(os.path.join(os.path.dirname(__file__),
+                                     '..', '..', '..', '..', 'lib'))
+if _lib not in _sys.path:
+    _sys.path.insert(0, _lib)
 
-if not os.path.exists(DATA_DIR):
-    os.makedirs(DATA_DIR)
+try:
+    from config.paths import DATA_DIR, MASTER_DIR, TEMP_DIR, ensure_runtime_dirs
+    from config.settings import CPYTHON_EXE
+    ensure_runtime_dirs()
+except Exception as _e:
+    DATA_DIR   = os.path.join(os.path.expanduser('~'),
+                    r'AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data')
+    MASTER_DIR = os.path.join(DATA_DIR, 'master')
+    TEMP_DIR   = os.path.join(DATA_DIR, 'temp')
+    CPYTHON_EXE = r'C:\Python313\python.exe'
 
-archivo_json = os.path.join(DATA_DIR, "script.json")
+# ✅ script.json ahora en master/
+archivo_json = os.path.join(MASTER_DIR, 'script.json')
 
-# Rutas para CPython + selector Tkinter externo
+# Archivos temporales → temp/
+SELECCION_OUT_PATH = os.path.join(TEMP_DIR, 'planilla_seleccion_tmp.json')
+META_SELECTOR_PATH = os.path.join(TEMP_DIR, 'planillas_selector_meta.json')
+
+# CPython desde settings (sin nombre de usuario hardcodeado)
+PYTHON_EXE = CPYTHON_EXE
+
 BASE_PATH = os.path.dirname(__file__)
-PYTHON_EXE = r"C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\pythonw.exe"
-CPYTHON_SELECTOR_TK = os.path.join(BASE_PATH, "selector_planillas_tk.pyw")
-
-META_SELECTOR_PATH = os.path.join(BASE_PATH, "planillas_selector_meta.json")
-SELECCION_OUT_PATH = os.path.join(BASE_PATH, "planilla_seleccion_tmp.json")
+CPYTHON_SELECTOR_TK = os.path.join(BASE_PATH, 'selector_planillas_tk.pyw')
 
 #--------------------------------------------------
 # Utilidades Revit / JSON
