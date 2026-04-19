@@ -7,11 +7,14 @@ import clr
 clr.AddReference('RevitAPI')
 from Autodesk.Revit.DB import FilteredElementCollector, RevitLinkInstance
 from revit.filter_utils import activar_filtros_por_nombre, aplicar_filtros_por_codint
+from config.paths import TEMP_DIR, ensure_runtime_dirs
 from config.settings import CPYTHON_EXE
 
-DATA_DIR = os.path.join(os.path.expanduser('~'), r'AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data')
-TMP_IN = os.path.join(DATA_DIR, 'codint_selector_in.json')
-TMP_OUT = os.path.join(DATA_DIR, 'codint_selector_out.json')
+# Archivos temporales en data/temp/ (resueltos desde config.paths)
+ensure_runtime_dirs()
+TMP_IN  = os.path.join(TEMP_DIR, 'codint_selector_in.json')
+TMP_OUT = os.path.join(TEMP_DIR, 'codint_selector_out.json')
+
 
 def recoger_codintbim(doc):
     elementos = []
@@ -23,7 +26,11 @@ def recoger_codintbim(doc):
             cod = (p.AsString() or '').strip()
             if not cod:
                 continue
-            elementos.append({'doc_path': doc.PathName or '', 'element_id': el.Id.IntegerValue, 'codintbim': cod})
+            elementos.append({
+                'doc_path':   doc.PathName or '',
+                'element_id': el.Id.IntegerValue,
+                'codintbim':  cod,
+            })
         except Exception:
             continue
     try:
@@ -40,40 +47,62 @@ def recoger_codintbim(doc):
                     cod = (p.AsString() or '').strip()
                     if not cod:
                         continue
-                    elementos.append({'doc_path': ruta, 'element_id': el.Id.IntegerValue, 'codintbim': cod})
+                    elementos.append({
+                        'doc_path':   ruta,
+                        'element_id': el.Id.IntegerValue,
+                        'codintbim':  cod,
+                    })
                 except Exception:
                     continue
     except Exception:
         pass
     return {'elementos': elementos}
 
+
 def lanzar_selector(doc, bundle_dir, selector_script):
     if not os.path.exists(CPYTHON_EXE):
-        forms.alert('No se encontró el ejecutable de Python 3:\n{}\nAjusta CPYTHON_EXE en settings.py.'.format(CPYTHON_EXE), title='Python no encontrado')
+        forms.alert(
+            'No se encontró el ejecutable de Python 3:\n{}\n'
+            'Ajusta CPYTHON_EXE en settings.py o define la variable de entorno '
+            'PYREVIT_IT_CPYTHON.'.format(CPYTHON_EXE),
+            title='Python no encontrado',
+        )
         return False
     if not os.path.exists(selector_script):
-        forms.alert('No se encontró el selector CPython:\n{}'.format(selector_script), title='Script CPython no encontrado')
+        forms.alert(
+            'No se encontró el selector CPython:\n{}'.format(selector_script),
+            title='Script CPython no encontrado',
+        )
         return False
+
     datos = recoger_codintbim(doc)
-    if not os.path.exists(DATA_DIR):
-        os.makedirs(DATA_DIR)
+
     try:
         with open(TMP_IN, 'w', encoding='utf-8') as f:
             json.dump(datos, f, ensure_ascii=False, indent=2)
     except Exception as e:
-        forms.alert('Error escribiendo archivo de entrada para selector:\n{}'.format(e), title='Error IO')
+        forms.alert(
+            'Error escribiendo archivo de entrada para selector:\n{}'.format(e),
+            title='Error IO',
+        )
         return False
+
     if os.path.exists(TMP_OUT):
         try:
             os.remove(TMP_OUT)
         except Exception:
             pass
+
     try:
         subprocess.Popen([CPYTHON_EXE, selector_script, TMP_IN, TMP_OUT], cwd=bundle_dir)
         return True
     except Exception as e:
-        forms.alert('Error al ejecutar CPython:\n{}'.format(e), title='Error CPython')
+        forms.alert(
+            'Error al ejecutar CPython:\n{}'.format(e),
+            title='Error CPython',
+        )
         return False
+
 
 def leer_salida_selector():
     if not os.path.exists(TMP_OUT):
@@ -83,6 +112,7 @@ def leer_salida_selector():
             return json.load(f)
     except Exception:
         return None
+
 
 def aplicar_opcion(doc, vista, salida):
     opcion = salida.get('opcion', '')
