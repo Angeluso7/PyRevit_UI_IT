@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 __title__   = "Coordinador"
-__doc__     = """Version = 2.0
+__doc__     = """Version = 2.1
 Date    = 19.04.2026
 ________________________________________________________________
 Description:
@@ -10,6 +10,7 @@ links) a un registro central mediante GUIDs.
 
 ________________________________________________________________
 Last Updates:
+- [19.04.2026] v2.1 Fix: gestor_proyectos.py se busca en _this_dir (pushbutton)
 - [19.04.2026] v2.0 Fix rutas -> MASTER_DIR; validacion modelo sin guardar
 - [15.06.2024] v1.0 Version inicial
 ________________________________________________________________
@@ -83,7 +84,8 @@ except Exception as _path_err:
 # ╩ ╩╩ ╩╩╝╚╝
 #==================================================
 
-_CPYTHON_DIR = os.path.join(_EXT_ROOT, 'scripts_cpython')
+# gestor_proyectos.py vive en la misma carpeta que este script (pushbutton)
+_GESTOR_SCRIPT = os.path.join(_this_dir, 'gestor_proyectos.py')
 
 
 def build_docs_info():
@@ -118,11 +120,10 @@ def build_docs_info():
     return info
 
 
-def run_cpython_script(script_name, args=None):
-    script_path = os.path.join(_CPYTHON_DIR, script_name)
-    if not os.path.isfile(script_path):
+def run_gestor(args=None):
+    if not os.path.isfile(_GESTOR_SCRIPT):
         forms.alert(
-            u"No se encontro el script CPython:\n{}".format(script_path),
+            u"No se encontro el script CPython:\n{}".format(_GESTOR_SCRIPT),
             title=u"Error"
         )
         return 1
@@ -132,7 +133,7 @@ def run_cpython_script(script_name, args=None):
             title=u"Error"
         )
         return 1
-    cmd = [PYTHON_EXE, script_path] + (args or [])
+    cmd = [PYTHON_EXE, _GESTOR_SCRIPT] + (args or [])
     return subprocess.call(cmd)
 
 
@@ -155,7 +156,7 @@ def main():
     docs_info_json = json.dumps(docs_info, ensure_ascii=False)
 
     # Se pasa MASTER_DIR para que registro y config queden en data/master/
-    rc = run_cpython_script("gestor_proyectos.py", [MASTER_DIR, docs_info_json])
+    rc = run_gestor([MASTER_DIR, docs_info_json])
     if rc != 0:
         forms.alert(
             u"El gestor de proyectos termino con codigo: {}".format(rc),
