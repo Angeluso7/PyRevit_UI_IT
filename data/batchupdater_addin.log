@@ -10791,3 +10791,11 @@ Parameter name: document
 [AddinEntry] 2026-04-19 13:42:54 | BatchUpdateHandler creado correctamente.
 [AddinEntry] 2026-04-19 13:42:54 | ExternalEvent creado correctamente.
 [AddinEntry] 2026-04-19 13:42:54 | OnStartup finalizado OK.
+[AddinEntry] 2026-04-19 16:11:12 | OnShutdown iniciado.
+[AddinEntry] 2026-04-19 16:11:12 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-04-19 16:11:12 | Handler puesto a null.
+[AddinEntry] 2026-04-19 16:11:12 | OnShutdown finalizado OK.
+[AddinEntry] 2026-04-19 16:34:24 | OnStartup iniciado.
+[AddinEntry] 2026-04-19 16:34:24 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-04-19 16:34:24 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-04-19 16:34:24 | OnStartup finalizado OK.

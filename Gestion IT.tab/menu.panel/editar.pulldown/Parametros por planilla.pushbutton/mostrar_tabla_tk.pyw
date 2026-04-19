@@ -1,4 +1,21 @@
 # -*- coding: utf-8 -*-
+"""
+mostrar_tabla_tk.pyw  v2.0
+Visor/editor de parametros por planilla, agrupado por CodIntBIM.
+
+- Una fila por CodIntBIM unico (independientemente de cuantos
+  elementos/archivos compartan ese codigo).
+- Columna "Cantidad" al inicio: nro de elementos del grupo.
+- Si dentro del grupo existen distintos valores en una columna,
+  se muestra el marcador  <<VARIOS>>  en esa celda.
+- Doble clic sobre cualquier celda editable la modifica y aplica
+  el nuevo valor a TODOS los elementos del grupo al guardar.
+- CodIntBIM no es editable (es la clave de agrupacion).
+- Columnas Archivo / ElementId / nombre_archivo tampoco son
+  editables (son identidad de cada elemento, no del grupo).
+- Al guardar, se propaga cada campo editado a todas las claves
+  reales del grupo en el repositorio JSON.
+"""
 
 import os
 import sys
@@ -7,19 +24,21 @@ import traceback
 import tkinter as tk
 from tkinter import ttk, messagebox
 
-DATA_DIR = os.path.join(
-    os.path.expanduser("~"),
-    r"AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data"
-)
-CONFIG_PATH = os.path.join(DATA_DIR, "config_proyecto_activo.json")
+MARKER_VARIOS = "<<VARIOS>>"
+
+# ── Rutas dinamicas desde __file__ ──────────────────────────────────────────
+_THIS_DIR = os.path.dirname(os.path.abspath(__file__))
+_EXT_ROOT = os.path.abspath(os.path.join(_THIS_DIR, '..', '..', '..', '..'))
+_MASTER   = os.path.join(_EXT_ROOT, 'data', 'master')
+CONFIG_PATH = os.path.join(_MASTER, 'config_proyecto_activo.json')
 
 if len(sys.argv) > 1:
     PLANILLA_META_PATH = sys.argv[1]
 else:
-    PLANILLA_META_PATH = os.path.join(os.path.dirname(__file__), "planilla_meta_tmp.json")
+    PLANILLA_META_PATH = os.path.join(_EXT_ROOT, 'data', 'temp',
+                                      'planilla_meta_tmp.json')
 
-#--------------------------------------------------
-# Utilidades JSON / Config
+# ── Utilidades JSON ──────────────────────────────────────────────────────────
 
 def cargar_json(ruta, show_not_found=True, title="Error"):
     try:
@@ -27,46 +46,44 @@ def cargar_json(ruta, show_not_found=True, title="Error"):
             return None
         if not os.path.exists(ruta):
             if show_not_found:
-                messagebox.showinfo(
-                    "Información",
-                    "Archivo no encontrado:\n{}".format(ruta)
-                )
+                messagebox.showinfo("Informacion",
+                                    "Archivo no encontrado:\n{}".format(ruta))
             return None
         with open(ruta, "r", encoding="utf-8") as f:
             return json.load(f)
     except Exception:
-        messagebox.showerror(
-            title,
-            "Error cargando JSON:\n{}".format(traceback.format_exc())
-        )
+        messagebox.showerror(title,
+                             "Error cargando JSON:\n{}".format(
+                                 traceback.format_exc()))
         return None
 
 
 def guardar_json(ruta, datos):
     try:
         if not ruta:
-            messagebox.showerror("Error", "No se definió ruta válida de repositorio para guardar.")
-            return
+            messagebox.showerror("Error",
+                                 "No se definio ruta valida para guardar.")
+            return False
         carpeta = os.path.dirname(ruta)
         if carpeta and not os.path.exists(carpeta):
             os.makedirs(carpeta)
         with open(ruta, "w", encoding="utf-8") as f:
             json.dump(datos, f, indent=2, ensure_ascii=False)
+        return True
     except Exception:
-        messagebox.showerror(
-            "Error",
-            "Error guardando JSON:\n{}".format(traceback.format_exc())
-        )
+        messagebox.showerror("Error",
+                             "Error guardando JSON:\n{}".format(
+                                 traceback.format_exc()))
+        return False
 
 
 def get_repo_path_from_config():
     if not os.path.exists(CONFIG_PATH):
         messagebox.showerror(
             "Config no encontrada",
-            "No se encontró config_proyecto_activo.json en:\n{}\n\n"
+            "No se encontro config_proyecto_activo.json en:\n{}\n\n"
             "No se puede determinar el repositorio de datos activo."
-            .format(CONFIG_PATH)
-        )
+            .format(CONFIG_PATH))
         return None
     try:
         with open(CONFIG_PATH, "r", encoding="utf-8") as f:
@@ -75,58 +92,118 @@ def get_repo_path_from_config():
         if not ruta:
             messagebox.showerror(
                 "Config incompleta",
-                "En config_proyecto_activo.json no se encontró 'ruta_repositorio_activo' o está vacía.\n"
-                "No se puede determinar el repositorio de datos activo."
-            )
+                "En config_proyecto_activo.json no se encontro "
+                "'ruta_repositorio_activo' o esta vacia.")
             return None
         return ruta
     except Exception:
-        messagebox.showerror(
-            "Error config",
-            "Error leyendo config_proyecto_activo.json:\n{}"
-            .format(traceback.format_exc())
-        )
+        messagebox.showerror("Error config",
+                             "Error leyendo config_proyecto_activo.json:\n{}"
+                             .format(traceback.format_exc()))
         return None
 
-#--------------------------------------------------
-# Conversión vista <-> repo
+# ── Normalizacion de valores ─────────────────────────────────────────────────
 
-def _view_to_repo_val(val):
-    # Convierte "-" a vacío al guardar en BD.
-    if val == "-" or val is None:
+def _norm_display(val):
+    """Vacio/None -> '-' para mostrar en tabla."""
+    if val in (None, "", " "):
+        return "-"
+    return str(val)
+
+
+def _norm_save(val):
+    """'-' / None / <<VARIOS>> -> '' al guardar en BD."""
+    if val in ("-", None, " ", MARKER_VARIOS):
         return ""
-    return val
+    return str(val)
 
-#--------------------------------------------------
-# Treeview editable
+# ── Agrupamiento por CodIntBIM ───────────────────────────────────────────────
 
-class EditableTreeview(ttk.Treeview):
-    def __init__(self, master, headers, data_rows, **kwargs):
-        super(EditableTreeview, self).__init__(
+def build_groups(data_rows, edit_headers, cods_por_clave, valores_por_clave):
+    """
+    Retorna:
+        groups_order : list[codint]   — orden de aparicion
+        group_members: dict[codint -> list[clave_repo]]
+        group_row    : dict[codint -> dict{header: valor_display}]
+    """
+    groups_order  = []
+    group_members = {}
+    group_values  = {}
+
+    for row in data_rows:
+        codint  = (row.get("CodIntBIM") or "").strip()
+        archivo = (row.get("Archivo")   or "").strip()
+        elemid  = (row.get("ElementId") or "").strip()
+        if not codint or not archivo or not elemid:
+            continue
+        clave = "{}_{}".format(archivo, elemid)
+
+        if codint not in group_members:
+            groups_order.append(codint)
+            group_members[codint] = []
+            group_values[codint]  = {h: set() for h in edit_headers}
+
+        group_members[codint].append(clave)
+
+        vals_src = valores_por_clave.get(clave) or row
+        for h in edit_headers:
+            v = str(vals_src.get(h, "") or "")
+            group_values[codint][h].add(v)
+
+    group_row = {}
+    for codint in groups_order:
+        row_display = {"CodIntBIM": codint,
+                       "Cantidad": str(len(group_members[codint]))}
+        for h in edit_headers:
+            vals = group_values[codint][h] - {""}
+            if len(vals) == 0:
+                row_display[h] = "-"
+            elif len(vals) == 1:
+                row_display[h] = vals.pop()
+            else:
+                row_display[h] = MARKER_VARIOS
+        group_row[codint] = row_display
+
+    return groups_order, group_members, group_row
+
+# ── Treeview editable (agrupado) ─────────────────────────────────────────────
+
+NON_EDITABLE = {"CodIntBIM", "Archivo", "ElementId", "nombre_archivo",
+                "Cantidad"}
+
+
+class GroupedEditableTreeview(ttk.Treeview):
+    """
+    Tabla donde cada fila es un CodIntBIM unico.
+    Internamente conoce group_members para propagar cambios.
+    """
+
+    def __init__(self, master, gui_headers, groups_order,
+                 group_members, group_row, **kwargs):
+        super(GroupedEditableTreeview, self).__init__(
             master,
-            columns=headers,
+            columns=gui_headers,
             show="headings",
             **kwargs
         )
-        self.headers = headers
-        self.data_rows = data_rows
-
-        for h in headers:
-            self.heading(h, text=h)
-            self.column(h, width=150, anchor="center", stretch=False)
-
-        for i, row in enumerate(data_rows):
-            values = []
-            for h in headers:
-                val = row.get(h, "")
-                if val in (None, "", " "):
-                    val = "-"
-                values.append(val)
-            self.insert("", "end", iid=str(i), values=values)
-
-        self.edited_rows = set()
+        self.gui_headers   = gui_headers
+        self.group_members = group_members
+        self.group_row     = group_row
+        self.draft_edits   = {}
         self.editing_entry = None
 
+        col_widths = {"Cantidad": 70, "CodIntBIM": 130}
+        for h in gui_headers:
+            w = col_widths.get(h, 150)
+            self.heading(h, text=h)
+            self.column(h, width=w, anchor="center", stretch=False)
+
+        for codint in groups_order:
+            row = group_row[codint]
+            values = [_norm_display(row.get(h, "")) for h in gui_headers]
+            self.insert("", "end", iid=codint, values=values)
+
+        self.tag_configure("edited", background="#d6eaf8")
         self.bind("<Double-1>", self.on_double_click)
 
     def on_double_click(self, event):
@@ -144,218 +221,235 @@ class EditableTreeview(ttk.Treeview):
             if not row or not col:
                 return
 
-            x, y, width, height = self.bbox(row, col)
             col_idx = int(col.replace("#", "")) - 1
-            if col_idx < 0:
+            if col_idx < 0 or col_idx >= len(self.gui_headers):
+                return
+            header = self.gui_headers[col_idx]
+
+            if header in NON_EDITABLE:
                 return
 
-            header = self.headers[col_idx]
-            if header in ("Archivo", "ElementId", "nombre_archivo"):
+            bbox = self.bbox(row, col)
+            if not bbox:
                 return
+            x, y, width, height = bbox
 
-            value = self.set(row, header)
+            current_val = self.set(row, header)
+            if current_val == MARKER_VARIOS:
+                current_val = ""
 
             self.editing_entry = tk.Entry(self)
             self.editing_entry.place(x=x, y=y, width=width, height=height)
-            self.editing_entry.insert(0, value)
+            self.editing_entry.insert(0, current_val)
+            self.editing_entry.select_range(0, tk.END)
             self.editing_entry.focus()
 
-            def save_edit(event=None):
+            def _commit(event=None, codint=row, h=header):
+                if self.editing_entry is None:
+                    return
                 newval = self.editing_entry.get()
-                oldval = self.set(row, header)
-
-                if newval != oldval:
-                    self.edited_rows.add(row)
-                    self.set(row, header, newval if newval != "" else "-")
-
                 self.editing_entry.destroy()
                 self.editing_entry = None
 
-            self.editing_entry.bind("<Return>", save_edit)
-            self.editing_entry.bind("<FocusOut>", save_edit)
+                display = newval if newval != "" else "-"
+                self.set(codint, h, display)
+
+                if codint not in self.draft_edits:
+                    self.draft_edits[codint] = {}
+                self.draft_edits[codint][h] = newval
+
+                current_tags = list(self.item(codint, "tags"))
+                if "edited" not in current_tags:
+                    current_tags.append("edited")
+                self.item(codint, tags=current_tags)
+
+            def _cancel(event=None):
+                if self.editing_entry is not None:
+                    self.editing_entry.destroy()
+                    self.editing_entry = None
+
+            self.editing_entry.bind("<Return>",   _commit)
+            self.editing_entry.bind("<Tab>",      _commit)
+            self.editing_entry.bind("<FocusOut>", _commit)
+            self.editing_entry.bind("<Escape>",   _cancel)
 
         except Exception:
             messagebox.showerror(
-                "Error en edición",
-                "Ocurrió un error al editar celda:\n{}"
-                .format(traceback.format_exc())
-            )
+                "Error edicion",
+                "Error al editar celda:\n{}".format(traceback.format_exc()))
 
-#--------------------------------------------------
-# main GUI
+# ── GUI principal ────────────────────────────────────────────────────────────
 
 def main():
-    meta = cargar_json(PLANILLA_META_PATH, show_not_found=True, title="Error meta") or {}
-    headers = meta.get("Headers", []) or []
-    codigo_planilla = meta.get("CodigoPlanilla", "") or ""
-    nombre_planilla = meta.get("NombrePlanilla", "") or "Planilla"
-    data_path = meta.get("DataPath", "") or ""
-    cods_por_clave = meta.get("CodsPorClave", {}) or {}
-    valores_por_clave = meta.get("ValoresPorClave", {}) or {}
+    meta = cargar_json(PLANILLA_META_PATH, show_not_found=True,
+                       title="Error meta") or {}
+    headers           = meta.get("Headers", [])           or []
+    codigo_planilla   = meta.get("CodigoPlanilla", "")    or ""
+    nombre_planilla   = meta.get("NombrePlanilla", "")    or "Planilla"
+    data_path         = meta.get("DataPath", "")          or ""
+    cods_por_clave    = meta.get("CodsPorClave", {})      or {}
+    valores_por_clave = meta.get("ValoresPorClave", {})   or {}
 
     if not headers or not codigo_planilla:
-        messagebox.showerror(
-            "Datos incompletos",
-            "No se encontraron Headers o CodigoPlanilla en el meta."
-        )
+        messagebox.showerror("Datos incompletos",
+                             "No se encontraron Headers o CodigoPlanilla.")
         return
-
     if not data_path:
-        messagebox.showerror(
-            "Datos incompletos",
-            "No se encontró ruta de datos (DataPath) en el meta."
-        )
+        messagebox.showerror("Datos incompletos",
+                             "No se encontro DataPath en el meta.")
         return
 
-    data_rows = cargar_json(data_path, show_not_found=False, title="Error datos") or []
+    data_rows = cargar_json(data_path, show_not_found=False,
+                            title="Error datos") or []
     if not isinstance(data_rows, list):
         data_rows = []
-
     if not data_rows:
-        messagebox.showinfo(
-            "Sin datos",
-            "No se encontraron filas en el dataset combinado."
-        )
+        messagebox.showinfo("Sin datos",
+                            "No se encontraron filas en el dataset.")
         return
 
-    root = tk.Tk()
-    root.title("Edición Planilla - {}".format(nombre_planilla))
-    root.geometry("1000x550")
-    root.minsize(600, 350)
+    IDENTITY     = {"Archivo", "ElementId", "nombre_archivo", "CodIntBIM"}
+    edit_headers = [h for h in headers if h not in IDENTITY]
 
+    groups_order, group_members, group_row = build_groups(
+        data_rows, edit_headers, cods_por_clave, valores_por_clave)
+
+    if not groups_order:
+        messagebox.showinfo("Sin datos",
+                            "No se encontraron grupos CodIntBIM validos.")
+        return
+
+    gui_headers = ["Cantidad", "CodIntBIM"] + edit_headers
+
+    # ── Ventana ───────────────────────────────────────────────────────────────
+    root = tk.Tk()
+    root.title("Edicion Planilla [agrupado CodIntBIM] - {}".format(
+        nombre_planilla))
+    root.geometry("1100x580")
+    root.minsize(700, 400)
     root.columnconfigure(0, weight=1)
-    root.rowconfigure(0, weight=1)
+    root.rowconfigure(1, weight=1)
+
+    lbl_info = ttk.Label(
+        root,
+        text="Planilla: {}   |   Codigo: {}   |   Grupos unicos: {}   |   "
+             "Total elementos: {}".format(
+                 nombre_planilla, codigo_planilla,
+                 len(groups_order), len(data_rows)),
+        anchor="w", padding=(8, 4))
+    lbl_info.grid(row=0, column=0, sticky="ew")
 
     frame = ttk.Frame(root)
-    frame.grid(row=0, column=0, sticky="nsew")
+    frame.grid(row=1, column=0, sticky="nsew")
     frame.columnconfigure(0, weight=1)
     frame.rowconfigure(0, weight=1)
 
-    # Los headers visibles en GUI (Archivo, ElementId, nombre_archivo, CodIntBIM + resto)
-    gui_headers = ["Archivo", "ElementId", "nombre_archivo", "CodIntBIM"] + [
-        h for h in headers if h not in ("Archivo", "ElementId", "nombre_archivo", "CodIntBIM")
-    ]
-
-    tree = EditableTreeview(frame, gui_headers, data_rows)
+    tree = GroupedEditableTreeview(
+        frame, gui_headers, groups_order,
+        group_members, group_row,
+        selectmode="browse")
     tree.grid(row=0, column=0, sticky="nsew")
 
-    vsb = ttk.Scrollbar(frame, orient="vertical", command=tree.yview)
+    vsb = ttk.Scrollbar(frame, orient="vertical",   command=tree.yview)
     vsb.grid(row=0, column=1, sticky="ns")
     hsb = ttk.Scrollbar(frame, orient="horizontal", command=tree.xview)
     hsb.grid(row=1, column=0, sticky="ew")
-
     tree.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
 
-    sizegrip = ttk.Sizegrip(root)
-    sizegrip.grid(row=2, column=0, sticky="se")
+    ttk.Sizegrip(root).grid(row=3, column=0, sticky="se")
 
+    # ── Guardar ───────────────────────────────────────────────────────────────
     def guardar():
         try:
+            if not tree.draft_edits:
+                messagebox.showinfo("Sin cambios",
+                                    "No hay cambios para guardar.")
+                return
+
             repo_path = get_repo_path_from_config()
             if not repo_path:
                 return
 
-            repo_datos = cargar_json(repo_path, show_not_found=False, title="Error repo") or {}
-            if not isinstance(repo_datos, dict):
-                repo_datos = {}
+            bd = cargar_json(repo_path, show_not_found=False,
+                             title="Error repo") or {}
+            if not isinstance(bd, dict):
+                bd = {}
 
-            solo_cambios = {}
-            filas_actualizadas = 0
+            total_elementos = 0
 
-            for iid in tree.get_children():
-                if iid not in tree.edited_rows:
+            for codint, cambios in tree.draft_edits.items():
+                if not cambios:
                     continue
+                claves = tree.group_members.get(codint, [])
+                for clave in claves:
+                    entrada = dict(bd.get(clave, {})) if isinstance(
+                        bd.get(clave), dict) else {}
 
-                fila_gui = {h: tree.set(iid, h) for h in gui_headers}
-                archivo = fila_gui.get("Archivo", "") or ""
-                elemid = fila_gui.get("ElementId", "") or ""
-                if not archivo or not elemid:
-                    continue
+                    if not entrada.get("CodIntBIM"):
+                        entrada["CodIntBIM"] = codint
 
-                clave = "{}_{}".format(archivo, elemid)
-                original = repo_datos.get(clave, {})
-                datos_completos = dict(original) if isinstance(original, dict) else {}
+                    if not entrada.get("Archivo") or not entrada.get("ElementId"):
+                        partes = clave.rsplit("_", 1)
+                        if len(partes) == 2:
+                            entrada["Archivo"]   = partes[0]
+                            entrada["ElementId"] = partes[1]
 
-                datos_completos["Archivo"] = _view_to_repo_val(fila_gui.get("Archivo"))
-                datos_completos["ElementId"] = _view_to_repo_val(fila_gui.get("ElementId"))
-                datos_completos["nombre_archivo"] = _view_to_repo_val(
-                    fila_gui.get("nombre_archivo") or os.path.basename(archivo)
-                )
+                    vals_oficiales = valores_por_clave.get(clave, {}) or {}
+                    for h in edit_headers:
+                        if h not in entrada or not entrada[h]:
+                            v = vals_oficiales.get(h, "")
+                            if v:
+                                entrada[h] = v
 
-                cod_gui = fila_gui.get("CodIntBIM", "")
-                cod_oficial = cods_por_clave.get(clave, None)
+                    for h, newval in cambios.items():
+                        entrada[h] = _norm_save(newval)
 
-                if cod_gui in ("-", None, " "):
-                    cod_gui_normal = ""
-                else:
-                    cod_gui_normal = cod_gui
+                    bd[clave] = entrada
+                    total_elementos += 1
 
-                if cod_gui_normal:
-                    datos_completos["CodIntBIM"] = _view_to_repo_val(cod_gui_normal)
-                elif cod_oficial:
-                    datos_completos["CodIntBIM"] = cod_oficial
-                else:
-                    datos_completos["CodIntBIM"] = ""
-
-                valores_oficiales = valores_por_clave.get(clave, {}) or {}
-
-                for h in headers:
-                    if h in ("Archivo", "ElementId", "nombre_archivo", "CodIntBIM"):
-                        continue
-                    val_gui = fila_gui.get(h, "")
-                    val_gui_norm = "" if val_gui in ("-", None, " ") else val_gui
-
-                    if val_gui_norm != "":
-                        datos_completos[h] = _view_to_repo_val(val_gui_norm)
-                    else:
-                        # Sin edición visible: usar el oficial si existe
-                        datos_completos[h] = valores_oficiales.get(h, "")
-
-                if datos_completos == original:
-                    continue
-
-                solo_cambios[clave] = datos_completos
-                filas_actualizadas += 1
-
-            if filas_actualizadas == 0:
-                messagebox.showinfo(
-                    "Sin cambios",
-                    "No se detectaron cambios para guardar en la base de datos."
-                )
+            if total_elementos == 0:
+                messagebox.showinfo("Sin cambios",
+                                    "No se generaron cambios efectivos.")
                 return
 
-            bd_actual = cargar_json(repo_path, show_not_found=False, title="Error repo") or {}
-            if not isinstance(bd_actual, dict):
-                bd_actual = {}
-            bd_actual.update(solo_cambios)
-            guardar_json(repo_path, bd_actual)
-
-            messagebox.showinfo(
-                "Guardado",
-                "Se actualizaron {} elemento(s) en:\n{}"
-                .format(filas_actualizadas, repo_path)
-            )
-            root.destroy()
+            if guardar_json(repo_path, bd):
+                messagebox.showinfo(
+                    "Guardado",
+                    "Cambios propagados a {} elemento(s) en {} grupo(s).\n"
+                    "Repositorio:\n{}".format(
+                        total_elementos, len(tree.draft_edits), repo_path))
+                tree.draft_edits.clear()
+                root.destroy()
 
         except Exception:
-            messagebox.showerror(
-                "Error al guardar",
-                "Error guardando datos:\n{}".format(traceback.format_exc())
-            )
+            messagebox.showerror("Error al guardar",
+                                 "Error:\n{}".format(traceback.format_exc()))
 
     def cancelar():
+        if tree.draft_edits:
+            if not messagebox.askyesno(
+                    "Descartar cambios",
+                    "Hay cambios sin guardar. Desea salir de todas formas?"):
+                return
         root.destroy()
 
+    # ── Botones ───────────────────────────────────────────────────────────────
     btn_frame = ttk.Frame(root)
-    btn_frame.grid(row=1, column=0, sticky="ew", pady=5, padx=5)
+    btn_frame.grid(row=2, column=0, sticky="ew", pady=5, padx=5)
     btn_frame.columnconfigure(0, weight=1)
     btn_frame.columnconfigure(1, weight=1)
 
-    btn_guardar = ttk.Button(btn_frame, text="Guardar", command=guardar)
-    btn_guardar.grid(row=0, column=0, sticky="ew", padx=5)
+    ttk.Button(
+        btn_frame,
+        text="Guardar — propagar a todos los elementos del grupo",
+        command=guardar
+    ).grid(row=0, column=0, sticky="ew", padx=5)
 
-    btn_cancelar = ttk.Button(btn_frame, text="Cancelar", command=cancelar)
-    btn_cancelar.grid(row=0, column=1, sticky="ew", padx=5)
+    ttk.Button(
+        btn_frame,
+        text="Cancelar",
+        command=cancelar
+    ).grid(row=0, column=1, sticky="ew", padx=5)
 
     root.mainloop()
 
