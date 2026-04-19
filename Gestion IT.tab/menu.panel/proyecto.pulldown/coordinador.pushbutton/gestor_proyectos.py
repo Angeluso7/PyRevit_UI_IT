@@ -17,7 +17,9 @@ DOCS_INFO_JSON tiene la forma:
 MASTER_DIR contiene:
 - registro_proyectos.json      : indice de proyectos
 - config_proyecto_activo.json  : proyecto seleccionado actualmente
-- repositorio_datos_<NUP>.json : base de datos por proyecto (en data/)
+
+Las BD por proyecto se guardan en:
+- data/proyectos/repositorio_datos_<NUP>.json
 """
 
 import sys
@@ -59,9 +61,9 @@ def merge_documentos(existentes, nuevos):
     Combina GUIDs de documentos sin borrar los de sesiones/equipos anteriores.
     Agrega o actualiza, pero NUNCA elimina claves que ya existian.
     """
-    resultado = dict(existentes)  # copia de lo que habia
+    resultado = dict(existentes)
     for nombre, uid in nuevos.items():
-        if uid:  # solo agregar si el uid no esta vacio
+        if uid:
             resultado[nombre] = uid
     return resultado
 
@@ -74,6 +76,11 @@ class GestorProyectosApp:
 
         # data/ es el padre de master/
         self.data_dir = os.path.dirname(master_dir)
+
+        # data/proyectos/ es donde viven las BD por proyecto
+        self.proyectos_dir = os.path.join(self.data_dir, "proyectos")
+        if not os.path.exists(self.proyectos_dir):
+            os.makedirs(self.proyectos_dir)
 
         self.docs_info         = docs_info or {}
         self.doc_activo_uid    = (self.docs_info.get("activo") or {}).get("unique_id", "")
@@ -112,36 +119,30 @@ class GestorProyectosApp:
         main_frame.grid(row=0, column=0, sticky="nsew")
         main_frame.columnconfigure(1, weight=1)
 
-        # --- Fila 0: Decreto (NUP) ---
         ttk.Label(main_frame, text="Decreto:").grid(
             row=0, column=0, sticky="w", pady=(0, 5))
         self.entry_nup = ttk.Entry(main_frame)
         self.entry_nup.grid(row=0, column=1, sticky="ew", pady=(0, 5))
 
-        # --- Fila 1: Nombre de Proyecto ---
         ttk.Label(main_frame, text="Nombre de Proyecto:").grid(
             row=1, column=0, sticky="w", pady=(0, 5))
         self.entry_nombre = ttk.Entry(main_frame)
         self.entry_nombre.grid(row=1, column=1, sticky="ew", pady=(0, 5))
 
-        # --- Fila 2: Modelo activo (informativo) ---
         ttk.Label(main_frame, text="Modelo abierto:").grid(
             row=2, column=0, sticky="w", pady=(0, 5))
         txt_modelo = self.doc_activo_nombre if self.doc_activo_nombre else "(desconocido)"
         ttk.Label(main_frame, text=txt_modelo, foreground="#555").grid(
             row=2, column=1, sticky="w", pady=(0, 5))
 
-        # --- Fila 3: Proyecto activo ---
         ttk.Label(main_frame, text="Proyecto activo:").grid(
             row=3, column=0, sticky="w", pady=(0, 5))
         self.label_activo_valor = ttk.Label(main_frame, text="-")
         self.label_activo_valor.grid(row=3, column=1, sticky="w", pady=(0, 5))
 
-        # --- Fila 4: separador ---
         ttk.Separator(main_frame, orient="horizontal").grid(
             row=4, column=0, columnspan=2, sticky="ew", pady=10)
 
-        # --- Fila 5+: lista de proyectos con scroll ---
         ttk.Label(main_frame, text="Proyectos registrados:").grid(
             row=5, column=0, columnspan=2, sticky="w")
 
@@ -165,7 +166,6 @@ class GestorProyectosApp:
         scrollbar.grid(row=0, column=1, sticky="ns")
         self.frame_radios.rowconfigure(0, weight=1)
 
-        # --- Botones inferiores ---
         btn_frame = ttk.Frame(main_frame)
         btn_frame.grid(row=7, column=0, columnspan=2, sticky="e", pady=(10, 0))
 
@@ -215,6 +215,11 @@ class GestorProyectosApp:
         else:
             texto = "(ninguno)"
         self.label_activo_valor.config(text=texto)
+
+    # ---------- Helper ruta repositorio ----------
+    def _ruta_repositorio(self, nup):
+        """Devuelve la ruta canonica en data/proyectos/ para un NUP dado."""
+        return os.path.join(self.proyectos_dir, "repositorio_datos_{}.json".format(nup))
 
     # ---------- Botones ----------
     def on_editar(self):
@@ -276,7 +281,6 @@ class GestorProyectosApp:
                 self.modo_eliminar = False
                 return
 
-            # Confirmacion explicita antes de borrar
             info_sel = self.registro.get(nup_sel, {})
             confirmar = messagebox.askyesno(
                 "Confirmar eliminacion",
@@ -292,7 +296,11 @@ class GestorProyectosApp:
                 self.modo_eliminar = False
                 return
 
-            ruta_repo = info_sel.get("ruta_repositorio", "")
+            # Buscar el archivo en data/proyectos/ (ruta canonica)
+            ruta_repo = self._ruta_repositorio(nup_sel)
+            # Fallback: ruta guardada en el registro (puede ser ruta legacy)
+            if not os.path.exists(ruta_repo):
+                ruta_repo = info_sel.get("ruta_repositorio", "")
             if ruta_repo and os.path.exists(ruta_repo):
                 try:
                     os.remove(ruta_repo)
@@ -327,25 +335,28 @@ class GestorProyectosApp:
             if self.modo_edicion and self.proyecto_seleccionado.get():
                 nup_original = self.proyecto_seleccionado.get()
 
-            # Ruta del repositorio de datos (en data/, no en master/)
+            # Ruta canonica en data/proyectos/
             if nup_original and nup_original in self.registro:
-                vieja_info = self.registro[nup_original]
-                vieja_ruta = vieja_info.get("ruta_repositorio", "")
-                nueva_ruta = vieja_ruta
-                if vieja_ruta and os.path.exists(vieja_ruta):
-                    base_dir   = os.path.dirname(vieja_ruta)
-                    nueva_ruta = os.path.join(base_dir, "repositorio_datos_{}.json".format(nup))
-                    if vieja_ruta != nueva_ruta:
-                        try:
-                            os.rename(vieja_ruta, nueva_ruta)
-                        except Exception:
-                            nueva_ruta = vieja_ruta
+                # Edicion: si cambio el NUP, renombrar el archivo
+                vieja_ruta = self._ruta_repositorio(nup_original)
+                # Fallback a ruta legacy si el archivo canonico no existe
+                if not os.path.exists(vieja_ruta):
+                    vieja_ruta = self.registro[nup_original].get("ruta_repositorio", "")
+                nueva_ruta = self._ruta_repositorio(nup)
+                if vieja_ruta and os.path.exists(vieja_ruta) and vieja_ruta != nueva_ruta:
+                    try:
+                        os.rename(vieja_ruta, nueva_ruta)
+                    except Exception:
+                        nueva_ruta = vieja_ruta
+                elif not os.path.exists(nueva_ruta):
+                    guardar_json(nueva_ruta, {})
             else:
-                nueva_ruta = os.path.join(self.data_dir, "repositorio_datos_{}.json".format(nup))
+                # Proyecto nuevo: crear BD vacia en data/proyectos/
+                nueva_ruta = self._ruta_repositorio(nup)
                 if not os.path.exists(nueva_ruta):
                     guardar_json(nueva_ruta, {})
 
-            # Merge de GUIDs: preservar los existentes, solo agregar los nuevos
+            # Merge de GUIDs
             existentes = {}
             if nup_original and nup_original in self.registro:
                 existentes = self.registro[nup_original].get("documentos", {})
@@ -363,7 +374,6 @@ class GestorProyectosApp:
 
             documentos_finales = merge_documentos(existentes, nuevos_docs)
 
-            # Timestamps
             ahora = _now_iso()
             fecha_creacion = ahora
             if nup_original and nup_original in self.registro:
@@ -380,7 +390,6 @@ class GestorProyectosApp:
                 "fecha_modificacion": ahora,
             }
 
-            # Si cambio el NUP en edicion, eliminar clave vieja
             if self.modo_edicion and nup_original and nup_original != nup:
                 if nup_original in self.registro:
                     del self.registro[nup_original]
@@ -407,10 +416,10 @@ class GestorProyectosApp:
         if nup_activo and nup_activo in self.registro:
             info = self.registro[nup_activo]
             cfg  = {
-                "nup_activo":             nup_activo,
-                "nombre_proyecto":        info.get("nombre_proyecto", ""),
+                "nup_activo":              nup_activo,
+                "nombre_proyecto":         info.get("nombre_proyecto", ""),
                 "ruta_repositorio_activo": info.get("ruta_repositorio", ""),
-                "fecha_activacion":       _now_iso(),
+                "fecha_activacion":        _now_iso(),
             }
             if not guardar_json(self.config_path, cfg):
                 return
