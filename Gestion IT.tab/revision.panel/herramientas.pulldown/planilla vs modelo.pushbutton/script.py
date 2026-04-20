@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-__title__   = "planilla vs modelo"
-__doc__     = """Version = 1.1
-Date    = 20.04.2026
+__title__ = "planilla vs modelo"
+__doc__ = """Version = 1.6
+Date = 20.04.2026
 _______________________________________________________________
 Description:
 
@@ -12,26 +12,20 @@ el modelo activo y sus links, tomando los parámetros definidos en
 planillas_headers_order.json por cada CMxx.
 
 ________________________________________________________________
-How-To:
-
-1. [Hold ALT + CLICK] on the button to open its source folder.
-You will be able to override this placeholder.
-
-2. Automate Your Boring Work ;)
+Cambios v1.6:
+- [FIX] Eliminadas rutas hardcodeadas a AppData\\Roaming\\MyPyRevitExtention.
+- [FIX] Rutas resueltas desde la extensión usando lib/config.
+- [FIX] Repositorio activo portable usando get_ruta_repositorio(nup) como fallback.
+- [FIX] Flujo continuo: selección xlsm -> análisis -> UI -> exportación.
+- [FIX] Selector de carpeta de salida para el xlsx final.
+- [FIX] Logging robusto de rutas y validaciones previas.
+- [FIX] Compatibilidad con ui_comparacion.py por argumentos portables.
+- [UI] Fuerza modo oscuro de pyRevit cuando está disponible.
 
 ________________________________________________________________
-Cambios v1.1:
-- Tema oscuro activado automáticamente
-- Flujo continuo: selección xlsm → análisis modelo → UI (sin doble click)
-- Selector de carpeta destino para el xlsx exportado
-- Formato de exportación correcto para planilla vs modelo
-________________________________________________________________
-Author: Argenis Angel"""
+Author: Argenis Angel
+"""
 
-# ╦╔╦╗╔═╗╔═╗╦═╗╔╦╗╔═╗
-# ║║║║╠═╝║ ║╠╦╝ ║ ╚═╗
-# ╩╩ ╩╩  ╚═╝╩╚═ ╩ ╚═╝
-#==================================================
 import os
 import sys
 import subprocess
@@ -40,7 +34,6 @@ from datetime import datetime
 import clr
 from pyrevit import forms
 
-# CAMBIO 1: Forzar tema oscuro en pyRevit
 try:
     from pyrevit.userconfig import user_config
     user_config.core.darkmode = True
@@ -48,177 +41,286 @@ try:
 except Exception:
     pass
 
-# Revit API
 clr.AddReference("RevitAPI")
 from Autodesk.Revit.DB import (
     FilteredElementCollector,
     RevitLinkInstance,
 )
 
-# ╦  ╦╔═╗╦═╗╦╔═╗╔╗ ╦  ╔═╗╔═╗
-# ╚╗╔╝╠═╣╠╦╝║╠═╣╠╩╗║  ║╣ ╚═╗
-#  ╚╝ ╩ ╩╩╚═╩╩ ╩╚═╝╩═╝╚═╝╚═╝
-#==================================================
-
 try:
     doc = __revit__.ActiveUIDocument.Document
 except Exception:
     doc = None
 
-# ╔╦╗╔═╗╦╔╗╔
-# ║║║╠═╣║║║║
-# ╩ ╩╩ ╩╩╝╚╝
-#==================================================
 
-DATA_DIR_EXT = os.path.join(
-    os.path.expanduser("~"),
-    r"AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data"
-)
+# -----------------------------------------------------------------------------
+# Resolver lib/ portable
+# -----------------------------------------------------------------------------
+_SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+_EXT_ROOT = os.path.normpath(os.path.join(_SCRIPT_DIR, "..", "..", "..", ".."))
+_LIB_DIR = os.path.join(_EXT_ROOT, "lib")
+if _LIB_DIR not in sys.path:
+    sys.path.insert(0, _LIB_DIR)
 
-LOG_PATH = os.path.join(DATA_DIR_EXT, "planilla_vs_modelo_log.txt")
+try:
+    from config.paths import (
+        EXT_ROOT,
+        MASTER_DIR,
+        TEMP_DIR,
+        LOG_DIR,
+        ensure_runtime_dirs,
+        get_ruta_repositorio,
+    )
+    from config_utils import load_config
+except Exception as _e:
+    forms.alert(
+        u"No se pudo importar lib/config.\n"
+        u"Verifica que la carpeta 'lib' exista dentro de la extensión.\n\n{}".format(_e),
+        title=u"Error de importación"
+    )
+    raise SystemExit
 
-CONFIG_PROYECTO_ACTIVO = os.path.join(
-    DATA_DIR_EXT,
-    "config_proyecto_activo.json"
-)
+ensure_runtime_dirs()
 
 
+# -----------------------------------------------------------------------------
+# Rutas de trabajo
+# -----------------------------------------------------------------------------
+_CPYTHON_DIR = os.path.join(EXT_ROOT, "scripts_cpython")
+DATA_COMPARACION = os.path.join(TEMP_DIR, "comparacion")
+
+if not os.path.exists(DATA_COMPARACION):
+    os.makedirs(DATA_COMPARACION)
+
+LOG_PATH = os.path.join(LOG_DIR, "planilla_vs_modelo_log.txt")
+
+CONFIG_PROYECTO_ACTIVO = os.path.join(MASTER_DIR, "config_proyecto_activo.json")
+SCRIPT_JSON_PATH = os.path.join(MASTER_DIR, "script.json")
+PLANILLAS_HEADERS_JSON = os.path.join(MASTER_DIR, "planillas_headers_order.json")
+
+LEER_XLSM = os.path.join(_CPYTHON_DIR, "leer_xlsm_codigos.py")
+UI_COMPARACION = os.path.join(_CPYTHON_DIR, "ui_comparacion.py")
+FORMATEAR_XLSX = os.path.join(_CPYTHON_DIR, "formatear_tablas_excel_v2.py")
+
+MODELO_JSON = os.path.join(DATA_COMPARACION, "modelo_codint_por_cm.json")
+HEADERS_JSON = os.path.join(DATA_COMPARACION, "headers_por_tabla.json")
+
+CREATE_NO_WINDOW = 0x08000000
+
+
+# -----------------------------------------------------------------------------
+# Logging
+# -----------------------------------------------------------------------------
 def log(msg):
     try:
         ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        linea = u"[{}] {}\n".format(ts, msg)
         with open(LOG_PATH, "a", encoding="utf-8") as f:
-            f.write(linea)
+            f.write(u"[{}] {}\n".format(ts, msg))
     except Exception:
         pass
 
 
-try:
-    if not os.path.exists(DATA_DIR_EXT):
-        forms.alert(
-            "No se encontró la carpeta data de la extensión:\n{}".format(DATA_DIR_EXT),
-            title="Error"
-        )
-        log("DATA_DIR_EXT no existe: {}".format(DATA_DIR_EXT))
-        raise SystemExit
-
-    APPDATA_DIR = os.getenv('APPDATA') or os.path.expanduser('~')
-    DATA_DIR = os.path.join(APPDATA_DIR, 'PyRevitIT', 'data', 'comparacion')
-    if not os.path.exists(DATA_DIR):
-        os.makedirs(DATA_DIR)
-        log("Se creó DATA_DIR: {}".format(DATA_DIR))
-
-    PYTHON3_EXE = r"C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe"
-
-    LEER_XLSM      = os.path.join(DATA_DIR_EXT, 'leer_xlsm_codigos.py')
-    FORMATEAR_XLSX = os.path.join(DATA_DIR_EXT, 'formatear_tablas_excel.py')
-    UI_COMPARACION = os.path.join(DATA_DIR_EXT, 'ui_comparacion.py')
-    SCRIPT_JSON_PATH = os.path.join(DATA_DIR_EXT, 'script.json')
-
-    MODELO_JSON          = os.path.join(DATA_DIR_EXT, 'modelo_codint_por_cm.json')
-    HEADERS_JSON         = os.path.join(DATA_DIR_EXT, 'headers_por_tabla.json')
-    PLANILLAS_HEADERS_JSON = os.path.join(DATA_DIR_EXT, 'planillas_headers_order.json')
-
-    CREATE_NO_WINDOW = 0x08000000
-except Exception as e:
-    log("Error inicializando rutas base: {}".format(e))
-    forms.alert("Error inicializando rutas base:\n{}".format(e), title="Error")
-    raise SystemExit
+def log_paths():
+    log(u"--- RUTAS PLANILLA VS MODELO ---")
+    log(u"EXT_ROOT: {}".format(EXT_ROOT))
+    log(u"_CPYTHON_DIR: {} | existe={}".format(_CPYTHON_DIR, os.path.exists(_CPYTHON_DIR)))
+    log(u"MASTER_DIR: {} | existe={}".format(MASTER_DIR, os.path.exists(MASTER_DIR)))
+    log(u"TEMP_DIR: {} | existe={}".format(TEMP_DIR, os.path.exists(TEMP_DIR)))
+    log(u"DATA_COMPARACION: {} | existe={}".format(DATA_COMPARACION, os.path.exists(DATA_COMPARACION)))
+    log(u"SCRIPT_JSON_PATH: {} | existe={}".format(SCRIPT_JSON_PATH, os.path.exists(SCRIPT_JSON_PATH)))
+    log(u"PLANILLAS_HEADERS_JSON: {} | existe={}".format(PLANILLAS_HEADERS_JSON, os.path.exists(PLANILLAS_HEADERS_JSON)))
+    log(u"LEER_XLSM: {} | existe={}".format(LEER_XLSM, os.path.exists(LEER_XLSM)))
+    log(u"UI_COMPARACION: {} | existe={}".format(UI_COMPARACION, os.path.exists(UI_COMPARACION)))
+    log(u"FORMATEAR_XLSX: {} | existe={}".format(FORMATEAR_XLSX, os.path.exists(FORMATEAR_XLSX)))
+    log(u"MODELO_JSON: {}".format(MODELO_JSON))
+    log(u"HEADERS_JSON: {}".format(HEADERS_JSON))
+    log(u"LOG_PATH: {}".format(LOG_PATH))
+    log(u"--- FIN RUTAS ---")
 
 
-# ----------------- Utilidades JSON / BD -----------------
-
-def cargar_json(ruta, default):
+# -----------------------------------------------------------------------------
+# JSON helpers
+# -----------------------------------------------------------------------------
+def cargar_json(ruta, default=None):
     import json
+    if default is None:
+        default = {}
     try:
         if not os.path.exists(ruta):
-            log("cargar_json: archivo no existe -> {}".format(ruta))
+            log(u"cargar_json: no existe -> {}".format(ruta))
             return default
         with open(ruta, "r", encoding="utf-8") as f:
             data = json.load(f)
-        log("cargar_json: cargado OK -> {}".format(ruta))
         return data
     except Exception as e:
-        log("cargar_json: error leyendo {} -> {}".format(ruta, e))
+        log(u"cargar_json: error leyendo {} -> {}".format(ruta, e))
         return default
 
 
+def guardar_json(ruta, data):
+    import json
+    try:
+        base = os.path.dirname(ruta)
+        if base and not os.path.exists(base):
+            os.makedirs(base)
+        with open(ruta, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+        return True
+    except Exception as e:
+        log(u"guardar_json: error guardando {} -> {}".format(ruta, e))
+        return False
+
+
+# -----------------------------------------------------------------------------
+# Repositorio activo portable
+# -----------------------------------------------------------------------------
 def get_repo_activo_path():
-    cfg = cargar_json(CONFIG_PROYECTO_ACTIVO, {})
+    try:
+        cfg = load_config()
+    except Exception as e:
+        log(u"get_repo_activo_path: error load_config -> {}".format(e))
+        return ""
+
     ruta = (cfg.get("ruta_repositorio_activo") or "").strip()
-    log("get_repo_activo_path: {}".format(ruta or "<no definido>"))
-    return ruta
+    if ruta:
+        if os.path.exists(ruta):
+            log(u"get_repo_activo_path: ruta absoluta OK -> {}".format(ruta))
+            return ruta
+        else:
+            log(u"get_repo_activo_path: ruta absoluta no existe -> {}".format(ruta))
+
+    nup = (cfg.get("nup_activo") or cfg.get("nup") or "").strip()
+    if nup:
+        try:
+            ruta_rel = get_ruta_repositorio(nup)
+            if ruta_rel and os.path.exists(ruta_rel):
+                log(u"get_repo_activo_path: ruta portable OK -> {}".format(ruta_rel))
+                return ruta_rel
+            else:
+                log(u"get_repo_activo_path: ruta portable no existe -> {}".format(ruta_rel))
+        except Exception as e:
+            log(u"get_repo_activo_path: error get_ruta_repositorio({}) -> {}".format(nup, e))
+
+    log(u"get_repo_activo_path: sin ruta disponible")
+    return ""
 
 
 def cargar_repo_activo():
     ruta = get_repo_activo_path()
     if not ruta or not os.path.exists(ruta):
-        log("cargar_repo_activo: no hay repo activo o no existe -> {}".format(ruta))
+        log(u"cargar_repo_activo: no disponible -> {}".format(ruta))
         return {}
     repo = cargar_json(ruta, {})
-    log("cargar_repo_activo: {} registros".format(len(repo)))
+    log(u"cargar_repo_activo: {} registros desde {}".format(len(repo), ruta))
     return repo
 
 
-# ----------------- Utilidades Revit -----------------
+# -----------------------------------------------------------------------------
+# Detección Python 3
+# -----------------------------------------------------------------------------
+def _detectar_python3():
+    try:
+        cfg = load_config()
+        ruta_cfg = (cfg.get("python_exe") or "").strip()
+        if ruta_cfg and os.path.isfile(ruta_cfg):
+            log(u"python3 detectado desde config: {}".format(ruta_cfg))
+            return ruta_cfg
+    except Exception:
+        pass
 
+    local_programs = os.path.join(
+        os.getenv("LOCALAPPDATA", os.path.expanduser("~")),
+        "Programs",
+        "Python"
+    )
+
+    if os.path.isdir(local_programs):
+        versiones = sorted(
+            [d for d in os.listdir(local_programs) if d.startswith("Python")],
+            reverse=True
+        )
+        for v in versiones:
+            exe = os.path.join(local_programs, v, "python.exe")
+            if os.path.isfile(exe):
+                log(u"python3 detectado en Programs: {}".format(exe))
+                return exe
+
+    for candidato in ("python3", "python"):
+        try:
+            out = subprocess.check_output(
+                [candidato, "--version"],
+                stderr=subprocess.STDOUT,
+                creationflags=CREATE_NO_WINDOW
+            )
+            try:
+                txt = out.decode("utf-8", "ignore")
+            except Exception:
+                txt = str(out)
+            if "Python 3" in txt:
+                log(u"python3 detectado en PATH: {}".format(candidato))
+                return candidato
+        except Exception:
+            continue
+
+    log(u"python3 NO encontrado")
+    return None
+
+
+PYTHON3_EXE = _detectar_python3()
+
+
+# -----------------------------------------------------------------------------
+# Utilidades Revit
+# -----------------------------------------------------------------------------
 def get_all_docs_with_links():
     docs = []
     try:
         if doc is None:
-            log("get_all_docs_with_links: doc es None")
+            log(u"get_all_docs_with_links: doc es None")
             return []
-        main_doc = doc
-        docs.append((main_doc, main_doc.PathName or ""))
-        log("get_all_docs_with_links: host -> {}".format(main_doc.PathName or ""))
-        col_links = FilteredElementCollector(main_doc).OfClass(RevitLinkInstance)
+
+        docs.append((doc, doc.PathName or ""))
+        col = FilteredElementCollector(doc).OfClass(RevitLinkInstance)
         seen = set()
-        for li in col_links:
+
+        for li in col:
             try:
                 link_doc = li.GetLinkDocument()
-                if link_doc is None:
+                if not link_doc:
                     continue
                 path = link_doc.PathName or ""
                 if path in seen:
                     continue
                 seen.add(path)
                 docs.append((link_doc, path))
-                log("get_all_docs_with_links: link -> {}".format(path))
             except Exception as e:
-                log("get_all_docs_with_links: error con RevitLinkInstance -> {}".format(e))
-                continue
+                log(u"get_all_docs_with_links: error RevitLinkInstance -> {}".format(e))
     except Exception as e:
-        forms.alert(
-            "Error obteniendo documentos linkeados:\n{}".format(e),
-            title="Error links"
-        )
-        log("get_all_docs_with_links: excepción general -> {}".format(e))
+        forms.alert(u"Error obteniendo documentos vinculados:\n{}".format(e), title=u"Error")
+        log(u"get_all_docs_with_links: excepción general -> {}".format(e))
+
     return docs
 
 
 def cargar_planillas_headers():
     data = cargar_json(PLANILLAS_HEADERS_JSON, {})
-    if not data:
-        log("cargar_planillas_headers: archivo vacío o no encontrado -> {}".format(PLANILLAS_HEADERS_JSON))
-    else:
-        log("cargar_planillas_headers: {} claves".format(len(data)))
+    log(u"cargar_planillas_headers: {} claves".format(len(data)))
     return data
 
 
+# -----------------------------------------------------------------------------
+# Generación modelo JSON
+# -----------------------------------------------------------------------------
 def generar_modelo_json_desde_revit(script_json_path, modelo_json_path):
-    import json
-
     if doc is None:
-        forms.alert("No hay documento activo.", title="Error")
-        log("generar_modelo_json_desde_revit: doc es None")
+        forms.alert(u"No hay documento activo.", title=u"Error")
         return False
 
     script_data = cargar_json(script_json_path, {})
     codigos_planillas = script_data.get("codigos_planillas", {})
     if not codigos_planillas:
-        msg = "En script.json no se encontró 'codigos_planillas'."
-        forms.alert(msg, title="Error script.json")
-        log("generar_modelo_json_desde_revit: {}".format(msg))
+        forms.alert(u"script.json no contiene 'codigos_planillas'.", title=u"Error script.json")
+        log(u"generar_modelo_json_desde_revit: sin codigos_planillas")
         return False
 
     cm_to_planilla = {}
@@ -229,16 +331,14 @@ def generar_modelo_json_desde_revit(script_json_path, modelo_json_path):
             elif isinstance(k, str) and len(k) == 4 and k.startswith("CM"):
                 cm_to_planilla[k] = v
         except Exception as e:
-            log("generar_modelo_json_desde_revit: error armando cm_to_planilla -> {}".format(e))
-
-    log("generar_modelo_json_desde_revit: cm_to_planilla -> {}".format(cm_to_planilla))
+            log(u"cm_to_planilla error: {}".format(e))
 
     planillas_headers = cargar_planillas_headers()
     repo_activo = cargar_repo_activo()
 
     indice_bd_eid = {}
     indice_bd_cod = {}
-    for k, v in repo_activo.items():
+    for _, v in repo_activo.items():
         cod = (v.get("CodIntBIM") or "").strip()
         eid = str(v.get("ElementId", "")).strip()
         archivo = (v.get("Archivo") or "").strip()
@@ -246,45 +346,29 @@ def generar_modelo_json_desde_revit(script_json_path, modelo_json_path):
             indice_bd_cod.setdefault(cod, []).append(v)
         if eid and archivo:
             indice_bd_eid[(archivo, eid)] = v
-    log("generar_modelo_json_desde_revit: indice_bd_cod={}, indice_bd_eid={}".format(
-        len(indice_bd_cod), len(indice_bd_eid)
-    ))
 
-    def headers_para_cm(cm_codigo):
-        nombre_planilla = cm_to_planilla.get(cm_codigo)
+    def headers_para_cm(cm):
+        nombre = cm_to_planilla.get(cm)
         headers = None
-        if nombre_planilla:
-            clave = "{}::{}".format(nombre_planilla, cm_codigo)
-            headers = planillas_headers.get(clave)
-            if headers:
-                log("headers_para_cm: {} -> {} (clave {})".format(cm_codigo, len(headers), clave))
+        if nombre:
+            headers = planillas_headers.get("{}::{}".format(nombre, cm))
         if not headers:
-            headers = planillas_headers.get(cm_codigo)
-            if headers:
-                log("headers_para_cm: {} -> {} (clave {})".format(cm_codigo, len(headers), cm_codigo))
-        if headers:
-            return list(headers)
-        log("headers_para_cm: {} sin headers configurados".format(cm_codigo))
-        return []
+            headers = planillas_headers.get(cm)
+        return list(headers) if headers else []
 
     datos_por_cm = {}
+    usados_cod = set()
+    usados_eid = set()
     total_docs = 0
-    total_elems_codint = 0
-    usados_bd_codint = set()
-    usados_bd_eid = set()
+    total_elems = 0
 
     try:
-        docs_links = get_all_docs_with_links()
-        total_docs = len(docs_links)
-        log("generar_modelo_json_desde_revit: documentos a recorrer -> {}".format(total_docs))
-
-        for d, ruta_archivo in docs_links:
+        for d, ruta_archivo in get_all_docs_with_links():
+            total_docs += 1
             try:
-                ruta_log = ruta_archivo or "<sin ruta>"
-                log("Recorriendo doc: {}".format(ruta_log))
                 col = FilteredElementCollector(d).WhereElementIsNotElementType()
             except Exception as e:
-                log("Error creando FilteredElementCollector para {} -> {}".format(ruta_archivo, e))
+                log(u"error collector {} -> {}".format(ruta_archivo, e))
                 continue
 
             for el in col:
@@ -292,268 +376,286 @@ def generar_modelo_json_desde_revit(script_json_path, modelo_json_path):
                     p = el.LookupParameter("CodIntBIM")
                     if not p:
                         continue
-                    codint = p.AsString() or ""
-                    codint = codint.strip()
+                    codint = (p.AsString() or "").strip()
                     if not codint or len(codint) < 4:
                         continue
 
-                    total_elems_codint += 1
-                    cm_codigo = codint[:4]
-                    eid_str = str(el.Id.IntegerValue)
-                    archivo = ruta_archivo or ""
+                    total_elems += 1
+                    cm = codint[:4]
+                    eid = str(el.Id.IntegerValue)
+                    arc = ruta_archivo or ""
 
-                    fila_bd = indice_bd_eid.get((archivo, eid_str))
+                    fila_bd = indice_bd_eid.get((arc, eid))
                     if not fila_bd:
                         lst = indice_bd_cod.get(codint) or []
                         fila_bd = lst[0] if lst else None
 
                     if fila_bd:
-                        usados_bd_codint.add(codint)
-                        usados_bd_eid.add((archivo, eid_str))
+                        usados_cod.add(codint)
+                        usados_eid.add((arc, eid))
                         fila = dict(fila_bd)
                     else:
                         fila = {}
 
                     fila["CodIntBIM"] = codint
-                    fila["ElementId"] = eid_str
-                    fila["Archivo"]   = archivo
+                    fila["ElementId"] = eid
+                    fila["Archivo"] = arc
 
                     try:
-                        categoria = el.Category.Name if el.Category else ""
-                    except Exception as ecat:
-                        categoria = ""
-                        log("Error leyendo Category para {} -> {}".format(codint, ecat))
-                    fila["Categoria"] = categoria
+                        fila["Categoria"] = el.Category.Name if el.Category else ""
+                    except Exception:
+                        fila["Categoria"] = ""
 
-                    headers_cm = headers_para_cm(cm_codigo)
-                    for h in headers_cm:
+                    for h in headers_para_cm(cm):
                         if h == "CodIntBIM":
                             continue
                         try:
-                            p_el = el.LookupParameter(h)
-                            if p_el:
-                                val_modelo = p_el.AsString() or p_el.AsValueString() or ""
-                            else:
-                                val_modelo = ""
-                        except Exception as ep:
-                            val_modelo = ""
-                            log("Error leyendo parámetro '{}' para {} -> {}".format(h, codint, ep))
+                            pe = el.LookupParameter(h)
+                            vm = (pe.AsString() or pe.AsValueString() or "") if pe else ""
+                        except Exception:
+                            vm = ""
+                        vb = fila.get(h)
+                        fila[h] = vb if vb not in (None, "") else vm
 
-                        val_bd = fila.get(h)
-                        if val_bd not in (None, ""):
-                            fila[h] = val_bd
-                        else:
-                            fila[h] = val_modelo
+                    datos_por_cm.setdefault(cm, []).append(fila)
 
-                    datos_por_cm.setdefault(cm_codigo, []).append(fila)
-
-                except Exception as e_el:
-                    log("Error procesando elemento en doc {} -> {}".format(ruta_archivo, e_el))
-                    continue
+                except Exception as e:
+                    log(u"error procesando elemento en {} -> {}".format(ruta_archivo, e))
 
     except Exception as e:
-        forms.alert(
-            "Error recorriendo elementos del modelo y links:\n{}".format(e),
-            title="Error modelo"
-        )
-        log("generar_modelo_json_desde_revit: excepción general -> {}".format(e))
+        forms.alert(u"Error recorriendo modelo:\n{}".format(e), title=u"Error modelo")
+        log(u"generar_modelo_json_desde_revit: excepción general -> {}".format(e))
         return False
 
-    # Agregar registros solo en BD pero no encontrados en modelo
-    for k, v in repo_activo.items():
+    for _, v in repo_activo.items():
         cod = (v.get("CodIntBIM") or "").strip()
         if not cod or len(cod) < 4:
             continue
-        cm_codigo = cod[:4]
         eid = str(v.get("ElementId", "")).strip()
-        archivo = (v.get("Archivo") or "").strip()
-
-        if (archivo, eid) in usados_bd_eid or cod in usados_bd_codint:
+        arc = (v.get("Archivo") or "").strip()
+        if (arc, eid) in usados_eid or cod in usados_cod:
             continue
 
         fila = dict(v)
-        fila["CodIntBIM"] = cod
-        fila["ElementId"] = eid
-        fila["Archivo"]   = archivo
-        if "Categoria" not in fila:
-            fila["Categoria"] = ""
+        fila.setdefault("CodIntBIM", cod)
+        fila.setdefault("ElementId", eid)
+        fila.setdefault("Archivo", arc)
+        fila.setdefault("Categoria", "")
+        datos_por_cm.setdefault(cod[:4], []).append(fila)
 
-        datos_por_cm.setdefault(cm_codigo, []).append(fila)
-
-    log("generar_modelo_json_desde_revit: total_docs={}, total_elems_codint={}".format(
-        total_docs, total_elems_codint
+    log(u"modelo generado: docs={} elems={} cms={}".format(
+        total_docs, total_elems, sorted(datos_por_cm.keys())
     ))
-    log("generar_modelo_json_desde_revit: CM encontrados -> {}".format(list(datos_por_cm.keys())))
 
-    try:
-        with open(modelo_json_path, "w", encoding="utf-8") as f:
-            json.dump(datos_por_cm, f, ensure_ascii=False, indent=2)
-        log("modelo_codint_por_cm.json guardado en {}".format(modelo_json_path))
-    except Exception as e:
-        forms.alert(
-            "Error guardando modelo_codint_por_cm.json:\n{}".format(e),
-            title="Error JSON modelo"
-        )
-        log("Error guardando modelo_codint_por_cm.json -> {}".format(e))
+    if not guardar_json(modelo_json_path, datos_por_cm):
+        forms.alert(u"Error guardando modelo JSON:\n{}".format(modelo_json_path), title=u"Error")
         return False
 
-    # CAMBIO 3: Sin forms.alert intermedia — el flujo continúa directamente
-    log("modelo_codint_por_cm.json generado OK -> docs={}, elementos={}".format(
-        total_docs, total_elems_codint
-    ))
+    log(u"modelo JSON guardado -> {}".format(modelo_json_path))
     return True
 
 
-# ----------------- Flujo Excel/Comparación -----------------
-
+# -----------------------------------------------------------------------------
+# Selección planilla
+# -----------------------------------------------------------------------------
 def seleccionar_xlsm():
     try:
         ruta = forms.pick_file(
-            file_ext='xlsm',
+            file_ext="xlsm",
             multi_file=False,
-            title='Selecciona la planilla .xlsm'
+            title=u"Selecciona la planilla .xlsm"
         )
-        log("seleccionar_xlsm: ruta seleccionada -> {}".format(ruta or "<cancelado>"))
+        log(u"seleccionar_xlsm: {}".format(ruta or ""))
         return ruta
     except Exception as e:
-        log("seleccionar_xlsm: error -> {}".format(e))
-        forms.alert("Error al seleccionar xlsm:\n{}".format(e), title="Error")
+        forms.alert(u"Error seleccionando .xlsm:\n{}".format(e), title=u"Error")
+        log(u"seleccionar_xlsm error -> {}".format(e))
         return None
 
 
-def llamar_leer_xlsm(ruta_xlsm):
+def seleccionar_carpeta_salida():
     try:
-        log("llamar_leer_xlsm: inicio con ruta_xlsm={}".format(ruta_xlsm))
+        ruta = forms.pick_folder(
+            title=u"Selecciona la carpeta donde guardar el archivo Excel exportado"
+        )
+        log(u"seleccionar_carpeta_salida: {}".format(ruta or ""))
+        return ruta
+    except Exception as e:
+        forms.alert(u"Error seleccionando carpeta de salida:\n{}".format(e), title=u"Error")
+        log(u"seleccionar_carpeta_salida error -> {}".format(e))
+        return None
+
+
+# -----------------------------------------------------------------------------
+# Lectura xlsm -> csv
+# -----------------------------------------------------------------------------
+def llamar_leer_xlsm(ruta_xlsm):
+    if not PYTHON3_EXE:
+        forms.alert(
+            u"No se encontró Python 3.\n"
+            u"Agrega la clave 'python_exe' en config si es necesario.",
+            title=u"Python no encontrado"
+        )
+        return None
+
+    if not os.path.exists(LEER_XLSM):
+        forms.alert(u"No se encontró leer_xlsm_codigos.py:\n{}".format(LEER_XLSM), title=u"Error")
+        return None
+
+    try:
         salida = subprocess.check_output(
-            [PYTHON3_EXE, LEER_XLSM, ruta_xlsm, DATA_DIR],
+            [PYTHON3_EXE, LEER_XLSM, ruta_xlsm, DATA_COMPARACION],
             stderr=subprocess.STDOUT,
             universal_newlines=True,
             creationflags=CREATE_NO_WINDOW
         )
-        log("llamar_leer_xlsm: salida:\n{}".format(salida))
+        log(u"llamar_leer_xlsm salida:\n{}".format(salida))
+
         lineas = [l.strip() for l in salida.splitlines() if l.strip()]
         if not lineas:
-            msg = "leer_xlsm_codigos.py no devolvió ninguna ruta."
-            forms.alert("{}\n\nSalida:\n{}".format(msg, salida), title="Error")
-            log("llamar_leer_xlsm: {}".format(msg))
+            forms.alert(u"leer_xlsm_codigos.py no devolvió ninguna ruta.", title=u"Error")
             return None
+
         csv_path = lineas[-1]
         if not os.path.exists(csv_path):
-            msg = "No se generó el CSV de CODIGO."
-            forms.alert("{}\n\nTexto devuelto:\n{}".format(msg, salida), title="Error")
-            log("llamar_leer_xlsm: {} -> {}".format(msg, csv_path))
+            forms.alert(u"No se generó el CSV esperado.\n\n{}".format(csv_path), title=u"Error")
             return None
-        log("llamar_leer_xlsm: csv generado -> {}".format(csv_path))
+
+        log(u"csv generado -> {}".format(csv_path))
         return csv_path
+
     except subprocess.CalledProcessError as e:
-        forms.alert("Error al leer .xlsm:\n{}".format(e.output), title="Error")
-        log("llamar_leer_xlsm: CalledProcessError -> {}".format(e.output))
+        try:
+            msg = e.output
+        except Exception:
+            msg = str(e)
+        forms.alert(u"Error al leer .xlsm:\n{}".format(msg), title=u"Error")
+        log(u"llamar_leer_xlsm CalledProcessError -> {}".format(msg))
         return None
     except Exception as e:
-        forms.alert("Error inesperado al leer .xlsm:\n{}".format(e), title="Error")
-        log("llamar_leer_xlsm: excepción general -> {}".format(e))
+        forms.alert(u"Error inesperado al leer .xlsm:\n{}".format(e), title=u"Error")
+        log(u"llamar_leer_xlsm excepción general -> {}".format(e))
         return None
 
 
-def llamar_ui_y_formato(ruta_xlsm, csv_codigos):
-    ahora = datetime.now()
-    stamp = ahora.strftime("%Y%m%d_%H%M")
-
-    # CAMBIO 4: Selector de carpeta destino
-    carpeta_destino = forms.pick_folder(
-        title="Selecciona la carpeta donde guardar el archivo Excel exportado"
-    )
-    if not carpeta_destino:
-        log("llamar_ui_y_formato: selección de carpeta cancelada")
-        forms.alert("No se seleccionó carpeta de destino. Operación cancelada.", title="Cancelado")
+# -----------------------------------------------------------------------------
+# UI comparacion
+# -----------------------------------------------------------------------------
+def llamar_ui_comparacion(ruta_xlsm, carpeta_destino):
+    if not PYTHON3_EXE:
+        forms.alert(
+            u"No se encontró Python 3.\n"
+            u"Agrega la clave 'python_exe' en config si es necesario.",
+            title=u"Python no encontrado"
+        )
         return
 
-    # CAMBIO 2: Nombre de archivo específico para planilla vs modelo (distinto de revision elementos)
+    stamp = datetime.now().strftime("%Y%m%d_%H%M")
     ruta_xlsx_salida = os.path.join(
         carpeta_destino,
-        "planilla-modelo_{}.xlsx".format(stamp)
+        u"planilla-modelo_{}.xlsx".format(stamp)
     )
 
-    log("llamar_ui_y_formato: ruta_xlsm={}, csv_codigos={}, salida={}".format(
-        ruta_xlsm, csv_codigos, ruta_xlsx_salida
-    ))
+    cmd = [
+        PYTHON3_EXE,
+        UI_COMPARACION,
+        SCRIPT_JSON_PATH,
+        ruta_xlsm,
+        DATA_COMPARACION,
+        FORMATEAR_XLSX,
+        ruta_xlsx_salida,
+        PYTHON3_EXE,
+        MODELO_JSON,
+        HEADERS_JSON
+    ]
+
+    log(u"llamar_ui_comparacion CMD:\n {}".format(u"\n ".join(cmd)))
 
     try:
-        subprocess.check_call(
-            [
-                PYTHON3_EXE,
-                UI_COMPARACION,
-                SCRIPT_JSON_PATH,
-                csv_codigos,
-                DATA_DIR,
-                FORMATEAR_XLSX,
-                ruta_xlsx_salida,
-                PYTHON3_EXE,    # 6º argumento (python_exe)
-                MODELO_JSON,    # 7º argumento (modelo_json)
-                HEADERS_JSON    # 8º argumento (headers_json)
-            ],
+        subprocess.Popen(
+            cmd,
             stderr=subprocess.STDOUT,
             creationflags=CREATE_NO_WINDOW
         )
-        forms.alert(
-            "Archivo generado correctamente:\n{}".format(ruta_xlsx_salida),
-            title="Éxito"
-        )
-        log("llamar_ui_y_formato: Excel planilla-modelo generado OK -> {}".format(ruta_xlsx_salida))
-    except subprocess.CalledProcessError as e:
-        forms.alert("Error en la UI / formateo:\n{}".format(e), title="Error")
-        log("llamar_ui_y_formato: CalledProcessError -> {}".format(e))
+        log(u"ui_comparacion lanzado correctamente")
     except Exception as e:
-        forms.alert("Error inesperado en UI / formateo:\n{}".format(e), title="Error")
-        log("llamar_ui_y_formato: excepción general -> {}".format(e))
+        forms.alert(u"Error lanzando ui_comparacion:\n{}".format(e), title=u"Error")
+        log(u"llamar_ui_comparacion error -> {}".format(e))
 
 
+# -----------------------------------------------------------------------------
+# Main
+# -----------------------------------------------------------------------------
 def main():
-    log("==== Inicio Planilla vs Modelo v1.1 ====")
+    log(u"==== Inicio Planilla vs Modelo v1.6 ====")
+    log_paths()
 
     if doc is None:
-        forms.alert("No hay documento activo.", title="Error")
-        log("main: doc es None")
+        forms.alert(u"No hay documento activo en Revit.", title=u"Error")
         return
 
     if not os.path.exists(SCRIPT_JSON_PATH):
-        forms.alert("No se encontró script.json:\n{}".format(SCRIPT_JSON_PATH), title="Error")
-        log("main: script.json no encontrado")
-        return
-
-    if not os.path.exists(LEER_XLSM) or not os.path.exists(UI_COMPARACION):
         forms.alert(
-            "Faltan scripts CPython en la carpeta data.\nSe esperaban:\n{}\n{}".format(
-                LEER_XLSM, UI_COMPARACION
-            ),
-            title="Error"
+            u"No se encontró script.json:\n{}".format(SCRIPT_JSON_PATH),
+            title=u"Error"
         )
-        log("main: scripts CPython faltantes")
         return
 
-    # CAMBIO 3: Seleccionar planilla PRIMERO para un flujo continuo sin doble click
+    faltantes = [p for p in (LEER_XLSM, UI_COMPARACION, FORMATEAR_XLSX) if not os.path.exists(p)]
+    if faltantes:
+        forms.alert(
+            u"Faltan scripts en scripts_cpython:\n\n{}".format(u"\n".join(faltantes)),
+            title=u"Scripts no encontrados"
+        )
+        return
+
+    if not PYTHON3_EXE:
+        forms.alert(
+            u"No se encontró Python 3.\n"
+            u"Agrega la clave 'python_exe' en config_proyecto_activo.json.",
+            title=u"Python no encontrado"
+        )
+        return
+
     ruta_xlsm = seleccionar_xlsm()
     if not ruta_xlsm:
-        log("main: selección xlsm cancelada")
+        log(u"Cancelado: no se seleccionó xlsm")
         return
 
-    # Analizar modelo después de seleccionar archivo (sin alert intermedia)
-    log("main: generando MODELO_JSON -> {}".format(MODELO_JSON))
+    carpeta_destino = seleccionar_carpeta_salida()
+    if not carpeta_destino:
+        log(u"Cancelado: no se seleccionó carpeta destino")
+        return
+
+    ruta_repo = get_repo_activo_path()
+    if not ruta_repo:
+        continuar = forms.alert(
+            u"No se encontró la ruta del repositorio activo.\n\n"
+            u"La comparación se hará solo con los datos del modelo Revit,\n"
+            u"sin cruzar información de la base de datos.\n\n"
+            u"¿Deseas continuar de todas formas?",
+            title=u"Repositorio no encontrado",
+            options=[u"Continuar", u"Cancelar"]
+        )
+        if continuar != u"Continuar":
+            log(u"Cancelado por usuario: repositorio no encontrado")
+            return
+
     ok = generar_modelo_json_desde_revit(SCRIPT_JSON_PATH, MODELO_JSON)
     if not ok:
-        log("main: generar_modelo_json_desde_revit devolvió False")
+        log(u"Fallo generando MODELO_JSON")
         return
 
-    # Leer CSV de la planilla
     csv_codigos = llamar_leer_xlsm(ruta_xlsm)
     if not csv_codigos:
-        log("main: llamar_leer_xlsm devolvió None")
+        log(u"Fallo leyendo xlsm")
         return
 
-    # Lanzar UI y generar Excel — la ventana aparece inmediatamente en este mismo flujo
-    llamar_ui_y_formato(ruta_xlsm, csv_codigos)
-    log("==== Fin Planilla vs Modelo v1.1 ====")
+    # ui_comparacion.py actual espera xlsm directo en argv[2], no csv
+    llamar_ui_comparacion(ruta_xlsm, carpeta_destino)
+
+    log(u"==== Fin Planilla vs Modelo v1.6 ====")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

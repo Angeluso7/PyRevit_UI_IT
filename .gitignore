@@ -36,3 +36,22 @@ __pycache__/
 !data/logs/.gitkeep
 !data/exports/.gitkeep
 !data/cache/.gitkeep
+
+# Runtime generado
+data/logs/
+data/exports/
+data/temp/
+data/proyectos/
+*.log
+
+# Windows artifacts
+desktop.ini
+Thumbs.db
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# JSONs de estado de sesión (generados en runtime)
+data/modelo_codint_por_cm.json
