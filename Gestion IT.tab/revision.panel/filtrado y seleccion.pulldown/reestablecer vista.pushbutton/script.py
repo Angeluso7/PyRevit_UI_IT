@@ -57,19 +57,6 @@ def main():
     for f in FilteredElementCollector(doc).OfClass(ParameterFilterElement):
         filtros_dict[f.Id] = f.Name
 
-    # ── Confirmar ────────────────────────────────────────────────────────────
-    nombres = "\n".join(
-        "  • " + filtros_dict.get(fid, str(fid))
-        for fid in filtros_en_vista
-    )
-    respuesta = MessageBox.Show(
-        "Se restablecerán {} filtro(s) en la vista activa:\n\n{}\n\n"
-        "¿Continuar?".format(len(filtros_en_vista), nombres),
-        "Restablecer Vista",
-        MessageBoxButtons.YesNo)
-
-    if respuesta != DialogResult.Yes:
-        return
 
     # ── Transacción ──────────────────────────────────────────────────────────
     ogs_limpio = OverrideGraphicSettings()
@@ -89,10 +76,11 @@ def main():
                 "Error")
             return
 
-    MessageBox.Show(
-        "{} filtro(s) restablecidos correctamente en la vista:\n\n{}".format(
-            len(filtros_en_vista), nombres),
-        "Restablecer Vista — Listo")
+    nombres = "\n".join(
+        "  • " + filtros_dict.get(fid, str(fid))
+        for fid in filtros_en_vista
+    )
+
 
 
 # ──────────────────────────────────────────────────────────────────────────────
