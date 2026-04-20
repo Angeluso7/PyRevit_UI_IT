@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # -*- coding: utf-8 -*-
 """
 scripts_cpython/ui_comparacion.py  v1.6
