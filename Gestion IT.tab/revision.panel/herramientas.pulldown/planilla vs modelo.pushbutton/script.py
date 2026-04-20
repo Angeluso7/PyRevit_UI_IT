@@ -1,14 +1,17 @@
 # -*- coding: utf-8 -*-
 __title__   = "planilla vs modelo"
-__doc__     = """Version = 1.2
+__doc__     = """Version = 1.3
 Date    = 20.04.2026
-Cambios v1.2:
-- [FIX] LEER_XLSM, UI_COMPARACION, FORMATEAR_XLSX apuntan a scripts_cpython/ (no data/).
-- [FIX] MODELO_JSON y HEADERS_JSON generados en data/temp/comparacion/.
-- [FIX] PLANILLAS_HEADERS_JSON usa MASTER_DIR correcto.
-- [FIX] Validacion de scripts CPython antes de ejecutar.
-- [FIX] get_repo_activo_path() robusto con fallback NUP portátil.
-- [OPT] Manejo de errores mejorado en subprocesos.
+Cambios v1.3:
+- [FIX] EXT_ROOT resuelto desde lib/config/paths.py (100% portable).
+- [FIX] Scripts CPython apuntan a nombres reales del repo:
+        ui_comparacion.py / formatear_tablas_excel_v2.py
+- [FIX] leer_xlsm_codigos.py eliminado (no existe); lectura CSV
+        delegada completamente a ui_comparacion.py.
+- [FIX] MODELO_JSON y HEADERS_JSON en data/temp/comparacion/.
+- [FIX] PLANILLAS_HEADERS_JSON en data/master/.
+- [OPT] Validacion de scripts CPython con nombres reales antes de ejecutar.
+- [OPT] Popen (no bloqueante) para ui_comparacion.py.
 Author: Argenis Angel"""
 
 import os
@@ -31,16 +34,27 @@ try:
 except Exception:
     doc = None
 
-# ── Agregar lib/ al sys.path ──────────────────────────────────────────────────
+# ── Resolver EXT_ROOT usando lib/config/paths.py (fuente unica de verdad) ────
+# El script esta en:
+#   <EXT_ROOT>/Gestion IT.tab/revision.panel/herramientas.pulldown/planilla vs modelo.pushbutton/
+# Son 4 niveles desde EXT_ROOT, pero NO usamos __file__ para contar ..
+# sino que dejamos que paths.py lo resuelva solo desde su propia ubicacion.
+
 _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-_EXT_ROOT   = os.path.normpath(os.path.join(_SCRIPT_DIR, '..', '..', '..', '..'))
-_LIB_DIR    = os.path.join(_EXT_ROOT, 'lib')
+
+# Subir 4 niveles: pushbutton -> pulldown -> panel -> tab -> EXT_ROOT
+_EXT_ROOT = os.path.normpath(
+    os.path.join(_SCRIPT_DIR, '..', '..', '..', '..')
+)
+_LIB_DIR = os.path.join(_EXT_ROOT, 'lib')
+
 if _LIB_DIR not in sys.path:
     sys.path.insert(0, _LIB_DIR)
 
 # ── Importar rutas centralizadas ──────────────────────────────────────────────
 try:
     from config.paths import (
+        EXT_ROOT,           # <-- fuente definitiva, resuelto por paths.py
         DATA_DIR        as DATA_DIR_EXT,
         MASTER_DIR,
         TEMP_DIR,
@@ -52,31 +66,31 @@ try:
 except Exception as _e:
     forms.alert(
         u'No se pudo importar lib/config.\n'
-        u'Verifica que lib/ esté dentro de la extension.\n\n{}'.format(_e),
+        u'Verifica que lib/ este dentro de la extension.\n\n{}'.format(_e),
         title=u'Error de importacion'
     )
     raise SystemExit
 
 ensure_runtime_dirs()
 
-# ── Directorios de runtime ────────────────────────────────────────────────────
-_CPYTHON_DIR     = os.path.join(_EXT_ROOT, 'scripts_cpython')
+# ── Carpeta scripts_cpython (desde EXT_ROOT canonico) ────────────────────────
+_CPYTHON_DIR = os.path.join(EXT_ROOT, 'scripts_cpython')
+
+# Carpeta temporal para JSONs generados en runtime
 DATA_COMPARACION = os.path.join(TEMP_DIR, 'comparacion')
 if not os.path.exists(DATA_COMPARACION):
     os.makedirs(DATA_COMPARACION)
 
 # ── Rutas de archivos ─────────────────────────────────────────────────────────
-LOG_PATH               = os.path.join(LOG_DIR,         'planilla_vs_modelo_log.txt')
-SCRIPT_JSON_PATH       = os.path.join(MASTER_DIR,      'script.json')
-PLANILLAS_HEADERS_JSON = os.path.join(MASTER_DIR,      'planillas_headers_order.json')
-CONFIG_PROYECTO_ACTIVO = get_config_path()
+LOG_PATH               = os.path.join(LOG_DIR,          'planilla_vs_modelo_log.txt')
+SCRIPT_JSON_PATH       = os.path.join(MASTER_DIR,       'script.json')
+PLANILLAS_HEADERS_JSON = os.path.join(MASTER_DIR,       'planillas_headers_order.json')
 
-# Scripts CPython  ← CORREGIDO: estaban apuntando a data/ por error
-LEER_XLSM     = os.path.join(_CPYTHON_DIR, 'leer_xlsm_codigos.py')
-FORMATEAR_XLSX = os.path.join(_CPYTHON_DIR, 'formatear_tablas_excel.py')
-UI_COMPARACION = os.path.join(_CPYTHON_DIR, 'ui_comparacion.py')
+# Scripts CPython — nombres exactos que existen en el repo
+UI_COMPARACION  = os.path.join(_CPYTHON_DIR, 'ui_comparacion.py')
+FORMATEAR_XLSX  = os.path.join(_CPYTHON_DIR, 'formatear_tablas_excel_v2.py')
 
-# JSONs generados en runtime  ← CORREGIDO: se generan en temp/comparacion/
+# JSONs generados en runtime (data/temp/comparacion/)
 MODELO_JSON  = os.path.join(DATA_COMPARACION, 'modelo_codint_por_cm.json')
 HEADERS_JSON = os.path.join(DATA_COMPARACION, 'headers_por_tabla.json')
 
@@ -93,6 +107,22 @@ def log(msg):
         pass
 
 
+def log_paths():
+    """Vuelca todas las rutas criticas al log para diagnostico."""
+    log(u'--- RUTAS ---')
+    log(u'EXT_ROOT        : {}'.format(EXT_ROOT))
+    log(u'_CPYTHON_DIR    : {}'.format(_CPYTHON_DIR))
+    log(u'DATA_DIR_EXT    : {}'.format(DATA_DIR_EXT))
+    log(u'MASTER_DIR      : {}'.format(MASTER_DIR))
+    log(u'TEMP_DIR        : {}'.format(TEMP_DIR))
+    log(u'DATA_COMPARACION: {}'.format(DATA_COMPARACION))
+    log(u'UI_COMPARACION  : {} | existe={}'.format(UI_COMPARACION,  os.path.exists(UI_COMPARACION)))
+    log(u'FORMATEAR_XLSX  : {} | existe={}'.format(FORMATEAR_XLSX,  os.path.exists(FORMATEAR_XLSX)))
+    log(u'SCRIPT_JSON     : {} | existe={}'.format(SCRIPT_JSON_PATH, os.path.exists(SCRIPT_JSON_PATH)))
+    log(u'PLANILLAS_HDR   : {} | existe={}'.format(PLANILLAS_HEADERS_JSON, os.path.exists(PLANILLAS_HEADERS_JSON)))
+    log(u'-------------')
+
+
 # ── Utilidades JSON ───────────────────────────────────────────────────────────
 def cargar_json(ruta, default):
     import json
@@ -107,13 +137,12 @@ def cargar_json(ruta, default):
         return default
 
 
-# ── Repo activo (portátil) ────────────────────────────────────────────────────
+# ── Repo activo (portable) ────────────────────────────────────────────────────
 def get_repo_activo_path():
     """
-    Obtiene la ruta del repositorio activo.
     Prioridad:
-      1. ruta_repositorio_activo en config (si existe en disco).
-      2. Ruta canonica construida desde nup_activo (portátil entre equipos).
+      1. ruta_repositorio_activo en config si el archivo existe en disco.
+      2. Ruta canonica data/proyectos/repositorio_datos_<nup>.json (portable).
     """
     try:
         cfg = load_config()
@@ -121,17 +150,15 @@ def get_repo_activo_path():
         log(u'get_repo_activo_path: error config -> {}'.format(e))
         return ''
 
-    # Intento 1: ruta directa guardada en config
     ruta = (cfg.get('ruta_repositorio_activo') or '').strip()
     if ruta and os.path.exists(ruta):
         log(u'get_repo_activo_path (directo): {}'.format(ruta))
         return ruta
 
-    # Intento 2: construir desde nup_activo (portátil)
     nup = (cfg.get('nup_activo') or cfg.get('nup') or '').strip()
     if nup:
         ruta = get_ruta_repositorio(nup)
-        log(u'get_repo_activo_path (nup portátil): {}'.format(ruta))
+        log(u'get_repo_activo_path (nup portable): {}'.format(ruta))
         return ruta
 
     log(u'get_repo_activo_path: sin ruta ni nup definidos')
@@ -148,9 +175,9 @@ def cargar_repo_activo():
     return repo
 
 
-# ── Detección automática de Python 3 ─────────────────────────────────────────
+# ── Deteccion automatica de Python 3 ─────────────────────────────────────────
 def _detectar_python3():
-    # 1. Desde config (clave python_exe)
+    # 1. Clave python_exe en config
     try:
         cfg = load_config()
         ruta_cfg = (cfg.get('python_exe') or '').strip()
@@ -160,7 +187,7 @@ def _detectar_python3():
     except Exception:
         pass
 
-    # 2. LocalAppData/Programs/Python
+    # 2. LocalAppData/Programs/Python (instalacion tipica Windows)
     local_programs = os.path.join(
         os.getenv('LOCALAPPDATA', os.path.expanduser('~')),
         'Programs', 'Python'
@@ -231,7 +258,7 @@ def cargar_planillas_headers():
     return data
 
 
-# ── Generar modelo JSON desde Revit ──────────────────────────────────────────
+# ── Generar modelo JSON desde Revit ───────────────────────────────────────────
 def generar_modelo_json_desde_revit(script_json_path, modelo_json_path):
     import json
 
@@ -259,7 +286,7 @@ def generar_modelo_json_desde_revit(script_json_path, modelo_json_path):
     planillas_headers = cargar_planillas_headers()
     repo_activo       = cargar_repo_activo()
 
-    # Índices BD
+    # Indices BD para lookups rapidos
     indice_bd_eid = {}
     indice_bd_cod = {}
     for k, v in repo_activo.items():
@@ -294,6 +321,7 @@ def generar_modelo_json_desde_revit(script_json_path, modelo_json_path):
             except Exception as e:
                 log(u'error collector {}: {}'.format(ruta_archivo, e))
                 continue
+
             for el in col:
                 try:
                     p = el.LookupParameter('CodIntBIM')
@@ -348,7 +376,7 @@ def generar_modelo_json_desde_revit(script_json_path, modelo_json_path):
         log(u'generar_modelo error: {}'.format(e))
         return False
 
-    # Registros BD que no están en el modelo
+    # Registros BD que no aparecen en el modelo
     for k, v in repo_activo.items():
         cod = (v.get('CodIntBIM') or '').strip()
         if not cod or len(cod) < 4:
@@ -386,7 +414,7 @@ def generar_modelo_json_desde_revit(script_json_path, modelo_json_path):
     return True
 
 
-# ── Flujo Excel ───────────────────────────────────────────────────────────────
+# ── Seleccion de planilla xlsm ────────────────────────────────────────────────
 def seleccionar_xlsm():
     try:
         ruta = forms.pick_file(
@@ -394,130 +422,125 @@ def seleccionar_xlsm():
             multi_file=False,
             title=u'Selecciona la planilla .xlsm'
         )
-        log(u'xlsm seleccionado: {}'.format(ruta or '<cancelado>'))
+        log(u'xlsm seleccionado: {}'.format(ruta or u'<cancelado>'))
         return ruta
     except Exception as e:
         forms.alert(u'Error seleccionando xlsm:\n{}'.format(e), title=u'Error')
         return None
 
 
-def llamar_leer_xlsm(ruta_xlsm):
+# ── Lanzar ui_comparacion.py (no bloqueante) ─────────────────────────────────
+def llamar_ui_comparacion(ruta_xlsm):
+    """
+    Lanza ui_comparacion.py con todos los argumentos que necesita.
+    Usa Popen para no bloquear pyRevit mientras la UI tkinter esta abierta.
+    Argumentos esperados por ui_comparacion.py:
+      argv[1] = script_json_path
+      argv[2] = ruta_xlsm
+      argv[3] = data_comparacion (carpeta temp)
+      argv[4] = formatear_xlsx (script de formateo)
+      argv[5] = ruta_xlsx_salida
+      argv[6] = python3_exe
+      argv[7] = modelo_json
+      argv[8] = headers_json
+    """
     if not PYTHON3_EXE:
         forms.alert(
-            u'No se encontró Python 3 en este equipo.\n'
-            u'Instala Python 3 o agrega la clave "python_exe" en config_proyecto_activo.json.',
+            u'No se encontro Python 3 en este equipo.\n'
+            u'Instala Python 3 o agrega la clave "python_exe"\n'
+            u'en data/master/config_proyecto_activo.json.',
             title=u'Python no encontrado'
         )
-        return None
+        return
 
-    try:
-        salida = subprocess.check_output(
-            [PYTHON3_EXE, LEER_XLSM, ruta_xlsm, DATA_COMPARACION],
-            stderr=subprocess.STDOUT,
-            universal_newlines=True,
-            creationflags=CREATE_NO_WINDOW
-        )
-        log(u'leer_xlsm salida: {}'.format(salida))
-        lineas = [l.strip() for l in salida.splitlines() if l.strip()]
-        if not lineas:
-            forms.alert(
-                u'leer_xlsm no devolvió ruta de CSV.\n\n{}'.format(salida),
-                title=u'Error leer_xlsm'
-            )
-            return None
-        csv_path = lineas[-1]
-        if not os.path.exists(csv_path):
-            forms.alert(
-                u'El CSV no fue generado.\n\n{}'.format(salida),
-                title=u'Error leer_xlsm'
-            )
-            return None
-        log(u'csv generado: {}'.format(csv_path))
-        return csv_path
-
-    except subprocess.CalledProcessError as e:
-        forms.alert(u'Error en leer_xlsm:\n{}'.format(e.output), title=u'Error')
-        log(u'leer_xlsm CalledProcessError: {}'.format(e.output))
-        return None
-    except Exception as e:
-        forms.alert(u'Error inesperado leer_xlsm:\n{}'.format(e), title=u'Error')
-        log(u'leer_xlsm error inesperado: {}'.format(e))
-        return None
-
-
-def llamar_ui_y_formato(ruta_xlsm, csv_codigos):
     stamp            = datetime.now().strftime('%Y%m%d_%H%M')
     ruta_xlsx_salida = os.path.join(
         os.path.dirname(ruta_xlsm),
         u'planilla-modelo_{}.xlsx'.format(stamp)
     )
+
+    cmd = [
+        PYTHON3_EXE, UI_COMPARACION,
+        SCRIPT_JSON_PATH,
+        ruta_xlsm,
+        DATA_COMPARACION,
+        FORMATEAR_XLSX,
+        ruta_xlsx_salida,
+        PYTHON3_EXE,
+        MODELO_JSON,
+        HEADERS_JSON,
+    ]
+
+    log(u'llamar_ui_comparacion CMD: {}'.format(' '.join(cmd)))
+
     try:
         proc = subprocess.Popen(
-            [
-                PYTHON3_EXE, UI_COMPARACION,
-                SCRIPT_JSON_PATH,
-                csv_codigos,
-                DATA_COMPARACION,
-                FORMATEAR_XLSX,
-                ruta_xlsx_salida,
-                PYTHON3_EXE,
-                MODELO_JSON,
-                HEADERS_JSON
-            ],
+            cmd,
             stderr=subprocess.STDOUT,
             creationflags=CREATE_NO_WINDOW
         )
         log(u'ui_comparacion lanzado (PID {})'.format(proc.pid))
     except Exception as e:
         forms.alert(u'Error lanzando ui_comparacion:\n{}'.format(e), title=u'Error')
-        log(u'llamar_ui_y_formato error: {}'.format(e))
+        log(u'llamar_ui_comparacion error: {}'.format(e))
 
 
 # ── MAIN ──────────────────────────────────────────────────────────────────────
 def main():
-    log(u'==== Inicio Planilla vs Modelo v1.2 ====')
+    log(u'==== Inicio Planilla vs Modelo v1.3 ====')
+    log_paths()
 
+    # 1. Verificar documento activo
     if doc is None:
-        forms.alert(u'No hay documento activo.', title=u'Error')
+        forms.alert(u'No hay documento activo en Revit.', title=u'Error')
         return
 
-    # Validar script.json
+    # 2. Verificar script.json
     if not os.path.exists(SCRIPT_JSON_PATH):
         forms.alert(
-            u'No se encontró script.json:\n{}'.format(SCRIPT_JSON_PATH),
+            u'No se encontro script.json:\n{}'.format(SCRIPT_JSON_PATH),
             title=u'Error'
         )
         return
 
-    # Validar scripts CPython   ← NUEVO: verifica rutas correctas antes de ejecutar
+    # 3. Verificar scripts CPython con nombres reales
     scripts_faltantes = [
-        s for s in (LEER_XLSM, UI_COMPARACION, FORMATEAR_XLSX)
+        s for s in (UI_COMPARACION, FORMATEAR_XLSX)
         if not os.path.exists(s)
     ]
     if scripts_faltantes:
         forms.alert(
-            u'Faltan scripts en scripts_cpython/:\n{}'.format(
+            u'Faltan scripts en scripts_cpython/:\n\n{}'.format(
                 u'\n'.join(scripts_faltantes)
             ),
             title=u'Scripts no encontrados'
         )
         return
 
-    # Flujo principal
+    # 4. Verificar Python 3
+    if not PYTHON3_EXE:
+        forms.alert(
+            u'No se encontro Python 3.\n'
+            u'Agrega la clave "python_exe" en:\n{}'.format(
+                os.path.join(MASTER_DIR, 'config_proyecto_activo.json')
+            ),
+            title=u'Python no encontrado'
+        )
+        return
+
+    # 5. Generar modelo JSON desde Revit
     ok = generar_modelo_json_desde_revit(SCRIPT_JSON_PATH, MODELO_JSON)
     if not ok:
         return
 
+    # 6. Seleccionar planilla xlsm
     ruta_xlsm = seleccionar_xlsm()
     if not ruta_xlsm:
         return
 
-    csv_codigos = llamar_leer_xlsm(ruta_xlsm)
-    if not csv_codigos:
-        return
-
-    llamar_ui_y_formato(ruta_xlsm, csv_codigos)
-    log(u'==== Fin Planilla vs Modelo v1.2 ====')
+    # 7. Lanzar comparacion + UI
+    llamar_ui_comparacion(ruta_xlsm)
+    log(u'==== Fin Planilla vs Modelo v1.3 ====')
 
 
 main()
