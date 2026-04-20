@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 __title__ = "Parametros por elemento"
-__doc__ = """Version = 1.2
+__doc__ = """Version = 1.3
 Date = 19.04.2026
 ________________________________________________________________
 Description:
@@ -8,21 +8,21 @@ Description:
 Editor de parametros por elemento sobre modelo linkeado,
 usando planillas y un repositorio JSON.
 
+Cambios v1.3:
+- load_active_repo_path resuelve la ruta del repositorio usando
+  nup_activo + get_ruta_repositorio(nup) desde lib/config/paths.py.
+  Elimina dependencia de ruta_repositorio_activo absoluta/hardcodeada.
+- Fallback inline identico al de Parametros por planilla.
+
 Cambios v1.2:
-- Clave repo normalizada: basename_sin_ext + "_" + ElementId
-  (consistente entre sesiones independiente del path de red)
-- Busqueda en repo por (archivo_basename, ElementId) en vez
-  de path completo (resuelve el bug de seleccion/no-match)
-- Delimitador de clave cambiado a "||" para evitar colisiones
-  con "_" dentro de rutas
+- Clave repo normalizada: basename_sin_ext + "||" + ElementId
+- Busqueda en repo por (archivo_basename, ElementId) en vez de path
+- Delimitador de clave cambiado a "||" para evitar colisiones con "_"
 - ui.xaml con estilo dark
 ________________________________________________________________
 Author: Angeluso
 """
 
-# ╦╔╦╗╔═╗╔═╗╦═╗╔╦╗╔═╗
-# ║║║║╠═╝║ ║╠╦╝ ║ ╚═╗
-# ╩╩ ╩╩  ╚═╝╩╚═ ╩ ╚═╝
 import unicodedata
 import os
 import sys
@@ -47,7 +47,7 @@ def normalizar_clave(texto):
     return sin_tildes.replace(u"\xf1", u"n").replace(u"\xd1", u"N")
 
 
-# ── Rutas centralizadas ──────────────────────────────────────────────────────
+# ── Rutas centralizadas ────────────────────────────────────────────────────────
 try:
     _this_dir = os.path.dirname(os.path.abspath(__file__))
 except Exception:
@@ -59,9 +59,12 @@ if _LIB_DIR not in sys.path:
     sys.path.insert(0, _LIB_DIR)
 
 try:
-    from config.paths import (DATA_DIR, MASTER_DIR, TEMP_DIR, CACHE_DIR,
-                               CONFIG_PROYECTO, REGISTRO_PROYECTOS,
-                               SCRIPT_JSON_PATH_LIB, ensure_runtime_dirs)
+    from config.paths import (
+        DATA_DIR, MASTER_DIR, TEMP_DIR, CACHE_DIR,
+        CONFIG_PROYECTO, REGISTRO_PROYECTOS,
+        SCRIPT_JSON_PATH_LIB, ensure_runtime_dirs,
+        get_ruta_repositorio
+    )
     ensure_runtime_dirs()
 except Exception:
     _DATA_DIR            = os.path.join(_EXT_ROOT, 'data')
@@ -72,21 +75,38 @@ except Exception:
     CONFIG_PROYECTO      = os.path.join(MASTER_DIR, 'config_proyecto_activo.json')
     REGISTRO_PROYECTOS   = os.path.join(MASTER_DIR, 'registro_proyectos.json')
     SCRIPT_JSON_PATH_LIB = os.path.join(MASTER_DIR, 'script.json')
+    def get_ruta_repositorio(nup):
+        nombre = u'repositorio_datos_{}.json'.format(nup)
+        return os.path.join(os.path.join(_EXT_ROOT, 'data'), 'proyectos', nombre)
 
 CONFIG_PATH      = CONFIG_PROYECTO
 SCRIPT_JSON_PATH = SCRIPT_JSON_PATH_LIB
 
 
-# ── Repositorio ──────────────────────────────────────────────────────────────
+# ── Repositorio ───────────────────────────────────────────────────────────────
 def load_active_repo_path():
+    """
+    Resuelve la ruta del repositorio activo de forma portable:
+      1. Lee nup_activo de config_proyecto_activo.json.
+      2. Construye la ruta: data/proyectos/repositorio_datos_<nup>.json
+         usando get_ruta_repositorio(nup) de lib/config/paths.py.
+    Nunca depende de ruta_repositorio_activo absoluta.
+    """
     if not os.path.exists(CONFIG_PATH):
         raise Exception(
             u"No se encontro config_proyecto_activo.json en:\n{}".format(CONFIG_PATH))
-    with open(CONFIG_PATH, "r") as f:
+    with open(CONFIG_PATH, "r", encoding="utf-8") as f:
         cfg = json.load(f)
-    ruta = (cfg.get("ruta_repositorio_activo") or "").strip()
-    if not ruta:
-        raise Exception(u"config_proyecto_activo.json no tiene 'ruta_repositorio_activo'.")
+    nup = (cfg.get("nup_activo") or "").strip()
+    if not nup:
+        raise Exception(
+            u"config_proyecto_activo.json no tiene 'nup_activo' o esta vacia.\n"
+            u"No se puede determinar el repositorio de datos activo.")
+    ruta = get_ruta_repositorio(nup)
+    if not os.path.exists(ruta):
+        raise Exception(
+            u"No se encontro el repositorio del proyecto activo:\n{}\n\n"
+            u"Verifica que exista en data/proyectos/".format(ruta))
     return ruta
 
 
@@ -100,7 +120,7 @@ def load_repo():
     if not os.path.exists(bd_path):
         return {}
     try:
-        with open(bd_path, "r") as f:
+        with open(bd_path, "r", encoding="utf-8") as f:
             data = json.load(f)
         return data if isinstance(data, dict) else {}
     except Exception as e:
@@ -117,7 +137,7 @@ def save_repo(repo_dict):
                     title="Error repositorio")
         return
     try:
-        with open(bd_path, "w") as f:
+        with open(bd_path, "w", encoding="utf-8") as f:
             json.dump(repo_dict, f, indent=4, ensure_ascii=False)
     except Exception as e:
         forms.alert(u"Error guardando repositorio:\n{}".format(e),
@@ -130,7 +150,7 @@ def load_script_json():
                     title="Error script.json")
         return None
     try:
-        with open(SCRIPT_JSON_PATH, "r") as f:
+        with open(SCRIPT_JSON_PATH, "r", encoding="utf-8") as f:
             return json.load(f)
     except Exception as e:
         forms.alert(u"Error leyendo script.json:\n{}".format(e),
@@ -138,7 +158,7 @@ def load_script_json():
         return None
 
 
-# ── Helpers de clave repo ────────────────────────────────────────────────────
+# ── Helpers de clave repo ───────────────────────────────────────────────────────
 def _archivo_basename(doc):
     """
     Devuelve solo el nombre de archivo sin extension y sin path.
@@ -150,7 +170,6 @@ def _archivo_basename(doc):
         base = os.path.splitext(os.path.basename(path))[0]
         if base:
             return base
-    # Fallback: Title del documento
     try:
         title = (doc.Title or "").strip()
         if title:
@@ -176,16 +195,13 @@ def _buscar_en_repo(repo, archivo_basename, element_id_str):
     """
     target_key = _make_repo_key(archivo_basename, element_id_str)
 
-    # Busqueda exacta por clave nueva
     if target_key in repo and isinstance(repo[target_key], dict):
         return target_key, repo[target_key]
 
-    # Busqueda por campos Archivo (basename) + ElementId en valores
     for k, v in repo.items():
         if not isinstance(v, dict):
             continue
         v_archivo = v.get("Archivo", "")
-        # Comparar basename normalizado
         v_basename = os.path.splitext(os.path.basename(v_archivo))[0] if v_archivo else ""
         if v_basename == archivo_basename and str(v.get("ElementId", "")) == element_id_str:
             return k, v
@@ -193,7 +209,7 @@ def _buscar_en_repo(repo, archivo_basename, element_id_str):
     return None, None
 
 
-# ── Clases de datos ──────────────────────────────────────────────────────────
+# ── Clases de datos ────────────────────────────────────────────────────────────
 class ParamItem(object):
     def __init__(self, name, value, revit_param):
         self.Name       = name
@@ -226,7 +242,6 @@ class ParamsEditor(forms.WPFWindow):
         if self._handler:
             self._handler._editor = self
 
-        # Datos auxiliares
         self._repo         = load_repo()
         self._script_data  = load_script_json() or {}
 
@@ -240,7 +255,6 @@ class ParamsEditor(forms.WPFWindow):
         self._original_values = {}
         self._changes_saved   = False
 
-        # Clave normalizada para repo
         self._archivo_base = _archivo_basename(self._doc)
         self._element_id   = str(self.element.Id.IntegerValue)
         self._repo_key     = _make_repo_key(self._archivo_base, self._element_id)
@@ -250,7 +264,6 @@ class ParamsEditor(forms.WPFWindow):
         self.btnSave.Click   += self.on_save
         self.btnCancel.Click += self.on_cancel
 
-        # Titulo de ventana con info del elemento
         self.Title = u"Editor Parametros  —  {} | ID {}".format(
             self._archivo_base, self._element_id)
 
@@ -260,7 +273,7 @@ class ParamsEditor(forms.WPFWindow):
             forms.alert(u"Error inicializando editor:\n{}".format(e),
                         title="Error editor")
 
-    # ── logica de planilla ────────────────────────────────────────────────────
+    # ── logica de planilla ───────────────────────────────────────────────────────
     def _get_headers_order(self):
         try:
             p_cod  = self.element.LookupParameter("CodIntBIM")
@@ -335,14 +348,13 @@ class ParamsEditor(forms.WPFWindow):
 
         return clave_planilla, headers_order
 
-    # ── carga parametros ──────────────────────────────────────────────────────
+    # ── carga parametros ──────────────────────────────────────────────────────────
     def load_parameters_from_repo_or_model(self):
         self.params = []
         self.paramsListView.ItemsSource = self.params
         self._original_values = {}
 
         try:
-            # Buscar entrada en repo por basename + ElementId (tolerante a cambios de path)
             _, datos_repo = _buscar_en_repo(
                 self._repo, self._archivo_base, self._element_id)
 
@@ -351,7 +363,6 @@ class ParamsEditor(forms.WPFWindow):
                 self.statusLabel.Content = u"No se pudieron obtener encabezados."
                 return
 
-            # Mapear parametros del elemento (modelo)
             parametros = {}
             for p in self.element.Parameters:
                 try:
@@ -364,13 +375,11 @@ class ParamsEditor(forms.WPFWindow):
                 except Exception:
                     continue
 
-            # Aplicar reemplazos de nombres
             parametros_renombrados = {}
             for k, (p_obj, v) in parametros.items():
                 nuevo = self._reemplazos.get(normalizar_clave(k), normalizar_clave(k))
                 parametros_renombrados[nuevo] = (p_obj, v)
 
-            # Construir lista respetando el orden de la planilla
             for head in headers_order:
                 head_norm  = normalizar_clave(head)
                 p_obj      = None
@@ -378,7 +387,6 @@ class ParamsEditor(forms.WPFWindow):
                 if head_norm in parametros_renombrados:
                     p_obj, val_model = parametros_renombrados[head_norm]
 
-                # Repo tiene prioridad sobre el modelo
                 if datos_repo and head in datos_repo:
                     valor_final = datos_repo.get(head, "")
                 else:
@@ -397,7 +405,7 @@ class ParamsEditor(forms.WPFWindow):
             forms.alert(u"Error en load_parameters_from_repo_or_model:\n{}".format(e),
                         title="Error editor")
 
-    # ── cambios y guardado ────────────────────────────────────────────────────
+    # ── cambios y guardado ───────────────────────────────────────────────────────
     def _has_changes(self):
         for p in self.params:
             if (p.Value or "") != (self._original_values.get(p.Name, "") or ""):
@@ -412,19 +420,17 @@ class ParamsEditor(forms.WPFWindow):
             if not isinstance(repo, dict):
                 repo = {}
 
-            # Buscar si ya existe una entrada (legacy o nueva clave)
             existing_key, _ = _buscar_en_repo(repo, self._archivo_base, self._element_id)
             if existing_key is None:
                 existing_key = self._repo_key
 
             entry = dict(repo.get(existing_key, {})) if existing_key in repo else {}
 
-            # Guardar siempre el path completo + basename para compatibilidad
             path_completo = (self._doc.PathName or "").strip()
             entry["Archivo"]        = path_completo if path_completo else self._archivo_base
             entry["nombre_archivo"] = self._archivo_base
             entry["ElementId"]      = self._element_id
-            entry["CodIntBIM"]      = ""  # se sobreescribira si existe el parametro
+            entry["CodIntBIM"]      = entry.get("CodIntBIM", "")
 
             for p in self.params:
                 entry[p.Name] = p.Value
@@ -440,7 +446,7 @@ class ParamsEditor(forms.WPFWindow):
             forms.alert(u"Error guardando datos:\n{}".format(e), title="Error guardado")
             return False
 
-    # ── eventos ───────────────────────────────────────────────────────────────
+    # ── eventos ─────────────────────────────────────────────────────────────────
     def on_save(self, sender, e):
         try:
             if not self._has_changes():
@@ -473,7 +479,7 @@ class ParamsEditor(forms.WPFWindow):
             forms.alert(u"Error en callback:\n{}".format(e), title="Error actualizacion")
 
 
-# ── main ─────────────────────────────────────────────────────────────────────
+# ── main ────────────────────────────────────────────────────────────────────
 def main():
     uidoc = __revit__.ActiveUIDocument
     doc   = uidoc.Document
@@ -484,7 +490,6 @@ def main():
             u"Selecciona un elemento en un archivo vinculado",
         )
     except Exception:
-        # Usuario cancelo la seleccion
         return
 
     try:
