@@ -12,11 +12,19 @@ el modelo activo y sus links, tomando los parámetros definidos en
 planillas_headers_order.json por cada CMxx.
 
 ________________________________________________________________
+How-To:
+
+1. [Hold ALT + CLICK] on the button to open its source folder.
+You will be able to override this placeholder.
+
+2. Automate Your Boring Work ;)
+
+________________________________________________________________
 Cambios v1.1:
-- [CAMBIO 1] Tema dark activado via pyRevit user_config
-- [CAMBIO 2] Flujo corregido: usa MODELO_JSON propio, no el de revisión elementos
-- [CAMBIO 3] Orden reordenado: selección xlsm primero → análisis modelo → UI (sin doble ejecución)
-- [CAMBIO 4] Selector de carpeta destino antes de exportar
+- Tema oscuro activado automáticamente
+- Flujo continuo: selección xlsm → análisis modelo → UI (sin doble click)
+- Selector de carpeta destino para el xlsx exportado
+- Formato de exportación correcto para planilla vs modelo
 ________________________________________________________________
 Author: Argenis Angel"""
 
@@ -32,14 +40,13 @@ from datetime import datetime
 import clr
 from pyrevit import forms
 
-# ─── CAMBIO 1: Activar tema dark en pyRevit ────────────────────────────────
+# CAMBIO 1: Forzar tema oscuro en pyRevit
 try:
     from pyrevit.userconfig import user_config
     user_config.core.darkmode = True
     user_config.save_changes()
 except Exception:
     pass
-# ───────────────────────────────────────────────────────────────────────────
 
 # Revit API
 clr.AddReference("RevitAPI")
@@ -63,10 +70,6 @@ except Exception:
 # ╩ ╩╩ ╩╩╝╚╝
 #==================================================
 
-# ---------------------------------------------------------
-# Rutas base
-# ---------------------------------------------------------
-
 DATA_DIR_EXT = os.path.join(
     os.path.expanduser("~"),
     r"AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data"
@@ -81,7 +84,6 @@ CONFIG_PROYECTO_ACTIVO = os.path.join(
 
 
 def log(msg):
-    """Escribe mensajes en el log con timestamp."""
     try:
         ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         linea = u"[{}] {}\n".format(ts, msg)
@@ -109,13 +111,8 @@ try:
     PYTHON3_EXE = r"C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe"
 
     LEER_XLSM      = os.path.join(DATA_DIR_EXT, 'leer_xlsm_codigos.py')
-    # ─── CAMBIO 2: formateador específico para planilla vs modelo ──────────
-    FORMATEAR_XLSX = os.path.join(DATA_DIR_EXT, 'formatear_tablas_planilla_vs_modelo.py')
-    # Fallback al formateador genérico si el específico no existe todavía
-    if not os.path.exists(FORMATEAR_XLSX):
-        FORMATEAR_XLSX = os.path.join(DATA_DIR_EXT, 'formatear_tablas_excel.py')
-    # ───────────────────────────────────────────────────────────────────────
-    UI_COMPARACION  = os.path.join(DATA_DIR_EXT, 'ui_comparacion.py')
+    FORMATEAR_XLSX = os.path.join(DATA_DIR_EXT, 'formatear_tablas_excel.py')
+    UI_COMPARACION = os.path.join(DATA_DIR_EXT, 'ui_comparacion.py')
     SCRIPT_JSON_PATH = os.path.join(DATA_DIR_EXT, 'script.json')
 
     MODELO_JSON          = os.path.join(DATA_DIR_EXT, 'modelo_codint_por_cm.json')
@@ -130,7 +127,6 @@ except Exception as e:
 
 
 # ----------------- Utilidades JSON / BD -----------------
-
 
 def cargar_json(ruta, default):
     import json
@@ -166,19 +162,15 @@ def cargar_repo_activo():
 
 # ----------------- Utilidades Revit -----------------
 
-
 def get_all_docs_with_links():
-    """Devuelve lista de (documento, ruta_archivo) para host + links."""
     docs = []
     try:
         if doc is None:
             log("get_all_docs_with_links: doc es None")
             return []
-
         main_doc = doc
         docs.append((main_doc, main_doc.PathName or ""))
         log("get_all_docs_with_links: host -> {}".format(main_doc.PathName or ""))
-
         col_links = FilteredElementCollector(main_doc).OfClass(RevitLinkInstance)
         seen = set()
         for li in col_links:
@@ -214,12 +206,6 @@ def cargar_planillas_headers():
 
 
 def generar_modelo_json_desde_revit(script_json_path, modelo_json_path):
-    """
-    Recorre doc + links, toma elementos con CodIntBIM y combina:
-      - Datos de BD (repositorio activo)
-      - Datos del modelo (LookupParameter)
-    generando modelo_codint_por_cm.json agrupado por CMxx.
-    """
     import json
 
     if doc is None:
@@ -284,7 +270,6 @@ def generar_modelo_json_desde_revit(script_json_path, modelo_json_path):
     datos_por_cm = {}
     total_docs = 0
     total_elems_codint = 0
-
     usados_bd_codint = set()
     usados_bd_eid = set()
 
@@ -314,7 +299,6 @@ def generar_modelo_json_desde_revit(script_json_path, modelo_json_path):
 
                     total_elems_codint += 1
                     cm_codigo = codint[:4]
-
                     eid_str = str(el.Id.IntegerValue)
                     archivo = ruta_archivo or ""
 
@@ -332,7 +316,7 @@ def generar_modelo_json_desde_revit(script_json_path, modelo_json_path):
 
                     fila["CodIntBIM"] = codint
                     fila["ElementId"] = eid_str
-                    fila["Archivo"] = archivo
+                    fila["Archivo"]   = archivo
 
                     try:
                         categoria = el.Category.Name if el.Category else ""
@@ -364,7 +348,7 @@ def generar_modelo_json_desde_revit(script_json_path, modelo_json_path):
                     datos_por_cm.setdefault(cm_codigo, []).append(fila)
 
                 except Exception as e_el:
-                    log("Error procesando elemento con CodIntBIM en doc {} -> {}".format(ruta_archivo, e_el))
+                    log("Error procesando elemento en doc {} -> {}".format(ruta_archivo, e_el))
                     continue
 
     except Exception as e:
@@ -375,6 +359,7 @@ def generar_modelo_json_desde_revit(script_json_path, modelo_json_path):
         log("generar_modelo_json_desde_revit: excepción general -> {}".format(e))
         return False
 
+    # Agregar registros solo en BD pero no encontrados en modelo
     for k, v in repo_activo.items():
         cod = (v.get("CodIntBIM") or "").strip()
         if not cod or len(cod) < 4:
@@ -389,8 +374,7 @@ def generar_modelo_json_desde_revit(script_json_path, modelo_json_path):
         fila = dict(v)
         fila["CodIntBIM"] = cod
         fila["ElementId"] = eid
-        fila["Archivo"] = archivo
-
+        fila["Archivo"]   = archivo
         if "Categoria" not in fila:
             fila["Categoria"] = ""
 
@@ -403,7 +387,6 @@ def generar_modelo_json_desde_revit(script_json_path, modelo_json_path):
 
     try:
         with open(modelo_json_path, "w", encoding="utf-8") as f:
-            import json
             json.dump(datos_por_cm, f, ensure_ascii=False, indent=2)
         log("modelo_codint_por_cm.json guardado en {}".format(modelo_json_path))
     except Exception as e:
@@ -414,14 +397,14 @@ def generar_modelo_json_desde_revit(script_json_path, modelo_json_path):
         log("Error guardando modelo_codint_por_cm.json -> {}".format(e))
         return False
 
-    # ─── CAMBIO 3: sin alert intermedia → flujo continuo ──────────────────
-    log("modelo generado OK -> docs={}, elementos={}".format(total_docs, total_elems_codint))
+    # CAMBIO 3: Sin forms.alert intermedia — el flujo continúa directamente
+    log("modelo_codint_por_cm.json generado OK -> docs={}, elementos={}".format(
+        total_docs, total_elems_codint
+    ))
     return True
-    # ───────────────────────────────────────────────────────────────────────
 
 
 # ----------------- Flujo Excel/Comparación -----------------
-
 
 def seleccionar_xlsm():
     try:
@@ -439,7 +422,6 @@ def seleccionar_xlsm():
 
 
 def llamar_leer_xlsm(ruta_xlsm):
-    """Ejecuta leer_xlsm_codigos.py y devuelve ruta del CODIGO.csv."""
     try:
         log("llamar_leer_xlsm: inicio con ruta_xlsm={}".format(ruta_xlsm))
         salida = subprocess.check_output(
@@ -477,7 +459,7 @@ def llamar_ui_y_formato(ruta_xlsm, csv_codigos):
     ahora = datetime.now()
     stamp = ahora.strftime("%Y%m%d_%H%M")
 
-    # ─── CAMBIO 4: Selector de carpeta destino ────────────────────────────
+    # CAMBIO 4: Selector de carpeta destino
     carpeta_destino = forms.pick_folder(
         title="Selecciona la carpeta donde guardar el archivo Excel exportado"
     )
@@ -485,8 +467,8 @@ def llamar_ui_y_formato(ruta_xlsm, csv_codigos):
         log("llamar_ui_y_formato: selección de carpeta cancelada")
         forms.alert("No se seleccionó carpeta de destino. Operación cancelada.", title="Cancelado")
         return
-    # ───────────────────────────────────────────────────────────────────────
 
+    # CAMBIO 2: Nombre de archivo específico para planilla vs modelo (distinto de revision elementos)
     ruta_xlsx_salida = os.path.join(
         carpeta_destino,
         "planilla-modelo_{}.xlsx".format(stamp)
@@ -504,20 +486,20 @@ def llamar_ui_y_formato(ruta_xlsm, csv_codigos):
                 SCRIPT_JSON_PATH,
                 csv_codigos,
                 DATA_DIR,
-                FORMATEAR_XLSX,      # ← formateador específico planilla vs modelo
+                FORMATEAR_XLSX,
                 ruta_xlsx_salida,
-                PYTHON3_EXE,         # 6º argumento (python_exe)
-                MODELO_JSON,         # 7º argumento (modelo_json propio)
-                HEADERS_JSON         # 8º argumento
+                PYTHON3_EXE,    # 6º argumento (python_exe)
+                MODELO_JSON,    # 7º argumento (modelo_json)
+                HEADERS_JSON    # 8º argumento (headers_json)
             ],
             stderr=subprocess.STDOUT,
             creationflags=CREATE_NO_WINDOW
         )
         forms.alert(
-            "Archivo generado:\n{}".format(ruta_xlsx_salida),
+            "Archivo generado correctamente:\n{}".format(ruta_xlsx_salida),
             title="Éxito"
         )
-        log("llamar_ui_y_formato: Excel generado OK -> {}".format(ruta_xlsx_salida))
+        log("llamar_ui_y_formato: Excel planilla-modelo generado OK -> {}".format(ruta_xlsx_salida))
     except subprocess.CalledProcessError as e:
         forms.alert("Error en la UI / formateo:\n{}".format(e), title="Error")
         log("llamar_ui_y_formato: CalledProcessError -> {}".format(e))
@@ -546,34 +528,31 @@ def main():
             ),
             title="Error"
         )
-        log("main: scripts CPython no encontrados")
+        log("main: scripts CPython faltantes")
         return
 
-    # ─── CAMBIO 3: Seleccionar planilla PRIMERO, luego analizar modelo ──────
-    # Así la ventana de UI aparece en flujo continuo sin tener que
-    # presionar el botón por segunda vez.
+    # CAMBIO 3: Seleccionar planilla PRIMERO para un flujo continuo sin doble click
     ruta_xlsm = seleccionar_xlsm()
     if not ruta_xlsm:
         log("main: selección xlsm cancelada")
         return
 
-    # Analizar modelo (sin alert intermedia de éxito)
+    # Analizar modelo después de seleccionar archivo (sin alert intermedia)
     log("main: generando MODELO_JSON -> {}".format(MODELO_JSON))
     ok = generar_modelo_json_desde_revit(SCRIPT_JSON_PATH, MODELO_JSON)
     if not ok:
         log("main: generar_modelo_json_desde_revit devolvió False")
         return
 
-    # Leer CSV desde la planilla seleccionada
+    # Leer CSV de la planilla
     csv_codigos = llamar_leer_xlsm(ruta_xlsm)
     if not csv_codigos:
         log("main: llamar_leer_xlsm devolvió None")
         return
 
-    # Abrir UI, seleccionar carpeta y exportar → todo en una sola ejecución
+    # Lanzar UI y generar Excel — la ventana aparece inmediatamente en este mismo flujo
     llamar_ui_y_formato(ruta_xlsm, csv_codigos)
     log("==== Fin Planilla vs Modelo v1.1 ====")
-    # ───────────────────────────────────────────────────────────────────────
 
 
 if __name__ == '__main__':
