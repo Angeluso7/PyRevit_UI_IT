@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 __title__ = "Por Elemento"
 __doc__ = (
-    "Version = 1.4\n"
+    "Version = 1.5\n"
     "Date    = 19.04.2026\n"
     "Desc    = Selecciona elemento (host o vinculado), extrae parametros\n"
     "          de su planilla asociada, mezcla con repo activo y abre\n"
@@ -37,7 +37,8 @@ if _LIB_DIR not in sys.path:
 try:
     from config.paths import (DATA_DIR, MASTER_DIR, TEMP_DIR, CACHE_DIR,
                                CONFIG_PROYECTO, REGISTRO_PROYECTOS,
-                               SCRIPT_JSON_PATH_LIB, ensure_runtime_dirs)
+                               SCRIPT_JSON_PATH_LIB, get_ruta_repositorio,
+                               ensure_runtime_dirs)
     from core.env_config import get_python_exe
     ensure_runtime_dirs()
     PYTHON_EXE = get_python_exe()
@@ -50,6 +51,10 @@ except Exception:
     CONFIG_PROYECTO      = os.path.join(MASTER_DIR, 'config_proyecto_activo.json')
     REGISTRO_PROYECTOS   = os.path.join(MASTER_DIR, 'registro_proyectos.json')
     SCRIPT_JSON_PATH_LIB = os.path.join(MASTER_DIR, 'script.json')
+
+    def get_ruta_repositorio(nup):
+        nombre = u'repositorio_datos_{}.json'.format(nup)
+        return os.path.join(_DATA_DIR, 'proyectos', nombre)
 
     import glob as _glob
     def _fb_python():
@@ -100,10 +105,17 @@ def load_script_json():
     return data
 
 def get_active_repo():
+    """
+    Lee el repositorio activo usando la ruta portable get_ruta_repositorio(nup).
+    Ya no depende de 'ruta_repositorio_activo' con ruta absoluta hardcodeada.
+    """
     try:
-        cfg  = load_json(CONFIG_PATH) or {}
-        ruta = (cfg.get("ruta_repositorio_activo") or "").strip()
-        if not ruta or not os.path.isfile(ruta):
+        cfg = load_json(CONFIG_PATH) or {}
+        nup = (cfg.get("nup") or cfg.get("decreto") or "").strip()
+        if not nup:
+            return {}
+        ruta = get_ruta_repositorio(nup)
+        if not os.path.isfile(ruta):
             return {}
         return load_json(ruta, default={}) or {}
     except Exception:
@@ -133,16 +145,53 @@ def get_element_params(element, field_names):
             result[name] = ""
     return result
 
+def extract_cod_prefix(codint):
+    """
+    Extrae el prefijo de 4 caracteres del CodIntBIM completo.
+    Ej: 'CM52OC-EMPA1-0003' -> 'CM52'
+        'LT01TR-XXXX-0001'  -> 'LT01'
+    """
+    if codint and len(codint) >= 4:
+        return codint[:4].upper()
+    return ""
+
 def find_schedule_for_codint(codint, script_data, doc_host, doc_link=None):
-    codigos    = script_data.get("codigos_planillas", {})
-    tabla_name = codigos.get(codint)
+    """
+    Busca la planilla correspondiente al CodIntBIM del elemento.
+
+    Logica corregida:
+      1. Extrae el prefijo de 4 chars del codint completo (ej. 'CM52').
+      2. Busca ese prefijo en los VALORES de 'codigos_planillas'
+         (las claves son nombres de archivo como 'carga_masiva_subestaciones').
+      3. Obtiene el nombre de la planilla asociado y lo busca en los documentos.
+    """
+    codigos   = script_data.get("codigos_planillas", {})
+    prefijo   = extract_cod_prefix(codint)
+    if not prefijo:
+        return None, None
+
+    # Invertir el dict: {codigo_corto -> nombre_planilla}
+    # Los valores en script.json son los codigos cortos (CM52, LT01, etc.)
+    # Las claves son los nombres de hoja/archivo
+    tabla_name = None
+    for nombre_hoja, codigo_corto in codigos.items():
+        if (codigo_corto or "").upper() == prefijo:
+            tabla_name = nombre_hoja
+            break
+
     if not tabla_name:
         return None, None
+
+    # Buscar la ViewSchedule con ese nombre en host y/o vinculado
+    reemplazos = script_data.get("reemplazos_de_nombres", {})
+    nombre_display = reemplazos.get(tabla_name, tabla_name)
+
     for doc_ctx in filter(None, [doc_host, doc_link]):
         for sched in FilteredElementCollector(doc_ctx).OfClass(ViewSchedule):
-            if sched.Name == tabla_name:
-                return sched, tabla_name
-    return None, tabla_name
+            if sched.Name == nombre_display or sched.Name == tabla_name:
+                return sched, sched.Name
+
+    return None, nombre_display
 
 # ── MAIN ─────────────────────────────────────────────────────────────────────
 def main():
@@ -214,9 +263,11 @@ def main():
         codint, script_data, doc, link_doc)
 
     if schedule is None:
+        prefijo = extract_cod_prefix(codint)
         msg = u"No se encontro planilla para CodIntBIM: {}".format(codint)
+        msg += u"\nPrefijo buscado en codigos_planillas: {}".format(prefijo)
         if tabla_name:
-            msg += u"\nNombre buscado: {}".format(tabla_name)
+            msg += u"\nNombre de planilla esperado: {}".format(tabla_name)
         forms.alert(msg, title=u"Planilla no encontrada")
         return
 
