@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-scripts_cpython/ui_comparacion.py
-Recibe argv[2] como ruta_xlsm (no CSV).
-Lee la planilla .xlsm con openpyxl directamente.
+scripts_cpython/ui_comparacion.py  v1.5
+Cambios v1.5:
+- [FIX] leer_xlsm_codigos: keep_vba=False + manejo robusto de xlsm con macros.
+- [FIX] exportar_json_y_formatear: clave "elementos_por_tabla" (no "datos_por_tabla")
+        para que formatear_tablas_excel_v2.py la lea correctamente.
+- [FIX] headers_por_tabla incluido en comparacion.json con clave correcta.
 """
 
 import sys
@@ -90,9 +93,11 @@ def cargar_repo_activo():
 # ── Leer xlsm con openpyxl ────────────────────────────────────────────────────
 def leer_xlsm_codigos(ruta_xlsm):
     """
-    Lee todas las hojas del .xlsm y devuelve lista de filas
-    donde la primera celda empieza con 'CM' (codigos CodIntBIM).
-    Cada fila es una lista de strings.
+    Lee todas las hojas del .xlsm con openpyxl.
+    - keep_vba=False  → ignora las macros VBA (evita errores de parsing).
+    - data_only=True  → lee valores calculados, no fórmulas.
+    - read_only=True  → apertura rápida sin cargar el DOM completo.
+    Devuelve lista de listas (una por fila donde col[0] empieza con 'CM').
     """
     try:
         import openpyxl
@@ -105,20 +110,38 @@ def leer_xlsm_codigos(ruta_xlsm):
         )
         raise
 
+    if not os.path.exists(ruta_xlsm):
+        raise FileNotFoundError("No se encontro el archivo: {}".format(ruta_xlsm))
+
+    ext = os.path.splitext(ruta_xlsm)[1].lower()
+    log("leer_xlsm_codigos: extension={} ruta={}".format(ext, ruta_xlsm))
+
     filas = []
     try:
-        wb = openpyxl.load_workbook(ruta_xlsm, read_only=True, data_only=True)
+        # keep_vba=False es la clave: evita que openpyxl intente parsear
+        # el modulo VBA del xlsm, que es la causa mas frecuente del crash.
+        wb = openpyxl.load_workbook(
+            ruta_xlsm,
+            read_only=True,
+            data_only=True,
+            keep_vba=False
+        )
         for nombre_hoja in wb.sheetnames:
-            ws = wb[nombre_hoja]
-            for row in ws.iter_rows(values_only=True):
-                if not row:
-                    continue
-                primera = str(row[0] or '').strip()
-                if len(primera) >= 4 and primera[:2] == 'CM':
-                    filas.append([str(c or '').strip() for c in row])
+            try:
+                ws = wb[nombre_hoja]
+                for row in ws.iter_rows(values_only=True):
+                    if not row:
+                        continue
+                    primera = str(row[0] or '').strip()
+                    if len(primera) >= 4 and primera[:2] == 'CM':
+                        filas.append([str(c or '').strip() for c in row])
+            except Exception as e_hoja:
+                log("leer_xlsm_codigos: error en hoja '{}' -> {}".format(nombre_hoja, e_hoja))
+                continue
         wb.close()
         log("leer_xlsm_codigos: {} filas CM desde {}".format(len(filas), ruta_xlsm))
         return filas
+
     except Exception:
         log_exc("leer_xlsm_codigos error en {}".format(ruta_xlsm))
         raise
@@ -410,15 +433,34 @@ def construir_tabla_comparativa(datos_excel_planilla, datos_modelo_cm, codigos_p
 # ── Exportar Excel ────────────────────────────────────────────────────────────
 def exportar_json_y_formatear(datos_comparacion, data_dir,
                               formatear_script, ruta_xlsx_salida, python_exe):
+    """
+    Escribe comparacion.json con las claves que formatear_tablas_excel_v2.py espera:
+      - "elementos_por_tabla"  (antes era "datos_por_tabla" → BUG v1.4)
+      - "headers_por_tabla"
+      - "listado_tablas"
+    """
     try:
-        datos_por_tabla = {}
-        codigos, nombres = [], []
+        elementos_por_tabla = {}
+        headers_por_tabla   = {}
+        codigos, nombres    = [], []
+
         for nombre_planilla, bloque in datos_comparacion.items():
             codigo_cm = bloque['codigo_cm']
-            datos_por_tabla[codigo_cm] = {
-                'headers': bloque['headers'],
-                'filas':   bloque.get('filas_fusionadas', [])
-            }
+            headers   = bloque['headers']
+            filas     = bloque.get('filas_fusionadas', [])
+
+            # Convertir filas_fusionadas al formato que espera el formateador:
+            # lista de dicts {param: valor} en lugar de {valores: [], estado_por_celda: []}
+            elementos = []
+            for fila in filas:
+                vals = fila.get('valores', [])
+                elem = {}
+                for idx, h in enumerate(headers):
+                    elem[h] = vals[idx] if idx < len(vals) else ''
+                elementos.append(elem)
+
+            elementos_por_tabla[codigo_cm] = elementos   # clave correcta para v2
+            headers_por_tabla[codigo_cm]   = headers
             codigos.append(codigo_cm)
             nombres.append(nombre_planilla)
 
@@ -431,7 +473,9 @@ def exportar_json_y_formatear(datos_comparacion, data_dir,
                 "valores": codigos_ordenados,
                 "claves":  nombres_ordenados
             },
-            "datos_por_tabla": datos_por_tabla
+            "elementos_por_tabla": elementos_por_tabla,   # FIX v1.5
+            "headers_por_tabla":   headers_por_tabla,
+            "excepciones":         []
         }
 
         json_path = os.path.join(data_dir, "comparacion.json")
@@ -615,7 +659,7 @@ def mostrar_ui(datos_comparacion, on_exportar):
 # ── MAIN ──────────────────────────────────────────────────────────────────────
 if __name__ == '__main__':
     try:
-        log("==== Inicio ui_comparacion.py ====")
+        log("==== Inicio ui_comparacion.py v1.5 ====")
 
         if len(sys.argv) < 9:
             log("main: argumentos insuficientes -> {}".format(sys.argv))
@@ -629,7 +673,7 @@ if __name__ == '__main__':
             sys.exit(120)
 
         script_json      = sys.argv[1]
-        ruta_xlsm        = sys.argv[2]   # <-- xlsm directo (antes era csv_codigos)
+        ruta_xlsm        = sys.argv[2]   # xlsm directo (openpyxl)
         data_dir         = sys.argv[3]
         formatear_script = sys.argv[4]
         ruta_xlsx_salida = sys.argv[5]
@@ -647,7 +691,7 @@ if __name__ == '__main__':
         if not codigos_planillas:
             raise ValueError("script.json no tiene codigos_planillas")
 
-        # Leer planilla xlsm directamente con openpyxl
+        # Leer planilla xlsm directamente con openpyxl (keep_vba=False)
         filas_xlsm           = leer_xlsm_codigos(ruta_xlsm)
         datos_excel_planilla = construir_excel_por_planilla(filas_xlsm, codigos_planillas)
 
@@ -667,7 +711,7 @@ if __name__ == '__main__':
             )
 
         mostrar_ui(datos_comparacion, on_export)
-        log("==== Fin ui_comparacion.py ====")
+        log("==== Fin ui_comparacion.py v1.5 ====")
 
     except SystemExit as se:
         log("SystemExit -> {}".format(se))
