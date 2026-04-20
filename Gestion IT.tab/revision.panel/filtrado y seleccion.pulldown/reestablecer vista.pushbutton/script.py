@@ -1,31 +1,16 @@
 # -*- coding: utf-8 -*-
-__title__   = "Restablecer vista"
-__doc__     = """Version = 1.0
-Date    = 15.06.2024
+__title__   = "Restablecer Vista"
+__doc__     = """Version = 1.1
+Date    = 20.04.2026
 ________________________________________________________________
 Description:
 
-This is the placeholder for a .pushbutton
-You can use it to start your pyRevit Add-In
-
+Restablece los filtros de la vista activa:
+- Activa y hace visibles TODOS los filtros aplicados a la vista.
+- Limpia cualquier override grafico de cada filtro.
+- Muestra un resumen de cuantos filtros fueron restablecidos.
 ________________________________________________________________
-How-To:
-
-1. [Hold ALT + CLICK] on the button to open its source folder.
-You will be able to override this placeholder.
-
-2. Automate Your Boring Work ;)
-
-________________________________________________________________
-TODO:
-[FEATURE] - Describe Your ToDo Tasks Here
-________________________________________________________________
-Last Updates:
-- [15.06.2024] v1.0 Change Description
-- [10.06.2024] v0.5 Change Description
-- [05.06.2024] v0.1 Change Description 
-________________________________________________________________
-Author: Erik Frits"""
+Author: Argenis Angel"""
 
 # ╦╔╦╗╔═╗╔═╗╦═╗╔╦╗╔═╗
 # ║║║║╠═╝║ ║╠╦╝ ║ ╚═╗
@@ -34,38 +19,81 @@ Author: Erik Frits"""
 import clr
 clr.AddReference("RevitAPI")
 clr.AddReference("RevitServices")
-import System
-from Autodesk.Revit.DB import FilteredElementCollector, ParameterFilterElement, Transaction, OverrideGraphicSettings
-from Autodesk.Revit.DB import ElementId
+clr.AddReference("System.Windows.Forms")
 
+from Autodesk.Revit.DB import (
+    FilteredElementCollector,
+    ParameterFilterElement,
+    Transaction,
+    OverrideGraphicSettings,
+)
+from System.Windows.Forms import MessageBox, MessageBoxButtons, DialogResult
 
 # ╦  ╦╔═╗╦═╗╦╔═╗╔╗ ╦  ╔═╗╔═╗
 # ╚╗╔╝╠═╣╠╦╝║╠═╣╠╩╗║  ║╣ ╚═╗
 #  ╚╝ ╩ ╩╩╚═╩╩ ╩╚═╝╩═╝╚═╝╚═╝
 #==================================================
-doc = __revit__.ActiveUIDocument.Document
+doc   = __revit__.ActiveUIDocument.Document
 uidoc = __revit__.ActiveUIDocument
-view = doc.ActiveView
-
+vista = doc.ActiveView
 
 # ╔╦╗╔═╗╦╔╗╔
 # ║║║╠═╣║║║║
 # ╩ ╩╩ ╩╩╝╚╝
 #==================================================
 
-def activar_todos_filtros(doc, vista):
-    filtros = vista.GetFilters()
-    with Transaction(doc, "Activar todos los filtros") as t:
+def main():
+    filtros_en_vista = list(vista.GetFilters())
+
+    if not filtros_en_vista:
+        MessageBox.Show(
+            "La vista activa no tiene filtros aplicados.\n"
+            "No hay nada que restablecer.",
+            "Restablecer Vista — Aviso")
+        return
+
+    # ── Mapear ids → nombres para el resumen ────────────────────────────────
+    filtros_dict = {}
+    for f in FilteredElementCollector(doc).OfClass(ParameterFilterElement):
+        filtros_dict[f.Id] = f.Name
+
+    # ── Confirmar ────────────────────────────────────────────────────────────
+    nombres = "\n".join(
+        "  • " + filtros_dict.get(fid, str(fid))
+        for fid in filtros_en_vista
+    )
+    respuesta = MessageBox.Show(
+        "Se restablecerán {} filtro(s) en la vista activa:\n\n{}\n\n"
+        "¿Continuar?".format(len(filtros_en_vista), nombres),
+        "Restablecer Vista",
+        MessageBoxButtons.YesNo)
+
+    if respuesta != DialogResult.Yes:
+        return
+
+    # ── Transacción ──────────────────────────────────────────────────────────
+    ogs_limpio = OverrideGraphicSettings()
+
+    with Transaction(doc, "Restablecer filtros de la vista") as t:
         t.Start()
-        for filtro_id in filtros:
-            vista.SetFilterVisibility(filtro_id, True)
-            vista.SetIsFilterEnabled(filtro_id, True)
-            vista.SetFilterOverrides(filtro_id, OverrideGraphicSettings())
-        t.Commit()
+        try:
+            for filtro_id in filtros_en_vista:
+                vista.SetIsFilterEnabled(filtro_id, True)
+                vista.SetFilterVisibility(filtro_id, True)
+                vista.SetFilterOverrides(filtro_id, ogs_limpio)
+            t.Commit()
+        except Exception as ex:
+            t.RollBack()
+            MessageBox.Show(
+                "Error al restablecer los filtros:\n{}".format(ex),
+                "Error")
+            return
 
-activar_todos_filtros(doc, view)
+    MessageBox.Show(
+        "{} filtro(s) restablecidos correctamente en la vista:\n\n{}".format(
+            len(filtros_en_vista), nombres),
+        "Restablecer Vista — Listo")
 
-#==================================================
-#🚫 DELETE BELOW
-from Snippets._customprint import kit_button_clicked    # Import Reusable Function from 'lib/Snippets/_customprint.py'
-kit_button_clicked(btn_name=__title__)                  # Display Default Print Message
+
+# ──────────────────────────────────────────────────────────────────────────────
+main()
