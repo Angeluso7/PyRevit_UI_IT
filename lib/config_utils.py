@@ -69,8 +69,20 @@ def get_repo_activo_path():
     return ruta
 
 def get_script_json_path():
-    """Devuelve la ruta de script.json (data/ raíz, compatible con legacy)."""
-    return os.path.join(DATA_DIR, "script.json")
+    """
+    Devuelve la ruta de script.json ubicado en data/master/.
+    Candidatos en orden: data/master/script.json → data/script.json (legacy).
+    """
+    candidates = [
+        os.path.join(MASTER_DIR, "script.json"),
+        os.path.join(DATA_DIR,   "script.json"),
+    ]
+    for candidate in candidates:
+        if os.path.isfile(candidate):
+            return candidate
+    # Si no existe ninguno, devuelve la ruta canónica (master) para que
+    # el llamador muestre el error correcto con la ruta esperada.
+    return candidates[0]
 
 # ── Compatibilidad CPython / IronPython ─────────────────────────────────────
 # Ambos entornos usan os.path.expanduser("~") correctamente; no se necesita
