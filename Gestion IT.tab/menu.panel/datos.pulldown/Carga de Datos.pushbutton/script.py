@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 __title__ = "Carga de datos"
-__doc__   = """Version = 2.1
+__doc__   = """Version = 2.3
 Date    = 21.04.2026
 ________________________________________________________________
 Description:
@@ -11,22 +11,15 @@ leer el Excel y IronPython/Revit API para cruzar con el modelo.
 
 Requiere data/master/config_proyecto_activo.json con:
   - ruta_repositorio_activo
-  (python_exe ya NO es necesario en el JSON → se resuelve
-   automáticamente via core.env_config / data/temp/env_cache.json)
-________________________________________________________________
-How-To:
-
-1. Asegúrate de tener configurado el proyecto activo.
-2. Selecciona el archivo .xlsm con la hoja CODIGO.
-3. El script lee los códigos, los cruza con el modelo y actualiza
-   el repositorio.
+  (python_exe resuelto automáticamente via core.env_config)
 ________________________________________________________________
 Last Updates:
+- [21.04.2026] v2.3 Rutas críticas ancladas al __file__ del botón.
+               Evita el problema de paths.py resolviendo EXT_ROOT
+               desde AppData en lugar del repo real.
+- [21.04.2026] v2.2 _EXT_ROOT y CARGA_EXCEL_PY desde paths.py.
 - [21.04.2026] v2.1 python_exe via core.env_config (env_cache.json).
-               Rutas desde lib/config/paths.py (CONFIG_PROYECTO,
-               TEMP_DIR, MASTER_DIR). Eliminado config_utils.
-- [21.04.2026] v2.0 Refactor: rutas centralizadas, CPython en
-               scripts_cpython/, temp en data/temp/.
+- [21.04.2026] v2.0 Refactor: rutas centralizadas.
 - [15.06.2024] v1.0 Versión original.
 ________________________________________________________________
 Author: Argenis Angel"""
@@ -46,51 +39,44 @@ from pyrevit import forms
 clr.AddReference("RevitAPI")
 from Autodesk.Revit.DB import Document
 
-# ── Añadir lib/ al path (resuelto desde la ubicación de este script) ─────────
-# Estructura esperada:
+# ── Resolver EXT_ROOT desde __file__ del botón (siempre confiable) ────────────
+# Estructura:
 #   EXT_ROOT/
-#     lib/              ← se añade al path
-#       config/paths.py
-#       core/env_config.py
-#     data/
-#       master/config_proyecto_activo.json
-#       temp/env_cache.json
-#     scripts_cpython/
-#       carga_excel.py
-#     PyRevitIT.tab/
-#       .../<Panel>.panel/
-#         Carga de datos.pushbutton/
-#           script.py   ← este archivo (5 niveles arriba = EXT_ROOT)
+#     lib/                         ← se añade al sys.path
+#     data/master/script.json      ← data/master/
+#     data/master/config_proyecto_activo.json
+#     data/temp/                   ← archivos temporales
+#     data/logs/                   ← logs
+#     scripts_cpython/carga_excel.py
+#     Gestion IT.tab/
+#       menu.panel/
+#         datos.pulldown/
+#           Carga de Datos.pushbutton/
+#             script.py            ← ESTE archivo (4 niveles arriba = EXT_ROOT)
 
 _THIS_DIR = os.path.dirname(os.path.abspath(__file__))
-_EXT_ROOT = os.path.normpath(os.path.join(_THIS_DIR, "..", "..", "..", "..", ".."))
+_EXT_ROOT = os.path.normpath(os.path.join(_THIS_DIR, "..", "..", "..", ".."))
 _LIB_DIR  = os.path.join(_EXT_ROOT, "lib")
+
 if _LIB_DIR not in sys.path:
     sys.path.insert(0, _LIB_DIR)
 
-# ── Importar rutas centralizadas desde lib/config/paths.py ──────────────────
-from config.paths import (
-    DATA_DIR,
-    MASTER_DIR,
-    TEMP_DIR,
-    LOG_DIR,
-    CONFIG_PROYECTO,        # data/master/config_proyecto_activo.json
-    ensure_runtime_dirs,
-)
+# ── Rutas críticas ancladas a _EXT_ROOT (no dependen de paths.py __file__) ───
+# paths.py puede resolver EXT_ROOT hacia AppData\Roaming cuando pyRevit
+# cachea el módulo. Por eso todas las rutas de datos se definen aquí.
+_DATA_DIR       = os.path.join(_EXT_ROOT, "data")
+_MASTER_DIR     = os.path.join(_DATA_DIR, "master")
+_TEMP_DIR       = os.path.join(_DATA_DIR, "temp")
+_LOG_DIR        = os.path.join(_DATA_DIR, "logs")
 
-# ──────────────────────────────────────────────────────────────────────────────
-# BLOQUE ENV_CONFIG: resolución portátil de python_exe
-# ──────────────────────────────────────────────────────────────────────────────
-# get_python_exe() realiza la siguiente cascada:
-#   1. Lee  data/temp/env_cache.json  → si la ruta es válida, la devuelve.
-#   2. Si no existe o el exe fue movido, busca en el sistema:
-#        a) AppData\Local\Programs\Python\Python3*\python.exe
-#        b) Comando 'where python'
-#        c) Recorre el PATH del sistema
-#   3. Guarda el resultado en env_cache.json para futuras ejecuciones.
-# → Un solo import, un solo call: el mismo bloque sirve para TODOS los botones.
+CONFIG_PROYECTO = os.path.join(_MASTER_DIR, "config_proyecto_activo.json")
+SCRIPT_JSON     = os.path.join(_MASTER_DIR, "script.json")
+CARGA_EXCEL_PY  = os.path.join(_EXT_ROOT, "scripts_cpython", "carga_excel.py")
+REPO_TMP_PATH   = os.path.join(_TEMP_DIR, "repo_tmp_codigos.txt")
+
+# ── Importar utilidades desde lib/ (solo funciones, no rutas) ─────────────────
 from core.env_config import get_python_exe
-# ──────────────────────────────────────────────────────────────────────────────
+
 
 # ╦  ╦╔═╗╦═╗╦╔═╗╔╗ ╦  ╔═╗╔═╗
 # ╚╗╔╝╠═╣╠╦╝║╠═╣╠╩╗║  ║╣ ╚═╗
@@ -108,19 +94,19 @@ except Exception:
 
 CREATE_NO_WINDOW = 0x08000000
 
-# Scripts CPython
-_SCRIPTS_CPYTHON = os.path.join(_EXT_ROOT, "scripts_cpython")
-CARGA_EXCEL_PY   = os.path.join(_SCRIPTS_CPYTHON, "carga_excel.py")
 
-# Archivo temporal de intercambio entre CPython e IronPython
-REPO_TMP_PATH = os.path.join(TEMP_DIR, "repo_tmp_codigos.txt")
+def _ensure_dirs():
+    """Crea carpetas de runtime si no existen."""
+    for path in (_DATA_DIR, _MASTER_DIR, _TEMP_DIR, _LOG_DIR):
+        if not os.path.exists(path):
+            os.makedirs(path)
 
 
 def _log(msg):
     """Log en data/logs/carga_datos.log."""
     try:
-        ensure_runtime_dirs()   # garantiza que LOG_DIR exista
-        log_path = os.path.join(LOG_DIR, "carga_datos.log")
+        _ensure_dirs()
+        log_path = os.path.join(_LOG_DIR, "carga_datos.log")
         ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         with open(log_path, "a", encoding="utf-8") as f:
             f.write(u"[{}] {}\n".format(ts, msg))
@@ -131,7 +117,7 @@ def _log(msg):
 def _get_repo_activo_path():
     """
     Lee ruta_repositorio_activo desde data/master/config_proyecto_activo.json.
-    Lanza ValueError si no está configurado.
+    Lanza ValueError si no está configurado o el archivo no existe.
     """
     import json
     if not os.path.isfile(CONFIG_PROYECTO):
@@ -194,13 +180,15 @@ def run_carga_excel(python_exe, xlsm_path, tmp_path):
 
     if not os.path.isfile(CARGA_EXCEL_PY):
         forms.alert(
-            u"No se encontró carga_excel.py en:\n{}".format(CARGA_EXCEL_PY),
+            u"No se encontró carga_excel.py en:\n{}\n\n"
+            u"Verifica que la carpeta scripts_cpython/ existe en:\n{}".format(
+                CARGA_EXCEL_PY, _EXT_ROOT
+            ),
             title="Script CPython no encontrado"
         )
         return 1, "", "Script no encontrado"
 
-    # Asegurar carpeta temp
-    ensure_runtime_dirs()
+    _ensure_dirs()
 
     cmd = [python_exe, CARGA_EXCEL_PY, xlsm_path, tmp_path]
     try:
@@ -222,14 +210,14 @@ def run_carga_excel(python_exe, xlsm_path, tmp_path):
 
 def main():
     _log("==== Inicio Carga de Datos ====")
+    _log("EXT_ROOT resuelto: {}".format(_EXT_ROOT))
 
     if doc is None:
         forms.alert(u"No hay documento activo de Revit.", title="Error")
         _log("doc es None")
         return
 
-    # Garantizar que existan todas las carpetas de runtime
-    ensure_runtime_dirs()
+    _ensure_dirs()
 
     # ── Verificar repositorio activo ─────────────────────────────────────────
     try:
@@ -241,9 +229,7 @@ def main():
 
     _log("Repositorio activo: {}".format(repo_path))
 
-    # ── Resolver python_exe (bloque env_config) ──────────────────────────────
-    # Primera ejecución: busca en el sistema y guarda en env_cache.json.
-    # Ejecuciones siguientes: lee directo del cache (rápido).
+    # ── Resolver python_exe ──────────────────────────────────────────────────
     python_exe = get_python_exe()
     if not python_exe:
         forms.alert(
@@ -258,15 +244,16 @@ def main():
 
     _log("python_exe resuelto: {}".format(python_exe))
 
-    # ── Verificar script.json ─────────────────────────────────────────────────
-    from config.paths import SCRIPT_JSON_PATH_LIB as script_json
-    if not os.path.isfile(script_json):
+    # ── Verificar script.json en data/master/ ────────────────────────────────
+    if not os.path.isfile(SCRIPT_JSON):
         forms.alert(
-            u"No se encontró script.json en:\n{}".format(script_json),
+            u"No se encontró script.json en:\n{}".format(SCRIPT_JSON),
             title="Error"
         )
-        _log("script.json no encontrado: {}".format(script_json))
+        _log("script.json no encontrado: {}".format(SCRIPT_JSON))
         return
+
+    _log("script.json OK: {}".format(SCRIPT_JSON))
 
     # ── Seleccionar .xlsm ─────────────────────────────────────────────────────
     xlsm_path = select_excel_file()
@@ -301,19 +288,12 @@ def main():
     _log("carga_excel.py OK → {}".format(REPO_TMP_PATH))
 
     # ── IronPython: combinar datos con el modelo ──────────────────────────────
+    if _THIS_DIR not in sys.path:
+        sys.path.insert(0, _THIS_DIR)
+
     try:
         import combinar_datos
         combinar_datos.main(REPO_TMP_PATH)
-    except ImportError:
-        if _THIS_DIR not in sys.path:
-            sys.path.insert(0, _THIS_DIR)
-        try:
-            import combinar_datos
-            combinar_datos.main(REPO_TMP_PATH)
-        except Exception as e:
-            forms.alert(u"Error ejecutando combinar_datos:\n{}".format(e), title="Error combinación")
-            _log("combinar_datos error: {}".format(e))
-            return
     except Exception as e:
         forms.alert(u"Error ejecutando combinar_datos:\n{}".format(e), title="Error combinación")
         _log("combinar_datos error: {}".format(e))

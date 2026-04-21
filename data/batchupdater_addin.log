@@ -10,3 +10,51 @@
 [AddinEntry] 2026-04-21 10:31:50 | BatchUpdateHandler creado correctamente.
 [AddinEntry] 2026-04-21 10:31:50 | ExternalEvent creado correctamente.
 [AddinEntry] 2026-04-21 10:31:50 | OnStartup finalizado OK.
+[script.py] 2026-04-21 17:41:36 | script.py iniciado (modo assembly ya cargado).
+[script.py] 2026-04-21 17:41:36 | Intentando clr.AddReference("RevitBatchUpdater")...
+[script.py] 2026-04-21 17:41:36 | Referencia a RevitBatchUpdater obtenida correctamente.
+[script.py] 2026-04-21 17:41:36 | Import AddinEntry OK.
+[script.py] 2026-04-21 17:41:36 | Llamando AddinEntry.LanzarActualizador()...
+[AddinEntry] 2026-04-21 17:41:36 | LanzarActualizador llamado desde script.py.
+[AddinEntry] 2026-04-21 17:41:36 | ExEvent.Raise() será llamado.
+[AddinEntry] 2026-04-21 17:41:36 | ExEvent.Raise() llamado correctamente.
+[script.py] 2026-04-21 17:41:36 | AddinEntry.LanzarActualizador() ejecutado sin excepción.
+[BatchUpdateHandler] 2026-04-21 17:41:40 | Execute iniciado.
+[BatchUpdateHandler] 2026-04-21 17:41:40 | Execute: documento host=24069-ISEP-AR1-ZZZ-FE-GE-D-007
+[BatchUpdateHandler] 2026-04-21 17:41:40 | GetConfigPath: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\config_proyecto_activo.json
+[BatchUpdateHandler] 2026-04-21 17:41:40 | ResolverRutaBDDesdeConfig: config_proyecto_activo.json NO existe.
+[BatchUpdateHandler] 2026-04-21 17:41:40 | Execute: bdPath es null o vacío. Abortando.
+[BatchUpdateHandler] 2026-04-21 17:41:40 | EXCEPCION en Execute: System.NotImplementedException: The method or operation is not implemented.
+   at System.Windows.MessageBox.Show(String v1, String v2)
+   at RevitBatchUpdater.BatchUpdateHandler.Execute(UIApplication uiapp)
+[BatchUpdateHandler] 2026-04-21 17:41:40 | Execute finalizado.
+[script.py] 2026-04-21 17:45:41 | script.py iniciado (modo assembly ya cargado).
+[script.py] 2026-04-21 17:45:41 | Intentando clr.AddReference("RevitBatchUpdater")...
+[script.py] 2026-04-21 17:45:41 | Referencia a RevitBatchUpdater obtenida correctamente.
+[script.py] 2026-04-21 17:45:41 | Import AddinEntry OK.
+[script.py] 2026-04-21 17:45:41 | Llamando AddinEntry.LanzarActualizador()...
+[AddinEntry] 2026-04-21 17:45:41 | LanzarActualizador llamado desde script.py.
+[AddinEntry] 2026-04-21 17:45:41 | ExEvent.Raise() será llamado.
+[AddinEntry] 2026-04-21 17:45:41 | ExEvent.Raise() llamado correctamente.
+[script.py] 2026-04-21 17:45:41 | AddinEntry.LanzarActualizador() ejecutado sin excepción.
+[BatchUpdateHandler] 2026-04-21 17:45:43 | Execute iniciado.
+[BatchUpdateHandler] 2026-04-21 17:45:43 | Execute: documento host=24069-ISEP-AR1-ZZZ-FE-GE-D-007
+[BatchUpdateHandler] 2026-04-21 17:45:43 | GetConfigPath: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\config_proyecto_activo.json
+[BatchUpdateHandler] 2026-04-21 17:45:43 | ResolverRutaBDDesdeConfig: config_proyecto_activo.json NO existe.
+[BatchUpdateHandler] 2026-04-21 17:45:43 | Execute: bdPath es null o vacío. Abortando.
+[BatchUpdateHandler] 2026-04-21 17:45:43 | EXCEPCION en Execute: System.NotImplementedException: The method or operation is not implemented.
+   at System.Windows.MessageBox.Show(String v1, String v2)
+   at RevitBatchUpdater.BatchUpdateHandler.Execute(UIApplication uiapp)
+[BatchUpdateHandler] 2026-04-21 17:45:43 | Execute finalizado.
+[AddinEntry] 2026-04-21 18:22:24 | OnShutdown iniciado.
+[AddinEntry] 2026-04-21 18:22:24 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-04-21 18:22:24 | Handler puesto a null.
+[AddinEntry] 2026-04-21 18:22:24 | OnShutdown finalizado OK.
+[AddinEntry] 2026-04-21 18:22:40 | OnShutdown iniciado.
+[AddinEntry] 2026-04-21 18:22:40 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-04-21 18:22:40 | Handler puesto a null.
+[AddinEntry] 2026-04-21 18:22:40 | OnShutdown finalizado OK.
+[AddinEntry] 2026-04-21 18:22:57 | OnShutdown iniciado.
+[AddinEntry] 2026-04-21 18:22:57 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-04-21 18:22:57 | Handler puesto a null.
+[AddinEntry] 2026-04-21 18:22:57 | OnShutdown finalizado OK.
