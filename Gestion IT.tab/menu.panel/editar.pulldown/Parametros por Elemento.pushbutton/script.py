@@ -1,24 +1,20 @@
 # -*- coding: utf-8 -*-
 __title__ = "Parametros por elemento"
-__doc__ = """Version = 1.3
-Date = 19.04.2026
+__doc__ = """Version = 1.7
+Date    = 22.04.2026
 ________________________________________________________________
 Description:
 
 Editor de parametros por elemento sobre modelo linkeado,
 usando planillas y un repositorio JSON.
 
-Cambios v1.3:
-- load_active_repo_path resuelve la ruta del repositorio usando
-  nup_activo + get_ruta_repositorio(nup) desde lib/config/paths.py.
-  Elimina dependencia de ruta_repositorio_activo absoluta/hardcodeada.
-- Fallback inline identico al de Parametros por planilla.
+Cambios v1.7:
+- Corregido error WPF: no se cierra ParamsEditor antes de ShowDialog().
+- Se usa flag _abort_show para evitar mostrar la ventana principal
+  cuando solo se insertó CodIntBIM en la BD.
+- Se mantiene lectura de CodIntBIM desde BD primero y luego desde Revit.
+- Inserción de CodIntBIM sigue creando entrada completa en BD.
 
-Cambios v1.2:
-- Clave repo normalizada: basename_sin_ext + "||" + ElementId
-- Busqueda en repo por (archivo_basename, ElementId) en vez de path
-- Delimitador de clave cambiado a "||" para evitar colisiones con "_"
-- ui.xaml con estilo dark
 ________________________________________________________________
 Author: Angeluso
 """
@@ -28,6 +24,21 @@ import os
 import sys
 import json
 
+import clr
+clr.AddReference("PresentationCore")
+clr.AddReference("PresentationFramework")
+clr.AddReference("WindowsBase")
+
+from System.Windows import (
+    Window, MessageBox, MessageBoxButton, MessageBoxResult,
+    ResizeMode, WindowStartupLocation,
+    Thickness, HorizontalAlignment
+)
+from System.Windows.Controls import (
+    StackPanel, Label, TextBox, Button, DockPanel, Dock
+)
+from System.Windows.Media import Brushes, SolidColorBrush, Color
+
 from Autodesk.Revit.DB import ViewSchedule, FilteredElementCollector
 from Autodesk.Revit.UI import ExternalEvent, IExternalEventHandler
 from Autodesk.Revit.UI.Selection import ObjectType
@@ -35,9 +46,8 @@ from Autodesk.Revit.UI.Selection import ObjectType
 from pyrevit import forms
 
 
-# ── Normalizacion ────────────────────────────────────────────────────────────
+# ── Normalizacion ─────────────────────────────────────────────
 def normalizar_clave(texto):
-    """Quita acentos/virgulillas y convierte n/N."""
     if texto is None:
         return None
     if not isinstance(texto, str):
@@ -47,7 +57,7 @@ def normalizar_clave(texto):
     return sin_tildes.replace(u"\xf1", u"n").replace(u"\xd1", u"N")
 
 
-# ── Rutas centralizadas ────────────────────────────────────────────────────────
+# ── Rutas centralizadas ───────────────────────────────────────
 try:
     _this_dir = os.path.dirname(os.path.abspath(__file__))
 except Exception:
@@ -83,15 +93,8 @@ CONFIG_PATH      = CONFIG_PROYECTO
 SCRIPT_JSON_PATH = SCRIPT_JSON_PATH_LIB
 
 
-# ── Repositorio ───────────────────────────────────────────────────────────────
+# ── Repositorio ───────────────────────────────────────────────
 def load_active_repo_path():
-    """
-    Resuelve la ruta del repositorio activo de forma portable:
-      1. Lee nup_activo de config_proyecto_activo.json.
-      2. Construye la ruta: data/proyectos/repositorio_datos_<nup>.json
-         usando get_ruta_repositorio(nup) de lib/config/paths.py.
-    Nunca depende de ruta_repositorio_activo absoluta.
-    """
     if not os.path.exists(CONFIG_PATH):
         raise Exception(
             u"No se encontro config_proyecto_activo.json en:\n{}".format(CONFIG_PATH))
@@ -99,14 +102,11 @@ def load_active_repo_path():
         cfg = json.load(f)
     nup = (cfg.get("nup_activo") or "").strip()
     if not nup:
-        raise Exception(
-            u"config_proyecto_activo.json no tiene 'nup_activo' o esta vacia.\n"
-            u"No se puede determinar el repositorio de datos activo.")
+        raise Exception(u"config_proyecto_activo.json no tiene 'nup_activo'.")
     ruta = get_ruta_repositorio(nup)
     if not os.path.exists(ruta):
         raise Exception(
-            u"No se encontro el repositorio del proyecto activo:\n{}\n\n"
-            u"Verifica que exista en data/proyectos/".format(ruta))
+            u"No se encontro repositorio del proyecto activo:\n{}".format(ruta))
     return ruta
 
 
@@ -158,13 +158,8 @@ def load_script_json():
         return None
 
 
-# ── Helpers de clave repo ───────────────────────────────────────────────────────
+# ── Helpers repo ──────────────────────────────────────────────
 def _archivo_basename(doc):
-    """
-    Devuelve solo el nombre de archivo sin extension y sin path.
-    Ejemplo: 'C:/work/Proyecto_v2.rvt' -> 'Proyecto_v2'
-    Funciona aunque PathName este vacio (usa Title como fallback).
-    """
     path = (doc.PathName or "").strip()
     if path:
         base = os.path.splitext(os.path.basename(path))[0]
@@ -180,36 +175,222 @@ def _archivo_basename(doc):
 
 
 def _make_repo_key(archivo_basename, element_id_str):
-    """
-    Clave unica de repositorio: 'basename||ElementId'
-    Usar '||' evita colisiones con '_' dentro de nombres de archivo.
-    """
     return u"{}||{}".format(archivo_basename, element_id_str)
 
 
 def _buscar_en_repo(repo, archivo_basename, element_id_str):
-    """
-    Busca la entrada del repo por (archivo_basename, ElementId).
-    Acepta tanto claves con '||' (nuevo formato) como claves legacy con '_'.
-    Retorna (key, entry) o (None, None).
-    """
     target_key = _make_repo_key(archivo_basename, element_id_str)
-
     if target_key in repo and isinstance(repo[target_key], dict):
         return target_key, repo[target_key]
-
     for k, v in repo.items():
         if not isinstance(v, dict):
             continue
-        v_archivo = v.get("Archivo", "")
+        v_archivo  = v.get("Archivo", "")
         v_basename = os.path.splitext(os.path.basename(v_archivo))[0] if v_archivo else ""
         if v_basename == archivo_basename and str(v.get("ElementId", "")) == element_id_str:
             return k, v
-
     return None, None
 
 
-# ── Clases de datos ────────────────────────────────────────────────────────────
+def _leer_codintbim(element, datos_repo):
+    if datos_repo:
+        cod_bd = (datos_repo.get("CodIntBIM") or "").strip()
+        if cod_bd:
+            return cod_bd
+    try:
+        p = element.LookupParameter("CodIntBIM")
+        if p and p.HasValue:
+            val = (p.AsString() or "").strip()
+            if val:
+                return val
+    except Exception:
+        pass
+    return ""
+
+
+def _obtener_headers_planilla(pref_cod, script_data):
+    codigos_planillas = script_data.get("codigos_planillas", {})
+    if not codigos_planillas:
+        return None, []
+
+    nombre_planilla = None
+    for nombre_plan, lista_codigos in codigos_planillas.items():
+        if isinstance(lista_codigos, list):
+            for cod in lista_codigos:
+                cod_str = str(cod).strip()
+                if cod_str[:4].upper() == pref_cod.upper():
+                    nombre_planilla = nombre_plan
+                    break
+        elif isinstance(lista_codigos, str):
+            if lista_codigos.strip()[:4].upper() == pref_cod.upper():
+                nombre_planilla = nombre_plan
+        if nombre_planilla:
+            break
+
+    if not nombre_planilla:
+        return None, []
+
+    try:
+        host_doc  = __revit__.ActiveUIDocument.Document
+        schedules = FilteredElementCollector(host_doc).OfClass(ViewSchedule).ToElements()
+        planilla  = next(
+            (s for s in schedules if not s.IsTemplate and s.Name == nombre_planilla),
+            None
+        )
+    except Exception:
+        return nombre_planilla, []
+
+    if planilla is None:
+        return nombre_planilla, []
+
+    headers = []
+    try:
+        for fid in planilla.Definition.GetFieldOrder():
+            field = planilla.Definition.GetField(fid)
+            if field:
+                headers.append(field.GetName())
+    except Exception:
+        pass
+
+    return nombre_planilla, headers
+
+
+def _crear_entrada_bd(linked_doc, element, nuevo_cod,
+                      archivo_base, element_id_str,
+                      headers_planilla, repo):
+    existing_key, existing_entry = _buscar_en_repo(repo, archivo_base, element_id_str)
+    key_usar = existing_key if existing_key else _make_repo_key(archivo_base, element_id_str)
+
+    entry = dict(existing_entry) if existing_entry else {}
+
+    path_completo           = (linked_doc.PathName or "").strip()
+    entry["Archivo"]        = path_completo if path_completo else archivo_base
+    entry["nombre_archivo"] = archivo_base
+    entry["ElementId"]      = element_id_str
+    entry["CodIntBIM"]      = nuevo_cod
+
+    for h in headers_planilla:
+        if h not in entry:
+            entry[h] = ""
+
+    repo[key_usar] = entry
+    save_repo(repo)
+    return key_usar, entry
+
+
+# ── Ventana inserción ─────────────────────────────────────────
+class CodIntBIMEditorWindow(Window):
+    def __init__(self, linked_doc, element, archivo_base,
+                 element_id_str, script_data, valor_actual=""):
+        Window.__init__(self)
+        self.guardado = False
+
+        self._linked_doc   = linked_doc
+        self._element      = element
+        self._archivo_base = archivo_base
+        self._element_id   = element_id_str
+        self._script_data  = script_data
+
+        self.Title                 = u"Insertar CodIntBIM"
+        self.Width                 = 440
+        self.Height                = 190
+        self.ResizeMode            = ResizeMode.CanResize
+        self.WindowStartupLocation = WindowStartupLocation.CenterScreen
+        self.Background            = SolidColorBrush(Color.FromRgb(45, 45, 48))
+
+        panel        = StackPanel()
+        panel.Margin = Thickness(16, 14, 16, 14)
+
+        lbl            = Label()
+        lbl.Content    = (u"Elemento sin CodIntBIM registrado.\n"
+                          u"Ingrese el codigo para registrarlo en la BD:")
+        lbl.Foreground = Brushes.LightGray
+        lbl.Padding    = Thickness(0, 0, 0, 6)
+        panel.Children.Add(lbl)
+
+        self._txt            = TextBox()
+        self._txt.Text       = valor_actual or ""
+        self._txt.Height     = 28
+        self._txt.Padding    = Thickness(6, 4, 6, 4)
+        self._txt.FontSize   = 13
+        self._txt.Background = SolidColorBrush(Color.FromRgb(30, 30, 30))
+        self._txt.Foreground = Brushes.White
+        self._txt.CaretBrush = Brushes.White
+        self._txt.Margin     = Thickness(0, 0, 0, 14)
+        panel.Children.Add(self._txt)
+
+        self._lbl_estado            = Label()
+        self._lbl_estado.Content    = ""
+        self._lbl_estado.Foreground = Brushes.LightYellow
+        self._lbl_estado.Padding    = Thickness(0, 0, 0, 6)
+        self._lbl_estado.Height     = 22
+        panel.Children.Add(self._lbl_estado)
+
+        btn_panel               = DockPanel()
+        btn_panel.LastChildFill = False
+
+        btn_cancel                     = Button()
+        btn_cancel.Content             = u"Cancelar"
+        btn_cancel.Width               = 90
+        btn_cancel.Height              = 28
+        btn_cancel.Margin              = Thickness(0, 0, 8, 0)
+        btn_cancel.HorizontalAlignment = HorizontalAlignment.Right
+        btn_cancel.Background          = SolidColorBrush(Color.FromRgb(62, 62, 66))
+        btn_cancel.Foreground          = Brushes.White
+        btn_cancel.Click              += self._on_cancelar
+        DockPanel.SetDock(btn_cancel, Dock.Right)
+
+        btn_ok                         = Button()
+        btn_ok.Content                 = u"Guardar en BD"
+        btn_ok.Width                   = 110
+        btn_ok.Height                  = 28
+        btn_ok.HorizontalAlignment     = HorizontalAlignment.Right
+        btn_ok.Background              = SolidColorBrush(Color.FromRgb(0, 122, 204))
+        btn_ok.Foreground              = Brushes.White
+        btn_ok.Click                  += self._on_guardar
+        DockPanel.SetDock(btn_ok, Dock.Right)
+
+        btn_panel.Children.Add(btn_cancel)
+        btn_panel.Children.Add(btn_ok)
+        panel.Children.Add(btn_panel)
+
+        self.Content  = panel
+        self.Loaded  += lambda s, e: self._txt.Focus()
+
+    def _on_guardar(self, sender, e):
+        val = (self._txt.Text or "").strip()
+        if len(val) < 4:
+            self._lbl_estado.Content = u"⚠ El codigo debe tener al menos 4 caracteres."
+            return
+
+        pref_cod = val[:4].upper()
+        nombre_planilla, headers = _obtener_headers_planilla(pref_cod, self._script_data)
+
+        if not headers:
+            self._lbl_estado.Content = (
+                u"⚠ No se encontro planilla para '{}'. Verifique script.json.".format(pref_cod))
+            return
+
+        try:
+            repo = load_repo()
+            _crear_entrada_bd(
+                self._linked_doc, self._element, val,
+                self._archivo_base, self._element_id,
+                headers, repo
+            )
+            self.guardado     = True
+            self.DialogResult = True
+            self.Close()
+        except Exception as ex:
+            self._lbl_estado.Content = u"Error al guardar: {}".format(ex)
+
+    def _on_cancelar(self, sender, e):
+        self.guardado     = False
+        self.DialogResult = False
+        self.Close()
+
+
+# ── Clases de apoyo ───────────────────────────────────────────
 class ParamItem(object):
     def __init__(self, name, value, revit_param):
         self.Name       = name
@@ -229,7 +410,7 @@ class UpdateParamsHandler(IExternalEventHandler):
         return "UpdateParamsHandler"
 
 
-# ── Editor WPF ───────────────────────────────────────────────────────────────
+# ── Editor principal ──────────────────────────────────────────
 class ParamsEditor(forms.WPFWindow):
     def __init__(self, linked_doc, element, external_event, handler):
         xaml_path = os.path.join(os.path.dirname(__file__), "ui.xaml")
@@ -239,14 +420,16 @@ class ParamsEditor(forms.WPFWindow):
         self.element         = element
         self._external_event = external_event
         self._handler        = handler
+        self._abort_show     = False
+
         if self._handler:
             self._handler._editor = self
 
-        self._repo         = load_repo()
-        self._script_data  = load_script_json() or {}
+        self._repo        = load_repo()
+        self._script_data = load_script_json() or {}
 
         self._reemplazos_raw = self._script_data.get("reemplazos_de_nombres", {})
-        self._reemplazos = {
+        self._reemplazos     = {
             normalizar_clave(k): v
             for k, v in self._reemplazos_raw.items()
         }
@@ -273,94 +456,53 @@ class ParamsEditor(forms.WPFWindow):
             forms.alert(u"Error inicializando editor:\n{}".format(e),
                         title="Error editor")
 
-    # ── logica de planilla ───────────────────────────────────────────────────────
-    def _get_headers_order(self):
-        try:
-            p_cod  = self.element.LookupParameter("CodIntBIM")
-            cod_val = p_cod.AsString() if p_cod and p_cod.HasValue else ""
-        except Exception as e:
-            forms.alert(u"Error leyendo CodIntBIM:\n{}".format(e), title="Error CodIntBIM")
-            return None, []
+    def _get_headers_order(self, datos_repo):
+        cod_val = _leer_codintbim(self.element, datos_repo)
 
         if not cod_val or len(cod_val) < 4:
+            win = CodIntBIMEditorWindow(
+                linked_doc     = self._doc,
+                element        = self.element,
+                archivo_base   = self._archivo_base,
+                element_id_str = self._element_id,
+                script_data    = self._script_data,
+                valor_actual   = cod_val
+            )
+            win.ShowDialog()
+
+            self._abort_show = True
+            return None, None
+
+        pref_cod = cod_val[:4].upper()
+        nombre_planilla, headers_order = _obtener_headers_planilla(
+            pref_cod, self._script_data)
+
+        if not headers_order:
             forms.alert(
-                u"CodIntBIM vacio o con menos de 4 caracteres.\nValor: '{}'".format(cod_val),
-                title="CodIntBIM invalido")
-            return None, []
-
-        pref_cod    = cod_val[:4]
-        script_data = self._script_data or load_script_json() or {}
-        codigos_planillas = script_data.get("codigos_planillas", {})
-
-        if not codigos_planillas:
-            forms.alert(u"script.json no tiene 'codigos_planillas'.",
-                        title="Error script.json")
-            return None, []
-
-        clave_planilla = None
-        for clave, vals in codigos_planillas.items():
-            if isinstance(vals, list):
-                if any(isinstance(v, str) and v.startswith(pref_cod) for v in vals):
-                    clave_planilla = clave
-                    break
-            elif isinstance(vals, str) and vals.startswith(pref_cod):
-                clave_planilla = clave
-                break
-
-        if not clave_planilla:
-            forms.alert(
-                u"No se encontro planilla para el prefijo '{}'.".format(pref_cod),
+                u"No se encontro planilla para el prefijo '{}'.\n\n"
+                u"Verifique que en script.json → 'codigos_planillas'\n"
+                u"exista una lista con codigos que empiecen por '{}'.".format(
+                    pref_cod, pref_cod),
                 title="Planilla no definida")
             return None, []
 
-        try:
-            host_doc = __revit__.ActiveUIDocument.Document
-            schedules = (FilteredElementCollector(host_doc)
-                         .OfClass(ViewSchedule).ToElements())
-            planilla_obj = next(
-                (s for s in schedules if not s.IsTemplate and s.Name == clave_planilla),
-                None)
-        except Exception as e:
-            forms.alert(u"Error buscando planilla '{}':\n{}".format(clave_planilla, e),
-                        title="Error planilla")
-            return None, []
+        return nombre_planilla, headers_order
 
-        if planilla_obj is None:
-            forms.alert(u"No se encontro la planilla '{}' en el modelo.".format(clave_planilla),
-                        title="Planilla no encontrada")
-            return None, []
-
-        headers_order = []
-        try:
-            for fid in planilla_obj.Definition.GetFieldOrder():
-                field = planilla_obj.Definition.GetField(fid)
-                if field:
-                    headers_order.append(field.GetName())
-        except Exception as e:
-            forms.alert(u"Error obteniendo encabezados:\n{}".format(e),
-                        title="Error encabezados")
-            return None, []
-
-        if not headers_order:
-            forms.alert(u"Planilla '{}' sin columnas.".format(clave_planilla),
-                        title="Sin encabezados")
-            return None, []
-
-        return clave_planilla, headers_order
-
-    # ── carga parametros ──────────────────────────────────────────────────────────
     def load_parameters_from_repo_or_model(self):
         self.params = []
         self.paramsListView.ItemsSource = self.params
-        self._original_values = {}
+        self._original_values           = {}
 
         try:
             _, datos_repo = _buscar_en_repo(
                 self._repo, self._archivo_base, self._element_id)
 
-            clave_planilla, headers_order = self._get_headers_order()
+            clave_planilla, headers_order = self._get_headers_order(datos_repo)
+
+            if self._abort_show:
+                return
+
             if not headers_order:
-                self.statusLabel.Content = u"No se pudieron obtener encabezados."
                 return
 
             parametros = {}
@@ -377,18 +519,19 @@ class ParamsEditor(forms.WPFWindow):
 
             parametros_renombrados = {}
             for k, (p_obj, v) in parametros.items():
-                nuevo = self._reemplazos.get(normalizar_clave(k), normalizar_clave(k))
+                nuevo = self._reemplazos.get(
+                    normalizar_clave(k), normalizar_clave(k))
                 parametros_renombrados[nuevo] = (p_obj, v)
 
             for head in headers_order:
-                head_norm  = normalizar_clave(head)
-                p_obj      = None
-                val_model  = ""
+                head_norm = normalizar_clave(head)
+                p_obj     = None
+                val_model = ""
                 if head_norm in parametros_renombrados:
                     p_obj, val_model = parametros_renombrados[head_norm]
 
                 if datos_repo and head in datos_repo:
-                    valor_final = datos_repo.get(head, "")
+                    valor_final = datos_repo.get(head, "") or ""
                 else:
                     valor_final = val_model
 
@@ -402,10 +545,10 @@ class ParamsEditor(forms.WPFWindow):
 
         except Exception as e:
             self.statusLabel.Content = u"Error cargando datos."
-            forms.alert(u"Error en load_parameters_from_repo_or_model:\n{}".format(e),
-                        title="Error editor")
+            forms.alert(
+                u"Error en load_parameters_from_repo_or_model:\n{}".format(e),
+                title="Error editor")
 
-    # ── cambios y guardado ───────────────────────────────────────────────────────
     def _has_changes(self):
         for p in self.params:
             if (p.Value or "") != (self._original_values.get(p.Name, "") or ""):
@@ -420,13 +563,14 @@ class ParamsEditor(forms.WPFWindow):
             if not isinstance(repo, dict):
                 repo = {}
 
-            existing_key, _ = _buscar_en_repo(repo, self._archivo_base, self._element_id)
+            existing_key, _ = _buscar_en_repo(
+                repo, self._archivo_base, self._element_id)
             if existing_key is None:
                 existing_key = self._repo_key
 
             entry = dict(repo.get(existing_key, {})) if existing_key in repo else {}
 
-            path_completo = (self._doc.PathName or "").strip()
+            path_completo           = (self._doc.PathName or "").strip()
             entry["Archivo"]        = path_completo if path_completo else self._archivo_base
             entry["nombre_archivo"] = self._archivo_base
             entry["ElementId"]      = self._element_id
@@ -443,10 +587,10 @@ class ParamsEditor(forms.WPFWindow):
             return True
 
         except Exception as e:
-            forms.alert(u"Error guardando datos:\n{}".format(e), title="Error guardado")
+            forms.alert(u"Error guardando datos:\n{}".format(e),
+                        title="Error guardado")
             return False
 
-    # ── eventos ─────────────────────────────────────────────────────────────────
     def on_save(self, sender, e):
         try:
             if not self._has_changes():
@@ -456,7 +600,7 @@ class ParamsEditor(forms.WPFWindow):
             self.statusLabel.Content = u"Guardando..."
             ok = self.save_params_to_repo()
             if ok:
-                self._changes_saved = True
+                self._changes_saved      = True
                 self.statusLabel.Content = u"Guardado correctamente."
             self.Close()
         except Exception as e:
@@ -476,10 +620,11 @@ class ParamsEditor(forms.WPFWindow):
                 self._repo = load_repo()
                 self.load_parameters_from_repo_or_model()
         except Exception as e:
-            forms.alert(u"Error en callback:\n{}".format(e), title="Error actualizacion")
+            forms.alert(u"Error en callback:\n{}".format(e),
+                        title="Error actualizacion")
 
 
-# ── main ────────────────────────────────────────────────────────────────────
+# ── main ──────────────────────────────────────────────────────
 def main():
     uidoc = __revit__.ActiveUIDocument
     doc   = uidoc.Document
@@ -511,6 +656,10 @@ def main():
     handler        = UpdateParamsHandler()
     external_event = ExternalEvent.Create(handler)
     editor         = ParamsEditor(linked_doc, element, external_event, handler)
+
+    if getattr(editor, "_abort_show", False):
+        return
+
     editor.ShowDialog()
 
 

@@ -58,3 +58,65 @@
 [AddinEntry] 2026-04-21 18:22:57 | ExternalEvent dispose ejecutado.
 [AddinEntry] 2026-04-21 18:22:57 | Handler puesto a null.
 [AddinEntry] 2026-04-21 18:22:57 | OnShutdown finalizado OK.
+[AddinEntry] 2026-04-22 14:24:50 | OnStartup iniciado.
+[AddinEntry] 2026-04-22 14:24:50 | BatchUpdateHandler creado correctamente.
+[AddinEntry] 2026-04-22 14:24:50 | ExternalEvent creado correctamente.
+[AddinEntry] 2026-04-22 14:24:50 | OnStartup finalizado OK.
+[script.py] 2026-04-22 14:29:33 | script.py iniciado.
+[script.py] 2026-04-22 14:29:33 | Intentando clr.AddReference("RevitBatchUpdater")...
+[script.py] 2026-04-22 14:29:33 | Referencia a RevitBatchUpdater obtenida correctamente.
+[script.py] 2026-04-22 14:29:33 | Import AddinEntry OK.
+[script.py] 2026-04-22 14:29:33 | Llamando AddinEntry.LanzarActualizador()...
+[AddinEntry] 2026-04-22 14:29:33 | LanzarActualizador llamado desde script.py.
+[AddinEntry] 2026-04-22 14:29:33 | ExEvent.Raise() serÃ¡ llamado.
+[AddinEntry] 2026-04-22 14:29:33 | ExEvent.Raise() llamado correctamente.
+[script.py] 2026-04-22 14:29:33 | AddinEntry.LanzarActualizador() ejecutado sin excepción.
+[BatchUpdateHandler] 2026-04-22 14:29:34 | Execute iniciado.
+[BatchUpdateHandler] 2026-04-22 14:29:34 | Execute: documento host=24069-ISEP-AR1-ZZZ-FE-GE-D-007
+[BatchUpdateHandler] 2026-04-22 14:29:34 | GetConfigPath: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\config_proyecto_activo.json
+[BatchUpdateHandler] 2026-04-22 14:29:34 | ResolverRutaBDDesdeConfig: config_proyecto_activo.json no existe.
+[BatchUpdateHandler] 2026-04-22 14:29:34 | Execute: no se pudo resolver la BD.
+[BatchUpdateHandler] 2026-04-22 14:29:34 | EXCEPCION en Execute: System.NotImplementedException: The method or operation is not implemented.
+   at System.Windows.MessageBox.Show(String v1, String v2)
+   at RevitBatchUpdater.BatchUpdateHandler.Execute(UIApplication uiapp)
+[BatchUpdateHandler] 2026-04-22 14:29:34 | Execute finalizado.
+[script.py] 2026-04-22 14:31:35 | script.py iniciado.
+[script.py] 2026-04-22 14:31:35 | Intentando clr.AddReference("RevitBatchUpdater")...
+[script.py] 2026-04-22 14:31:35 | Referencia a RevitBatchUpdater obtenida correctamente.
+[script.py] 2026-04-22 14:31:35 | Import AddinEntry OK.
+[script.py] 2026-04-22 14:31:35 | Llamando AddinEntry.LanzarActualizador()...
+[AddinEntry] 2026-04-22 14:31:35 | LanzarActualizador llamado desde script.py.
+[AddinEntry] 2026-04-22 14:31:35 | ExEvent.Raise() serÃ¡ llamado.
+[AddinEntry] 2026-04-22 14:31:35 | ExEvent.Raise() llamado correctamente.
+[script.py] 2026-04-22 14:31:35 | AddinEntry.LanzarActualizador() ejecutado sin excepción.
+[BatchUpdateHandler] 2026-04-22 14:31:36 | Execute iniciado.
+[BatchUpdateHandler] 2026-04-22 14:31:36 | Execute: documento host=24069-ISEP-AR1-ZZZ-FE-GE-D-007
+[BatchUpdateHandler] 2026-04-22 14:31:36 | GetConfigPath: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\config_proyecto_activo.json
+[BatchUpdateHandler] 2026-04-22 14:31:36 | ResolverRutaBDDesdeConfig: config_proyecto_activo.json no existe.
+[BatchUpdateHandler] 2026-04-22 14:31:36 | Execute: no se pudo resolver la BD.
+[BatchUpdateHandler] 2026-04-22 14:31:36 | EXCEPCION en Execute: System.NotImplementedException: The method or operation is not implemented.
+   at System.Windows.MessageBox.Show(String v1, String v2)
+   at RevitBatchUpdater.BatchUpdateHandler.Execute(UIApplication uiapp)
+[BatchUpdateHandler] 2026-04-22 14:31:36 | Execute finalizado.
+[script.py] 2026-04-22 14:31:42 | script.py iniciado.
+[script.py] 2026-04-22 14:31:42 | Intentando clr.AddReference("RevitBatchUpdater")...
+[script.py] 2026-04-22 14:31:42 | Referencia a RevitBatchUpdater obtenida correctamente.
+[script.py] 2026-04-22 14:31:42 | Import AddinEntry OK.
+[script.py] 2026-04-22 14:31:42 | Llamando AddinEntry.LanzarActualizador()...
+[AddinEntry] 2026-04-22 14:31:42 | LanzarActualizador llamado desde script.py.
+[AddinEntry] 2026-04-22 14:31:42 | ExEvent.Raise() serÃ¡ llamado.
+[AddinEntry] 2026-04-22 14:31:42 | ExEvent.Raise() llamado correctamente.
+[script.py] 2026-04-22 14:31:42 | AddinEntry.LanzarActualizador() ejecutado sin excepción.
+[BatchUpdateHandler] 2026-04-22 14:31:43 | Execute iniciado.
+[BatchUpdateHandler] 2026-04-22 14:31:43 | Execute: documento host=24069-ISEP-AR1-ZZZ-FE-GE-D-007
+[BatchUpdateHandler] 2026-04-22 14:31:43 | GetConfigPath: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\config_proyecto_activo.json
+[BatchUpdateHandler] 2026-04-22 14:31:43 | ResolverRutaBDDesdeConfig: config_proyecto_activo.json no existe.
+[BatchUpdateHandler] 2026-04-22 14:31:43 | Execute: no se pudo resolver la BD.
+[BatchUpdateHandler] 2026-04-22 14:31:43 | EXCEPCION en Execute: System.NotImplementedException: The method or operation is not implemented.
+   at System.Windows.MessageBox.Show(String v1, String v2)
+   at RevitBatchUpdater.BatchUpdateHandler.Execute(UIApplication uiapp)
+[BatchUpdateHandler] 2026-04-22 14:31:43 | Execute finalizado.
+[AddinEntry] 2026-04-22 14:46:00 | OnShutdown iniciado.
+[AddinEntry] 2026-04-22 14:46:00 | ExternalEvent dispose ejecutado.
+[AddinEntry] 2026-04-22 14:46:00 | Handler puesto a null.
+[AddinEntry] 2026-04-22 14:46:00 | OnShutdown finalizado OK.
