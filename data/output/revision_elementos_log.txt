@@ -1,0 +1,77 @@
+[2026-04-22 10:43:37] ==== Inicio: Revisión Elementos ====
+[2026-04-22 10:43:37] EXT_ROOT: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-22 10:43:37] python3_exe via fallback: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-22 10:43:37] Paso 1: extrayendo datos de modelos...
+[2026-04-22 10:43:37] ejecutar_extraccion: 66 planillas en codigos_planillas
+[2026-04-22 10:43:37] Categorías de modelo encontradas: 125
+[2026-04-22 10:44:24]   Procesando link: 24069-ISEP-AR1-ZZZ-DO-EE-D-001.rvt
+[2026-04-22 10:44:25]   Procesando link: 24069-ISEP-AR1-ZZZ-FE-EE-B-008.rvt
+[2026-04-22 10:44:27]   Procesando link: 24069-ISEP-AR1-ZZZ-MS-EE-D-004.rvt
+[2026-04-22 10:44:28]   Procesando link: 24069-ISEP-AR1-ZZZ-FD-CI-D-001.rvt
+[2026-04-22 10:44:29]   Procesando link: 24069-ISEP-AR1-ZZZ-CP-EE-D-002.rvt
+[2026-04-22 10:44:35]   Procesando link: 24069-ISEP-AR1-ZZZ-CM-EE-D-005.rvt
+[2026-04-22 10:44:35]   Procesando link: 24069-ISEP-AR1-ZZZ-CS-CI-D-004.rvt
+[2026-04-22 10:44:35]   Procesando link: 24069-ISEP-AR1-ZZZ-EA-CI-D-003.rvt
+[2026-04-22 10:44:35]   Procesando link: 24069-ISEP-AR1-ZZZ-AG-EE-D-003.rvt
+[2026-04-22 10:44:35] Extracción: 590 elementos en 8 CMs, 2589 excepciones
+[2026-04-22 10:44:36] JSON escrito: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\output\revision_elementos_datos.json
+[2026-04-22 10:46:55] ==== Inicio: Revisión Elementos ====
+[2026-04-22 10:46:55] EXT_ROOT: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-22 10:46:55] python3_exe via fallback: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-22 10:46:55] Paso 1: extrayendo datos de modelos...
+[2026-04-22 10:46:55] ejecutar_extraccion: 66 planillas en codigos_planillas
+[2026-04-22 10:46:55] Categorías de modelo encontradas: 125
+[2026-04-22 10:46:55]   Procesando link: 24069-ISEP-AR1-ZZZ-DO-EE-D-001.rvt
+[2026-04-22 10:46:57]   Procesando link: 24069-ISEP-AR1-ZZZ-FE-EE-B-008.rvt
+[2026-04-22 10:46:58]   Procesando link: 24069-ISEP-AR1-ZZZ-MS-EE-D-004.rvt
+[2026-04-22 10:47:00]   Procesando link: 24069-ISEP-AR1-ZZZ-FD-CI-D-001.rvt
+[2026-04-22 10:47:00]   Procesando link: 24069-ISEP-AR1-ZZZ-CP-EE-D-002.rvt
+[2026-04-22 10:47:05]   Procesando link: 24069-ISEP-AR1-ZZZ-CM-EE-D-005.rvt
+[2026-04-22 10:47:05]   Procesando link: 24069-ISEP-AR1-ZZZ-CS-CI-D-004.rvt
+[2026-04-22 10:47:06]   Procesando link: 24069-ISEP-AR1-ZZZ-EA-CI-D-003.rvt
+[2026-04-22 10:47:06]   Procesando link: 24069-ISEP-AR1-ZZZ-AG-EE-D-003.rvt
+[2026-04-22 10:47:06] Extracción: 590 elementos en 8 CMs, 2589 excepciones
+[2026-04-22 10:47:07] JSON escrito: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\output\revision_elementos_datos.json
+[2026-04-22 10:48:41] ==== Inicio: Revisión Elementos ====
+[2026-04-22 10:48:41] EXT_ROOT: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-22 10:48:41] python3_exe via fallback: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-22 10:48:41] Paso 1: extrayendo datos de modelos...
+[2026-04-22 10:48:41] ejecutar_extraccion: 66 planillas en codigos_planillas
+[2026-04-22 10:48:41] Categorías de modelo encontradas: 125
+[2026-04-22 10:48:41]   Procesando link: 24069-ISEP-AR1-ZZZ-DO-EE-D-001.rvt
+[2026-04-22 10:48:42]   Procesando link: 24069-ISEP-AR1-ZZZ-FE-EE-B-008.rvt
+[2026-04-22 10:48:43]   Procesando link: 24069-ISEP-AR1-ZZZ-MS-EE-D-004.rvt
+[2026-04-22 10:48:44]   Procesando link: 24069-ISEP-AR1-ZZZ-FD-CI-D-001.rvt
+[2026-04-22 10:48:44]   Procesando link: 24069-ISEP-AR1-ZZZ-CP-EE-D-002.rvt
+[2026-04-22 10:48:49]   Procesando link: 24069-ISEP-AR1-ZZZ-CM-EE-D-005.rvt
+[2026-04-22 10:48:49]   Procesando link: 24069-ISEP-AR1-ZZZ-CS-CI-D-004.rvt
+[2026-04-22 10:48:49]   Procesando link: 24069-ISEP-AR1-ZZZ-EA-CI-D-003.rvt
+[2026-04-22 10:48:49]   Procesando link: 24069-ISEP-AR1-ZZZ-AG-EE-D-003.rvt
+[2026-04-22 10:48:49] Extracción: 590 elementos en 8 CMs, 2589 excepciones
+[2026-04-22 10:48:51] JSON escrito: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\output\revision_elementos_datos.json
+[2026-04-22 10:48:54] Ruta xlsx destino: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\Inf_Revision_220426_1048.xlsx
+[2026-04-22 10:48:54] Paso 3: llamando formatear_revision_xlsx.py...
+[2026-04-22 10:49:23] formatear_revision_xlsx: b'Archivo generado: D:\\SAESA\\1.-PROYECTOS\\32.- SE RECOLETA\\3. INFORMACI\xd3N\\Inf_Revision_220426_1048.xlsx\r\n'
+[2026-04-22 10:49:25] Excel generado OK: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\Inf_Revision_220426_1048.xlsx
+[2026-04-22 11:12:26] ==== Inicio: Revision Elementos ====
+[2026-04-22 11:12:26] EXT_ROOT: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-22 11:12:26] python3_exe via fallback: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-22 11:12:30] Paso 2: importando extraer_modelos_bim...
+[2026-04-22 11:12:30] codigos_planillas cargados: 66
+[2026-04-22 11:12:30] Categorias modelo: 125
+[2026-04-22 11:12:30] Extrayendo elementos de modelos linkeados...
+[2026-04-22 11:12:30]   Procesando link: 24069-ISEP-AR1-ZZZ-DO-EE-D-001.rvt
+[2026-04-22 11:12:31]   Procesando link: 24069-ISEP-AR1-ZZZ-FE-EE-B-008.rvt
+[2026-04-22 11:12:32]   Procesando link: 24069-ISEP-AR1-ZZZ-MS-EE-D-004.rvt
+[2026-04-22 11:12:33]   Procesando link: 24069-ISEP-AR1-ZZZ-FD-CI-D-001.rvt
+[2026-04-22 11:12:33]   Procesando link: 24069-ISEP-AR1-ZZZ-CP-EE-D-002.rvt
+[2026-04-22 11:12:38]   Procesando link: 24069-ISEP-AR1-ZZZ-CM-EE-D-005.rvt
+[2026-04-22 11:12:39]   Procesando link: 24069-ISEP-AR1-ZZZ-CS-CI-D-004.rvt
+[2026-04-22 11:12:39]   Procesando link: 24069-ISEP-AR1-ZZZ-EA-CI-D-003.rvt
+[2026-04-22 11:12:39]   Procesando link: 24069-ISEP-AR1-ZZZ-AG-EE-D-003.rvt
+[2026-04-22 11:12:40] _temp_datos.json escrito: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\output\_temp_datos.json
+[2026-04-22 11:12:40] Paso 3: llamando formatear_revision_xlsx.py...
+[2026-04-22 11:12:40]   xlsx destino: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\Inf_Revision_220426_111240.xlsx
+[2026-04-22 11:12:46] CPython output: b"======================================================================\r\nGENERACION DE EXCEL - FORMATO VERTICAL CON COLORES\r\n======================================================================\r\n  Tablas CM   : 8\r\n  Excepciones : 2589\r\n  Colores cargados: 98\r\n  Hoja 'CM02': 521 elementos\r\n  Hoja 'CM08': 4 elementos\r\n  Hoja 'CM10': 5 elementos\r\n  Hoja 'CM11': 4 elementos\r\n  Hoja 'CM13': 2 elementos\r\n  Hoja 'CM25': 1 elementos\r\n  Hoja 'CM27': 31 elementos\r\n  Hoja 'CM30': 22 elementos\r\n  Hoja Excepciones: 2589 registros\r\nExcel generado: D:\\SAESA\\1.-PROYECTOS\\32.- SE RECOLETA\\3. INFORMACI\xd3N\\Inf_Revision_220426_111240.xlsx\r\n======================================================================\r\n"
+[2026-04-22 11:12:46] _temp_datos.json eliminado.
+[2026-04-22 11:12:49] Excel OK: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\Inf_Revision_220426_111240.xlsx
