@@ -1,150 +1,212 @@
 # -*- coding: utf-8 -*-
 """
-scripts_cpython/ui_comparacion.py  v1.7
-Cambios v1.5:
-- [FIX] leer_xlsm_codigos: keep_vba=False + manejo robusto de xlsm con macros.
-- [FIX] exportar_json_y_formatear: clave "elementos_por_tabla" (no "datos_por_tabla").
-- [FIX] headers_por_tabla incluido en comparacion.json con clave correcta.
+ui_comparacion.py — CPython 3
+Ventana Tkinter (dark mode) para comparar planilla XLSM vs modelo Revit.
 
-Cambios v1.6:
-- [FIX] Combobox muestra nombre de planilla legible en lugar del codigo CM raw.
-- [ADD] _etiqueta_cm() y _mapa_etiqueta_clave.
-
-Cambios v1.7:
-- [FIX] mostrar_ui y __main__ completos (el archivo estaba truncado en repo).
-- [FIX] CREATE_NO_WINDOW en subprocess para evitar consola flash en Windows.
+Invocado desde script.py con 7 argumentos posicionales:
+  sys.argv[1]  = script_json_path        → data/master/script.json
+  sys.argv[2]  = csv_codigos_path        → data/output/CODIGO.csv
+  sys.argv[3]  = data_output_dir         → data/output/
+  sys.argv[4]  = formatear_xlsx_path     → scripts_cpython/formatear_tablas_excel.py
+  sys.argv[5]  = ruta_xlsx_salida        → carpeta destino/planilla-modelo_XXXXXX.xlsx
+  sys.argv[6]  = python3_exe             → ruta al python.exe
+  sys.argv[7]  = modelo_json_path        → data/output/modelo_codint_por_cm.json
 """
 
 import sys
 import os
+import csv
 import json
 import subprocess
 import traceback
 import tkinter as tk
 from tkinter import ttk, messagebox
+from datetime import datetime
 
-COLOR_ESTADOS = {
-    'ok':           '#C6EFCE',
-    'falta_modelo': '#FFC7CE',
-    'falta_excel':  '#FFEB9C',
-    'difiere':      '#F4B084',
-    'no_existe':    '#66FFFF',
-}
+# ══════════════════════════════════════════════════════════════
+#  ARGUMENTOS (primero para poder usar rutas en log)
+# ══════════════════════════════════════════════════════════════
+if len(sys.argv) < 8:
+    print(
+        "Uso: ui_comparacion.py <script_json> <csv_codigos> <data_output_dir> "
+        "<formatear_script> <ruta_xlsx_salida> <python_exe> <modelo_json>",
+        file=sys.stderr
+    )
+    sys.exit(1)
 
-_SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-_EXT_ROOT   = os.path.abspath(os.path.join(_SCRIPT_DIR, '..'))
+SCRIPT_JSON_PATH   = sys.argv[1].strip('"').strip("'")
+CSV_CODIGOS_PATH   = sys.argv[2].strip('"').strip("'")
+DATA_OUTPUT_DIR    = sys.argv[3].strip('"').strip("'")
+FORMATEAR_SCRIPT   = sys.argv[4].strip('"').strip("'")
+RUTA_XLSX_SALIDA   = sys.argv[5].strip('"').strip("'")
+PYTHON_EXE         = sys.argv[6].strip('"').strip("'")
+MODELO_JSON_PATH   = sys.argv[7].strip('"').strip("'")
 
-DATA_DIR_EXT           = os.path.join(_EXT_ROOT, 'data')
-PLANILLAS_HEADERS_JSON = os.path.join(DATA_DIR_EXT, 'master', 'planillas_headers_order.json')
-CONFIG_PROYECTO_ACTIVO = os.path.join(DATA_DIR_EXT, 'master', 'config_proyecto_activo.json')
-PROYECTOS_DIR          = os.path.join(DATA_DIR_EXT, 'proyectos')
-UI_LOG_PATH            = os.path.join(DATA_DIR_EXT, 'logs', 'ui_comparacion_log.txt')
-HEADER_VINCULO         = u"V\u00ednculo RVT: Nombre de archivo"
+# Derivar DATA_MASTER desde DATA_OUTPUT_DIR (sube un nivel → data/ → master/)
+DATA_MASTER_DIR    = os.path.join(os.path.dirname(DATA_OUTPUT_DIR), "master")
 
-CREATE_NO_WINDOW = 0x08000000 if sys.platform == 'win32' else 0
+# Archivos de configuración derivados (sin hardcodear)
+CONFIG_PROYECTO    = os.path.join(DATA_MASTER_DIR, "config_proyecto_activo.json")
+PLANILLAS_HEADERS  = os.path.join(DATA_MASTER_DIR, "planillas_headers_order.json")
+UI_LOG_PATH        = os.path.join(DATA_OUTPUT_DIR, "ui_comparacion_log.txt")
 
+CREATE_NO_WINDOW   = 0x08000000
+HEADER_VINCULO     = u"Vínculo RVT: Nombre de archivo"
 
+# ══════════════════════════════════════════════════════════════
+#  LOG
+# ══════════════════════════════════════════════════════════════
 def log(msg):
     try:
-        from datetime import datetime
-        ts    = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        linea = u"[{}] {}\n".format(ts, msg)
-        os.makedirs(os.path.dirname(UI_LOG_PATH), exist_ok=True)
+        if not os.path.exists(DATA_OUTPUT_DIR):
+            os.makedirs(DATA_OUTPUT_DIR)
+        ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         with open(UI_LOG_PATH, "a", encoding="utf-8") as f:
-            f.write(linea)
+            f.write(u"[{}] {}\n".format(ts, msg))
     except Exception:
         pass
-
 
 def log_exc(contexto):
     try:
-        tb = traceback.format_exc()
-        log("{} -> {}".format(contexto, tb))
+        log("{} -> {}".format(contexto, traceback.format_exc()))
     except Exception:
         pass
 
+# ══════════════════════════════════════════════════════════════
+#  COLORES DARK MODE (Tkinter)
+# ══════════════════════════════════════════════════════════════
+BG_DARK    = "#171614"
+SURFACE    = "#1c1b19"
+SURFACE2   = "#2d2c2a"
+BORDER_CLR = "#393836"
+TEXT_PRI   = "#cdccca"
+TEXT_MUTED = "#797876"
+ACCENT     = "#4f98a3"
+SUCCESS    = "#6daa45"
+ERROR_CLR  = "#dd6974"
+WARNING    = "#fdab43"
 
-# -- JSON ----------------------------------------------------------------------
-def cargar_json(ruta, default):
+COLOR_ESTADOS = {
+    "ok"           : "#3a4435",   # verde oscuro
+    "falta_modelo" : "#574848",   # rojo oscuro
+    "falta_excel"  : "#564b3e",   # amarillo oscuro
+    "difiere"      : "#56493e",   # naranja oscuro
+    "no_existe"    : "#313b3b",   # gris azulado
+}
+COLOR_ESTADOS_TEXT = {
+    "ok"           : "#6daa45",
+    "falta_modelo" : "#dd6974",
+    "falta_excel"  : "#fdab43",
+    "difiere"      : "#fdab43",
+    "no_existe"    : "#797876",
+}
+
+# ══════════════════════════════════════════════════════════════
+#  HELPERS JSON / CSV
+# ══════════════════════════════════════════════════════════════
+def cargar_json(ruta, default=None):
+    if default is None:
+        default = {}
     try:
         if not os.path.exists(ruta):
             log("cargar_json: no existe -> {}".format(ruta))
             return default
         with open(ruta, "r", encoding="utf-8") as f:
-            return json.load(f)
+            data = json.load(f)
+        log("cargar_json OK: {}".format(ruta))
+        return data
     except Exception:
         log_exc("cargar_json {}".format(ruta))
         return default
 
+def leer_script_json(path):
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        log("leer_script_json OK: {}".format(path))
+        return data
+    except Exception:
+        log_exc("leer_script_json {}".format(path))
+        raise
 
-# -- Repo activo ---------------------------------------------------------------
-def get_repo_activo_path():
-    cfg  = cargar_json(CONFIG_PROYECTO_ACTIVO, {})
-    ruta = (cfg.get("ruta_repositorio_activo") or "").strip()
-    if ruta and os.path.exists(ruta):
-        return ruta
-    nup = (cfg.get("nup_activo") or "").strip()
-    if nup:
-        return os.path.join(PROYECTOS_DIR, u'repositorio_datos_{}.json'.format(nup))
-    return ""
+def leer_csv_codigos(csv_path):
+    """Lee el CSV generado por leer_xlsm_codigos.py (delimitador ',')."""
+    filas = []
+    try:
+        with open(csv_path, "r", encoding="utf-8-sig") as f:
+            reader = csv.reader(f, delimiter=",")
+            for row in reader:
+                if not row:
+                    continue
+                if not any((c or "").strip() for c in row):
+                    continue
+                filas.append(row)
+        log("leer_csv_codigos: {} filas desde {}".format(len(filas), csv_path))
+        return filas
+    except Exception:
+        log_exc("leer_csv_codigos {}".format(csv_path))
+        raise
 
+def leer_modelo_por_cm(path_json):
+    try:
+        if not os.path.exists(path_json):
+            log("leer_modelo_por_cm: no existe -> {}".format(path_json))
+            return {}
+        with open(path_json, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        result = {cm: lista for cm, lista in data.items() if isinstance(lista, list)}
+        log("leer_modelo_por_cm: CMs={} desde {}".format(list(result.keys()), path_json))
+        return result
+    except Exception:
+        log_exc("leer_modelo_por_cm {}".format(path_json))
+        raise
 
+# ══════════════════════════════════════════════════════════════
+#  REPOSITORIO / BD
+# ══════════════════════════════════════════════════════════════
 def cargar_repo_activo():
-    ruta = get_repo_activo_path()
+    cfg  = cargar_json(CONFIG_PROYECTO, {})
+    ruta = (cfg.get("ruta_repositorio_activo") or "").strip()
+    log("cargar_repo_activo: ruta={}".format(ruta))
     if not ruta or not os.path.exists(ruta):
-        log("cargar_repo_activo: no disponible -> {}".format(ruta))
         return {}
     repo = cargar_json(ruta, {})
     log("cargar_repo_activo: {} registros".format(len(repo)))
     return repo
 
-
-# -- Leer xlsm con openpyxl ---------------------------------------------------
-def leer_xlsm_codigos(ruta_xlsm):
-    """
-    Lee todas las hojas del .xlsm con openpyxl.
-    keep_vba=False -> ignora macros VBA.
-    data_only=True -> lee valores calculados.
-    read_only=True -> apertura rapida.
-    """
+def enriquecer_modelo_con_bd(datos_modelo_cm, repo):
+    if not repo:
+        return datos_modelo_cm
     try:
-        import openpyxl
-    except ImportError:
-        log("leer_xlsm_codigos: openpyxl no instalado")
-        messagebox.showerror(
-            "Dependencia faltante",
-            "openpyxl no esta instalado.\nEjecuta: pip install openpyxl"
-        )
-        raise
-
-    if not os.path.exists(ruta_xlsm):
-        raise FileNotFoundError("No se encontro el archivo: {}".format(ruta_xlsm))
-
-    log("leer_xlsm_codigos: ruta={}".format(ruta_xlsm))
-    filas = []
-    try:
-        wb = openpyxl.load_workbook(ruta_xlsm, read_only=True, data_only=True, keep_vba=False)
-        for nombre_hoja in wb.sheetnames:
-            try:
-                ws = wb[nombre_hoja]
-                for row in ws.iter_rows(values_only=True):
-                    if not row:
-                        continue
-                    primera = str(row[0] or '').strip()
-                    if len(primera) >= 4 and primera[:2] == 'CM':
-                        filas.append([str(c or '').strip() for c in row])
-            except Exception as e_hoja:
-                log("leer_xlsm_codigos: error hoja '{}' -> {}".format(nombre_hoja, e_hoja))
-                continue
-        wb.close()
-        log("leer_xlsm_codigos: {} filas CM".format(len(filas)))
-        return filas
+        indice_bd = {}
+        for v in repo.values():
+            eid = str(v.get("ElementId", "")).strip()
+            cod = (v.get("CodIntBIM") or "").strip()
+            if eid and cod:
+                indice_bd[(eid, cod)] = v
+        log("enriquecer_modelo_con_bd: {} claves en índice BD".format(len(indice_bd)))
+        nuevo = {}
+        for cm, lista in datos_modelo_cm.items():
+            nueva_lista = []
+            for fila in lista:
+                cod = (fila.get("CodIntBIM") or "").strip()
+                eid = str(fila.get("ElementId", "")).strip()
+                bd_row = indice_bd.get((eid, cod))
+                if bd_row:
+                    combinado = dict(fila)
+                    combinado.update(bd_row)
+                    nueva_lista.append(combinado)
+                else:
+                    nueva_lista.append(fila)
+            nuevo[cm] = nueva_lista
+        return nuevo
     except Exception:
-        log_exc("leer_xlsm_codigos")
+        log_exc("enriquecer_modelo_con_bd")
         raise
 
-
-# -- Headers ------------------------------------------------------------------
+# ══════════════════════════════════════════════════════════════
+#  HEADERS DE PLANILLA
+# ══════════════════════════════════════════════════════════════
 def _normalizar_headers(headers_raw):
     if not headers_raw:
         return []
@@ -155,261 +217,227 @@ def _normalizar_headers(headers_raw):
         headers = ["CodIntBIM"] + headers
     return headers
 
-
 def cargar_headers_planilla(nombre_planilla, codigo_cm):
-    if not os.path.exists(PLANILLAS_HEADERS_JSON):
+    data = cargar_json(PLANILLAS_HEADERS, {})
+    if not data:
         return None
-    try:
-        with open(PLANILLAS_HEADERS_JSON, "r", encoding="utf-8") as f:
-            data = json.load(f)
-    except Exception:
-        log_exc("cargar_headers_planilla {}".format(PLANILLAS_HEADERS_JSON))
-        return None
-    clave   = "{}::{}".format(nombre_planilla, codigo_cm)
+    clave = "{}::{}".format(nombre_planilla, codigo_cm)
     headers = data.get(clave) or data.get(codigo_cm)
     if headers:
-        h_norm = _normalizar_headers(headers)
-        log("cargar_headers_planilla: {} -> {} cols".format(nombre_planilla, len(h_norm)))
-        return h_norm
+        h = _normalizar_headers(headers)
+        log("cargar_headers_planilla: {} headers para {}".format(len(h), clave))
+        return h
+    log("cargar_headers_planilla: sin headers para {}".format(clave))
     return None
 
-
-# -- Construir Excel por planilla ---------------------------------------------
-def construir_excel_por_planilla(filas_xlsm, codigos_planillas):
+# ══════════════════════════════════════════════════════════════
+#  CONSTRUCCIÓN DE DATOS
+# ══════════════════════════════════════════════════════════════
+def construir_excel_por_planilla(filas_csv, codigos_planillas):
     planilla_a_cm = {}
     for k, v in codigos_planillas.items():
         try:
-            if isinstance(k, str) and len(k) == 4 and k.startswith("CM"):
+            if isinstance(v, str) and len(v) == 4 and v.startswith("CM"):
                 planilla_a_cm[k] = v
-            elif isinstance(v, str) and len(v) == 4 and v.startswith("CM"):
+            elif isinstance(k, str) and len(k) == 4 and k.startswith("CM"):
                 planilla_a_cm[v] = k
         except Exception:
             pass
+    log("construir_excel_por_planilla: planilla_a_cm={}".format(planilla_a_cm))
 
-    log("construir_excel_por_planilla: planilla_a_cm -> {}".format(planilla_a_cm))
-    datos_excel_planilla = {}
+    datos = {}
+    # filas_csv[0] es la fila de encabezados del CSV
+    encabezado_csv = filas_csv[0] if filas_csv else []
 
-    for row in filas_xlsm:
+    for row in filas_csv[1:]:  # saltar encabezados
         if not row:
             continue
-        primera_celda = (row[0] or '').strip()
+        primera_celda = (row[0] or "").strip()
         if not primera_celda or len(primera_celda) < 4:
             continue
         pref = primera_celda[:4]
-        nombre_planilla = planilla_a_cm.get(pref)
+
+        nombre_planilla = None
+        for np, cm in planilla_a_cm.items():
+            if cm == pref:
+                nombre_planilla = np
+                break
         if not nombre_planilla:
             continue
+
         headers = cargar_headers_planilla(nombre_planilla, pref)
         if not headers:
-            headers = _normalizar_headers(["Pa{}".format(i) for i in range(1, len(row) + 1)])
-        if nombre_planilla not in datos_excel_planilla:
-            datos_excel_planilla[nombre_planilla] = {"codigo_cm": pref, "headers": headers, "filas": []}
-        bloque  = datos_excel_planilla[nombre_planilla]
-        valores = [row[idx_h] if idx_h < len(row) else '' for idx_h in range(len(headers))]
-        codint  = (valores[0] or '').strip()
+            headers = _normalizar_headers(
+                [h for h in encabezado_csv if h] or
+                ["Col{}".format(i) for i in range(1, len(row) + 1)]
+            )
+
+        bloque = datos.get(nombre_planilla)
+        if not bloque:
+            bloque = {"codigo_cm": pref, "headers": headers, "filas": []}
+            datos[nombre_planilla] = bloque
+
+        valores = []
+        for idx_h in range(len(headers)):
+            val = row[idx_h] if idx_h < len(row) else ""
+            valores.append(val)
+
+        codint = (valores[0] or "").strip()
         bloque["filas"].append({"CodIntBIM": codint, "valores": valores})
 
-    log("construir_excel_por_planilla: {} planillas".format(len(datos_excel_planilla)))
-    return datos_excel_planilla
+    log("construir_excel_por_planilla: {} planillas".format(len(datos)))
+    return datos
 
-
-# -- Modelo -------------------------------------------------------------------
-def leer_modelo_por_cm(path_json_modelo):
-    try:
-        if not os.path.exists(path_json_modelo):
-            log("leer_modelo_por_cm: no existe -> {}".format(path_json_modelo))
-            return {}
-        with open(path_json_modelo, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-        result = {cm: lista for cm, lista in data.items() if isinstance(lista, list)}
-        log("leer_modelo_por_cm: CMs -> {}".format(list(result.keys())))
-        return result
-    except Exception:
-        log_exc("leer_modelo_por_cm")
-        raise
-
-
-def enriquecer_modelo_con_bd(datos_modelo_cm, repo):
-    if not repo:
-        return datos_modelo_cm
-    indice_bd = {}
-    for k, v in repo.items():
-        eid = str(v.get("ElementId", "")).strip()
-        cod = (v.get("CodIntBIM") or "").strip()
-        if eid and cod:
-            indice_bd[(eid, cod)] = v
-    nuevo = {}
-    for cm, lista in datos_modelo_cm.items():
-        nueva_lista = []
-        for fila in lista:
-            cod    = (fila.get("CodIntBIM") or '').strip()
-            eid    = str(fila.get("ElementId", "")).strip()
-            bd_row = indice_bd.get((eid, cod))
-            if bd_row:
-                combinado = dict(fila)
-                combinado.update(bd_row)
-                nueva_lista.append(combinado)
-            else:
-                nueva_lista.append(fila)
-        nuevo[cm] = nueva_lista
-    return nuevo
-
-
-# -- Comparacion --------------------------------------------------------------
 def _norm_val(v):
-    v = (v or '').strip()
-    return '' if v == '-' else v
-
+    v = (v or "").strip()
+    return "" if v == "-" else v
 
 def _get_val(row_dict, header_name):
-    if not row_dict or header_name == HEADER_VINCULO:
-        return ''
-    v = (row_dict.get(header_name) or '').strip()
-    return '' if v == '-' else v
-
+    if header_name == HEADER_VINCULO:
+        return ""
+    v = (row_dict.get(header_name) or "").strip()
+    return "" if v == "-" else v
 
 def _comparar_por_planilla(codigo_cm, headers, filas_excel, filas_modelo):
     mapa_excel  = {}
     for fila in filas_excel:
-        c = (fila["CodIntBIM"] or '').strip()
+        c = (fila["CodIntBIM"] or "").strip()
         if c:
             mapa_excel.setdefault(c, []).append(fila)
 
     mapa_modelo = {}
     for row_m in filas_modelo:
-        c = (row_m.get("CodIntBIM") or '').strip()
+        c = (row_m.get("CodIntBIM") or "").strip()
         if c:
             mapa_modelo.setdefault(c, []).append(row_m)
 
-    filas_tabla_excel  = []
-    filas_tabla_modelo = []
-    filas_fusionadas   = []
-    codigos_union      = sorted(set(mapa_excel.keys()) | set(mapa_modelo.keys()))
+    filas_excel_base  = []
+    filas_modelo_base = []
+    filas_fusionadas  = []
 
-    for cod in codigos_union:
+    for cod in sorted(set(mapa_excel.keys()) | set(mapa_modelo.keys())):
         lista_excel  = mapa_excel.get(cod, [])
         lista_modelo = mapa_modelo.get(cod, [])
-        fila_x0 = lista_excel[0]  if lista_excel  else None
-        fila_m0 = lista_modelo[0] if lista_modelo else None
+        fila_x0      = lista_excel[0]  if lista_excel  else None
+        fila_m0      = lista_modelo[0] if lista_modelo else None
 
+        # ── Fusionada ──
         valores_fusion = []
         estados_fusion = []
         for h in headers:
-            vx_raw = ''
-            vm_raw = ''
+            vx_raw = ""
+            vm_raw = ""
             if fila_x0:
-                idx_h  = headers.index(h)
-                vals   = fila_x0["valores"]
-                vx_raw = vals[idx_h] if idx_h < len(vals) else ''
+                idx = headers.index(h)
+                vals = fila_x0["valores"]
+                vx_raw = vals[idx] if idx < len(vals) else ""
             if fila_m0:
                 vm_raw = _get_val(fila_m0, h)
             vx = _norm_val(vx_raw)
             vm = _norm_val(vm_raw)
-
             if not vx and not vm:
-                valores_fusion.append('');      estados_fusion.append('no_existe')
+                valores_fusion.append(""); estados_fusion.append("no_existe")
             elif vx == vm:
-                valores_fusion.append(vx_raw);  estados_fusion.append('ok')
+                valores_fusion.append(vx_raw); estados_fusion.append("ok")
             elif vx and not vm:
-                valores_fusion.append(vx_raw);  estados_fusion.append('falta_modelo')
+                valores_fusion.append(vx_raw); estados_fusion.append("falta_modelo")
             elif not vx and vm:
-                valores_fusion.append(vm_raw);  estados_fusion.append('falta_excel')
+                valores_fusion.append(vm_raw); estados_fusion.append("falta_excel")
             else:
                 valores_fusion.append(u"Planilla: {}\nModelo: {}".format(vx_raw, vm_raw))
-                estados_fusion.append('difiere')
-
+                estados_fusion.append("difiere")
         filas_fusionadas.append({
             "CodIntBIM": cod, "valores": valores_fusion,
             "estado_por_celda": estados_fusion
         })
 
+        # ── Desde Excel ──
         for fila_x in lista_excel:
             vals_x = fila_x["valores"]
             valores, estados = [], []
             fila_m = lista_modelo[0] if lista_modelo else None
             for idx, h in enumerate(headers):
-                vx_raw = vals_x[idx] if idx < len(vals_x) else ''
-                vx     = _norm_val(vx_raw)
-                vm_raw = _get_val(fila_m, h) if fila_m else ''
-                vm     = _norm_val(vm_raw)
+                vx_raw = vals_x[idx] if idx < len(vals_x) else ""
+                vx = _norm_val(vx_raw)
+                vm_raw = _get_val(fila_m, h) if fila_m else ""
+                vm = _norm_val(vm_raw)
                 if not vx and not vm:
-                    valores.append('');   estados.append('no_existe')
+                    valores.append(""); estados.append("no_existe")
                 elif vx == vm:
-                    valores.append(vx_raw); estados.append('ok')
+                    valores.append(vx_raw); estados.append("ok")
                 elif vx and not vm:
-                    valores.append(vx_raw); estados.append('falta_modelo')
+                    valores.append(vx_raw); estados.append("falta_modelo")
                 elif not vx and vm:
                     valores.append(u"Planilla: {}\nModelo: {}".format(vx_raw, vm_raw))
-                    estados.append('falta_excel')
+                    estados.append("falta_excel")
                 else:
                     valores.append(u"Planilla: {}\nModelo: {}".format(vx_raw, vm_raw))
-                    estados.append('difiere')
-            filas_tabla_excel.append({
+                    estados.append("difiere")
+            filas_excel_base.append({
                 "origen": "excel", "CodIntBIM": cod,
                 "valores": valores, "estado_por_celda": estados
             })
 
+        # ── Desde Modelo ──
         for fila_m in lista_modelo:
             valores, estados = [], []
             fila_x = lista_excel[0] if lista_excel else None
             for idx, h in enumerate(headers):
                 vm_raw = _get_val(fila_m, h)
-                vm     = _norm_val(vm_raw)
-                vals_x = fila_x["valores"] if fila_x else []
-                vx_raw = vals_x[idx] if idx < len(vals_x) else ''
-                vx     = _norm_val(vx_raw)
+                vm = _norm_val(vm_raw)
+                vx_raw = (fila_x["valores"][idx] if fila_x and idx < len(fila_x["valores"]) else "")
+                vx = _norm_val(vx_raw)
                 if not vx and not vm:
-                    valores.append('');   estados.append('no_existe')
+                    valores.append(""); estados.append("no_existe")
                 elif vx == vm:
-                    valores.append(vm_raw); estados.append('ok')
+                    valores.append(vm_raw); estados.append("ok")
                 elif vm and not vx:
-                    valores.append(vm_raw); estados.append('falta_excel')
+                    valores.append(vm_raw); estados.append("falta_excel")
                 elif not vm and vx:
                     valores.append(u"Modelo: {}\nPlanilla: {}".format(vm_raw, vx_raw))
-                    estados.append('falta_modelo')
+                    estados.append("falta_modelo")
                 else:
                     valores.append(u"Modelo: {}\nPlanilla: {}".format(vm_raw, vx_raw))
-                    estados.append('difiere')
-            filas_tabla_modelo.append({
+                    estados.append("difiere")
+            filas_modelo_base.append({
                 "origen": "modelo", "CodIntBIM": cod,
                 "valores": valores, "estado_por_celda": estados
             })
 
-    return filas_tabla_excel, filas_tabla_modelo, filas_fusionadas
-
+    return filas_excel_base, filas_modelo_base, filas_fusionadas
 
 def construir_tabla_comparativa(datos_excel_planilla, datos_modelo_cm, codigos_planillas):
-    datos_comparacion = {}
-    cm_to_planilla    = {}
+    cm_to_planilla = {}
     for k, v in codigos_planillas.items():
-        try:
-            if isinstance(v, str) and len(v) == 4 and v.startswith("CM"):
-                cm_to_planilla[v] = k
-            elif isinstance(k, str) and len(k) == 4 and k.startswith("CM"):
-                cm_to_planilla[k] = v
-        except Exception:
-            pass
+        if isinstance(v, str) and len(v) == 4 and v.startswith("CM"):
+            cm_to_planilla[v] = k
+        elif isinstance(k, str) and len(k) == 4 and k.startswith("CM"):
+            cm_to_planilla[k] = v
+
+    datos_comparacion = {}
 
     for planilla, bloque_excel in datos_excel_planilla.items():
-        codigo_cm    = bloque_excel['codigo_cm']
-        headers      = bloque_excel['headers']
-        filas_excel  = bloque_excel['filas']
-        filas_modelo = datos_modelo_cm.get(codigo_cm, [])
-        fe, fm, ff   = _comparar_por_planilla(codigo_cm, headers, filas_excel, filas_modelo)
+        codigo_cm   = bloque_excel["codigo_cm"]
+        headers     = bloque_excel["headers"]
+        filas_excel = bloque_excel["filas"]
+        filas_modelo= datos_modelo_cm.get(codigo_cm, [])
+        fe, fm, ff  = _comparar_por_planilla(codigo_cm, headers, filas_excel, filas_modelo)
         datos_comparacion[planilla] = {
             "codigo_cm": codigo_cm, "headers": headers,
             "filas_excel_base": fe, "filas_modelo_base": fm, "filas_fusionadas": ff
         }
 
+    # CMs en modelo que no están en planilla
     for codigo_cm, lista_modelo in datos_modelo_cm.items():
-        if any(i["codigo_cm"] == codigo_cm for i in datos_comparacion.values()):
+        ya = any(info["codigo_cm"] == codigo_cm for info in datos_comparacion.values())
+        if ya:
             continue
         nombre_planilla = cm_to_planilla.get(codigo_cm, codigo_cm)
         headers = cargar_headers_planilla(nombre_planilla, codigo_cm)
         if not headers:
-            keys    = sorted(set(k for fila in lista_modelo for k in fila.keys())) if lista_modelo else []
-            keys    = [k for k in keys if k != HEADER_VINCULO]
-            headers = _normalizar_headers(["CodIntBIM"] + [k for k in keys if k != "CodIntBIM"])
+            keys = sorted(set(k for fila in lista_modelo for k in fila.keys()))
+            keys = [k for k in keys if k != HEADER_VINCULO]
+            headers = _normalizar_headers(keys) if keys else ["CodIntBIM"]
         fe, fm, ff = _comparar_por_planilla(codigo_cm, headers, [], lista_modelo)
         datos_comparacion[nombre_planilla] = {
             "codigo_cm": codigo_cm, "headers": headers,
@@ -419,344 +447,353 @@ def construir_tabla_comparativa(datos_excel_planilla, datos_modelo_cm, codigos_p
     log("construir_tabla_comparativa: {} planillas".format(len(datos_comparacion)))
     return datos_comparacion
 
-
-# -- Exportar Excel -----------------------------------------------------------
-def exportar_json_y_formatear(datos_comparacion, data_dir,
-                              formatear_script, ruta_xlsx_salida, python_exe):
+# ══════════════════════════════════════════════════════════════
+#  EXPORTAR A EXCEL
+# ══════════════════════════════════════════════════════════════
+def exportar_json_y_formatear(datos_comparacion):
     try:
-        elementos_por_tabla = {}
-        headers_por_tabla   = {}
-        codigos, nombres    = [], []
+        datos_por_tabla   = {}
+        codigos_ordenados = []
+        nombres_ordenados = []
 
-        for nombre_planilla, bloque in datos_comparacion.items():
-            codigo_cm = bloque['codigo_cm']
-            headers   = bloque['headers']
-            filas     = bloque.get('filas_fusionadas', [])
-            elementos = []
-            for fila in filas:
-                vals = fila.get('valores', [])
-                elem = {}
-                for idx, h in enumerate(headers):
-                    elem[h] = vals[idx] if idx < len(vals) else ''
-                elementos.append(elem)
-            elementos_por_tabla[codigo_cm] = elementos
-            headers_por_tabla[codigo_cm]   = headers
-            codigos.append(codigo_cm)
-            nombres.append(nombre_planilla)
-
-        pares             = sorted(zip(codigos, nombres), key=lambda x: x[0])
-        codigos_ordenados = [p[0] for p in pares]
-        nombres_ordenados = [p[1] for p in pares]
+        pares = sorted(
+            [(bloque["codigo_cm"], nombre) for nombre, bloque in datos_comparacion.items()],
+            key=lambda x: x[0]
+        )
+        for codigo_cm, nombre_planilla in pares:
+            bloque = datos_comparacion[nombre_planilla]
+            datos_por_tabla[codigo_cm] = {
+                "headers": bloque["headers"],
+                "filas"  : bloque.get("filas_fusionadas", [])
+            }
+            codigos_ordenados.append(codigo_cm)
+            nombres_ordenados.append(nombre_planilla)
 
         datos_export = {
-            "listado_tablas": {"valores": codigos_ordenados, "claves": nombres_ordenados},
-            "elementos_por_tabla": elementos_por_tabla,
-            "headers_por_tabla":   headers_por_tabla,
+            "listado_tablas": {
+                "valores": codigos_ordenados,
+                "claves" : nombres_ordenados
+            },
+            "datos_por_tabla": datos_por_tabla
         }
 
-        os.makedirs(data_dir, exist_ok=True)
-        ruta_json = os.path.join(data_dir, "comparacion.json")
-        with open(ruta_json, "w", encoding="utf-8") as f:
+        json_path = os.path.join(DATA_OUTPUT_DIR, "comparacion.json")
+        if not os.path.exists(DATA_OUTPUT_DIR):
+            os.makedirs(DATA_OUTPUT_DIR)
+        with open(json_path, "w", encoding="utf-8") as f:
             json.dump(datos_export, f, ensure_ascii=False, indent=2)
-        log("exportar_json_y_formatear: JSON -> {}".format(ruta_json))
+        log("exportar: comparacion.json -> {}".format(json_path))
 
-        cmd    = [python_exe, formatear_script, ruta_json, ruta_xlsx_salida]
-        result = subprocess.run(
-            cmd, capture_output=True, text=True, timeout=120,
+        subprocess.check_call(
+            [PYTHON_EXE, FORMATEAR_SCRIPT, json_path, RUTA_XLSX_SALIDA],
             creationflags=CREATE_NO_WINDOW
         )
-        if result.returncode != 0:
-            log("exportar_json_y_formatear: ERROR -> {}".format(result.stderr))
-            messagebox.showerror(
-                "Error al exportar",
-                "El formateador termino con error:\n{}".format(result.stderr[:500])
-            )
-        else:
-            log("exportar_json_y_formatear: OK -> {}".format(ruta_xlsx_salida))
-            messagebox.showinfo("Exportado", u"Archivo generado:\n{}".format(ruta_xlsx_salida))
-
-    except Exception:
-        log_exc("exportar_json_y_formatear")
-        messagebox.showerror(
-            "Error al exportar",
-            "Error inesperado al generar el Excel.\nRevisa ui_comparacion_log.txt."
+        log("exportar: Excel OK -> {}".format(RUTA_XLSX_SALIDA))
+        messagebox.showinfo(
+            "Exportar",
+            "Archivo generado exitosamente:\n{}".format(RUTA_XLSX_SALIDA)
         )
+    except subprocess.CalledProcessError as e:
+        log_exc("exportar CalledProcessError")
+        messagebox.showerror("Error exportando", str(e))
+        raise
+    except Exception:
+        log_exc("exportar error general")
+        messagebox.showerror("Error exportando", "Revisa ui_comparacion_log.txt")
+        raise
 
-
-# -- Treeview helpers ---------------------------------------------------------
-def limpiar_treeview(tree):
-    for item in tree.get_children():
-        tree.delete(item)
-    tree["columns"] = []
-
+# ══════════════════════════════════════════════════════════════
+#  INTERFAZ DARK MODE (Tkinter)
+# ══════════════════════════════════════════════════════════════
+def aplicar_dark(root):
+    root.configure(bg=BG_DARK)
+    style = ttk.Style(root)
+    style.theme_use("clam")
+    style.configure(".",
+        background=BG_DARK, foreground=TEXT_PRI,
+        fieldbackground=SURFACE, bordercolor=BORDER_CLR,
+        troughcolor=SURFACE, selectbackground=ACCENT,
+        selectforeground=BG_DARK, font=("Segoe UI", 9)
+    )
+    style.configure("TFrame",    background=BG_DARK)
+    style.configure("TLabel",    background=BG_DARK, foreground=TEXT_PRI)
+    style.configure("TButton",
+        background=SURFACE2, foreground=TEXT_PRI,
+        borderwidth=0, padding=(10, 5), relief="flat"
+    )
+    style.map("TButton",
+        background=[("active", ACCENT), ("pressed", ACCENT)],
+        foreground=[("active", BG_DARK)]
+    )
+    style.configure("Accent.TButton",
+        background=ACCENT, foreground=BG_DARK,
+        borderwidth=0, padding=(12, 6), relief="flat"
+    )
+    style.map("Accent.TButton",
+        background=[("active", "#227f8b"), ("pressed", "#1a626b")]
+    )
+    style.configure("TCombobox",
+        background=SURFACE2, foreground=TEXT_PRI,
+        fieldbackground=SURFACE2, arrowcolor=TEXT_PRI,
+        bordercolor=BORDER_CLR, lightcolor=BORDER_CLR, darkcolor=BORDER_CLR
+    )
+    style.configure("TNotebook",          background=SURFACE,  bordercolor=BORDER_CLR)
+    style.configure("TNotebook.Tab",
+        background=SURFACE2, foreground=TEXT_MUTED, padding=(12, 5)
+    )
+    style.map("TNotebook.Tab",
+        background=[("selected", BG_DARK)],
+        foreground=[("selected", ACCENT)]
+    )
+    style.configure("Treeview",
+        background=SURFACE, foreground=TEXT_PRI,
+        fieldbackground=SURFACE, bordercolor=BORDER_CLR,
+        rowheight=28
+    )
+    style.configure("Treeview.Heading",
+        background=SURFACE2, foreground=ACCENT,
+        relief="flat", borderwidth=0
+    )
+    style.map("Treeview",
+        background=[("selected", ACCENT)],
+        foreground=[("selected", BG_DARK)]
+    )
+    style.configure("Vertical.TScrollbar",
+        background=SURFACE2, troughcolor=SURFACE, arrowcolor=TEXT_MUTED, borderwidth=0
+    )
+    style.configure("Horizontal.TScrollbar",
+        background=SURFACE2, troughcolor=SURFACE, arrowcolor=TEXT_MUTED, borderwidth=0
+    )
 
 def crear_treeview_tabla(parent):
     frame = ttk.Frame(parent)
     frame.pack(fill=tk.BOTH, expand=True)
-    vsb  = ttk.Scrollbar(frame, orient=tk.VERTICAL)
-    hsb  = ttk.Scrollbar(frame, orient=tk.HORIZONTAL)
-    tree = ttk.Treeview(frame, show="headings",
-                        yscrollcommand=vsb.set, xscrollcommand=hsb.set)
-    vsb.config(command=tree.yview)
-    hsb.config(command=tree.xview)
-    vsb.pack(side=tk.RIGHT,  fill=tk.Y)
-    hsb.pack(side=tk.BOTTOM, fill=tk.X)
-    tree.pack(fill=tk.BOTH, expand=True)
+    tree = ttk.Treeview(frame, show="headings")
+    tree.grid(row=0, column=0, sticky="nsew")
+    vsb = ttk.Scrollbar(frame, orient="vertical",   command=tree.yview)
+    vsb.grid(row=0, column=1, sticky="ns")
+    hsb = ttk.Scrollbar(frame, orient="horizontal", command=tree.xview)
+    hsb.grid(row=1, column=0, sticky="ew")
+    frame.rowconfigure(0, weight=1)
+    frame.columnconfigure(0, weight=1)
+    tree.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
     for estado, color in COLOR_ESTADOS.items():
-        tree.tag_configure(estado, background=color)
+        tree.tag_configure(
+            estado, background=color,
+            foreground=COLOR_ESTADOS_TEXT.get(estado, TEXT_PRI)
+        )
     return tree
 
+def limpiar_treeview(tree):
+    for item in tree.get_children():
+        tree.delete(item)
+    tree["columns"] = ()
 
-def poblar_treeview(tree, headers, filas_tabla):
+def poblar_treeview(tree, headers, filas):
     limpiar_treeview(tree)
     if not headers:
         return
-    columnas = list(headers)
-    tree["columns"] = columnas
-    for h in columnas:
+    tree["columns"] = list(headers)
+    for h in headers:
         tree.heading(h, text=h)
-        tree.column(h, width=200, stretch=False, anchor="w")
-    if not filas_tabla:
+        tree.column(h, width=180, stretch=False, anchor="w")
+    if not filas:
         return
 
     def peor_estado(estados):
-        for e in ('difiere', 'falta_modelo', 'falta_excel', 'no_existe'):
+        for e in ("difiere", "falta_modelo", "falta_excel", "no_existe"):
             if e in estados:
                 return e
-        return 'ok'
+        return "ok"
 
-    for fila in filas_tabla:
-        valores = list(fila.get('valores', []))
-        estados = list(fila.get('estado_por_celda') or [])
-        if len(valores) < len(columnas):
-            valores += [""] * (len(columnas) - len(valores))
-        if len(estados) < len(columnas):
-            estados += ['ok'] * (len(columnas) - len(estados))
-        tree.insert('', 'end', values=valores[:len(columnas)],
-                    tags=(peor_estado(estados),))
+    for fila in filas:
+        valores = list(fila.get("valores", []))
+        if len(valores) < len(headers):
+            valores += [""] * (len(headers) - len(valores))
+        else:
+            valores = valores[:len(headers)]
+        estados = fila.get("estado_por_celda") or []
+        if len(estados) < len(headers):
+            estados += ["ok"] * (len(headers) - len(estados))
+        tree.insert("", "end", values=valores, tags=(peor_estado(estados),))
 
-
-# -- UI principal -------------------------------------------------------------
-def mostrar_ui(datos_comparacion, on_exportar):
+def mostrar_ui(datos_comparacion):
     root = tk.Tk()
-    root.title(u"Planilla vs Modelo")
-    root.geometry("1200x650")
-    root.minsize(800, 450)
+    root.title("Planilla vs Modelo")
+    root.geometry("1280x700")
+    root.configure(bg=BG_DARK)
+    aplicar_dark(root)
 
     export_realizado = {"value": False}
-    style = ttk.Style(root)
-    style.configure("Treeview", rowheight=30)
-    style.configure("Treeview.Heading", font=("TkDefaultFont", 9, "bold"))
 
-    # Frame superior: selector de planilla
-    frame_main = ttk.Frame(root)
-    frame_main.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
+    # ── Header ──
+    frame_header = ttk.Frame(root)
+    frame_header.pack(fill=tk.X, padx=12, pady=(10, 4))
+    ttk.Label(
+        frame_header, text="Planilla vs Modelo",
+        font=("Segoe UI", 14, "bold"), foreground=ACCENT
+    ).pack(side=tk.LEFT)
 
-    frame_top = ttk.Frame(frame_main)
-    frame_top.pack(fill=tk.X, padx=5, pady=(5, 2))
-    ttk.Label(frame_top, text=u"Tabla:").pack(side=tk.LEFT, padx=(0, 5))
-
-    def _etiqueta_cm(clave):
-        if "::" in clave:
-            partes = clave.split("::", 1)
-            return u"{}  ({})".format(partes[0].strip(), partes[1].strip())
-        return clave
-
-    claves_ordenadas     = sorted(datos_comparacion.keys())
-    etiquetas            = [_etiqueta_cm(c) for c in claves_ordenadas]
-    _mapa_etiqueta_clave = dict(zip(etiquetas, claves_ordenadas))
-
+    # ── Selector de tabla ──
+    frame_top = ttk.Frame(root)
+    frame_top.pack(fill=tk.X, padx=12, pady=4)
+    ttk.Label(frame_top, text="Tabla:", foreground=TEXT_MUTED).pack(side=tk.LEFT, padx=(0, 6))
+    nombres_disponibles = sorted(datos_comparacion.keys())
     selected_nombre = tk.StringVar()
-    combo_tablas = ttk.Combobox(
+    combo = ttk.Combobox(
         frame_top, textvariable=selected_nombre,
-        values=etiquetas, state="readonly", width=55
+        values=nombres_disponibles, state="readonly", width=55
     )
-    combo_tablas.pack(side=tk.LEFT, fill=tk.X, expand=True)
+    combo.pack(side=tk.LEFT, fill=tk.X, expand=True)
 
-    lbl_conteo = ttk.Label(frame_top, text="", foreground="gray")
-    lbl_conteo.pack(side=tk.RIGHT, padx=8)
-
-    # Notebook con dos tabs
-    ttk.Label(frame_main, text=u"Tabla comparativa",
-              font=("TkDefaultFont", 10, "bold")).pack(anchor=tk.W, padx=5, pady=(2, 0))
-
-    frame_center = ttk.Frame(frame_main)
-    frame_center.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
-
-    notebook     = ttk.Notebook(frame_center)
+    # ── Notebook (Desde Excel / Desde Modelo) ──
+    frame_center = ttk.Frame(root)
+    frame_center.pack(fill=tk.BOTH, expand=True, padx=12, pady=4)
+    notebook = ttk.Notebook(frame_center)
     notebook.pack(fill=tk.BOTH, expand=True)
     frame_excel  = ttk.Frame(notebook)
     frame_modelo = ttk.Frame(notebook)
-    notebook.add(frame_excel,  text=u"Desde Excel")
-    notebook.add(frame_modelo, text=u"Desde Modelo")
-
+    notebook.add(frame_excel,  text="  Desde Excel  ")
+    notebook.add(frame_modelo, text="  Desde Modelo  ")
     tree_excel  = crear_treeview_tabla(frame_excel)
     tree_modelo = crear_treeview_tabla(frame_modelo)
 
-    # Frame inferior: leyenda + botones
-    frame_bottom = ttk.Frame(root)
-    frame_bottom.pack(fill=tk.X, padx=5, pady=5, side=tk.BOTTOM)
+    # ── Footer ──
+    frame_footer = tk.Frame(root, bg=SURFACE, height=48)
+    frame_footer.pack(fill=tk.X, side=tk.BOTTOM)
+    frame_footer.pack_propagate(False)
 
-    frame_leyenda = ttk.Frame(frame_bottom)
-    frame_leyenda.pack(side=tk.LEFT, padx=5)
-    ttk.Label(frame_leyenda, text=u"Leyenda:").pack(side=tk.LEFT, padx=(0, 4))
-    LABELS_ESTADO = {
-        'ok':           u'OK / Coincide',
-        'falta_modelo': u'Falta en Modelo',
-        'falta_excel':  u'Falta en Excel',
-        'no_existe':    u'No existe',
-        'difiere':      u'Diferencia de valor',
-    }
-    for estado, color in COLOR_ESTADOS.items():
-        tk.Label(frame_leyenda, width=2, background=color,
-                 relief=tk.SUNKEN, bd=1).pack(side=tk.LEFT, padx=2)
-        ttk.Label(frame_leyenda, text=LABELS_ESTADO.get(estado, estado),
-                  font=("TkDefaultFont", 8)).pack(side=tk.LEFT, padx=(0, 4))
+    # Leyenda
+    leyenda_info = [
+        ("ok",           "OK / Coincide"),
+        ("falta_modelo", "Falta en Modelo"),
+        ("falta_excel",  "Falta en Excel"),
+        ("difiere",      "Diferencia"),
+        ("no_existe",    "No existe"),
+    ]
+    frame_leyenda = tk.Frame(frame_footer, bg=SURFACE)
+    frame_leyenda.pack(side=tk.LEFT, padx=12, pady=10)
+    for estado, texto in leyenda_info:
+        color = COLOR_ESTADOS[estado]
+        tcolor= COLOR_ESTADOS_TEXT.get(estado, TEXT_PRI)
+        lbl = tk.Label(
+            frame_leyenda, text="  {}  ".format(texto),
+            bg=color, fg=tcolor, font=("Segoe UI", 8),
+            relief="flat", padx=4, pady=2
+        )
+        lbl.pack(side=tk.LEFT, padx=3)
 
-    frame_botones = ttk.Frame(frame_bottom)
-    frame_botones.pack(side=tk.RIGHT)
+    # Botones
+    frame_botones = tk.Frame(frame_footer, bg=SURFACE)
+    frame_botones.pack(side=tk.RIGHT, padx=12, pady=8)
 
-    # Funciones internas
-    def actualizar_tablas(etiqueta):
-        clave  = _mapa_etiqueta_clave.get(etiqueta, etiqueta)
-        bloque = datos_comparacion.get(clave)
+    def actualizar_tablas(nombre):
+        bloque = datos_comparacion.get(nombre)
         if not bloque:
             limpiar_treeview(tree_excel)
             limpiar_treeview(tree_modelo)
-            lbl_conteo.config(text="")
             return
-        headers      = bloque.get('headers', [])
-        filas_excel  = bloque.get('filas_excel_base',  [])
-        filas_modelo = bloque.get('filas_modelo_base', [])
-        poblar_treeview(tree_excel,  headers, filas_excel)
-        poblar_treeview(tree_modelo, headers, filas_modelo)
-        lbl_conteo.config(
-            text=u"Excel: {} filas  |  Modelo: {} filas".format(
-                len(filas_excel), len(filas_modelo))
-        )
+        headers = bloque.get("headers", [])
+        poblar_treeview(tree_excel,  headers, bloque.get("filas_excel_base",  []))
+        poblar_treeview(tree_modelo, headers, bloque.get("filas_modelo_base", []))
 
-    combo_tablas.bind("<<ComboboxSelected>>",
-                      lambda e: actualizar_tablas(selected_nombre.get()))
+    def on_sel_planilla(event=None):
+        nombre = selected_nombre.get()
+        if nombre:
+            actualizar_tablas(nombre)
+    combo.bind("<<ComboboxSelected>>", on_sel_planilla)
 
     def cmd_exportar():
-        on_exportar()
+        exportar_json_y_formatear(datos_comparacion)
         export_realizado["value"] = True
 
     def cmd_salir():
         if not export_realizado["value"]:
             if not messagebox.askyesno(
-                u"Salir",
-                u"No has exportado el archivo.\n\u00bfSeguro que quieres salir sin exportar?"
+                "Salir sin exportar",
+                "¿Seguro que quieres salir sin exportar el archivo Excel?"
             ):
                 return
         root.destroy()
 
-    ttk.Button(frame_botones, text=u"Exportar a Excel",
-               command=cmd_exportar).pack(side=tk.LEFT, padx=5)
-    ttk.Button(frame_botones, text=u"Salir",
-               command=cmd_salir).pack(side=tk.LEFT, padx=5)
-    ttk.Sizegrip(root).pack(side=tk.BOTTOM, anchor=tk.SE)
+    btn_exportar = tk.Button(
+        frame_botones, text="  Exportar Excel  ",
+        bg=ACCENT, fg=BG_DARK, font=("Segoe UI", 9, "bold"),
+        relief="flat", padx=10, pady=4, cursor="hand2",
+        command=cmd_exportar
+    )
+    btn_exportar.pack(side=tk.LEFT, padx=5)
 
-    # Seleccion inicial
-    if etiquetas:
-        selected_nombre.set(etiquetas[0])
-        actualizar_tablas(etiquetas[0])
-    else:
-        messagebox.showwarning(
-            u"Sin datos",
-            u"No se encontraron planillas para comparar.\n"
-            u"Verifica que el archivo Excel contiene codigos CM y que "
-            u"script.json tiene codigos_planillas configurados."
-        )
+    btn_salir = tk.Button(
+        frame_botones, text="  Salir  ",
+        bg=SURFACE2, fg=TEXT_PRI, font=("Segoe UI", 9),
+        relief="flat", padx=10, pady=4, cursor="hand2",
+        command=cmd_salir
+    )
+    btn_salir.pack(side=tk.LEFT, padx=5)
+
+    if nombres_disponibles:
+        selected_nombre.set(nombres_disponibles[0])
+        actualizar_tablas(nombres_disponibles[0])
 
     root.protocol("WM_DELETE_WINDOW", cmd_salir)
     root.mainloop()
 
-
-# -- MAIN ---------------------------------------------------------------------
-if __name__ == '__main__':
+# ══════════════════════════════════════════════════════════════
+#  MAIN
+# ══════════════════════════════════════════════════════════════
+if __name__ == "__main__":
     try:
-        log("==== Inicio ui_comparacion.py v1.7 ====")
+        log("==== Inicio ui_comparacion.py ====")
+        log("Args: script_json={} | csv={} | data_output={} | "
+            "formatear={} | xlsx={} | python={} | modelo={}".format(
+            SCRIPT_JSON_PATH, CSV_CODIGOS_PATH, DATA_OUTPUT_DIR,
+            FORMATEAR_SCRIPT, RUTA_XLSX_SALIDA, PYTHON_EXE, MODELO_JSON_PATH
+        ))
 
-        if len(sys.argv) < 9:
-            log("main: argumentos insuficientes -> {}".format(sys.argv))
-            print(
-                "Uso: ui_comparacion.py "
-                "<script_json> <ruta_xlsm> <data_dir> "
-                "<formatear_script> <ruta_xlsx_salida> "
-                "<python_exe> <modelo_json> <headers_json>",
-                file=sys.stderr
-            )
-            sys.exit(120)
-
-        script_json      = sys.argv[1]
-        ruta_xlsm        = sys.argv[2]
-        data_dir         = sys.argv[3]
-        formatear_script = sys.argv[4]
-        ruta_xlsx_salida = sys.argv[5]
-        python_exe       = sys.argv[6]
-        modelo_json      = sys.argv[7]
-        headers_json     = sys.argv[8]
-
-        log("Args: script_json={} ruta_xlsm={} data_dir={} "
-            "formatear={} salida={} py={} modelo={}".format(
-            script_json, ruta_xlsm, data_dir,
-            formatear_script, ruta_xlsx_salida, python_exe, modelo_json))
-
-        cfg               = cargar_json(script_json, {})
-        codigos_planillas = cfg.get('codigos_planillas', {})
-        if not codigos_planillas:
-            log("main: script.json no tiene codigos_planillas")
-            messagebox.showerror(
-                u"Configuracion incompleta",
-                u"script.json no tiene la clave 'codigos_planillas'.\n"
-                u"Ruta: {}".format(script_json)
-            )
+        # Validar archivos críticos
+        faltantes = []
+        for ruta, nombre in [
+            (SCRIPT_JSON_PATH,  "script.json"),
+            (CSV_CODIGOS_PATH,  "CODIGO.csv"),
+            (MODELO_JSON_PATH,  "modelo_codint_por_cm.json"),
+            (FORMATEAR_SCRIPT,  "formatear_tablas_excel.py"),
+        ]:
+            if not os.path.exists(ruta):
+                faltantes.append("• {} -> {}".format(nombre, ruta))
+        if faltantes:
+            msg = "Archivos no encontrados:\n\n{}".format("\n".join(faltantes))
+            log(msg)
+            messagebox.showerror("Error — Archivos faltantes", msg)
             sys.exit(1)
 
-        filas_xlsm           = leer_xlsm_codigos(ruta_xlsm)
-        datos_excel_planilla = construir_excel_por_planilla(filas_xlsm, codigos_planillas)
+        cfg               = leer_script_json(SCRIPT_JSON_PATH)
+        codigos_planillas = cfg.get("codigos_planillas", {})
 
-        datos_modelo_cm_raw  = leer_modelo_por_cm(modelo_json)
-        repo_activo          = cargar_repo_activo()
-        datos_modelo_cm      = enriquecer_modelo_con_bd(datos_modelo_cm_raw, repo_activo)
+        filas_csv            = leer_csv_codigos(CSV_CODIGOS_PATH)
+        datos_excel_planilla = construir_excel_por_planilla(filas_csv, codigos_planillas)
 
-        datos_comparacion = construir_tabla_comparativa(
+        datos_modelo_cm_raw = leer_modelo_por_cm(MODELO_JSON_PATH)
+        repo_activo         = cargar_repo_activo()
+        datos_modelo_cm     = enriquecer_modelo_con_bd(datos_modelo_cm_raw, repo_activo)
+
+        datos_comparacion   = construir_tabla_comparativa(
             datos_excel_planilla, datos_modelo_cm, codigos_planillas
         )
         log("main: {} planillas en datos_comparacion".format(len(datos_comparacion)))
 
-        if not datos_comparacion:
-            messagebox.showwarning(
-                u"Sin datos",
-                u"No se encontraron filas en el dataset.\n\n"
-                u"Posibles causas:\n"
-                u"  1. El archivo Excel no tiene celdas que empiecen con 'CM'.\n"
-                u"  2. Los codigos CM del Excel no coinciden con codigos_planillas en script.json.\n"
-                u"  3. El modelo Revit no tenia elementos con CodIntBIM.\n\n"
-                u"Revisa ui_comparacion_log.txt para mas detalles."
-            )
-            sys.exit(0)
+        mostrar_ui(datos_comparacion)
+        log("==== Fin ui_comparacion.py ====")
 
-        def on_export():
-            exportar_json_y_formatear(
-                datos_comparacion, data_dir,
-                formatear_script, ruta_xlsx_salida, python_exe
-            )
-
-        mostrar_ui(datos_comparacion, on_export)
-        log("==== Fin ui_comparacion.py v1.7 ====")
-
-    except SystemExit as se:
-        log("SystemExit -> {}".format(se))
+    except SystemExit:
         raise
     except Exception:
         log_exc("ui_comparacion main error general")
         try:
             messagebox.showerror(
-                u"Error",
-                u"Error inesperado en ui_comparacion.py.\nRevisa ui_comparacion_log.txt."
+                "Error inesperado",
+                "Error en ui_comparacion.py.\nRevisa:\n{}".format(UI_LOG_PATH)
             )
         except Exception:
             pass
-        sys.exit(120)
+        sys.exit(1)
