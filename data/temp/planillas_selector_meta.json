@@ -1,5 +1,4 @@
 {
-  "ruta_json": "C:\\Users\\Zbook HP\\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\\master\\script.json",
   "planillas_doc": [
     "None",
     "carga_masiva_accesorios-estructuras-lineas-aereas",
@@ -67,5 +66,6 @@
     "carga_masiva_reactores",
     "carga_masiva_trampas-ondas",
     "carga_masiva_transformadores-zigzag"
-  ]
+  ],
+  "ruta_json": "C:\\Users\\Zbook HP\\AppData\\Roaming\\MyPyRevitExtention\\PyRevitIT.extension\\data\\master\\script.json"
 }
