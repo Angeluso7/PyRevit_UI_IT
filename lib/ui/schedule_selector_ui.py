@@ -4,6 +4,7 @@ schedule_selector_ui.py  (CPython)
 Ventana Tkinter dark para seleccionar planillas a exportar.
 Recibe: argv[1] = ruta JSON entrada  (lista de nombres)
         argv[2] = ruta JSON salida   (lista seleccionada o cancelar)
+        argv[3] = titulo ventana     (opcional)
 """
 import sys
 import os
@@ -15,6 +16,8 @@ from tkinter import ttk, messagebox
 DARK = {
     "bg":           "#1e1e1e",
     "surface":      "#2a2a2a",
+    "surface_row":  "#252525",
+    "surface_hover":"#303030",
     "border":       "#3c3c3c",
     "fg":           "#d4d4d4",
     "fg_muted":     "#888888",
@@ -42,6 +45,13 @@ def _aplicar_tema_dark(root):
     style.configure("TLabel",
                     background=DARK["bg"],
                     foreground=DARK["fg"])
+    # Checkbutton sobre fondo surface (filas de la lista)
+    style.configure("Row.TCheckbutton",
+                    background=DARK["surface"],
+                    foreground=DARK["fg"],
+                    focuscolor=DARK["accent"])
+    style.map("Row.TCheckbutton",
+              background=[("active", DARK["surface_hover"])])
     style.configure("TEntry",
                     fieldbackground=DARK["surface"],
                     foreground=DARK["fg"],
@@ -84,74 +94,86 @@ def _aplicar_tema_dark(root):
               background=[("active", DARK["accent_hover"]),
                           ("disabled", DARK["disabled_bg"])],
               foreground=[("disabled", DARK["disabled_fg"])])
-    # Combobox desplegable
-    root.option_add("*TCombobox*Listbox.background",  DARK["surface"])
-    root.option_add("*TCombobox*Listbox.foreground",  DARK["fg"])
-    root.option_add("*TCombobox*Listbox.selectBackground", DARK["select_bg"])
-    root.option_add("*TCombobox*Listbox.selectForeground", DARK["select_fg"])
 
 
 class ScheduleSelectorApp(object):
     def __init__(self, root, nombres, out_path, title):
-        self.root      = root
-        self.nombres   = nombres
-        self.out_path  = out_path
+        self.root       = root
+        self.nombres    = sorted(nombres)
+        self.out_path   = out_path
         self.filter_var = tk.StringVar()
+        # Diccionario nombre -> BooleanVar (persiste aunque se filtre)
+        self._checks    = {n: tk.BooleanVar(value=False) for n in self.nombres}
+        self._rows      = []   # (frame, checkbutton) visibles actualmente
         self._construir_ui(title)
         self._refrescar_lista()
         self.filter_var.trace_add('write', lambda *a: self._refrescar_lista())
         ttk.Sizegrip(self.root).place(relx=1.0, rely=1.0, anchor=tk.SE)
 
+    # ── UI ────────────────────────────────────────────────────────────────
     def _construir_ui(self, title):
         self.root.title(title)
-        self.root.geometry('480x400')
-        self.root.minsize(360, 300)
+        self.root.geometry('500x440')
+        self.root.minsize(380, 320)
 
         main = ttk.Frame(self.root, padding=10)
         main.pack(fill='both', expand=True)
 
         # ── Buscador ─────────────────────────────────────────────────────────
         top = ttk.Frame(main)
-        top.pack(fill='x', pady=(0, 6))
+        top.pack(fill='x', pady=(0, 4))
         ttk.Label(top, text='Buscar:').pack(side='left')
         ttk.Entry(top, textvariable=self.filter_var).pack(
             side='left', fill='x', expand=True, padx=(6, 0))
 
-        # ── Lista con scroll ─────────────────────────────────────────────────
-        frame_list = ttk.Frame(main)
-        frame_list.pack(fill='both', expand=True)
-        frame_list.rowconfigure(0, weight=1)
-        frame_list.columnconfigure(0, weight=1)
+        # ── Acciones rápidas ─────────────────────────────────────────────────
+        act = ttk.Frame(main)
+        act.pack(fill='x', pady=(0, 6))
+        ttk.Button(act, text='Seleccionar todo',
+                   command=self._seleccionar_todo).pack(side='left', padx=(0, 4))
+        ttk.Button(act, text='Limpiar',
+                   command=self._limpiar_todo).pack(side='left')
 
-        self.listbox = tk.Listbox(
-            frame_list,
-            selectmode=tk.EXTENDED,
-            exportselection=False,
+        # ── Lista con checkboxes (Canvas + scrollbar) ─────────────────────
+        list_outer = ttk.Frame(main)
+        list_outer.pack(fill='both', expand=True)
+        list_outer.rowconfigure(0, weight=1)
+        list_outer.columnconfigure(0, weight=1)
+
+        self.canvas = tk.Canvas(
+            list_outer,
             bg=DARK["surface"],
-            fg=DARK["fg"],
-            selectbackground=DARK["select_bg"],
-            selectforeground=DARK["select_fg"],
-            highlightbackground=DARK["border"],
-            highlightcolor=DARK["accent"],
             highlightthickness=1,
-            activestyle='dotbox',
-            relief='flat',
+            highlightbackground=DARK["border"],
+            bd=0
         )
-        self.listbox.grid(row=0, column=0, sticky='nsew')
-        scroll = ttk.Scrollbar(frame_list, orient='vertical',
-                               command=self.listbox.yview)
-        scroll.grid(row=0, column=1, sticky='ns')
-        self.listbox.configure(yscrollcommand=scroll.set)
+        self.canvas.grid(row=0, column=0, sticky='nsew')
 
-        # ── Contador de selección ─────────────────────────────────────────────
-        self.lbl_count = ttk.Label(main, text='0 planillas seleccionadas',
-                                   foreground=DARK["fg_muted"])
+        vscroll = ttk.Scrollbar(list_outer, orient='vertical',
+                                command=self.canvas.yview)
+        vscroll.grid(row=0, column=1, sticky='ns')
+        self.canvas.configure(yscrollcommand=vscroll.set)
+
+        # Frame interno donde se colocan las filas
+        self.inner = tk.Frame(self.canvas, bg=DARK["surface"])
+        self._win_id = self.canvas.create_window(
+            (0, 0), window=self.inner, anchor='nw')
+
+        self.inner.bind('<Configure>', self._on_inner_configure)
+        self.canvas.bind('<Configure>', self._on_canvas_configure)
+        # Scroll con rueda del ratón
+        self.canvas.bind('<MouseWheel>',
+            lambda e: self.canvas.yview_scroll(-1*(e.delta//120), 'units'))
+
+        # ── Contador ───────────────────────────────────────────────────────────
+        self.lbl_count = ttk.Label(
+            main, text='0 planillas seleccionadas',
+            foreground=DARK["fg_muted"])
         self.lbl_count.pack(anchor='w', pady=(4, 0))
-        self.listbox.bind('<<ListboxSelect>>', self._actualizar_contador)
 
         # ── Botones ───────────────────────────────────────────────────────────
         frame_btn = ttk.Frame(main)
-        frame_btn.pack(fill='x', pady=(10, 0))
+        frame_btn.pack(fill='x', pady=(8, 0))
         frame_btn.columnconfigure(0, weight=1)
         ttk.Button(frame_btn, text='Cancelar',
                    command=self.on_cancelar).grid(
@@ -161,31 +183,74 @@ class ScheduleSelectorApp(object):
                    style='Accent.TButton').grid(
             row=0, column=2, sticky='e')
 
+    # ── Canvas helpers ──────────────────────────────────────────────────────
+    def _on_inner_configure(self, _event=None):
+        self.canvas.configure(scrollregion=self.canvas.bbox('all'))
+
+    def _on_canvas_configure(self, event):
+        self.canvas.itemconfig(self._win_id, width=event.width)
+
+    # ── Lista de checkboxes ───────────────────────────────────────────────
     def _refrescar_lista(self):
+        # Destruir filas actuales
+        for widget in self.inner.winfo_children():
+            widget.destroy()
+        self._rows = []
+
         filtro = self.filter_var.get().strip().lower()
-        self.listbox.delete(0, tk.END)
-        for nombre in sorted(self.nombres):
-            if not filtro or filtro in nombre.lower():
-                self.listbox.insert(tk.END, nombre)
+        for nombre in self.nombres:
+            if filtro and filtro not in nombre.lower():
+                continue
+            var = self._checks[nombre]
+            row = tk.Frame(self.inner, bg=DARK["surface"],
+                           highlightthickness=0)
+            row.pack(fill='x', padx=2, pady=1)
+            cb = ttk.Checkbutton(
+                row,
+                text=nombre,
+                variable=var,
+                style='Row.TCheckbutton',
+                command=self._actualizar_contador
+            )
+            cb.pack(fill='x', padx=6, pady=2)
+            # Hover sobre la fila
+            row.bind('<Enter>',
+                lambda e, f=row: f.configure(bg=DARK["surface_hover"]))
+            row.bind('<Leave>',
+                lambda e, f=row: f.configure(bg=DARK["surface"]))
+            self._rows.append((row, cb))
+
         self._actualizar_contador()
 
-    def _actualizar_contador(self, *_):
-        n = len(self.listbox.curselection())
+    def _actualizar_contador(self):
+        n = sum(1 for v in self._checks.values() if v.get())
         self.lbl_count.configure(
             text='{} planilla{} seleccionada{}'.format(
                 n, 's' if n != 1 else '', 's' if n != 1 else ''))
 
+    def _seleccionar_todo(self):
+        filtro = self.filter_var.get().strip().lower()
+        for nombre, var in self._checks.items():
+            if not filtro or filtro in nombre.lower():
+                var.set(True)
+        self._actualizar_contador()
+
+    def _limpiar_todo(self):
+        for var in self._checks.values():
+            var.set(False)
+        self._actualizar_contador()
+
+    # ── Acciones ────────────────────────────────────────────────────────────
     def on_cancelar(self):
         self._escribir_salida({'opcion': 'cancelar', 'seleccion': []})
         self.root.destroy()
 
     def on_aceptar(self):
-        indices = self.listbox.curselection()
-        if not indices:
+        seleccion = [n for n, v in self._checks.items() if v.get()]
+        if not seleccion:
             messagebox.showwarning('Aviso',
-                                   'Selecciona al menos una planilla.')
+                                   'Marca al menos una planilla.')
             return
-        seleccion = [self.listbox.get(i) for i in indices]
         self._escribir_salida({'opcion': 'aceptar', 'seleccion': seleccion})
         self.root.destroy()
 
@@ -221,7 +286,7 @@ def main():
 
     root = tk.Tk()
     root.resizable(True, True)
-    _aplicar_tema_dark(root)       # ← tema dark antes de construir la UI
+    _aplicar_tema_dark(root)
     ScheduleSelectorApp(root, nombres, out_path, title)
     root.mainloop()
 
