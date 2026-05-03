@@ -1,447 +1,456 @@
 # -*- coding: utf-8 -*-
 """
-datos_proyecto.py — Visor/Editor de datos del proyecto activo (SAESA).
-Estilo: dark manual (paleta coherente con el resto de la extension PyRevit_UI_IT).
+datos_proyecto.py  —  Visor / editor de datos generales del proyecto activo.
 
-Uso (llamado desde script.py):
-    python datos_proyecto.py <RUTA_JSON> <MASTER_DIR>
+Uso (lanzado por script.py via subprocess):
+    pythonw.exe datos_proyecto.py <data_dir>
 
-argv[1] = Ruta completa al datos_tmp.json generado por script.py
-argv[2] = MASTER_DIR -> directorio donde vive config_proyecto_activo.json
-
-Version = 2.1
-Date    = 03.05.2026
+<data_dir>  ruta a data/master/  (provista por script.py usando MASTER_DIR
+            de config_utils.py).  Si se omite, se resuelve automáticamente.
 """
 
-import os
 import sys
+import os
 import json
-import traceback
 import tkinter as tk
 from tkinter import ttk, messagebox
-
-# ── Paleta dark ───────────────────────────────────────────────────────────────
-PAL = {
-    "bg":            "#1e1e2e",
-    "bg_panel":      "#252537",
-    "bg_header":     "#16162a",
-    "bg_row_even":   "#1e1e2e",
-    "bg_row_odd":    "#252537",
-    "bg_edited":     "#1a3a5c",
-    "bg_selected":   "#2d5986",
-    "fg":            "#d4d4e8",
-    "fg_muted":      "#7e7e9a",
-    "fg_header":     "#a0c4e8",
-    "accent":        "#4e9de0",
-    "accent2":       "#7ecbae",
-    "border":        "#33334a",
-    "btn_bg":        "#2d2d44",
-    "btn_hover":     "#3a3a55",
-    "btn_save":      "#1c5c8a",
-    "btn_save_fg":   "#d6ecff",
-    "btn_cancel":    "#3a2a2a",
-    "btn_cancel_fg": "#ffb3b3",
-    "separator":     "#33334a",
-    "font_title":    ("Segoe UI", 13, "bold"),
-    "font_sub":      ("Segoe UI", 9),
-    "font_header":   ("Segoe UI", 9, "bold"),
-    "font_cell":     ("Segoe UI", 9),
-    "font_btn":      ("Segoe UI", 9, "bold"),
-}
-
-# ── Campos no editables ───────────────────────────────────────────────────────
-NON_EDITABLE = {"Archivo", "ElementId", "nombre_archivo", "CodIntBIM"}
+from datetime import datetime
 
 
-# ── Resolucion de rutas desde argumentos ─────────────────────────────────────
-def _resolve_paths():
-    _ext_root_fb  = os.path.normpath(os.path.join(
+# ── Resolución de data_dir ────────────────────────────────────────────────────
+def _resolve_data_dir():
+    """
+    Devuelve la ruta a data/master/.
+    Prioridad: argv[1] → fallback idéntico a config_utils.MASTER_DIR.
+    """
+    if len(sys.argv) >= 2:
+        return sys.argv[1]
+    # Fallback: construir desde expanduser (igual que config_utils.py)
+    return os.path.normpath(os.path.join(
         os.path.expanduser("~"),
-        "AppData", "Roaming", "MyPyRevitExtention", "PyRevitIT.extension"
+        "AppData", "Roaming", "MyPyRevitExtention",
+        "PyRevitIT.extension", "data", "master"
     ))
-    _default_master = os.path.join(_ext_root_fb, "data", "master")
-
-    data_json_path = None
-
-    if len(sys.argv) > 1:
-        arg1 = sys.argv[1].strip('"').strip("'")
-        if arg1.lower().endswith('.json'):
-            data_json_path = arg1
-        elif os.path.isdir(arg1):
-            data_json_path = os.path.join(arg1, "datos_tmp.json")
-        else:
-            data_json_path = arg1
-    else:
-        data_json_path = os.path.join(_default_master, "datos_tmp.json")
-
-    if len(sys.argv) > 2:
-        arg2 = sys.argv[2].strip('"').strip("'")
-        master_dir = arg2 if (os.path.isdir(arg2) or os.path.isabs(arg2)) else _default_master
-    else:
-        master_dir = _default_master
-
-    if not os.path.isdir(master_dir):
-        try:
-            os.makedirs(master_dir)
-        except Exception:
-            pass
-
-    config_path = os.path.join(master_dir, "config_proyecto_activo.json")
-    return data_json_path, config_path
 
 
-DATA_JSON_PATH, CONFIG_PATH = _resolve_paths()
-
-
-# ── Helpers JSON ──────────────────────────────────────────────────────────────
-def cargar_json(ruta, default=None, show_err=True):
+# ── Utilidades JSON ───────────────────────────────────────────────────────────
+def cargar_json(ruta, default):
     try:
         if not os.path.exists(ruta):
-            if show_err:
-                messagebox.showinfo("Informacion", "Archivo no encontrado:\n{}".format(ruta))
             return default
         with open(ruta, "r", encoding="utf-8") as f:
             return json.load(f)
     except Exception:
-        if show_err:
-            messagebox.showerror("Error", "Error cargando JSON:\n{}".format(traceback.format_exc()))
         return default
 
 
-def guardar_json(ruta, datos):
+def guardar_json(ruta, data):
     try:
-        carpeta = os.path.dirname(ruta)
-        if carpeta and not os.path.exists(carpeta):
-            os.makedirs(carpeta)
+        os.makedirs(os.path.dirname(ruta), exist_ok=True)
         with open(ruta, "w", encoding="utf-8") as f:
-            json.dump(datos, f, indent=2, ensure_ascii=False)
+            json.dump(data, f, ensure_ascii=False, indent=2)
         return True
-    except Exception:
-        messagebox.showerror("Error", "Error guardando JSON:\n{}".format(traceback.format_exc()))
+    except Exception as e:
+        messagebox.showerror("Error", "No se pudo guardar JSON:\n{}".format(e))
         return False
 
 
-def get_repo_path():
-    if not os.path.exists(CONFIG_PATH):
-        messagebox.showerror(
-            "Config no encontrada",
-            "No se encontro config_proyecto_activo.json en:\n{}".format(CONFIG_PATH)
-        )
-        return None
-    try:
-        with open(CONFIG_PATH, "r", encoding="utf-8") as f:
-            cfg = json.load(f)
-        ruta = (cfg.get("ruta_repositorio_activo") or "").strip()
-        if not ruta:
-            messagebox.showerror("Config incompleta",
-                "No se encontro 'ruta_repositorio_activo' en config.")
-            return None
-        return ruta
-    except Exception:
-        messagebox.showerror("Error config",
-            "Error leyendo config:\n{}".format(traceback.format_exc()))
-        return None
-
-
-# ── Aplicar estilo dark ───────────────────────────────────────────────────────
-def aplicar_estilo_dark(root):
-    style = ttk.Style(root)
-    style.theme_use("clam")
-    style.configure("TFrame",        background=PAL["bg_panel"])
-    style.configure("Header.TFrame", background=PAL["bg_header"])
-    style.configure("TLabel",
-        background=PAL["bg_panel"], foreground=PAL["fg"], font=PAL["font_sub"])
-    style.configure("Title.TLabel",
-        background=PAL["bg_header"], foreground=PAL["accent"], font=PAL["font_title"])
-    style.configure("Sub.TLabel",
-        background=PAL["bg_header"], foreground=PAL["fg_muted"], font=PAL["font_sub"])
-    style.configure("Tag.TLabel",
-        background=PAL["bg_header"], foreground=PAL["accent2"],
-        font=("Segoe UI", 8, "bold"))
-    style.configure("TScrollbar",
-        background=PAL["bg_panel"], troughcolor=PAL["bg"],
-        bordercolor=PAL["border"], arrowcolor=PAL["fg_muted"])
-    style.map("TScrollbar",
-        background=[("active", PAL["btn_hover"]), ("!active", PAL["btn_bg"])])
-    style.configure("Treeview",
-        background=PAL["bg_row_even"], fieldbackground=PAL["bg_row_even"],
-        foreground=PAL["fg"], font=PAL["font_cell"],
-        rowheight=26, borderwidth=0, relief="flat")
-    style.configure("Treeview.Heading",
-        background=PAL["bg_header"], foreground=PAL["fg_header"],
-        font=PAL["font_header"], relief="flat", borderwidth=0)
-    style.map("Treeview",
-        background=[("selected", PAL["bg_selected"])],
-        foreground=[("selected", "#ffffff")])
-    style.map("Treeview.Heading",
-        background=[("active", PAL["btn_hover"]), ("!active", PAL["bg_header"])])
-    style.configure("TButton",
-        background=PAL["btn_bg"], foreground=PAL["fg"], font=PAL["font_btn"],
-        borderwidth=1, relief="flat", padding=(10, 6))
-    style.map("TButton",
-        background=[("active", PAL["btn_hover"]), ("pressed", PAL["border"])],
-        foreground=[("active", "#ffffff")])
-    style.configure("Save.TButton",
-        background=PAL["btn_save"], foreground=PAL["btn_save_fg"],
-        font=PAL["font_btn"], relief="flat", padding=(10, 6))
-    style.map("Save.TButton",
-        background=[("active", "#27699e"), ("pressed", PAL["border"])],
-        foreground=[("active", "#ffffff")])
-    style.configure("Cancel.TButton",
-        background=PAL["btn_cancel"], foreground=PAL["btn_cancel_fg"],
-        font=PAL["font_btn"], relief="flat", padding=(10, 6))
-    style.map("Cancel.TButton",
-        background=[("active", "#5a3535"), ("pressed", PAL["border"])],
-        foreground=[("active", "#ffffff")])
-    style.configure("TSizegrip", background=PAL["bg"])
-
-
-# ── Treeview editable ─────────────────────────────────────────────────────────
-class EditableTreeview(ttk.Treeview):
-
-    def __init__(self, master, headers, rows, **kwargs):
-        super().__init__(master, columns=headers, show="headings", **kwargs)
-        self.headers       = headers
-        self.draft_edits   = {}
-        self.editing_entry = None
-
-        col_widths = {"ElementId": 90, "Archivo": 130, "CodIntBIM": 120}
-        for h in headers:
-            w = col_widths.get(h, 150)
-            self.heading(h, text=h)
-            self.column(h, width=w, anchor="center", stretch=False)
-
-        for i, row in enumerate(rows):
-            values = [str(row.get(h, "") or "") for h in headers]
-            tag = "odd" if i % 2 else "even"
-            self.insert("", "end", iid=str(i), values=values, tags=(tag,))
-
-        self.tag_configure("even",   background=PAL["bg_row_even"], foreground=PAL["fg"])
-        self.tag_configure("odd",    background=PAL["bg_row_odd"],  foreground=PAL["fg"])
-        self.tag_configure("edited", background=PAL["bg_edited"],   foreground="#d0eaff")
-
-        self.bind("<Double-1>", self.on_double_click)
-
-    def on_double_click(self, event):
-        try:
-            if self.editing_entry:
-                self.editing_entry.destroy()
-                self.editing_entry = None
-
-            region = self.identify_region(event.x, event.y)
-            if region != "cell":
-                return
-
-            col = self.identify_column(event.x)
-            row = self.identify_row(event.y)
-            if not row or not col:
-                return
-
-            col_idx = int(col.replace("#", "")) - 1
-            if col_idx < 0 or col_idx >= len(self.headers):
-                return
-            header = self.headers[col_idx]
-            if header in NON_EDITABLE:
-                return
-
-            bbox = self.bbox(row, col)
-            if not bbox:
-                return
-            x, y, width, height = bbox
-
-            current_val = self.set(row, header)
-
-            entry = tk.Entry(
-                self,
-                font=PAL["font_cell"],
-                bg=PAL["bg_edited"],
-                fg="#d0eaff",
-                insertbackground="#d0eaff",
-                relief="flat",
-                bd=1,
-                highlightthickness=1,
-                highlightcolor=PAL["accent"],
-                highlightbackground=PAL["border"],
-            )
-            entry.place(x=x, y=y, width=width, height=height)
-            entry.insert(0, current_val)
-            entry.select_range(0, tk.END)
-            entry.focus()
-            self.editing_entry = entry
-
-            def _commit(event=None, r=row, h=header):
-                if not self.editing_entry:
-                    return
-                newval = self.editing_entry.get()
-                self.editing_entry.destroy()
-                self.editing_entry = None
-                self.set(r, h, newval)
-                self.draft_edits.setdefault(r, {})[h] = newval
-                tags = [t for t in self.item(r, "tags") if t not in ("even", "odd")]
-                tags.append("edited")
-                self.item(r, tags=tags)
-
-            def _cancel(event=None):
-                if self.editing_entry:
-                    self.editing_entry.destroy()
-                    self.editing_entry = None
-
-            entry.bind("<Return>",   _commit)
-            entry.bind("<Tab>",      _commit)
-            entry.bind("<FocusOut>", _commit)
-            entry.bind("<Escape>",   _cancel)
-
-        except Exception:
-            messagebox.showerror(
-                "Error edicion",
-                "Error al editar celda:\n{}".format(traceback.format_exc())
-            )
-
-
-# ── Barra de estado ───────────────────────────────────────────────────────────
-class StatusBar(tk.Frame):
-
-    def __init__(self, master, **kwargs):
-        super().__init__(master, bg=PAL["bg_header"], bd=0, relief="flat", **kwargs)
-        self._var = tk.StringVar(value="Listo")
-        tk.Label(
-            self,
-            textvariable=self._var,
-            bg=PAL["bg_header"],
-            fg=PAL["fg_muted"],
-            font=("Segoe UI", 8),
-            anchor="w",
-            padx=8,
-        ).pack(side="left", fill="x", expand=True)
-
-    def set(self, msg):  self._var.set(msg)
-    def clear(self):     self._var.set("Listo")
-
-
 # ── Ventana principal ─────────────────────────────────────────────────────────
-def main():
-    meta      = cargar_json(DATA_JSON_PATH) or {}
-    headers   = meta.get("Headers", []) or []
-    data_rows = meta.get("Rows",    []) or []
-    titulo    = meta.get("Titulo",  "SAESA \u2014 Datos del Proyecto")
-    proyecto  = meta.get("Proyecto", "")
-    n_filas   = len(data_rows)
+class DatosProyectoApp:
+    PLACEHOLDER       = "AAAA/MM/DD"
+    PLACEHOLDER_COLOR = "#888888"
+    NORMAL_COLOR      = "#000000"
 
-    if not headers:
-        messagebox.showerror(
-            "Sin datos",
-            "No se encontraron columnas en el JSON.\n{}".format(DATA_JSON_PATH)
+    def __init__(self, root, data_dir):
+        self.root     = root
+        self.data_dir = data_dir
+
+        self.registro_path = os.path.join(self.data_dir, "registro_proyectos.json")
+        self.config_path   = os.path.join(self.data_dir, "config_proyecto_activo.json")
+
+        self.registro   = cargar_json(self.registro_path, {})
+        self.config     = cargar_json(self.config_path, {})
+        self.nup_activo = self.config.get("nup_activo", "")
+
+        if not self.nup_activo:
+            messagebox.showwarning(
+                "Aviso",
+                "No hay proyecto activo definido.\nConfigura un proyecto activo primero."
+            )
+
+        self.info_activo = self.registro.get(self.nup_activo, {})
+
+        # Mapa texto ↔ código para el tipo de proyecto
+        self.map_text_to_code = {
+            "Subestaciones": "CM01",
+            "Patios":        "CM03",
+            "Pa\u00f1os":       "CM06",
+        }
+        self.map_code_to_text = {v: k for k, v in self.map_text_to_code.items()}
+
+        # Referencias a widgets (se crean en _construir_ui)
+        self.label_proyecto_val = None
+        self.combo_tipo         = None
+        self.entry_fecha_ini    = None
+        self.entry_fecha_fin    = None
+        self.entry_propietario  = None
+        self.combo_estado       = None
+        self.entry_comuna       = None
+        self.text_descripcion   = None
+
+        self.modo_edicion = False
+
+        self._construir_ui()
+        self._cargar_datos_en_campos()
+        self._set_campos_editables(False)
+
+    # ── UI ────────────────────────────────────────────────────────────────────
+    def _construir_ui(self):
+        self.root.title("Datos del Proyecto")
+        self.root.geometry("650x540")
+        self.root.minsize(600, 500)
+        self.root.columnconfigure(0, weight=1)
+        self.root.rowconfigure(0, weight=1)
+
+        main = ttk.Frame(self.root, padding=10)
+        main.grid(row=0, column=0, sticky="nsew")
+        for i in range(3):
+            main.columnconfigure(i, weight=1)
+
+        fila = 0
+
+        # 1) Proyecto (solo lectura)
+        ttk.Label(main, text="Proyecto:").grid(row=fila, column=0, sticky="w", pady=(0, 5))
+        self.label_proyecto_val = ttk.Label(main, text="-")
+        self.label_proyecto_val.grid(row=fila, column=1, columnspan=2, sticky="w", pady=(0, 5))
+        fila += 1
+
+        # 2) Tipo
+        ttk.Label(main, text="Tipo:").grid(row=fila, column=0, sticky="w", pady=(0, 5))
+        self.combo_tipo = ttk.Combobox(main, state="readonly")
+        self.combo_tipo["values"] = ("Subestaciones", "Patios", "Pa\u00f1os")
+        self.combo_tipo.grid(row=fila, column=1, columnspan=2, sticky="ew", pady=(0, 5))
+        fila += 1
+
+        # 3) Fecha entrada
+        ttk.Label(main, text="Fecha de entrada en operaci\u00f3n:").grid(
+            row=fila, column=0, sticky="w", pady=(0, 5)
         )
-        return
+        self.entry_fecha_ini = ttk.Entry(main)
+        self.entry_fecha_ini.grid(row=fila, column=1, sticky="ew", pady=(0, 5))
+        ttk.Button(main, text="Seleccionar", command=self._select_fecha_ini).grid(
+            row=fila, column=2, sticky="w", padx=(5, 0)
+        )
+        fila += 1
+
+        # 4) Fecha salida
+        ttk.Label(main, text="Fecha salida de operaci\u00f3n:").grid(
+            row=fila, column=0, sticky="w", pady=(0, 5)
+        )
+        self.entry_fecha_fin = ttk.Entry(main)
+        self.entry_fecha_fin.grid(row=fila, column=1, sticky="ew", pady=(0, 5))
+        ttk.Button(main, text="Seleccionar", command=self._select_fecha_fin).grid(
+            row=fila, column=2, sticky="w", padx=(5, 0)
+        )
+        fila += 1
+
+        # 5) Propietario
+        ttk.Label(main, text="Propietario:").grid(row=fila, column=0, sticky="w", pady=(0, 5))
+        self.entry_propietario = ttk.Entry(main)
+        self.entry_propietario.grid(row=fila, column=1, columnspan=2, sticky="ew", pady=(0, 5))
+        fila += 1
+
+        # 6) Estado
+        ttk.Label(main, text="Estado:").grid(row=fila, column=0, sticky="w", pady=(0, 5))
+        self.combo_estado = ttk.Combobox(main, state="readonly")
+        self.combo_estado["values"] = ("En Proyecto", "En Operaci\u00f3n", "Fuera de Operaci\u00f3n")
+        self.combo_estado.grid(row=fila, column=1, columnspan=2, sticky="ew", pady=(0, 5))
+        fila += 1
+
+        # 7) Comuna
+        ttk.Label(main, text="Comuna:").grid(row=fila, column=0, sticky="w", pady=(0, 5))
+        self.entry_comuna = ttk.Entry(main)
+        self.entry_comuna.grid(row=fila, column=1, columnspan=2, sticky="ew", pady=(0, 5))
+        fila += 1
+
+        # 8) Descripción
+        ttk.Label(main, text="Descripci\u00f3n:").grid(row=fila, column=0, sticky="nw", pady=(0, 5))
+        text_frame = ttk.Frame(main)
+        text_frame.grid(row=fila, column=1, columnspan=2, sticky="nsew", pady=(0, 5))
+        main.rowconfigure(fila, weight=1)
+        text_frame.rowconfigure(0, weight=1)
+        text_frame.columnconfigure(0, weight=1)
+        self.text_descripcion = tk.Text(text_frame, height=4, wrap="word")
+        self.text_descripcion.grid(row=0, column=0, sticky="nsew")
+        scroll_desc = ttk.Scrollbar(text_frame, orient="vertical",
+                                    command=self.text_descripcion.yview)
+        scroll_desc.grid(row=0, column=1, sticky="ns")
+        self.text_descripcion.configure(yscrollcommand=scroll_desc.set)
+        fila += 1
+
+        # Botones
+        btn_frame = ttk.Frame(main)
+        btn_frame.grid(row=fila, column=0, columnspan=3, sticky="e", pady=(10, 0))
+        ttk.Button(btn_frame, text="Editar",   command=self.on_editar).grid(row=0, column=0, padx=(0, 5))
+        ttk.Button(btn_frame, text="Cancelar", command=self.on_cancelar).grid(row=0, column=1, padx=(0, 5))
+        ttk.Button(btn_frame, text="Aceptar",  command=self.on_aceptar).grid(row=0, column=2)
+
+        self._configurar_placeholders_fecha()
+
+    # ── Placeholders de fecha ─────────────────────────────────────────────────
+    def _configurar_placeholders_fecha(self):
+        for entry in (self.entry_fecha_ini, self.entry_fecha_fin):
+            entry.bind("<FocusIn>",  self._on_focus_in_fecha)
+            entry.bind("<FocusOut>", self._on_focus_out_fecha)
+
+    def _on_focus_in_fecha(self, event):
+        entry = event.widget
+        if entry.cget("state") == "disabled":
+            return
+        if (entry.get() == self.PLACEHOLDER and
+                entry.cget("foreground") == self.PLACEHOLDER_COLOR):
+            entry.delete(0, tk.END)
+            entry.config(foreground=self.NORMAL_COLOR)
+
+    def _on_focus_out_fecha(self, event):
+        entry = event.widget
+        if entry.cget("state") == "disabled":
+            return
+        if not entry.get().strip():
+            entry.delete(0, tk.END)
+            entry.insert(0, self.PLACEHOLDER)
+            entry.config(foreground=self.PLACEHOLDER_COLOR)
+
+    def _set_texto_fecha(self, entry, valor):
+        entry.config(state="normal")
+        entry.delete(0, tk.END)
+        if valor:
+            entry.insert(0, valor)
+            entry.config(foreground=self.NORMAL_COLOR)
+        else:
+            entry.insert(0, self.PLACEHOLDER)
+            entry.config(foreground=self.PLACEHOLDER_COLOR)
+
+    # ── Carga de datos ────────────────────────────────────────────────────────
+    def _cargar_datos_en_campos(self):
+        self.registro    = cargar_json(self.registro_path, {})
+        self.info_activo = self.registro.get(self.nup_activo, {})
+
+        if self.nup_activo:
+            nom   = self.info_activo.get("nombre_proyecto", "")
+            texto = "{} - {}".format(self.nup_activo, nom) if nom else self.nup_activo
+        else:
+            texto = "(ninguno)"
+        self.label_proyecto_val.config(text=texto)
+
+        tipo_codigo = self.info_activo.get("tipo_codigo", None)
+        if tipo_codigo:
+            texto_tipo = self.map_code_to_text.get(tipo_codigo, "")
+            self.combo_tipo.set(texto_tipo if texto_tipo in self.combo_tipo["values"] else "")
+        else:
+            self.combo_tipo.set("")
+
+        self._set_texto_fecha(self.entry_fecha_ini, self.info_activo.get("fecha_entrada", ""))
+        self._set_texto_fecha(self.entry_fecha_fin,  self.info_activo.get("fecha_salida",  ""))
+
+        self.entry_propietario.config(state="normal")
+        self.entry_propietario.delete(0, tk.END)
+        self.entry_propietario.insert(0, self.info_activo.get("propietario", ""))
+
+        estado_val = self.info_activo.get("estado", "").strip()
+        self.combo_estado.set(estado_val if estado_val in self.combo_estado["values"] else "")
+
+        self.entry_comuna.config(state="normal")
+        self.entry_comuna.delete(0, tk.END)
+        self.entry_comuna.insert(0, self.info_activo.get("comuna", ""))
+
+        self.text_descripcion.config(state="normal")
+        self.text_descripcion.delete("1.0", tk.END)
+        desc = self.info_activo.get("descripcion", "")
+        if desc:
+            self.text_descripcion.insert("1.0", desc)
+        self.text_descripcion.config(state="disabled")
+
+    # ── Selectores de fecha ───────────────────────────────────────────────────
+    def _select_fecha_ini(self):
+        if self.entry_fecha_ini.cget("state") == "disabled":
+            return
+        fecha = self._dialogo_fecha(self.entry_fecha_ini.get().strip())
+        if fecha:
+            self._set_texto_fecha(self.entry_fecha_ini, fecha)
+
+    def _select_fecha_fin(self):
+        if self.entry_fecha_fin.cget("state") == "disabled":
+            return
+        fecha = self._dialogo_fecha(self.entry_fecha_fin.get().strip())
+        if fecha:
+            self._set_texto_fecha(self.entry_fecha_fin, fecha)
+
+    def _dialogo_fecha(self, valor_actual):
+        dlg = tk.Toplevel(self.root)
+        dlg.title("Seleccionar fecha")
+        dlg.transient(self.root)
+        dlg.grab_set()
+
+        tk.Label(dlg, text="A\u00f1o:").grid(row=0, column=0, padx=5, pady=5, sticky="e")
+        tk.Label(dlg, text="Mes:").grid( row=1, column=0, padx=5, pady=5, sticky="e")
+        tk.Label(dlg, text="D\u00eda:").grid( row=2, column=0, padx=5, pady=5, sticky="e")
+
+        year_var  = tk.StringVar()
+        month_var = tk.StringVar()
+        day_var   = tk.StringVar()
+
+        if valor_actual and valor_actual != self.PLACEHOLDER:
+            try:
+                y, m, d = valor_actual.split("/")
+                year_var.set(y)
+                month_var.set(m)
+                day_var.set(d)
+            except Exception:
+                pass
+
+        years  = [str(y) for y in range(1980, 2101)]
+        months = ["{:02d}".format(m) for m in range(1, 13)]
+        days   = ["{:02d}".format(d) for d in range(1, 32)]
+
+        cb_year  = ttk.Combobox(dlg, textvariable=year_var,  values=years,  width=6, state="readonly")
+        cb_month = ttk.Combobox(dlg, textvariable=month_var, values=months, width=4, state="readonly")
+        cb_day   = ttk.Combobox(dlg, textvariable=day_var,   values=days,   width=4, state="readonly")
+
+        cb_year.grid( row=0, column=1, padx=5, pady=5)
+        cb_month.grid(row=1, column=1, padx=5, pady=5)
+        cb_day.grid(  row=2, column=1, padx=5, pady=5)
+
+        resultado = {"fecha": None}
+
+        def aceptar():
+            y = year_var.get().strip()
+            m = month_var.get().strip()
+            d = day_var.get().strip()
+            if not (y and m and d):
+                messagebox.showwarning("Aviso", "Selecciona a\u00f1o, mes y d\u00eda.")
+                return
+            try:
+                datetime(int(y), int(m), int(d))
+            except ValueError:
+                messagebox.showerror("Error", "La fecha seleccionada no es v\u00e1lida.")
+                return
+            resultado["fecha"] = "{}/{}/{}".format(y, m, d)
+            dlg.destroy()
+
+        def cancelar():
+            resultado["fecha"] = None
+            dlg.destroy()
+
+        btn_frame = ttk.Frame(dlg)
+        btn_frame.grid(row=3, column=0, columnspan=2, pady=10)
+        ttk.Button(btn_frame, text="Aceptar",  command=aceptar).grid(row=0, column=0, padx=5)
+        ttk.Button(btn_frame, text="Cancelar", command=cancelar).grid(row=0, column=1, padx=5)
+
+        dlg.wait_window()
+        return resultado["fecha"]
+
+    # ── Modo edición ──────────────────────────────────────────────────────────
+    def _set_campos_editables(self, editable):
+        state = "normal" if editable else "disabled"
+        self.combo_tipo.config(state="readonly" if editable else "disabled")
+        self.combo_estado.config(state="readonly" if editable else "disabled")
+        for entry in (self.entry_fecha_ini, self.entry_fecha_fin,
+                      self.entry_propietario, self.entry_comuna):
+            entry.config(state=state)
+        self.text_descripcion.config(state="normal" if editable else "disabled")
+
+    def on_editar(self):
+        if not self.nup_activo:
+            messagebox.showinfo(
+                "Informaci\u00f3n",
+                "No hay proyecto activo para editar.\nConfigura primero un proyecto activo."
+            )
+            return
+        self.modo_edicion = True
+        self._set_campos_editables(True)
+
+    def on_cancelar(self):
+        self.root.destroy()
+
+    def _leer_fecha_entry(self, entry, nombre_campo):
+        texto = entry.get().strip()
+        if texto == "" or texto == self.PLACEHOLDER:
+            return ""
+        try:
+            dt = datetime.strptime(texto, "%Y/%m/%d")
+            return dt.strftime("%Y/%m/%d")
+        except ValueError:
+            messagebox.showerror(
+                "Error",
+                "El campo '{}' debe tener el formato AAAA/MM/DD y representar una fecha v\u00e1lida.".format(
+                    nombre_campo
+                )
+            )
+            raise
+
+    def on_aceptar(self):
+        if not self.modo_edicion:
+            self.root.destroy()
+            return
+
+        if not self.nup_activo:
+            messagebox.showwarning(
+                "Aviso",
+                "No hay proyecto activo definido.\nNo se puede guardar."
+            )
+            return
+
+        combo_val  = self.combo_tipo.get().strip()
+        tipo_texto = combo_val
+        tipo_codigo = self.map_text_to_code.get(combo_val, "") if combo_val else ""
+
+        try:
+            fecha_entrada = self._leer_fecha_entry(self.entry_fecha_ini, "Fecha de entrada en operaci\u00f3n")
+            fecha_salida  = self._leer_fecha_entry(self.entry_fecha_fin,  "Fecha salida de operaci\u00f3n")
+        except Exception:
+            return
+
+        propietario = self.entry_propietario.get().strip()
+        estado      = self.combo_estado.get().strip()
+        comuna      = self.entry_comuna.get().strip()
+        descripcion = self.text_descripcion.get("1.0", tk.END).strip()
+
+        self.registro = cargar_json(self.registro_path, {})
+        info = self.registro.get(self.nup_activo, {})
+        info["tipo_codigo"]   = tipo_codigo
+        info["tipo_texto"]    = tipo_texto
+        info["fecha_entrada"] = fecha_entrada
+        info["fecha_salida"]  = fecha_salida
+        info["propietario"]   = propietario
+        info["estado"]        = estado
+        info["comuna"]        = comuna
+        info["descripcion"]   = descripcion
+        self.registro[self.nup_activo] = info
+
+        if not guardar_json(self.registro_path, self.registro):
+            return
+
+        messagebox.showinfo("Informaci\u00f3n", "Datos del proyecto guardados correctamente.")
+        self.root.destroy()
+
+
+# ── Entry point ───────────────────────────────────────────────────────────────
+def main():
+    data_dir = _resolve_data_dir()
+
+    if not os.path.exists(data_dir):
+        try:
+            os.makedirs(data_dir)
+        except Exception as e:
+            messagebox.showerror(
+                "Error",
+                "No se pudo crear la carpeta de datos:\n{}\n{}".format(data_dir, e)
+            )
+            return
 
     root = tk.Tk()
-    root.title(titulo)
-    root.geometry("1060x600")
-    root.minsize(700, 420)
-    root.configure(bg=PAL["bg"])
-
-    aplicar_estilo_dark(root)
-    root.columnconfigure(0, weight=1)
-    root.rowconfigure(1, weight=1)
-
-    # Cabecera
-    header_frame = ttk.Frame(root, style="Header.TFrame")
-    header_frame.grid(row=0, column=0, sticky="ew")
-    header_frame.columnconfigure(1, weight=1)
-    tk.Frame(header_frame, bg=PAL["accent"], width=4).grid(row=0, column=0, rowspan=3, sticky="ns")
-    ttk.Label(header_frame, text=u"\u26a1 " + titulo, style="Title.TLabel").grid(
-        row=0, column=1, sticky="w", padx=(12, 0), pady=(10, 2))
-    ttk.Label(header_frame,
-        text=u"Proyecto: {} \u2022 {} elementos".format(proyecto or u"\u2014", n_filas),
-        style="Sub.TLabel").grid(row=1, column=1, sticky="w", padx=(12, 0), pady=(0, 2))
-    ttk.Label(header_frame,
-        text=u"Doble clic sobre una celda para editar \u2014 "
-             u"campos bloqueados: ElementId, Archivo, CodIntBIM",
-        style="Tag.TLabel").grid(row=2, column=1, sticky="w", padx=(12, 0), pady=(0, 8))
-    tk.Frame(root, bg=PAL["border"], height=1).grid(row=0, column=0, sticky="sew")
-
-    # Tabla
-    table_frame = ttk.Frame(root)
-    table_frame.grid(row=1, column=0, sticky="nsew")
-    table_frame.columnconfigure(0, weight=1)
-    table_frame.rowconfigure(0, weight=1)
-
-    tree = EditableTreeview(table_frame, headers, data_rows, selectmode="browse")
-    tree.grid(row=0, column=0, sticky="nsew")
-    vsb = ttk.Scrollbar(table_frame, orient="vertical",   command=tree.yview)
-    vsb.grid(row=0, column=1, sticky="ns")
-    hsb = ttk.Scrollbar(table_frame, orient="horizontal", command=tree.xview)
-    hsb.grid(row=1, column=0, sticky="ew")
-    tree.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
-
-    # Barra de estado
-    status = StatusBar(root)
-    status.grid(row=2, column=0, sticky="ew")
-
-    # Botones
-    btn_frame = tk.Frame(root, bg=PAL["bg"], pady=8)
-    btn_frame.grid(row=3, column=0, sticky="ew")
-    btn_frame.columnconfigure(0, weight=1)
-
-    counter_var = tk.StringVar(value="{} elementos | 0 cambios pendientes".format(n_filas))
-    tk.Label(btn_frame, textvariable=counter_var,
-        bg=PAL["bg"], fg=PAL["fg_muted"], font=("Segoe UI", 8), anchor="w"
-    ).grid(row=0, column=0, sticky="w", padx=12)
-
-    def _update_counter():
-        n_edits = sum(len(v) for v in tree.draft_edits.values())
-        counter_var.set("{} elementos | {} cambio{} pendiente{}".format(
-            n_filas, n_edits,
-            "s" if n_edits != 1 else "",
-            "s" if n_edits != 1 else "",
-        ))
-
-    def guardar():
-        if not tree.draft_edits:
-            status.set("Sin cambios para guardar.")
-            messagebox.showinfo("Sin cambios", "No hay cambios para guardar.")
-            return
-        repo_path = get_repo_path()
-        if not repo_path:
-            return
-        bd = cargar_json(repo_path, default={}, show_err=False) or {}
-        for row_iid, cambios in tree.draft_edits.items():
-            idx = int(row_iid)
-            if 0 <= idx < len(data_rows):
-                orig    = data_rows[idx]
-                archivo = orig.get("Archivo",  "")
-                elemid  = orig.get("ElementId", "")
-                clave   = "{}_{}".format(archivo, elemid)
-                entrada = dict(bd.get(clave, {})) if isinstance(bd.get(clave), dict) else {}
-                for h, v in cambios.items():
-                    entrada[h] = v
-                bd[clave] = entrada
-        if guardar_json(repo_path, bd):
-            status.set(u"Guardado correctamente \u2192 {}".format(repo_path))
-            messagebox.showinfo("Guardado", "Cambios guardados en:\n{}".format(repo_path))
-            tree.draft_edits.clear()
-            _update_counter()
-            root.destroy()
-
-    def cancelar():
-        if tree.draft_edits:
-            if not messagebox.askyesno("Descartar cambios",
-                "Hay cambios sin guardar. Salir de todas formas?"):
-                return
-        root.destroy()
-
-    orig_double = tree.on_double_click
-    def _patched_double(event):
-        orig_double(event)
-        root.after(200, _update_counter)
-    tree.bind("<Double-1>", _patched_double)
-
-    ttk.Button(btn_frame, text=u" \u2714 Guardar",
-        style="Save.TButton", command=guardar).grid(row=0, column=1, padx=(0, 6))
-    ttk.Button(btn_frame, text=u" \u2715 Cancelar",
-        style="Cancel.TButton", command=cancelar).grid(row=0, column=2, padx=(0, 12))
-
-    ttk.Sizegrip(root).grid(row=4, column=0, sticky="se")
+    DatosProyectoApp(root, data_dir)
     root.mainloop()
 
 

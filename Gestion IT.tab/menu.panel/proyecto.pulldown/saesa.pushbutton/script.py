@@ -1,103 +1,112 @@
 # -*- coding: utf-8 -*-
-__title__   = "SAESA"
-__doc__     = """Version = 2.1
-Date    = 19.04.2026
+__title__   = "Saesa"
+__doc__     = """Version = 2.0
+Date    = 2024-06-15
 ________________________________________________________________
 Description:
-
-Abre el gestor de datos SAESA del proyecto activo.
+  Abre el visor de datos del proyecto SAESA activo.
+  Requiere que exista config_proyecto_activo.json en data/master/.
 ________________________________________________________________
-Last Updates:
-- [19.04.2026] v2.1 Fix: datos_proyecto.py se busca en _this_dir (pushbutton)
-- [19.04.2026] v2.0 Fix rutas -> MASTER_DIR; crea carpetas necesarias
-- [18.04.2026] v1.1 Version anterior
-________________________________________________________________
-Author: Argenis Angel"""
+Author: Equipo IT"""
 
-#==================================================
+# ╦╔╦╗╔═╗╔═╗╦═╗╔╦╗╔═╗
+# ║║║║╠═╝║ ║╠╦╝ ║ ╚═╗
+# ╩╩ ╩╩  ╚═╝╩╚═ ╩ ╚═╝
 import os
 import sys
 import subprocess
-import json
 from pyrevit import forms
 
-# ── Rutas centralizadas desde config.paths ────────────────────────────────────
+# ── Agregar lib/ al sys.path (IronPython no lo hace automáticamente) ──────────
 try:
     _this_dir = os.path.dirname(os.path.abspath(__file__))
 except Exception:
     _this_dir = os.getcwd()
 
-# pushbutton(1) -> pulldown(2) -> panel(3) -> tab(4) -> EXT_ROOT
-_EXT_ROOT = os.path.abspath(os.path.join(_this_dir, '..', '..', '..', '..'))
-_LIB_DIR  = os.path.join(_EXT_ROOT, 'lib')
-if _LIB_DIR not in sys.path:
-    sys.path.insert(0, _LIB_DIR)
+# Subir 5 niveles desde el pushbutton hasta la raíz de la extensión:
+# saesa.pushbutton → proyecto.pulldown → menu.panel → Gestion IT.tab → EXT_ROOT
+_ext_root = os.path.normpath(os.path.join(_this_dir, "..", "..", "..", ".."))
+_lib_path = os.path.join(_ext_root, "lib")
+if _lib_path not in sys.path:
+    sys.path.insert(0, _lib_path)
+
+# ── Importar utilidades del proyecto ─────────────────────────────────────────
+try:
+    from config_utils import MASTER_DIR
+except ImportError:
+    # Fallback: construir MASTER_DIR desde expanduser
+    MASTER_DIR = os.path.join(
+        os.path.expanduser("~"),
+        "AppData", "Roaming", "MyPyRevitExtention",
+        "PyRevitIT.extension", "data", "master"
+    )
 
 try:
-    from config.paths import DATA_DIR, MASTER_DIR, TEMP_DIR, CACHE_DIR, \
-                             CONFIG_PROYECTO, REGISTRO_PROYECTOS, \
-                             SCRIPT_JSON_PATH_LIB, ensure_runtime_dirs
     from core.env_config import get_python_exe
-    ensure_runtime_dirs()
     PYTHON_EXE = get_python_exe()
-except Exception as _path_err:
-    _DATA_DIR            = os.path.join(_EXT_ROOT, 'data')
-    DATA_DIR             = _DATA_DIR
-    MASTER_DIR           = os.path.join(_DATA_DIR, 'master')
-    TEMP_DIR             = os.path.join(_DATA_DIR, 'temp')
-    CACHE_DIR            = os.path.join(_DATA_DIR, 'cache')
-    CONFIG_PROYECTO      = os.path.join(MASTER_DIR, 'config_proyecto_activo.json')
-    REGISTRO_PROYECTOS   = os.path.join(MASTER_DIR, 'registro_proyectos.json')
-    SCRIPT_JSON_PATH_LIB = os.path.join(MASTER_DIR, 'script.json')
-    import glob as _glob
-    def _fb_python():
-        base = os.path.join(os.path.expanduser('~'), 'AppData', 'Local', 'Programs', 'Python')
-        for exe in ('python.exe', 'pythonw.exe'):
-            for cand in sorted(_glob.glob(os.path.join(base, 'Python3*', exe)), reverse=True):
-                return cand
-        for folder in os.environ.get('PATH', '').split(os.pathsep):
-            cand = os.path.join(folder.strip(), 'python.exe')
-            if os.path.isfile(cand):
-                return cand
-        return None
-    PYTHON_EXE = _fb_python()
+except Exception:
+    PYTHON_EXE = None
 
-#==================================================
-# datos_proyecto.py vive en la misma carpeta que este script (pushbutton)
-_DATOS_SCRIPT = os.path.join(_this_dir, 'datos_proyecto.py')
+# ── Helpers ───────────────────────────────────────────────────────────────────
+def _get_python_exe():
+    """Devuelve PYTHON_EXE resuelto; muestra alerta si no se encontró."""
+    if PYTHON_EXE and os.path.isfile(PYTHON_EXE):
+        return PYTHON_EXE
+    forms.alert(
+        u"No se encontró un intérprete Python 3 en este equipo.\n\n"
+        u"Instala Python 3 o verifica que esté en el PATH del sistema.",
+        title=u"Python no encontrado"
+    )
+    return None
 
+def _run_cpython(script_name, args_list):
+    """Lanza un script CPython como subproceso independiente (Popen)."""
+    exe = _get_python_exe()
+    if not exe:
+        return 1
 
-def run_datos_proyecto(args=None):
-    if not os.path.isfile(_DATOS_SCRIPT):
+    script_path = os.path.join(_this_dir, script_name)
+    if not os.path.isfile(script_path):
         forms.alert(
-            u"No se encontro el script CPython:\n{}".format(_DATOS_SCRIPT),
-            title=u"Error"
+            u"No se encontró el script CPython '{}'.\nRuta esperada:\n{}".format(
+                script_name, script_path
+            ),
+            title=u"Script no encontrado"
         )
         return 1
-    if not PYTHON_EXE or not os.path.isfile(PYTHON_EXE):
+
+    # Crear la carpeta de datos si no existe
+    if not os.path.isdir(MASTER_DIR):
+        os.makedirs(MASTER_DIR)
+
+    cmd = [exe, script_path] + args_list
+    try:
+        subprocess.Popen(cmd, cwd=_this_dir)
+        return 0
+    except Exception as e:
         forms.alert(
-            u"No se encontro Python 3 instalado en este equipo.",
-            title=u"Error"
+            u"Error al lanzar el script CPython:\n{}\n\nComando:\n{}".format(
+                e, " ".join(cmd)
+            ),
+            title=u"Error CPython"
         )
         return 1
-    cmd = [PYTHON_EXE, _DATOS_SCRIPT] + (args or [])
-    return subprocess.call(cmd)
 
-
+# ── Main ──────────────────────────────────────────────────────────────────────
 def main():
-    # Asegurar que existen todas las carpetas necesarias
-    for d in (DATA_DIR, MASTER_DIR, TEMP_DIR, CACHE_DIR):
-        if not os.path.exists(d):
-            os.makedirs(d)
-
-    # Se pasa MASTER_DIR para que registro y config queden en data/master/
-    rc = run_datos_proyecto([MASTER_DIR])
-    if rc != 0:
+    # Verificar que haya un documento activo en Revit
+    try:
+        doc = __revit__.ActiveUIDocument.Document  # noqa: F821
+        if doc is None:
+            raise AttributeError
+    except Exception:
         forms.alert(
-            u"El gestor de datos termino con codigo: {}".format(rc),
-            title=u"Advertencia"
+            u"No hay documento activo.\nAbre un archivo Revit antes de usar este botón.",
+            title=u"Sin documento"
         )
+        return
 
+    # Pasar MASTER_DIR como único argumento a datos_proyecto.py
+    _run_cpython("datos_proyecto.py", [MASTER_DIR])
 
-if __name__ == '__main__':
-    main()
+main()
