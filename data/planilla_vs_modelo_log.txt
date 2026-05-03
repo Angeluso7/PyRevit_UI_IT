@@ -1,0 +1,6 @@
+[2026-04-20 17:04:56] ==== Inicio Planilla vs Modelo v1.1 ====
+[2026-04-20 17:04:58] main: script.json no encontrado
+[2026-04-20 17:05:08] ==== Inicio Planilla vs Modelo v1.1 ====
+[2026-04-20 17:09:00] main: script.json no encontrado
+[2026-04-20 22:20:10] ==== Inicio Planilla vs Modelo v1.1 ====
+[2026-04-20 22:20:12] main: script.json no encontrado

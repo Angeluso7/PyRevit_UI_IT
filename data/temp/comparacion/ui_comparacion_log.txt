@@ -1,0 +1,4 @@
+Payload export guardado en: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\comparacion_export.json
+Payload export guardado en: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\comparacion_export.json
+Exportar CMD: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\comparacion_export.json D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\planilla-modelo_20260420_1228.xlsx
+b''

@@ -1,0 +1,720 @@
+[2026-04-20 10:10:59] ==== Inicio Planilla vs Modelo v1.1 ====
+[2026-04-20 11:21:38] python3 desde LocalAppData: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-20 11:21:38] ==== Inicio Planilla vs Modelo v1.2 ====
+[2026-04-20 11:21:44] python3 desde LocalAppData: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-20 11:21:44] ==== Inicio Planilla vs Modelo v1.2 ====
+[2026-04-20 11:23:52] python3 desde LocalAppData: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-20 11:23:52] ==== Inicio Planilla vs Modelo v1.2 ====
+[2026-04-20 11:31:48] python3 desde LocalAppData: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-20 11:31:48] ==== Inicio Planilla vs Modelo v1.3 ====
+[2026-04-20 11:31:48] --- RUTAS ---
+[2026-04-20 11:31:48] EXT_ROOT        : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-20 11:31:48] _CPYTHON_DIR    : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython
+[2026-04-20 11:31:48] DATA_DIR_EXT    : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data
+[2026-04-20 11:31:48] MASTER_DIR      : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master
+[2026-04-20 11:31:48] TEMP_DIR        : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp
+[2026-04-20 11:31:48] DATA_COMPARACION: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion
+[2026-04-20 11:31:48] UI_COMPARACION  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py | existe=True
+[2026-04-20 11:31:48] FORMATEAR_XLSX  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py | existe=True
+[2026-04-20 11:31:48] SCRIPT_JSON     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json | existe=True
+[2026-04-20 11:31:48] PLANILLAS_HDR   : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json | existe=True
+[2026-04-20 11:31:48] -------------
+[2026-04-20 11:31:48] planillas_headers: 108 claves
+[2026-04-20 11:31:48] get_repo_activo_path (nup portable): C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 11:31:48] cargar_repo_activo: 24 registros
+[2026-04-20 11:31:48] link doc: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\2. DESARROLLO\20260402_DESENLAZADOS_R2025\24069-ISEP-AR1-ZZZ-DO-EE-D-001.rvt
+[2026-04-20 11:31:48] link doc: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\2. DESARROLLO\20260402_DESENLAZADOS_R2025\24069-ISEP-AR1-ZZZ-FE-EE-B-008.rvt
+[2026-04-20 11:31:51] modelo: docs=3 elems=192 CMs=['CM08', 'CM02', 'CM52', 'CM10', 'IM S', 'CM11']
+[2026-04-20 11:31:51] modelo guardado: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json
+[2026-04-20 11:32:11] xlsm seleccionado: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-20 11:32:11] llamar_ui_comparacion CMD: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\planilla-modelo_20260420_1132.xlsx C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json
+[2026-04-20 11:32:11] ui_comparacion lanzado (PID 28576)
+[2026-04-20 11:32:11] ==== Fin Planilla vs Modelo v1.3 ====
+[2026-04-20 11:35:44] python3 desde LocalAppData: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-20 11:35:44] ==== Inicio Planilla vs Modelo v1.3 ====
+[2026-04-20 11:35:44] --- RUTAS ---
+[2026-04-20 11:35:44] EXT_ROOT        : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-20 11:35:44] _CPYTHON_DIR    : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython
+[2026-04-20 11:35:44] DATA_DIR_EXT    : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data
+[2026-04-20 11:35:44] MASTER_DIR      : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master
+[2026-04-20 11:35:44] TEMP_DIR        : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp
+[2026-04-20 11:35:44] DATA_COMPARACION: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion
+[2026-04-20 11:35:44] UI_COMPARACION  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py | existe=True
+[2026-04-20 11:35:44] FORMATEAR_XLSX  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py | existe=True
+[2026-04-20 11:35:44] SCRIPT_JSON     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json | existe=True
+[2026-04-20 11:35:44] PLANILLAS_HDR   : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json | existe=True
+[2026-04-20 11:35:44] -------------
+[2026-04-20 11:35:44] planillas_headers: 108 claves
+[2026-04-20 11:35:44] get_repo_activo_path (nup portable): C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 11:35:44] cargar_repo_activo: 24 registros
+[2026-04-20 11:35:44] link doc: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\4. CARGABLE\GRUPOS\PISO_CEL_01.rvt
+[2026-04-20 11:35:47] modelo: docs=2 elems=180 CMs=['CM52', 'CM02']
+[2026-04-20 11:35:48] modelo guardado: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json
+[2026-04-20 11:36:15] xlsm seleccionado: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-20 11:36:15] llamar_ui_comparacion CMD: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\planilla-modelo_20260420_1136.xlsx C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json
+[2026-04-20 11:36:15] ui_comparacion lanzado (PID 7844)
+[2026-04-20 11:36:15] ==== Fin Planilla vs Modelo v1.3 ====
+[2026-04-20 11:38:38] python3 desde LocalAppData: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-20 11:38:38] ==== Inicio Planilla vs Modelo v1.3 ====
+[2026-04-20 11:38:38] --- RUTAS ---
+[2026-04-20 11:38:38] EXT_ROOT        : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-20 11:38:38] _CPYTHON_DIR    : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython
+[2026-04-20 11:38:38] DATA_DIR_EXT    : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data
+[2026-04-20 11:38:38] MASTER_DIR      : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master
+[2026-04-20 11:38:38] TEMP_DIR        : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp
+[2026-04-20 11:38:38] DATA_COMPARACION: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion
+[2026-04-20 11:38:38] UI_COMPARACION  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py | existe=True
+[2026-04-20 11:38:38] FORMATEAR_XLSX  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py | existe=True
+[2026-04-20 11:38:38] SCRIPT_JSON     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json | existe=True
+[2026-04-20 11:38:38] PLANILLAS_HDR   : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json | existe=True
+[2026-04-20 11:38:38] -------------
+[2026-04-20 11:38:38] planillas_headers: 108 claves
+[2026-04-20 11:38:38] get_repo_activo_path (nup portable): C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 11:38:38] cargar_repo_activo: 24 registros
+[2026-04-20 11:38:38] link doc: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\2. DESARROLLO\20260402_DESENLAZADOS_R2025\24069-ISEP-AR1-ZZZ-DO-EE-D-001.rvt
+[2026-04-20 11:38:38] link doc: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\2. DESARROLLO\20260402_DESENLAZADOS_R2025\24069-ISEP-AR1-ZZZ-FE-EE-B-008.rvt
+[2026-04-20 11:38:41] modelo: docs=3 elems=192 CMs=['CM08', 'CM02', 'CM52', 'CM10', 'IM S', 'CM11']
+[2026-04-20 11:38:41] modelo guardado: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json
+[2026-04-20 11:38:45] xlsm seleccionado: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-20 11:38:45] llamar_ui_comparacion CMD: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\planilla-modelo_20260420_1138.xlsx C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json
+[2026-04-20 11:38:45] ui_comparacion lanzado (PID 29724)
+[2026-04-20 11:38:45] ==== Fin Planilla vs Modelo v1.3 ====
+[2026-04-20 11:40:37] ==== Inicio Planilla vs Modelo v1.4 ====
+[2026-04-20 11:40:37] --- RUTAS ---
+[2026-04-20 11:40:37] EXT_ROOT        : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-20 11:40:37] _CPYTHON_DIR    : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython
+[2026-04-20 11:40:37] MASTER_DIR      : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master
+[2026-04-20 11:40:37] DATA_COMPARACION: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion
+[2026-04-20 11:40:37] UI_COMPARACION  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py | existe=True
+[2026-04-20 11:40:37] FORMATEAR_XLSX  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py | existe=True
+[2026-04-20 11:40:37] SCRIPT_JSON     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json | existe=True
+[2026-04-20 11:40:37] -------------
+[2026-04-20 11:40:37] planillas_headers: 108 claves
+[2026-04-20 11:40:37] cargar_repo_activo: 24 registros
+[2026-04-20 11:40:40] modelo: docs=3 elems=192 CMs=['CM08', 'CM02', 'CM52', 'CM10', 'IM S', 'CM11']
+[2026-04-20 11:40:45] xlsm seleccionado: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-20 11:40:45] llamar_ui_comparacion CMD: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\planilla-modelo_20260420_1140.xlsx C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json
+[2026-04-20 11:40:45] ui_comparacion lanzado (PID 30464)
+[2026-04-20 11:40:45] ==== Fin Planilla vs Modelo v1.4 ====
+[2026-04-20 11:40:58] ==== Inicio Planilla vs Modelo v1.4 ====
+[2026-04-20 11:40:58] --- RUTAS ---
+[2026-04-20 11:40:58] EXT_ROOT        : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-20 11:40:58] _CPYTHON_DIR    : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython
+[2026-04-20 11:40:58] MASTER_DIR      : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master
+[2026-04-20 11:40:58] DATA_COMPARACION: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion
+[2026-04-20 11:40:58] UI_COMPARACION  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py | existe=True
+[2026-04-20 11:40:58] FORMATEAR_XLSX  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py | existe=True
+[2026-04-20 11:40:58] SCRIPT_JSON     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json | existe=True
+[2026-04-20 11:40:58] -------------
+[2026-04-20 11:40:58] planillas_headers: 108 claves
+[2026-04-20 11:40:58] cargar_repo_activo: 24 registros
+[2026-04-20 11:41:01] modelo: docs=3 elems=192 CMs=['CM08', 'CM02', 'CM52', 'CM10', 'IM S', 'CM11']
+[2026-04-20 11:41:07] xlsm seleccionado: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-20 11:41:07] llamar_ui_comparacion CMD: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\planilla-modelo_20260420_1141.xlsx C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json
+[2026-04-20 11:41:07] ui_comparacion lanzado (PID 15440)
+[2026-04-20 11:41:07] ==== Fin Planilla vs Modelo v1.4 ====
+[2026-04-20 11:43:26] ==== Inicio Planilla vs Modelo v1.4 ====
+[2026-04-20 11:43:26] --- RUTAS ---
+[2026-04-20 11:43:26] EXT_ROOT        : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-20 11:43:26] _CPYTHON_DIR    : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython
+[2026-04-20 11:43:26] MASTER_DIR      : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master
+[2026-04-20 11:43:26] DATA_COMPARACION: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion
+[2026-04-20 11:43:26] UI_COMPARACION  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py | existe=True
+[2026-04-20 11:43:26] FORMATEAR_XLSX  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py | existe=True
+[2026-04-20 11:43:26] SCRIPT_JSON     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json | existe=True
+[2026-04-20 11:43:26] -------------
+[2026-04-20 11:43:26] planillas_headers: 108 claves
+[2026-04-20 11:43:26] cargar_repo_activo: 24 registros
+[2026-04-20 11:43:29] modelo: docs=3 elems=192 CMs=['CM08', 'CM02', 'CM52', 'CM10', 'IM S', 'CM11']
+[2026-04-20 11:43:33] xlsm seleccionado: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-20 11:43:33] llamar_ui_comparacion CMD: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\planilla-modelo_20260420_1143.xlsx C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json
+[2026-04-20 11:43:33] ui_comparacion lanzado (PID 30516)
+[2026-04-20 11:43:33] ==== Fin Planilla vs Modelo v1.4 ====
+[2026-04-20 11:53:50] ==== Inicio Planilla vs Modelo v1.4 ====
+[2026-04-20 11:53:50] --- RUTAS ---
+[2026-04-20 11:53:50] EXT_ROOT        : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-20 11:53:50] _CPYTHON_DIR    : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython
+[2026-04-20 11:53:50] MASTER_DIR      : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master
+[2026-04-20 11:53:50] DATA_COMPARACION: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion
+[2026-04-20 11:53:50] UI_COMPARACION  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py | existe=True
+[2026-04-20 11:53:50] FORMATEAR_XLSX  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py | existe=True
+[2026-04-20 11:53:50] SCRIPT_JSON     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json | existe=True
+[2026-04-20 11:53:50] -------------
+[2026-04-20 11:53:50] planillas_headers: 108 claves
+[2026-04-20 11:53:50] cargar_repo_activo: 24 registros
+[2026-04-20 11:53:53] modelo: docs=3 elems=192 CMs=['CM08', 'CM02', 'CM52', 'CM10', 'IM S', 'CM11']
+[2026-04-20 11:53:58] xlsm seleccionado: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-20 11:53:58] llamar_ui_comparacion CMD: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\planilla-modelo_20260420_1153.xlsx C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json
+[2026-04-20 11:53:58] ui_comparacion lanzado (PID 24128)
+[2026-04-20 11:53:58] ==== Fin Planilla vs Modelo v1.4 ====
+[2026-04-20 11:55:26] ==== Inicio Planilla vs Modelo v1.4 ====
+[2026-04-20 11:55:26] --- RUTAS ---
+[2026-04-20 11:55:26] EXT_ROOT        : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-20 11:55:26] _CPYTHON_DIR    : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython
+[2026-04-20 11:55:26] MASTER_DIR      : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master
+[2026-04-20 11:55:26] DATA_COMPARACION: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion
+[2026-04-20 11:55:26] UI_COMPARACION  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py | existe=True
+[2026-04-20 11:55:26] FORMATEAR_XLSX  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py | existe=True
+[2026-04-20 11:55:26] SCRIPT_JSON     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json | existe=True
+[2026-04-20 11:55:26] -------------
+[2026-04-20 11:55:26] planillas_headers: 108 claves
+[2026-04-20 11:55:26] cargar_repo_activo: 24 registros
+[2026-04-20 11:55:29] modelo: docs=3 elems=192 CMs=['CM08', 'CM02', 'CM52', 'CM10', 'IM S', 'CM11']
+[2026-04-20 11:55:34] xlsm seleccionado: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-20 11:55:34] llamar_ui_comparacion CMD: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\planilla-modelo_20260420_1155.xlsx C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json
+[2026-04-20 11:55:34] ui_comparacion lanzado (PID 23164)
+[2026-04-20 11:55:34] ==== Fin Planilla vs Modelo v1.4 ====
+[2026-04-20 12:20:52] ==== Inicio Planilla vs Modelo v1.4 ====
+[2026-04-20 12:20:52] --- RUTAS ---
+[2026-04-20 12:20:52] EXT_ROOT        : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-20 12:20:52] _CPYTHON_DIR    : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython
+[2026-04-20 12:20:52] MASTER_DIR      : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master
+[2026-04-20 12:20:52] DATA_COMPARACION: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion
+[2026-04-20 12:20:52] UI_COMPARACION  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py | existe=True
+[2026-04-20 12:20:52] FORMATEAR_XLSX  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py | existe=True
+[2026-04-20 12:20:52] SCRIPT_JSON     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json | existe=True
+[2026-04-20 12:20:52] -------------
+[2026-04-20 12:20:52] planillas_headers: 108 claves
+[2026-04-20 12:20:52] cargar_repo_activo: 24 registros
+[2026-04-20 12:20:55] modelo: docs=3 elems=192 CMs=['CM08', 'CM02', 'CM52', 'CM10', 'IM S', 'CM11']
+[2026-04-20 12:21:00] xlsm seleccionado: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-20 12:21:00] llamar_ui_comparacion CMD: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\planilla-modelo_20260420_1221.xlsx C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json
+[2026-04-20 12:21:00] ui_comparacion lanzado (PID 25556)
+[2026-04-20 12:21:00] ==== Fin Planilla vs Modelo v1.4 ====
+[2026-04-20 12:21:19] ==== Inicio Planilla vs Modelo v1.4 ====
+[2026-04-20 12:21:19] --- RUTAS ---
+[2026-04-20 12:21:19] EXT_ROOT        : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-20 12:21:19] _CPYTHON_DIR    : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython
+[2026-04-20 12:21:19] MASTER_DIR      : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master
+[2026-04-20 12:21:19] DATA_COMPARACION: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion
+[2026-04-20 12:21:19] UI_COMPARACION  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py | existe=True
+[2026-04-20 12:21:19] FORMATEAR_XLSX  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py | existe=True
+[2026-04-20 12:21:19] SCRIPT_JSON     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json | existe=True
+[2026-04-20 12:21:19] -------------
+[2026-04-20 12:21:19] planillas_headers: 108 claves
+[2026-04-20 12:21:19] cargar_repo_activo: 24 registros
+[2026-04-20 12:21:22] modelo: docs=3 elems=192 CMs=['CM08', 'CM02', 'CM52', 'CM10', 'IM S', 'CM11']
+[2026-04-20 12:21:31] xlsm seleccionado: <cancelado>
+[2026-04-20 12:28:16] python3 en Programs: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-20 12:28:16] ==== Inicio Planilla vs Modelo v1.5 ====
+[2026-04-20 12:28:16] --- RUTAS ---
+[2026-04-20 12:28:16] EXT_ROOT        : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-20 12:28:16] _CPYTHON_DIR    : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython
+[2026-04-20 12:28:16] MASTER_DIR      : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master
+[2026-04-20 12:28:16] DATA_COMPARACION: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion
+[2026-04-20 12:28:16] UI_COMPARACION  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py | existe=True
+[2026-04-20 12:28:16] FORMATEAR_XLSX  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py | existe=True
+[2026-04-20 12:28:16] SCRIPT_JSON     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json | existe=True
+[2026-04-20 12:28:16] MODELO_JSON     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json | existe=True
+[2026-04-20 12:28:16] HEADERS_JSON    : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json | existe=True
+[2026-04-20 12:28:16] --- FIN RUTAS ---
+[2026-04-20 12:28:16] get_repo_activo_path: ruta portatil OK -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 12:28:16] planillas_headers: 108 claves
+[2026-04-20 12:28:16] get_repo_activo_path: ruta portatil OK -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 12:28:16] cargar_repo_activo: 24 registros desde C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 12:28:19] modelo: docs=3 elems=192 CMs=['CM02', 'CM08', 'CM10', 'CM11', 'CM52', 'IM S']
+[2026-04-20 12:28:23] xlsm seleccionado: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-20 12:28:23] CMD:
+  C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json
+  D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py
+  D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\planilla-modelo_20260420_1228.xlsx
+  C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json
+[2026-04-20 12:28:23] ui_comparacion lanzado (PID 28064)
+[2026-04-20 12:28:23] ==== Fin Planilla vs Modelo v1.5 ====
+[2026-04-20 12:28:40] python3 en Programs: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-20 12:28:40] ==== Inicio Planilla vs Modelo v1.5 ====
+[2026-04-20 12:28:40] --- RUTAS ---
+[2026-04-20 12:28:40] EXT_ROOT        : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-20 12:28:40] _CPYTHON_DIR    : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython
+[2026-04-20 12:28:40] MASTER_DIR      : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master
+[2026-04-20 12:28:40] DATA_COMPARACION: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion
+[2026-04-20 12:28:40] UI_COMPARACION  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py | existe=True
+[2026-04-20 12:28:40] FORMATEAR_XLSX  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py | existe=True
+[2026-04-20 12:28:40] SCRIPT_JSON     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json | existe=True
+[2026-04-20 12:28:40] MODELO_JSON     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json | existe=True
+[2026-04-20 12:28:40] HEADERS_JSON    : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json | existe=True
+[2026-04-20 12:28:40] --- FIN RUTAS ---
+[2026-04-20 12:28:40] get_repo_activo_path: ruta portatil OK -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 12:28:40] planillas_headers: 108 claves
+[2026-04-20 12:28:40] get_repo_activo_path: ruta portatil OK -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 12:28:40] cargar_repo_activo: 24 registros desde C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 12:28:43] modelo: docs=3 elems=192 CMs=['CM02', 'CM08', 'CM10', 'CM11', 'CM52', 'IM S']
+[2026-04-20 12:28:48] xlsm seleccionado: <cancelado>
+[2026-04-20 12:52:49] python3 en Programs: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-20 12:52:49] ==== Inicio Planilla vs Modelo v1.5 ====
+[2026-04-20 12:52:49] --- RUTAS ---
+[2026-04-20 12:52:49] EXT_ROOT        : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-20 12:52:49] _CPYTHON_DIR    : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython
+[2026-04-20 12:52:49] MASTER_DIR      : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master
+[2026-04-20 12:52:49] DATA_COMPARACION: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion
+[2026-04-20 12:52:49] UI_COMPARACION  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py | existe=True
+[2026-04-20 12:52:49] FORMATEAR_XLSX  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py | existe=True
+[2026-04-20 12:52:49] SCRIPT_JSON     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json | existe=True
+[2026-04-20 12:52:49] MODELO_JSON     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json | existe=True
+[2026-04-20 12:52:49] HEADERS_JSON    : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json | existe=True
+[2026-04-20 12:52:49] --- FIN RUTAS ---
+[2026-04-20 12:52:49] get_repo_activo_path: ruta portatil OK -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 12:52:49] planillas_headers: 108 claves
+[2026-04-20 12:52:49] get_repo_activo_path: ruta portatil OK -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 12:52:49] cargar_repo_activo: 24 registros desde C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 12:52:53] modelo: docs=3 elems=192 CMs=['CM02', 'CM08', 'CM10', 'CM11', 'CM52', 'IM S']
+[2026-04-20 12:52:58] xlsm seleccionado: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-20 12:52:58] CMD:
+  C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json
+  D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py
+  D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\planilla-modelo_20260420_1252.xlsx
+  C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json
+[2026-04-20 12:52:58] ui_comparacion lanzado (PID 27872)
+[2026-04-20 12:52:58] ==== Fin Planilla vs Modelo v1.5 ====
+[2026-04-20 12:53:07] python3 en Programs: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-20 12:53:07] ==== Inicio Planilla vs Modelo v1.5 ====
+[2026-04-20 12:53:07] --- RUTAS ---
+[2026-04-20 12:53:07] EXT_ROOT        : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-20 12:53:07] _CPYTHON_DIR    : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython
+[2026-04-20 12:53:07] MASTER_DIR      : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master
+[2026-04-20 12:53:07] DATA_COMPARACION: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion
+[2026-04-20 12:53:07] UI_COMPARACION  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py | existe=True
+[2026-04-20 12:53:07] FORMATEAR_XLSX  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py | existe=True
+[2026-04-20 12:53:07] SCRIPT_JSON     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json | existe=True
+[2026-04-20 12:53:07] MODELO_JSON     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json | existe=True
+[2026-04-20 12:53:07] HEADERS_JSON    : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json | existe=True
+[2026-04-20 12:53:07] --- FIN RUTAS ---
+[2026-04-20 12:53:07] get_repo_activo_path: ruta portatil OK -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 12:53:07] planillas_headers: 108 claves
+[2026-04-20 12:53:07] get_repo_activo_path: ruta portatil OK -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 12:53:07] cargar_repo_activo: 24 registros desde C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 12:53:10] modelo: docs=3 elems=192 CMs=['CM02', 'CM08', 'CM10', 'CM11', 'CM52', 'IM S']
+[2026-04-20 12:53:21] xlsm seleccionado: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-20 12:53:21] CMD:
+  C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json
+  D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py
+  D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\planilla-modelo_20260420_1253.xlsx
+  C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json
+[2026-04-20 12:53:21] ui_comparacion lanzado (PID 12556)
+[2026-04-20 12:53:21] ==== Fin Planilla vs Modelo v1.5 ====
+[2026-04-20 12:53:55] python3 en Programs: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-20 12:53:55] ==== Inicio Planilla vs Modelo v1.5 ====
+[2026-04-20 12:53:55] --- RUTAS ---
+[2026-04-20 12:53:55] EXT_ROOT        : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-20 12:53:55] _CPYTHON_DIR    : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython
+[2026-04-20 12:53:55] MASTER_DIR      : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master
+[2026-04-20 12:53:55] DATA_COMPARACION: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion
+[2026-04-20 12:53:55] UI_COMPARACION  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py | existe=True
+[2026-04-20 12:53:55] FORMATEAR_XLSX  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py | existe=True
+[2026-04-20 12:53:55] SCRIPT_JSON     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json | existe=True
+[2026-04-20 12:53:55] MODELO_JSON     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json | existe=True
+[2026-04-20 12:53:55] HEADERS_JSON    : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json | existe=True
+[2026-04-20 12:53:55] --- FIN RUTAS ---
+[2026-04-20 12:53:55] get_repo_activo_path: ruta portatil OK -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 12:53:55] planillas_headers: 108 claves
+[2026-04-20 12:53:55] get_repo_activo_path: ruta portatil OK -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 12:53:55] cargar_repo_activo: 24 registros desde C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 12:53:58] modelo: docs=3 elems=192 CMs=['CM02', 'CM08', 'CM10', 'CM11', 'CM52', 'IM S']
+[2026-04-20 12:54:09] xlsm seleccionado: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-20 12:54:09] CMD:
+  C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json
+  D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py
+  D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\planilla-modelo_20260420_1254.xlsx
+  C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json
+[2026-04-20 12:54:09] ui_comparacion lanzado (PID 3688)
+[2026-04-20 12:54:09] ==== Fin Planilla vs Modelo v1.5 ====
+[2026-04-20 14:58:10] python3 en Programs: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-20 14:58:10] ==== Inicio Planilla vs Modelo v1.5 ====
+[2026-04-20 14:58:10] --- RUTAS ---
+[2026-04-20 14:58:10] EXT_ROOT        : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-20 14:58:10] _CPYTHON_DIR    : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython
+[2026-04-20 14:58:10] MASTER_DIR      : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master
+[2026-04-20 14:58:10] DATA_COMPARACION: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion
+[2026-04-20 14:58:10] UI_COMPARACION  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py | existe=True
+[2026-04-20 14:58:10] FORMATEAR_XLSX  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py | existe=True
+[2026-04-20 14:58:10] SCRIPT_JSON     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json | existe=True
+[2026-04-20 14:58:10] MODELO_JSON     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json | existe=True
+[2026-04-20 14:58:10] HEADERS_JSON    : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json | existe=True
+[2026-04-20 14:58:10] --- FIN RUTAS ---
+[2026-04-20 14:58:10] get_repo_activo_path: ruta portatil OK -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 14:58:10] planillas_headers: 108 claves
+[2026-04-20 14:58:10] get_repo_activo_path: ruta portatil OK -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 14:58:10] cargar_repo_activo: 24 registros desde C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 14:58:13] modelo: docs=3 elems=192 CMs=['CM02', 'CM08', 'CM10', 'CM11', 'CM52', 'IM S']
+[2026-04-20 14:59:19] xlsm seleccionado: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-20 14:59:19] CMD:
+  C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json
+  D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py
+  D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\planilla-modelo_20260420_1459.xlsx
+  C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json
+[2026-04-20 14:59:19] ui_comparacion lanzado (PID 28076)
+[2026-04-20 14:59:19] ==== Fin Planilla vs Modelo v1.5 ====
+[2026-04-20 14:59:31] python3 en Programs: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-20 14:59:31] ==== Inicio Planilla vs Modelo v1.5 ====
+[2026-04-20 14:59:31] --- RUTAS ---
+[2026-04-20 14:59:31] EXT_ROOT        : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-20 14:59:31] _CPYTHON_DIR    : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython
+[2026-04-20 14:59:31] MASTER_DIR      : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master
+[2026-04-20 14:59:31] DATA_COMPARACION: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion
+[2026-04-20 14:59:31] UI_COMPARACION  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py | existe=True
+[2026-04-20 14:59:31] FORMATEAR_XLSX  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py | existe=True
+[2026-04-20 14:59:31] SCRIPT_JSON     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json | existe=True
+[2026-04-20 14:59:31] MODELO_JSON     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json | existe=True
+[2026-04-20 14:59:31] HEADERS_JSON    : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json | existe=True
+[2026-04-20 14:59:31] --- FIN RUTAS ---
+[2026-04-20 14:59:31] get_repo_activo_path: ruta portatil OK -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 14:59:31] planillas_headers: 108 claves
+[2026-04-20 14:59:31] get_repo_activo_path: ruta portatil OK -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 14:59:31] cargar_repo_activo: 24 registros desde C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 14:59:34] modelo: docs=3 elems=192 CMs=['CM02', 'CM08', 'CM10', 'CM11', 'CM52', 'IM S']
+[2026-04-20 14:59:46] xlsm seleccionado: <cancelado>
+[2026-04-20 15:24:17] python3 en Programs: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-20 15:24:17] ==== Inicio Planilla vs Modelo v1.5 ====
+[2026-04-20 15:24:17] --- RUTAS ---
+[2026-04-20 15:24:17] EXT_ROOT        : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-20 15:24:17] _CPYTHON_DIR    : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython
+[2026-04-20 15:24:17] MASTER_DIR      : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master
+[2026-04-20 15:24:17] DATA_COMPARACION: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion
+[2026-04-20 15:24:17] UI_COMPARACION  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py | existe=True
+[2026-04-20 15:24:17] FORMATEAR_XLSX  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py | existe=True
+[2026-04-20 15:24:17] SCRIPT_JSON     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json | existe=True
+[2026-04-20 15:24:17] MODELO_JSON     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json | existe=True
+[2026-04-20 15:24:17] HEADERS_JSON    : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json | existe=True
+[2026-04-20 15:24:17] --- FIN RUTAS ---
+[2026-04-20 15:24:17] get_repo_activo_path: ruta portatil OK -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 15:24:17] planillas_headers: 108 claves
+[2026-04-20 15:24:17] get_repo_activo_path: ruta portatil OK -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 15:24:17] cargar_repo_activo: 24 registros desde C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 15:24:20] modelo: docs=3 elems=192 CMs=['CM02', 'CM08', 'CM10', 'CM11', 'CM52', 'IM S']
+[2026-04-20 15:24:25] xlsm seleccionado: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-20 15:24:25] CMD:
+  C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json
+  D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py
+  D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\planilla-modelo_20260420_1524.xlsx
+  C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json
+  C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json
+[2026-04-20 15:24:25] ui_comparacion lanzado (PID 30724)
+[2026-04-20 15:24:25] ==== Fin Planilla vs Modelo v1.5 ====
+[2026-04-20 15:24:34] python3 en Programs: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-20 15:24:34] ==== Inicio Planilla vs Modelo v1.5 ====
+[2026-04-20 15:24:34] --- RUTAS ---
+[2026-04-20 15:24:34] EXT_ROOT        : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-20 15:24:34] _CPYTHON_DIR    : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython
+[2026-04-20 15:24:34] MASTER_DIR      : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master
+[2026-04-20 15:24:34] DATA_COMPARACION: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion
+[2026-04-20 15:24:34] UI_COMPARACION  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py | existe=True
+[2026-04-20 15:24:34] FORMATEAR_XLSX  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py | existe=True
+[2026-04-20 15:24:34] SCRIPT_JSON     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json | existe=True
+[2026-04-20 15:24:34] MODELO_JSON     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json | existe=True
+[2026-04-20 15:24:34] HEADERS_JSON    : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json | existe=True
+[2026-04-20 15:24:34] --- FIN RUTAS ---
+[2026-04-20 15:24:34] get_repo_activo_path: ruta portatil OK -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 15:24:34] planillas_headers: 108 claves
+[2026-04-20 15:24:34] get_repo_activo_path: ruta portatil OK -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 15:24:34] cargar_repo_activo: 24 registros desde C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 15:24:37] modelo: docs=3 elems=192 CMs=['CM02', 'CM08', 'CM10', 'CM11', 'CM52', 'IM S']
+[2026-04-20 15:24:40] xlsm seleccionado: <cancelado>
+[2026-04-20 16:07:31] ==== Inicio Planilla vs Modelo v1.5 ====
+[2026-04-20 16:07:31] --- RUTAS ---
+[2026-04-20 16:07:31] EXT_ROOT        : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-20 16:07:31] _CPYTHON_DIR    : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython
+[2026-04-20 16:07:31] MASTER_DIR      : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master
+[2026-04-20 16:07:31] DATA_COMPARACION: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion
+[2026-04-20 16:07:31] UI_COMPARACION  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py | existe=True
+[2026-04-20 16:07:31] FORMATEAR_XLSX  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py | existe=True
+[2026-04-20 16:07:31] SCRIPT_JSON     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json | existe=True
+[2026-04-20 16:07:31] -------------
+[2026-04-20 16:07:33] xlsm seleccionado: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-20 16:07:46] carpeta destino: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN
+[2026-04-20 16:07:46] planillas_headers: 108 claves
+[2026-04-20 16:07:46] cargar_repo_activo: 24 registros
+[2026-04-20 16:07:49] modelo: docs=3 elems=192 CMs=['CM08', 'CM02', 'CM52', 'CM10', 'IM S', 'CM11']
+[2026-04-20 16:07:49] modelo_codint_por_cm.json guardado OK -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json
+[2026-04-20 16:07:49] generar_modelo_json_desde_revit: OK docs=3 elems=192
+[2026-04-20 16:07:49] llamar_ui_comparacion CMD: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\planilla-modelo_20260420_1607.xlsx C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json
+[2026-04-20 16:07:49] ui_comparacion lanzado (PID 31632)
+[2026-04-20 16:07:49] ==== Fin Planilla vs Modelo v1.5 ====
+[2026-04-20 16:13:40] ==== Inicio Planilla vs Modelo v1.5 ====
+[2026-04-20 16:13:40] --- RUTAS ---
+[2026-04-20 16:13:40] EXT_ROOT        : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-20 16:13:40] _CPYTHON_DIR    : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython
+[2026-04-20 16:13:40] MASTER_DIR      : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master
+[2026-04-20 16:13:40] DATA_COMPARACION: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion
+[2026-04-20 16:13:40] UI_COMPARACION  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py | existe=True
+[2026-04-20 16:13:40] FORMATEAR_XLSX  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py | existe=True
+[2026-04-20 16:13:40] SCRIPT_JSON     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json | existe=True
+[2026-04-20 16:13:40] -------------
+[2026-04-20 16:13:43] xlsm seleccionado: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-20 16:13:45] carpeta destino: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN
+[2026-04-20 16:13:45] planillas_headers: 108 claves
+[2026-04-20 16:13:45] cargar_repo_activo: 24 registros
+[2026-04-20 16:13:48] modelo: docs=3 elems=192 CMs=['CM08', 'CM02', 'CM52', 'CM10', 'IM S', 'CM11']
+[2026-04-20 16:13:48] modelo_codint_por_cm.json guardado OK -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json
+[2026-04-20 16:13:48] generar_modelo_json_desde_revit: OK docs=3 elems=192
+[2026-04-20 16:13:48] llamar_ui_comparacion CMD: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\planilla-modelo_20260420_1613.xlsx C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json
+[2026-04-20 16:13:48] ui_comparacion lanzado (PID 32592)
+[2026-04-20 16:13:48] ==== Fin Planilla vs Modelo v1.5 ====
+[2026-04-20 16:49:12] ==== Inicio Planilla vs Modelo v1.5 ====
+[2026-04-20 16:49:12] --- RUTAS ---
+[2026-04-20 16:49:12] EXT_ROOT        : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-20 16:49:12] _CPYTHON_DIR    : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython
+[2026-04-20 16:49:12] MASTER_DIR      : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master
+[2026-04-20 16:49:12] DATA_COMPARACION: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion
+[2026-04-20 16:49:12] UI_COMPARACION  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py | existe=True
+[2026-04-20 16:49:12] FORMATEAR_XLSX  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py | existe=True
+[2026-04-20 16:49:12] SCRIPT_JSON     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json | existe=True
+[2026-04-20 16:49:12] -------------
+[2026-04-20 16:49:14] xlsm seleccionado: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-20 16:49:17] carpeta destino: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN
+[2026-04-20 16:49:17] planillas_headers: 108 claves
+[2026-04-20 16:49:17] cargar_repo_activo: 24 registros
+[2026-04-20 16:49:20] modelo: docs=3 elems=192 CMs=['CM08', 'CM02', 'CM52', 'CM10', 'IM S', 'CM11']
+[2026-04-20 16:49:21] modelo_codint_por_cm.json guardado OK -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json
+[2026-04-20 16:49:21] generar_modelo_json_desde_revit: OK docs=3 elems=192
+[2026-04-20 16:49:21] llamar_ui_comparacion CMD: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\planilla-modelo_20260420_1649.xlsx C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json
+[2026-04-20 16:49:21] ui_comparacion lanzado (PID 32312)
+[2026-04-20 16:49:21] ==== Fin Planilla vs Modelo v1.5 ====
+[2026-04-20 17:24:31] python3 detectado en Programs: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-20 17:24:31] ==== Inicio Planilla vs Modelo v1.6 ====
+[2026-04-20 17:24:31] --- RUTAS PLANILLA VS MODELO ---
+[2026-04-20 17:24:31] EXT_ROOT: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-20 17:24:31] _CPYTHON_DIR: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython | existe=True
+[2026-04-20 17:24:31] MASTER_DIR: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master | existe=True
+[2026-04-20 17:24:31] TEMP_DIR: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp | existe=True
+[2026-04-20 17:24:31] DATA_COMPARACION: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion | existe=True
+[2026-04-20 17:24:31] SCRIPT_JSON_PATH: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json | existe=True
+[2026-04-20 17:24:31] PLANILLAS_HEADERS_JSON: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json | existe=True
+[2026-04-20 17:24:31] LEER_XLSM: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\leer_xlsm_codigos.py | existe=False
+[2026-04-20 17:24:31] UI_COMPARACION: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py | existe=True
+[2026-04-20 17:24:31] FORMATEAR_XLSX: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py | existe=True
+[2026-04-20 17:24:31] MODELO_JSON: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json
+[2026-04-20 17:24:31] HEADERS_JSON: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json
+[2026-04-20 17:24:31] LOG_PATH: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\logs\planilla_vs_modelo_log.txt
+[2026-04-20 17:24:31] --- FIN RUTAS ---
+[2026-04-20 17:25:34] python3 detectado en Programs: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-20 17:25:34] ==== Inicio Planilla vs Modelo v1.6 ====
+[2026-04-20 17:25:34] --- RUTAS PLANILLA VS MODELO ---
+[2026-04-20 17:25:34] EXT_ROOT: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-20 17:25:34] _CPYTHON_DIR: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython | existe=True
+[2026-04-20 17:25:34] MASTER_DIR: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master | existe=True
+[2026-04-20 17:25:34] TEMP_DIR: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp | existe=True
+[2026-04-20 17:25:34] DATA_COMPARACION: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion | existe=True
+[2026-04-20 17:25:34] SCRIPT_JSON_PATH: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json | existe=True
+[2026-04-20 17:25:34] PLANILLAS_HEADERS_JSON: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json | existe=True
+[2026-04-20 17:25:34] LEER_XLSM: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\leer_xlsm_codigos.py | existe=True
+[2026-04-20 17:25:34] UI_COMPARACION: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py | existe=True
+[2026-04-20 17:25:34] FORMATEAR_XLSX: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py | existe=True
+[2026-04-20 17:25:34] MODELO_JSON: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json
+[2026-04-20 17:25:34] HEADERS_JSON: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json
+[2026-04-20 17:25:34] LOG_PATH: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\logs\planilla_vs_modelo_log.txt
+[2026-04-20 17:25:34] --- FIN RUTAS ---
+[2026-04-20 17:25:37] seleccionar_xlsm: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-20 17:25:41] seleccionar_carpeta_salida: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN
+[2026-04-20 17:25:41] get_repo_activo_path: ruta portable OK -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 17:25:41] cargar_planillas_headers: 108 claves
+[2026-04-20 17:25:41] get_repo_activo_path: ruta portable OK -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 17:25:41] cargar_repo_activo: 24 registros desde C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 17:25:44] modelo generado: docs=3 elems=192 cms=['CM02', 'CM08', 'CM10', 'CM11', 'CM52', 'IM S']
+[2026-04-20 17:25:44] modelo JSON guardado -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json
+[2026-04-20 17:26:02] llamar_leer_xlsm salida:
+C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\site-packages\openpyxl\worksheet\_reader.py:329: UserWarning: Data Validation extension is not supported and will be removed
+  warn(msg)
+C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\CODIGO.csv
+
+[2026-04-20 17:26:02] csv generado -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\CODIGO.csv
+[2026-04-20 17:26:02] llamar_ui_comparacion CMD:
+ C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+ C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py
+ C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json
+ D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+ C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion
+ C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py
+ D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\planilla-modelo_20260420_1726.xlsx
+ C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+ C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json
+ C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json
+[2026-04-20 17:26:02] ui_comparacion lanzado correctamente
+[2026-04-20 17:26:02] ==== Fin Planilla vs Modelo v1.6 ====
+[2026-04-20 17:43:11] python3 detectado en Programs: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-20 17:43:11] ==== Inicio Planilla vs Modelo v1.6 ====
+[2026-04-20 17:43:11] --- RUTAS PLANILLA VS MODELO ---
+[2026-04-20 17:43:11] EXT_ROOT: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-20 17:43:11] _CPYTHON_DIR: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython | existe=True
+[2026-04-20 17:43:11] MASTER_DIR: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master | existe=True
+[2026-04-20 17:43:11] TEMP_DIR: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp | existe=True
+[2026-04-20 17:43:11] DATA_COMPARACION: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion | existe=True
+[2026-04-20 17:43:11] SCRIPT_JSON_PATH: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json | existe=True
+[2026-04-20 17:43:11] PLANILLAS_HEADERS_JSON: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json | existe=True
+[2026-04-20 17:43:11] LEER_XLSM: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\leer_xlsm_codigos.py | existe=True
+[2026-04-20 17:43:11] UI_COMPARACION: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py | existe=True
+[2026-04-20 17:43:11] FORMATEAR_XLSX: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py | existe=True
+[2026-04-20 17:43:11] MODELO_JSON: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json
+[2026-04-20 17:43:11] HEADERS_JSON: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json
+[2026-04-20 17:43:11] LOG_PATH: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\logs\planilla_vs_modelo_log.txt
+[2026-04-20 17:43:11] --- FIN RUTAS ---
+[2026-04-20 17:43:14] seleccionar_xlsm: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-20 17:43:16] seleccionar_carpeta_salida: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN
+[2026-04-20 17:43:16] get_repo_activo_path: ruta portable OK -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 17:43:16] cargar_planillas_headers: 108 claves
+[2026-04-20 17:43:16] get_repo_activo_path: ruta portable OK -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 17:43:16] cargar_repo_activo: 24 registros desde C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 17:43:20] modelo generado: docs=3 elems=192 cms=['CM02', 'CM08', 'CM10', 'CM11', 'CM52', 'IM S']
+[2026-04-20 17:43:20] modelo JSON guardado -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json
+[2026-04-20 17:43:36] llamar_leer_xlsm salida:
+C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\site-packages\openpyxl\worksheet\_reader.py:329: UserWarning: Data Validation extension is not supported and will be removed
+  warn(msg)
+C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\CODIGO.csv
+
+[2026-04-20 17:43:36] csv generado -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\CODIGO.csv
+[2026-04-20 17:43:36] llamar_ui_comparacion CMD:
+ C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+ C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py
+ C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json
+ D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+ C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion
+ C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py
+ D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\planilla-modelo_20260420_1743.xlsx
+ C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+ C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json
+ C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json
+[2026-04-20 17:43:36] ui_comparacion lanzado correctamente
+[2026-04-20 17:43:36] ==== Fin Planilla vs Modelo v1.6 ====
+[2026-04-20 22:20:40] python3 detectado en Programs: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-20 22:20:40] ==== Inicio Planilla vs Modelo v1.6 ====
+[2026-04-20 22:20:40] --- RUTAS PLANILLA VS MODELO ---
+[2026-04-20 22:20:40] EXT_ROOT: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-20 22:20:40] _CPYTHON_DIR: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython | existe=True
+[2026-04-20 22:20:40] MASTER_DIR: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master | existe=True
+[2026-04-20 22:20:40] TEMP_DIR: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp | existe=True
+[2026-04-20 22:20:40] DATA_COMPARACION: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion | existe=True
+[2026-04-20 22:20:40] SCRIPT_JSON_PATH: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json | existe=True
+[2026-04-20 22:20:40] PLANILLAS_HEADERS_JSON: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json | existe=True
+[2026-04-20 22:20:40] LEER_XLSM: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\leer_xlsm_codigos.py | existe=True
+[2026-04-20 22:20:40] UI_COMPARACION: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py | existe=True
+[2026-04-20 22:20:40] FORMATEAR_XLSX: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py | existe=True
+[2026-04-20 22:20:40] MODELO_JSON: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json
+[2026-04-20 22:20:40] HEADERS_JSON: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json
+[2026-04-20 22:20:40] LOG_PATH: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\logs\planilla_vs_modelo_log.txt
+[2026-04-20 22:20:40] --- FIN RUTAS ---
+[2026-04-20 22:20:57] seleccionar_xlsm: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-20 22:21:05] seleccionar_carpeta_salida: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\Nueva carpeta
+[2026-04-20 22:21:05] get_repo_activo_path: ruta portable OK -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 22:21:05] cargar_planillas_headers: 108 claves
+[2026-04-20 22:21:05] get_repo_activo_path: ruta portable OK -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 22:21:05] cargar_repo_activo: 24 registros desde C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-20 22:21:12] modelo generado: docs=13 elems=802 cms=['CM02', 'CM08', 'CM10', 'CM11', 'CM30', 'CM52', 'IM S']
+[2026-04-20 22:21:13] modelo JSON guardado -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json
+[2026-04-20 22:21:30] llamar_leer_xlsm salida:
+C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\site-packages\openpyxl\worksheet\_reader.py:329: UserWarning: Data Validation extension is not supported and will be removed
+  warn(msg)
+C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\CODIGO.csv
+
+[2026-04-20 22:21:30] csv generado -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\CODIGO.csv
+[2026-04-20 22:21:30] llamar_ui_comparacion CMD:
+ C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+ C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py
+ C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json
+ D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+ C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion
+ C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py
+ D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\Nueva carpeta\planilla-modelo_20260420_2221.xlsx
+ C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+ C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json
+ C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json
+[2026-04-20 22:21:30] ui_comparacion lanzado correctamente
+[2026-04-20 22:21:30] ==== Fin Planilla vs Modelo v1.6 ====
+[2026-04-21 20:14:08] python3 detectado en Programs: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-21 20:14:08] ==== Inicio Planilla vs Modelo v1.6 ====
+[2026-04-21 20:14:08] --- RUTAS PLANILLA VS MODELO ---
+[2026-04-21 20:14:08] EXT_ROOT: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-21 20:14:08] _CPYTHON_DIR: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython | existe=True
+[2026-04-21 20:14:08] MASTER_DIR: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master | existe=True
+[2026-04-21 20:14:08] TEMP_DIR: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp | existe=True
+[2026-04-21 20:14:08] DATA_COMPARACION: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion | existe=True
+[2026-04-21 20:14:08] SCRIPT_JSON_PATH: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json | existe=True
+[2026-04-21 20:14:08] PLANILLAS_HEADERS_JSON: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json | existe=True
+[2026-04-21 20:14:08] LEER_XLSM: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\leer_xlsm_codigos.py | existe=True
+[2026-04-21 20:14:08] UI_COMPARACION: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py | existe=True
+[2026-04-21 20:14:08] FORMATEAR_XLSX: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py | existe=True
+[2026-04-21 20:14:08] MODELO_JSON: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json
+[2026-04-21 20:14:08] HEADERS_JSON: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json
+[2026-04-21 20:14:08] LOG_PATH: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\logs\planilla_vs_modelo_log.txt
+[2026-04-21 20:14:08] --- FIN RUTAS ---
+[2026-04-21 20:14:12] seleccionar_xlsm: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-21 20:14:16] seleccionar_carpeta_salida: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN
+[2026-04-21 20:14:16] get_repo_activo_path: ruta absoluta OK -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-21 20:14:16] cargar_planillas_headers: 108 claves
+[2026-04-21 20:14:16] get_repo_activo_path: ruta absoluta OK -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-21 20:14:16] cargar_repo_activo: 0 registros desde C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-21 20:14:22] modelo generado: docs=10 elems=702 cms=['CM02', 'CM08', 'CM10', 'CM11', 'CM13', 'CM25', 'CM27', 'CM30']
+[2026-04-21 20:14:22] modelo JSON guardado -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json
+[2026-04-21 20:14:38] llamar_leer_xlsm salida:
+C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\Lib\site-packages\openpyxl\worksheet\_reader.py:329: UserWarning: Data Validation extension is not supported and will be removed
+  warn(msg)
+C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\CODIGO.csv
+
+[2026-04-21 20:14:38] csv generado -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\CODIGO.csv
+[2026-04-21 20:14:38] llamar_ui_comparacion CMD:
+ C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+ C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py
+ C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json
+ D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+ C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion
+ C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py
+ D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\planilla-modelo_20260421_2014.xlsx
+ C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+ C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json
+ C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json
+[2026-04-21 20:14:38] ui_comparacion lanzado correctamente
+[2026-04-21 20:14:38] ==== Fin Planilla vs Modelo v1.6 ====
+[2026-04-21 20:15:39] python3 detectado en Programs: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-21 20:15:39] ==== Inicio Planilla vs Modelo v1.6 ====
+[2026-04-21 20:15:39] --- RUTAS PLANILLA VS MODELO ---
+[2026-04-21 20:15:39] EXT_ROOT: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-21 20:15:39] _CPYTHON_DIR: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython | existe=True
+[2026-04-21 20:15:39] MASTER_DIR: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master | existe=True
+[2026-04-21 20:15:39] TEMP_DIR: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp | existe=True
+[2026-04-21 20:15:39] DATA_COMPARACION: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion | existe=True
+[2026-04-21 20:15:39] SCRIPT_JSON_PATH: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json | existe=True
+[2026-04-21 20:15:39] PLANILLAS_HEADERS_JSON: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json | existe=True
+[2026-04-21 20:15:39] LEER_XLSM: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\leer_xlsm_codigos.py | existe=True
+[2026-04-21 20:15:39] UI_COMPARACION: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\ui_comparacion.py | existe=True
+[2026-04-21 20:15:39] FORMATEAR_XLSX: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel_v2.py | existe=True
+[2026-04-21 20:15:39] MODELO_JSON: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\modelo_codint_por_cm.json
+[2026-04-21 20:15:39] HEADERS_JSON: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\comparacion\headers_por_tabla.json
+[2026-04-21 20:15:39] LOG_PATH: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\logs\planilla_vs_modelo_log.txt
+[2026-04-21 20:15:39] --- FIN RUTAS ---
+[2026-04-21 20:15:42] seleccionar_xlsm: 
+[2026-04-21 20:15:42] Cancelado: no se seleccionó xlsm
+[2026-04-22 08:27:40] ==== Inicio Planilla vs Modelo v1.1 ====
+[2026-04-22 08:27:56] main: scripts CPython faltantes

@@ -1,0 +1,130 @@
+[2026-04-21 15:24:04] ==== Inicio Carga de Datos ====
+[2026-04-21 15:24:19] get_repo_activo_path: La clave 'ruta_repositorio_activo' no existe o está vacía en config_proyecto_activo.json.
+[2026-04-21 15:25:56] ==== Inicio Carga de Datos ====
+[2026-04-21 15:26:02] get_repo_activo_path: La clave 'ruta_repositorio_activo' no existe o está vacía en config_proyecto_activo.json.
+[2026-04-21 15:31:53] ==== Inicio Carga de Datos ====
+[2026-04-21 15:33:49] _get_repo_activo_path: La clave 'ruta_repositorio_activo' está vacía en config_proyecto_activo.json.
+[2026-04-21 15:34:27] ==== Inicio Carga de Datos ====
+[2026-04-21 15:34:27] Repositorio activo: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-21 15:34:27] python_exe resuelto: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-21 15:34:30] xlsm seleccionado: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-21 15:35:31] run_carga_excel rc=1 err=Script no encontrado
+[2026-04-21 15:54:29] ==== Inicio Carga de Datos ====
+[2026-04-21 15:54:29] python_exe resuelto: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-21 15:54:32] xlsm seleccionado: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-21 15:57:59] run_carga_excel rc=1 err=Script no encontrado
+[2026-04-21 16:00:22] ==== Inicio Carga de Datos ====
+[2026-04-21 16:00:22] python_exe: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-21 16:01:33] script.json no encontrado: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\script.json
+[2026-04-21 16:08:03] ==== Inicio Carga de Datos ====
+[2026-04-21 16:08:03] repo_activo: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-21 16:08:03] python_exe resuelto: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-21 16:08:56] script.json no encontrado: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\script.json
+[2026-04-21 16:13:42] ==== Inicio Carga de Datos ====
+[2026-04-21 16:13:42] _resolver_python_exe: python_exe OK -> C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-21 16:13:45] xlsm seleccionado: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-21 16:13:54] carga_excel.py OK → C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\repo_tmp_codigos.txt
+[2026-04-21 16:16:13] Temporal eliminado: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\repo_tmp_codigos.txt
+[2026-04-21 16:16:13] ==== Fin Carga de Datos ====
+[2026-04-21 16:23:36] ==== Inicio Carga de Datos ====
+[2026-04-21 16:23:36] Repositorio activo: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-21 16:23:36] python_exe resuelto: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-21 16:23:39] xlsm seleccionado: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-21 16:23:48] carga_excel.py OK → C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\repo_tmp_codigos.txt
+[2026-04-21 16:29:16] Temporal eliminado: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\repo_tmp_codigos.txt
+[2026-04-21 16:29:16] ==== Fin Carga de Datos ====
+[2026-04-21 16:31:14] ==== Inicio Carga de Datos ====
+[2026-04-21 16:31:14] EXT_ROOT resuelto: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-21 16:31:14] Repositorio activo: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-21 16:31:14] python_exe resuelto: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-21 16:31:14] script.json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json
+[2026-04-21 16:31:17] xlsm seleccionado: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-21 16:31:26] carga_excel.py OK → C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\repo_tmp_codigos.txt
+[2026-04-21 16:32:45] Temporal eliminado: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\repo_tmp_codigos.txt
+[2026-04-21 16:32:45] ==== Fin Carga de Datos ====
+[2026-04-21 16:39:04] ==== Inicio Carga de Datos ====
+[2026-04-21 16:39:04] EXT_ROOT resuelto: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-21 16:39:04] Repositorio activo: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-21 16:39:04] python_exe resuelto: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-21 16:39:04] script.json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json
+[2026-04-21 16:39:08] xlsm seleccionado: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-21 16:39:18] carga_excel.py OK → C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\repo_tmp_codigos.txt
+[2026-04-21 16:41:17] Temporal eliminado: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\repo_tmp_codigos.txt
+[2026-04-21 16:41:17] ==== Fin Carga de Datos ====
+[2026-04-21 16:49:31] ==== Inicio Carga de Datos ====
+[2026-04-21 16:49:31] Repositorio activo: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-21 16:49:31] python_exe resuelto: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-21 16:49:34] xlsm seleccionado: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-21 16:50:46] run_carga_excel rc=1 err=Script no encontrado
+[2026-04-21 16:51:15] ==== Inicio Carga de Datos ====
+[2026-04-21 16:51:15] EXT_ROOT resuelto: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-21 16:51:15] Repositorio activo: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-21 16:51:15] python_exe resuelto: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-21 16:51:15] script.json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json
+[2026-04-21 16:51:18] xlsm seleccionado: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-21 16:51:27] carga_excel.py OK → C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\repo_tmp_codigos.txt
+[2026-04-21 17:12:09] Temporal eliminado: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\repo_tmp_codigos.txt
+[2026-04-21 17:12:09] ==== Fin Carga de Datos ====
+[2026-04-21 17:18:04] ==== Inicio Carga de Datos ====
+[2026-04-21 17:18:04] EXT_ROOT resuelto: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-21 17:18:04] Repositorio activo: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-21 17:18:04] python_exe resuelto: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-21 17:18:04] script.json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json
+[2026-04-21 17:18:11] xlsm seleccionado: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-21 17:18:21] carga_excel.py OK → C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\repo_tmp_codigos.txt
+[2026-04-21 17:38:05] Temporal eliminado: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\repo_tmp_codigos.txt
+[2026-04-21 17:38:05] ==== Fin Carga de Datos ====
+[2026-04-21 19:25:00] ==== Inicio Carga de Datos ====
+[2026-04-21 19:25:00] EXT_ROOT resuelto: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-21 19:25:00] Repositorio activo: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-21 19:25:00] python_exe resuelto: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-21 19:25:00] script.json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json
+[2026-04-21 19:25:09] xlsm seleccionado: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-21 19:25:18] carga_excel.py OK → C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\repo_tmp_codigos.txt
+[2026-04-21 19:42:23] Temporal eliminado: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\repo_tmp_codigos.txt
+[2026-04-21 19:42:23] ==== Fin Carga de Datos ====
+[2026-04-21 19:51:34] ==== Inicio Carga de Datos ====
+[2026-04-21 19:51:34] EXT_ROOT resuelto: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-21 19:51:34] Repositorio activo: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-21 19:51:34] python_exe resuelto: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-21 19:51:34] script.json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json
+[2026-04-21 19:52:04] xlsm seleccionado: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-21 19:52:12] carga_excel.py OK → C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\repo_tmp_codigos.txt
+[2026-04-21 20:08:23] Temporal eliminado: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\repo_tmp_codigos.txt
+[2026-04-21 20:08:23] ==== Fin Carga de Datos ====
+[2026-04-23 11:09:05] ==== Inicio Carga de Datos ====
+[2026-04-23 11:09:05] EXT_ROOT resuelto: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-23 11:09:05] Repositorio activo: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-23 11:09:05] python_exe resuelto: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-23 11:09:05] script.json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json
+[2026-04-23 11:09:08] xlsm seleccionado: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-23 11:09:17] carga_excel.py OK → C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\repo_tmp_codigos.txt
+[2026-04-23 11:30:18] Temporal eliminado: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\repo_tmp_codigos.txt
+[2026-04-23 11:30:18] ==== Fin Carga de Datos ====
+[2026-04-23 13:34:00] ==== Inicio Carga de Datos ====
+[2026-04-23 13:34:00] EXT_ROOT resuelto: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-23 13:34:00] Repositorio activo: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-23 13:34:00] python_exe resuelto: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-23 13:34:00] script.json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json
+[2026-04-23 13:34:07] xlsm seleccionado: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-23 13:34:17] carga_excel.py OK → C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\repo_tmp_codigos.txt
+[2026-04-23 15:48:35] Temporal eliminado: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\repo_tmp_codigos.txt
+[2026-04-23 15:48:35] ==== Fin Carga de Datos ====
+[2026-04-24 11:44:01] ==== Inicio Carga de Datos ====
+[2026-04-24 11:44:01] EXT_ROOT resuelto: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-24 11:44:01] Repositorio activo: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-24 11:44:01] python_exe resuelto: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-24 11:44:01] script.json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json
+[2026-04-24 11:44:18] xlsm seleccionado: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-24 11:44:28] carga_excel.py OK → C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\repo_tmp_codigos.txt
+[2026-04-24 11:54:58] Temporal eliminado: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\repo_tmp_codigos.txt
+[2026-04-24 11:54:58] ==== Fin Carga de Datos ====
+[2026-04-24 12:01:51] ==== Inicio Carga de Datos ====
+[2026-04-24 12:01:51] EXT_ROOT resuelto: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-04-24 12:01:51] Repositorio activo: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-04-24 12:01:51] python_exe resuelto: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-04-24 12:01:51] script.json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json
+[2026-04-24 12:01:55] xlsm seleccionado: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\SE RECOLETA.xlsm
+[2026-04-24 12:02:05] carga_excel.py OK → C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\repo_tmp_codigos.txt
+[2026-04-24 12:12:41] Temporal eliminado: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\temp\repo_tmp_codigos.txt
+[2026-04-24 12:12:41] ==== Fin Carga de Datos ====
