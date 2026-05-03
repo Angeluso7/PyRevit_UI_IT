@@ -17,6 +17,125 @@ from tkinter import ttk, messagebox
 from datetime import datetime
 
 
+# ── Paleta dark ───────────────────────────────────────────────────────────────
+DARK = {
+    "bg":           "#1e1e1e",   # fondo ventana / frames
+    "surface":      "#2a2a2a",   # fondo de entries, text, listbox
+    "surface_alt":  "#252526",   # fondo alternativo (filas pares, etc.)
+    "border":       "#3c3c3c",   # bordes sutiles
+    "fg":           "#d4d4d4",   # texto principal
+    "fg_muted":     "#888888",   # placeholder / texto apagado
+    "accent":       "#4f98a3",   # teal primario (botón Aceptar / Editar)
+    "accent_hover": "#3a7d88",
+    "btn_bg":       "#3a3a3a",   # fondo botones secundarios
+    "btn_fg":       "#d4d4d4",
+    "disabled_bg":  "#2d2d2d",
+    "disabled_fg":  "#5a5a5a",
+    "select_bg":    "#094771",   # selección de texto
+    "select_fg":    "#ffffff",
+}
+
+
+def _aplicar_tema_dark(root):
+    """
+    Configura ttk.Style y opciones de tk para un tema oscuro consistente.
+    Debe llamarse ANTES de crear cualquier widget.
+    """
+    root.configure(bg=DARK["bg"])
+
+    style = ttk.Style(root)
+    # Usar 'clam' como base — es el más personalizable en Windows
+    style.theme_use("clam")
+
+    # ── Frame / LabelFrame ────────────────────────────────────────────────────
+    style.configure("TFrame",      background=DARK["bg"])
+    style.configure("TLabelframe", background=DARK["bg"],
+                    foreground=DARK["fg"], bordercolor=DARK["border"])
+    style.configure("TLabelframe.Label", background=DARK["bg"],
+                    foreground=DARK["fg"])
+
+    # ── Label ─────────────────────────────────────────────────────────────────
+    style.configure("TLabel",
+                    background=DARK["bg"],
+                    foreground=DARK["fg"])
+
+    # ── Entry ─────────────────────────────────────────────────────────────────
+    style.configure("TEntry",
+                    fieldbackground=DARK["surface"],
+                    foreground=DARK["fg"],
+                    insertcolor=DARK["fg"],
+                    bordercolor=DARK["border"],
+                    lightcolor=DARK["border"],
+                    darkcolor=DARK["border"])
+    style.map("TEntry",
+              fieldbackground=[("disabled", DARK["disabled_bg"]),
+                               ("readonly", DARK["disabled_bg"])],
+              foreground=[("disabled", DARK["disabled_fg"]),
+                          ("readonly", DARK["disabled_fg"])])
+
+    # ── Combobox ──────────────────────────────────────────────────────────────
+    style.configure("TCombobox",
+                    fieldbackground=DARK["surface"],
+                    background=DARK["btn_bg"],
+                    foreground=DARK["fg"],
+                    arrowcolor=DARK["fg"],
+                    bordercolor=DARK["border"],
+                    lightcolor=DARK["border"],
+                    darkcolor=DARK["border"],
+                    selectbackground=DARK["select_bg"],
+                    selectforeground=DARK["select_fg"])
+    style.map("TCombobox",
+              fieldbackground=[("disabled", DARK["disabled_bg"]),
+                               ("readonly", DARK["surface"])],
+              foreground=[("disabled", DARK["disabled_fg"]),
+                          ("readonly", DARK["fg"])],
+              selectbackground=[("readonly", DARK["surface"])],
+              selectforeground=[("readonly", DARK["fg"])])
+    # Desplegable del combobox (tk.Listbox interno)
+    root.option_add("*TCombobox*Listbox.background",  DARK["surface"])
+    root.option_add("*TCombobox*Listbox.foreground",  DARK["fg"])
+    root.option_add("*TCombobox*Listbox.selectBackground", DARK["select_bg"])
+    root.option_add("*TCombobox*Listbox.selectForeground", DARK["select_fg"])
+
+    # ── Button ────────────────────────────────────────────────────────────────
+    style.configure("TButton",
+                    background=DARK["btn_bg"],
+                    foreground=DARK["btn_fg"],
+                    bordercolor=DARK["border"],
+                    lightcolor=DARK["border"],
+                    darkcolor=DARK["border"],
+                    relief="flat",
+                    padding=(8, 4))
+    style.map("TButton",
+              background=[("active", DARK["border"]),
+                          ("disabled", DARK["disabled_bg"])],
+              foreground=[("disabled", DARK["disabled_fg"])])
+
+    # Botón de acción primaria (Aceptar)
+    style.configure("Accent.TButton",
+                    background=DARK["accent"],
+                    foreground="#ffffff",
+                    bordercolor=DARK["accent"],
+                    lightcolor=DARK["accent"],
+                    darkcolor=DARK["accent"],
+                    relief="flat",
+                    padding=(8, 4))
+    style.map("Accent.TButton",
+              background=[("active", DARK["accent_hover"]),
+                          ("disabled", DARK["disabled_bg"])],
+              foreground=[("disabled", DARK["disabled_fg"])])
+
+    # ── Scrollbar ─────────────────────────────────────────────────────────────
+    style.configure("TScrollbar",
+                    background=DARK["btn_bg"],
+                    troughcolor=DARK["bg"],
+                    bordercolor=DARK["border"],
+                    arrowcolor=DARK["fg"],
+                    relief="flat")
+    style.map("TScrollbar",
+              background=[("active", DARK["border"])])
+
+
 # ── Resolución de data_dir ────────────────────────────────────────────────────
 def _resolve_data_dir():
     """
@@ -25,7 +144,6 @@ def _resolve_data_dir():
     """
     if len(sys.argv) >= 2:
         return sys.argv[1]
-    # Fallback: construir desde expanduser (igual que config_utils.py)
     return os.path.normpath(os.path.join(
         os.path.expanduser("~"),
         "AppData", "Roaming", "MyPyRevitExtention",
@@ -58,8 +176,8 @@ def guardar_json(ruta, data):
 # ── Ventana principal ─────────────────────────────────────────────────────────
 class DatosProyectoApp:
     PLACEHOLDER       = "AAAA/MM/DD"
-    PLACEHOLDER_COLOR = "#888888"
-    NORMAL_COLOR      = "#000000"
+    PLACEHOLDER_COLOR = DARK["fg_muted"]
+    NORMAL_COLOR      = DARK["fg"]
 
     def __init__(self, root, data_dir):
         self.root     = root
@@ -80,15 +198,13 @@ class DatosProyectoApp:
 
         self.info_activo = self.registro.get(self.nup_activo, {})
 
-        # Mapa texto ↔ código para el tipo de proyecto
         self.map_text_to_code = {
             "Subestaciones": "CM01",
             "Patios":        "CM03",
-            "Pa\u00f1os":       "CM06",
+            "Pa\u00f1os":   "CM06",
         }
         self.map_code_to_text = {v: k for k, v in self.map_text_to_code.items()}
 
-        # Referencias a widgets (se crean en _construir_ui)
         self.label_proyecto_val = None
         self.combo_tipo         = None
         self.entry_fecha_ini    = None
@@ -121,7 +237,8 @@ class DatosProyectoApp:
 
         # 1) Proyecto (solo lectura)
         ttk.Label(main, text="Proyecto:").grid(row=fila, column=0, sticky="w", pady=(0, 5))
-        self.label_proyecto_val = ttk.Label(main, text="-")
+        self.label_proyecto_val = ttk.Label(main, text="-",
+                                            foreground=DARK["accent"])
         self.label_proyecto_val.grid(row=fila, column=1, columnspan=2, sticky="w", pady=(0, 5))
         fila += 1
 
@@ -180,7 +297,17 @@ class DatosProyectoApp:
         main.rowconfigure(fila, weight=1)
         text_frame.rowconfigure(0, weight=1)
         text_frame.columnconfigure(0, weight=1)
-        self.text_descripcion = tk.Text(text_frame, height=4, wrap="word")
+        self.text_descripcion = tk.Text(
+            text_frame, height=4, wrap="word",
+            bg=DARK["surface"], fg=DARK["fg"],
+            insertbackground=DARK["fg"],
+            selectbackground=DARK["select_bg"],
+            selectforeground=DARK["select_fg"],
+            relief="flat", borderwidth=1,
+            highlightbackground=DARK["border"],
+            highlightcolor=DARK["accent"],
+            highlightthickness=1
+        )
         self.text_descripcion.grid(row=0, column=0, sticky="nsew")
         scroll_desc = ttk.Scrollbar(text_frame, orient="vertical",
                                     command=self.text_descripcion.yview)
@@ -191,9 +318,12 @@ class DatosProyectoApp:
         # Botones
         btn_frame = ttk.Frame(main)
         btn_frame.grid(row=fila, column=0, columnspan=3, sticky="e", pady=(10, 0))
-        ttk.Button(btn_frame, text="Editar",   command=self.on_editar).grid(row=0, column=0, padx=(0, 5))
-        ttk.Button(btn_frame, text="Cancelar", command=self.on_cancelar).grid(row=0, column=1, padx=(0, 5))
-        ttk.Button(btn_frame, text="Aceptar",  command=self.on_aceptar).grid(row=0, column=2)
+        ttk.Button(btn_frame, text="Editar",   command=self.on_editar).grid(
+            row=0, column=0, padx=(0, 5))
+        ttk.Button(btn_frame, text="Cancelar", command=self.on_cancelar).grid(
+            row=0, column=1, padx=(0, 5))
+        ttk.Button(btn_frame, text="Aceptar",  command=self.on_aceptar,
+                   style="Accent.TButton").grid(row=0, column=2)
 
         self._configurar_placeholders_fecha()
 
@@ -289,12 +419,16 @@ class DatosProyectoApp:
     def _dialogo_fecha(self, valor_actual):
         dlg = tk.Toplevel(self.root)
         dlg.title("Seleccionar fecha")
+        dlg.configure(bg=DARK["bg"])
         dlg.transient(self.root)
         dlg.grab_set()
 
-        tk.Label(dlg, text="A\u00f1o:").grid(row=0, column=0, padx=5, pady=5, sticky="e")
-        tk.Label(dlg, text="Mes:").grid( row=1, column=0, padx=5, pady=5, sticky="e")
-        tk.Label(dlg, text="D\u00eda:").grid( row=2, column=0, padx=5, pady=5, sticky="e")
+        tk.Label(dlg, text="A\u00f1o:", bg=DARK["bg"], fg=DARK["fg"]).grid(
+            row=0, column=0, padx=5, pady=5, sticky="e")
+        tk.Label(dlg, text="Mes:",  bg=DARK["bg"], fg=DARK["fg"]).grid(
+            row=1, column=0, padx=5, pady=5, sticky="e")
+        tk.Label(dlg, text="D\u00eda:", bg=DARK["bg"], fg=DARK["fg"]).grid(
+            row=2, column=0, padx=5, pady=5, sticky="e")
 
         year_var  = tk.StringVar()
         month_var = tk.StringVar()
@@ -344,7 +478,8 @@ class DatosProyectoApp:
 
         btn_frame = ttk.Frame(dlg)
         btn_frame.grid(row=3, column=0, columnspan=2, pady=10)
-        ttk.Button(btn_frame, text="Aceptar",  command=aceptar).grid(row=0, column=0, padx=5)
+        ttk.Button(btn_frame, text="Aceptar",  command=aceptar,
+                   style="Accent.TButton").grid(row=0, column=0, padx=5)
         ttk.Button(btn_frame, text="Cancelar", command=cancelar).grid(row=0, column=1, padx=5)
 
         dlg.wait_window()
@@ -358,7 +493,11 @@ class DatosProyectoApp:
         for entry in (self.entry_fecha_ini, self.entry_fecha_fin,
                       self.entry_propietario, self.entry_comuna):
             entry.config(state=state)
-        self.text_descripcion.config(state="normal" if editable else "disabled")
+        self.text_descripcion.config(
+            state="normal" if editable else "disabled",
+            bg=DARK["surface"] if editable else DARK["disabled_bg"],
+            fg=DARK["fg"]      if editable else DARK["disabled_fg"]
+        )
 
     def on_editar(self):
         if not self.nup_activo:
@@ -401,8 +540,8 @@ class DatosProyectoApp:
             )
             return
 
-        combo_val  = self.combo_tipo.get().strip()
-        tipo_texto = combo_val
+        combo_val   = self.combo_tipo.get().strip()
+        tipo_texto  = combo_val
         tipo_codigo = self.map_text_to_code.get(combo_val, "") if combo_val else ""
 
         try:
@@ -450,6 +589,7 @@ def main():
             return
 
     root = tk.Tk()
+    _aplicar_tema_dark(root)       # ← tema dark aplicado antes de construir la UI
     DatosProyectoApp(root, data_dir)
     root.mainloop()
 
