@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 __title__ = "SAESA"
-__doc__ = """Version = 2.3
+__doc__ = """Version = 2.4
 Date = 03.05.2026
 ________________________________________________________________
 Description:
@@ -8,6 +8,8 @@ Description:
 Abre el gestor de datos SAESA del proyecto activo.
 ________________________________________________________________
 Last Updates:
+- [03.05.2026] v2.4 Crea TEMP_DIR/MASTER_DIR antes de lanzar subproceso;
+               pasa rutas entre comillas para tolerar espacios en path.
 - [03.05.2026] v2.3 Fix rutas: importa config_utils (fuente centralizada)
 - [02.05.2026] v2.2 Fix rutas: se pasan TEMP_DIR y MASTER_DIR por separado
 - [19.04.2026] v2.1 Fix: datos_proyecto.py se busca en _this_dir (pushbutton)
@@ -39,7 +41,7 @@ try:
     from config_utils import (
         EXT_ROOT, DATA_DIR, MASTER_DIR, TEMP_DIR, CACHE_DIR
     )
-except Exception as _import_err:
+except Exception:
     # Fallback robusto: usa expanduser igual que config_utils.py
     EXT_ROOT   = os.path.normpath(os.path.join(
         os.path.expanduser("~"),
@@ -97,18 +99,22 @@ def run_datos_proyecto():
         )
         return 1
 
-    # argv[1] = TEMP_DIR   (donde vive datos_tmp.json)
-    # argv[2] = MASTER_DIR (donde vive config_proyecto_activo.json)
-    cmd = [PYTHON_EXE, _DATOS_SCRIPT, TEMP_DIR, MASTER_DIR]
-    return subprocess.call(cmd)
-
-
-def main():
-    # Asegurar que existen todas las carpetas necesarias
+    # Asegurar que los directorios existen ANTES de pasarlos al subproceso,
+    # para que os.path.isdir() los reconozca correctamente en datos_proyecto.py
     for d in (DATA_DIR, MASTER_DIR, TEMP_DIR, CACHE_DIR):
         if not os.path.exists(d):
             os.makedirs(d)
 
+    # Pasar rutas entre comillas dobles para tolerar espacios en el path
+    # argv[1] = TEMP_DIR   (donde vive datos_tmp.json)
+    # argv[2] = MASTER_DIR (donde vive config_proyecto_activo.json)
+    cmd = [PYTHON_EXE, _DATOS_SCRIPT,
+           u'"{}"'.format(TEMP_DIR),
+           u'"{}"'.format(MASTER_DIR)]
+    return subprocess.call(cmd)
+
+
+def main():
     rc = run_datos_proyecto()
     if rc != 0:
         forms.alert(

@@ -19,7 +19,7 @@ import traceback
 import tkinter as tk
 from tkinter import ttk, messagebox
 
-# ── Paleta dark ───────────────────────────────────────────────────────────────────────────────────
+# ── Paleta dark ───────────────────────────────────────────────────────────────
 PAL = {
     "bg":            "#1e1e2e",
     "bg_panel":      "#252537",
@@ -48,10 +48,30 @@ PAL = {
     "font_btn":      ("Segoe UI", 9, "bold"),
 }
 
-# ── Campos no editables ───────────────────────────────────────────────────────────────────
+# ── Campos no editables ───────────────────────────────────────────────────────
 NON_EDITABLE = {"Archivo", "ElementId", "nombre_archivo", "CodIntBIM"}
 
-# ── Resolución de rutas desde argumentos ─────────────────────────────────────────────────
+
+def _is_valid_dir_arg(path):
+    """
+    Retorna True si el argumento es una ruta de directorio aceptable:
+    - existe en disco como directorio, O
+    - es una ruta absoluta con un nombre de carpeta reconocible (temp/master/cache/data).
+    Esto permite aceptar la ruta aunque el directorio aun no haya sido creado,
+    confiando en que script.py (IronPython) lo crea antes de lanzar este proceso.
+    """
+    if not path:
+        return False
+    if os.path.isdir(path):
+        return True
+    # Aceptar si es ruta absoluta que termina en carpeta conocida del proyecto
+    basename = os.path.basename(os.path.normpath(path)).lower()
+    if basename in ("temp", "master", "cache", "data", "logs"):
+        return True
+    return False
+
+
+# ── Resolucion de rutas desde argumentos ─────────────────────────────────────
 def _resolve_paths():
     """
     Retorna (data_json_path, config_path) segun los argumentos recibidos.
@@ -60,9 +80,13 @@ def _resolve_paths():
         argv[1] = TEMP_DIR   (directorio donde vive datos_tmp.json)
         argv[2] = MASTER_DIR (directorio donde vive config_proyecto_activo.json)
 
-    Fallback si no se reciben argumentos o las rutas no existen:
-        Construye EXT_ROOT con expanduser, igual que config_utils.py,
-        evitando dependencias de __file__ que pueden variar en CPython.
+    El directorio puede no existir aun en disco cuando se invoca este script
+    (script.py lo crea antes de lanzar el subproceso, pero puede haber una
+    condicion de carrera). Se acepta cualquier ruta absoluta valida como
+    directorio de destino sin requerir que exista al momento de resolverla.
+
+    Fallback sin argumentos o con argumentos invalidos:
+        Construye EXT_ROOT con expanduser, identico a config_utils.py.
     """
     # Fallback robusto: mismo metodo que config_utils.py
     _ext_root_fb = os.path.normpath(os.path.join(
@@ -72,40 +96,54 @@ def _resolve_paths():
     _default_temp   = os.path.join(_ext_root_fb, "data", "temp")
     _default_master = os.path.join(_ext_root_fb, "data", "master")
 
-    # ── TEMP_DIR (argv[1]) ────────────────────────────────────────────────────────────────
+    # ── TEMP_DIR (argv[1]) ────────────────────────────────────────────────────
     data_json_path = None
-    temp_dir = None
+    temp_dir       = None
 
     if len(sys.argv) > 1:
         arg1 = sys.argv[1].strip('"').strip("'")
-        if os.path.isdir(arg1):
-            temp_dir = arg1
-        elif arg1.lower().endswith('.json') and os.path.isfile(arg1):
-            # Se paso la ruta completa al JSON directamente
+        if arg1.lower().endswith('.json') and os.path.isfile(arg1):
+            # Ruta completa al JSON pasada directamente
             data_json_path = arg1
+        elif _is_valid_dir_arg(arg1):
+            temp_dir = arg1
         else:
-            # El arg no existe como directorio ni como JSON: usar fallback
+            # Arg recibido pero no reconocible: usar fallback
             temp_dir = _default_temp
     else:
         temp_dir = _default_temp
 
     if data_json_path is None:
-        data_json_path = os.path.join(temp_dir, 'datos_tmp.json')
+        # Crear el directorio si no existe para evitar errores en escritura posterior
+        if temp_dir and not os.path.isdir(temp_dir):
+            try:
+                os.makedirs(temp_dir)
+            except Exception:
+                pass
+        data_json_path = os.path.join(temp_dir, "datos_tmp.json")
 
-    # ── MASTER_DIR (argv[2]) ───────────────────────────────────────────────────────────
+    # ── MASTER_DIR (argv[2]) ──────────────────────────────────────────────────
     if len(sys.argv) > 2:
         arg2 = sys.argv[2].strip('"').strip("'")
-        master_dir = arg2 if os.path.isdir(arg2) else _default_master
+        master_dir = arg2 if _is_valid_dir_arg(arg2) else _default_master
     else:
         master_dir = _default_master
 
-    config_path = os.path.join(master_dir, 'config_proyecto_activo.json')
+    # Crear master_dir si no existe
+    if not os.path.isdir(master_dir):
+        try:
+            os.makedirs(master_dir)
+        except Exception:
+            pass
+
+    config_path = os.path.join(master_dir, "config_proyecto_activo.json")
     return data_json_path, config_path
 
 
 DATA_JSON_PATH, CONFIG_PATH = _resolve_paths()
 
-# ── Helpers JSON ──────────────────────────────────────────────────────────────────────────────────
+
+# ── Helpers JSON ──────────────────────────────────────────────────────────────
 def cargar_json(ruta, default=None, show_err=True):
     try:
         if not os.path.exists(ruta):
@@ -172,13 +210,13 @@ def get_repo_path():
         return None
 
 
-# ── Aplicar estilo dark al ttk.Style ─────────────────────────────────────────────────────────────────
+# ── Aplicar estilo dark al ttk.Style ─────────────────────────────────────────
 def aplicar_estilo_dark(root):
     style = ttk.Style(root)
     style.theme_use("clam")
 
-    style.configure("TFrame",       background=PAL["bg_panel"])
-    style.configure("Header.TFrame",background=PAL["bg_header"])
+    style.configure("TFrame",        background=PAL["bg_panel"])
+    style.configure("Header.TFrame", background=PAL["bg_header"])
     style.configure("TLabel",
         background=PAL["bg_panel"], foreground=PAL["fg"], font=PAL["font_sub"])
     style.configure("Title.TLabel",
@@ -232,13 +270,13 @@ def aplicar_estilo_dark(root):
     style.configure("TSizegrip", background=PAL["bg"])
 
 
-# ── Treeview editable ──────────────────────────────────────────────────────────────────────────────────
+# ── Treeview editable ─────────────────────────────────────────────────────────
 class EditableTreeview(ttk.Treeview):
 
     def __init__(self, master, headers, rows, **kwargs):
         super().__init__(master, columns=headers, show="headings", **kwargs)
-        self.headers      = headers
-        self.draft_edits  = {}
+        self.headers       = headers
+        self.draft_edits   = {}
         self.editing_entry = None
 
         col_widths = {"ElementId": 90, "Archivo": 130, "CodIntBIM": 120}
@@ -323,10 +361,10 @@ class EditableTreeview(ttk.Treeview):
                     self.editing_entry.destroy()
                     self.editing_entry = None
 
-            entry.bind("<Return>",  _commit)
-            entry.bind("<Tab>",     _commit)
+            entry.bind("<Return>",   _commit)
+            entry.bind("<Tab>",      _commit)
             entry.bind("<FocusOut>", _commit)
-            entry.bind("<Escape>",  _cancel)
+            entry.bind("<Escape>",   _cancel)
 
         except Exception:
             messagebox.showerror(
@@ -335,7 +373,7 @@ class EditableTreeview(ttk.Treeview):
             )
 
 
-# ── Barra de estado ───────────────────────────────────────────────────────────────────────────────────
+# ── Barra de estado ───────────────────────────────────────────────────────────
 class StatusBar(tk.Frame):
 
     def __init__(self, master, **kwargs):
@@ -358,7 +396,7 @@ class StatusBar(tk.Frame):
         self._var.set("Listo")
 
 
-# ── Ventana principal ──────────────────────────────────────────────────────────────────────────────────
+# ── Ventana principal ─────────────────────────────────────────────────────────
 def main():
     meta      = cargar_json(DATA_JSON_PATH) or {}
     headers   = meta.get("Headers", []) or []
@@ -385,7 +423,7 @@ def main():
     root.columnconfigure(0, weight=1)
     root.rowconfigure(1, weight=1)
 
-    # ── Cabecera ─────────────────────────────────────────────────────────────────────────
+    # ── Cabecera ──────────────────────────────────────────────────────────────
     header_frame = ttk.Frame(root, style="Header.TFrame")
     header_frame.grid(row=0, column=0, sticky="ew")
     header_frame.columnconfigure(1, weight=1)
@@ -399,7 +437,7 @@ def main():
         style="Title.TLabel"
     ).grid(row=0, column=1, sticky="w", padx=(12, 0), pady=(10, 2))
 
-    sub_txt = u"Proyecto: {} \u2022 {} elementos".format(proyecto or u"—", n_filas)
+    sub_txt = u"Proyecto: {} \u2022 {} elementos".format(proyecto or u"\u2014", n_filas)
     ttk.Label(
         header_frame, text=sub_txt, style="Sub.TLabel"
     ).grid(row=1, column=1, sticky="w", padx=(12, 0), pady=(0, 2))
@@ -413,7 +451,7 @@ def main():
 
     tk.Frame(root, bg=PAL["border"], height=1).grid(row=0, column=0, sticky="sew")
 
-    # ── Area de tabla ──────────────────────────────────────────────────────────────────────
+    # ── Area de tabla ─────────────────────────────────────────────────────────
     table_frame = ttk.Frame(root)
     table_frame.grid(row=1, column=0, sticky="nsew", padx=0, pady=0)
     table_frame.columnconfigure(0, weight=1)
@@ -428,11 +466,11 @@ def main():
     hsb.grid(row=1, column=0, sticky="ew")
     tree.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
 
-    # ── Barra de estado ────────────────────────────────────────────────────────────────────
+    # ── Barra de estado ───────────────────────────────────────────────────────
     status = StatusBar(root)
     status.grid(row=2, column=0, sticky="ew")
 
-    # ── Botones ───────────────────────────────────────────────────────────────────────────────────
+    # ── Botones ───────────────────────────────────────────────────────────────
     btn_frame = tk.Frame(root, bg=PAL["bg"], pady=8)
     btn_frame.grid(row=3, column=0, sticky="ew")
     btn_frame.columnconfigure(0, weight=1)
