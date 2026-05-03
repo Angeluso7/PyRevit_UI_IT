@@ -4,12 +4,14 @@ datos_proyecto.py — Visor/Editor de datos del proyecto activo (SAESA).
 Estilo: dark manual (paleta coherente con el resto de la extension PyRevit_UI_IT).
 
 Uso (llamado desde script.py):
-    python datos_proyecto.py <TEMP_DIR> <MASTER_DIR>
+    python datos_proyecto.py <RUTA_JSON> <MASTER_DIR>
 
-argv[1] = TEMP_DIR   -> directorio donde vive datos_tmp.json
+argv[1] = Ruta completa al datos_tmp.json generado por generar_datos_tmp.py
 argv[2] = MASTER_DIR -> directorio donde vive config_proyecto_activo.json
 
 Fallback sin argumentos: construye EXT_ROOT con expanduser, igual que config_utils.py.
+Version = 2.1
+Date    = 03.05.2026
 """
 
 import os
@@ -52,80 +54,46 @@ PAL = {
 NON_EDITABLE = {"Archivo", "ElementId", "nombre_archivo", "CodIntBIM"}
 
 
-def _is_valid_dir_arg(path):
-    """
-    Retorna True si el argumento es una ruta de directorio aceptable:
-    - existe en disco como directorio, O
-    - es una ruta absoluta con un nombre de carpeta reconocible (temp/master/cache/data).
-    Esto permite aceptar la ruta aunque el directorio aun no haya sido creado,
-    confiando en que script.py (IronPython) lo crea antes de lanzar este proceso.
-    """
-    if not path:
-        return False
-    if os.path.isdir(path):
-        return True
-    # Aceptar si es ruta absoluta que termina en carpeta conocida del proyecto
-    basename = os.path.basename(os.path.normpath(path)).lower()
-    if basename in ("temp", "master", "cache", "data", "logs"):
-        return True
-    return False
-
-
 # ── Resolucion de rutas desde argumentos ─────────────────────────────────────
 def _resolve_paths():
     """
     Retorna (data_json_path, config_path) segun los argumentos recibidos.
 
     Convenio de llamada desde script.py (IronPython):
-        argv[1] = TEMP_DIR   (directorio donde vive datos_tmp.json)
+        argv[1] = Ruta completa al datos_tmp.json generado por generar_datos_tmp.py
         argv[2] = MASTER_DIR (directorio donde vive config_proyecto_activo.json)
-
-    El directorio puede no existir aun en disco cuando se invoca este script
-    (script.py lo crea antes de lanzar el subproceso, pero puede haber una
-    condicion de carrera). Se acepta cualquier ruta absoluta valida como
-    directorio de destino sin requerir que exista al momento de resolverla.
 
     Fallback sin argumentos o con argumentos invalidos:
         Construye EXT_ROOT con expanduser, identico a config_utils.py.
     """
     # Fallback robusto: mismo metodo que config_utils.py
-    _ext_root_fb = os.path.normpath(os.path.join(
+    _ext_root_fb  = os.path.normpath(os.path.join(
         os.path.expanduser("~"),
         "AppData", "Roaming", "MyPyRevitExtention", "PyRevitIT.extension"
     ))
-    _default_temp   = os.path.join(_ext_root_fb, "data", "temp")
     _default_master = os.path.join(_ext_root_fb, "data", "master")
 
-    # ── TEMP_DIR (argv[1]) ────────────────────────────────────────────────────
+    # ── argv[1]: ruta completa al JSON ────────────────────────────────────────
     data_json_path = None
-    temp_dir       = None
 
     if len(sys.argv) > 1:
         arg1 = sys.argv[1].strip('"').strip("'")
-        if arg1.lower().endswith('.json') and os.path.isfile(arg1):
-            # Ruta completa al JSON pasada directamente
+        # Caso A: ruta directa al .json
+        if arg1.lower().endswith('.json'):
             data_json_path = arg1
-        elif _is_valid_dir_arg(arg1):
-            temp_dir = arg1
+        # Caso B: directorio (legacy — por si se llama con el directorio)
+        elif os.path.isdir(arg1):
+            data_json_path = os.path.join(arg1, "datos_tmp.json")
         else:
-            # Arg recibido pero no reconocible: usar fallback
-            temp_dir = _default_temp
+            # Ruta al json que aun no existe (se acaba de escribir)
+            data_json_path = arg1
     else:
-        temp_dir = _default_temp
+        data_json_path = os.path.join(_default_master, "datos_tmp.json")
 
-    if data_json_path is None:
-        # Crear el directorio si no existe para evitar errores en escritura posterior
-        if temp_dir and not os.path.isdir(temp_dir):
-            try:
-                os.makedirs(temp_dir)
-            except Exception:
-                pass
-        data_json_path = os.path.join(temp_dir, "datos_tmp.json")
-
-    # ── MASTER_DIR (argv[2]) ──────────────────────────────────────────────────
+    # ── argv[2]: MASTER_DIR ───────────────────────────────────────────────────
     if len(sys.argv) > 2:
         arg2 = sys.argv[2].strip('"').strip("'")
-        master_dir = arg2 if _is_valid_dir_arg(arg2) else _default_master
+        master_dir = arg2 if (os.path.isdir(arg2) or os.path.isabs(arg2)) else _default_master
     else:
         master_dir = _default_master
 
@@ -401,7 +369,7 @@ def main():
     meta      = cargar_json(DATA_JSON_PATH) or {}
     headers   = meta.get("Headers", []) or []
     data_rows = meta.get("Rows",    []) or []
-    titulo    = meta.get("Titulo",  "SAESA — Datos del Proyecto")
+    titulo    = meta.get("Titulo",  "SAESA \u2014 Datos del Proyecto")
     proyecto  = meta.get("Proyecto", "")
     n_filas   = len(data_rows)
 
