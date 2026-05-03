@@ -24,10 +24,25 @@ _EXT_ROOT = os.path.abspath(os.path.join(_THIS_DIR, '..', '..', '..', '..'))
 _MASTER   = os.path.join(_EXT_ROOT, 'data', 'master')
 CONFIG_PATH = os.path.join(_MASTER, 'config_proyecto_activo.json')
 
-if len(sys.argv) > 1:
-    DATA_JSON_PATH = sys.argv[1]
-else:
-    DATA_JSON_PATH = os.path.join(_EXT_ROOT, 'data', 'temp', 'datos_tmp.json')
+# ── Resolución de DATA_JSON_PATH ─────────────────────────────────────────────
+# script.py pasa MASTER_DIR (carpeta) como sys.argv[1].
+# Si el argumento es una carpeta, se construye la ruta al archivo JSON
+# esperado dentro de ella (datos_tmp.json).  Si es un archivo .json se
+# usa directamente.  Si no hay argumento, se usa la ruta por defecto.
+def _resolve_data_json_path():
+    if len(sys.argv) > 1:
+        arg = sys.argv[1].strip('"').strip("'")
+        if os.path.isdir(arg):
+            # Se recibió una carpeta (p.ej. MASTER_DIR) — apuntar al JSON
+            return os.path.join(arg, 'datos_tmp.json')
+        elif arg.lower().endswith('.json'):
+            return arg
+        else:
+            # Ruta desconocida: tratar como carpeta por seguridad
+            return os.path.join(arg, 'datos_tmp.json')
+    return os.path.join(_EXT_ROOT, 'data', 'temp', 'datos_tmp.json')
+
+DATA_JSON_PATH = _resolve_data_json_path()
 
 
 def cargar_json(ruta, default=None, show_err=True):
