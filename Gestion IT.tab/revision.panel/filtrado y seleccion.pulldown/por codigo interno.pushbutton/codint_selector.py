@@ -5,6 +5,87 @@ import json
 import tkinter as tk
 from tkinter import ttk, messagebox
 
+# ── Paleta dark ───────────────────────────────────────────────────────────────
+DARK = {
+    "bg":           "#1e1e1e",
+    "surface":      "#2a2a2a",
+    "border":       "#3c3c3c",
+    "fg":           "#d4d4d4",
+    "fg_muted":     "#888888",
+    "accent":       "#4f98a3",
+    "accent_hover": "#3a7d88",
+    "btn_bg":       "#3a3a3a",
+    "btn_fg":       "#d4d4d4",
+    "disabled_bg":  "#2d2d2d",
+    "disabled_fg":  "#5a5a5a",
+    "select_bg":    "#094771",
+    "select_fg":    "#ffffff",
+}
+
+
+def _aplicar_tema_dark(root):
+    root.configure(bg=DARK["bg"])
+    style = ttk.Style(root)
+    style.theme_use("clam")
+
+    style.configure("TFrame",      background=DARK["bg"])
+    style.configure("TLabelframe", background=DARK["bg"],
+                    foreground=DARK["fg"], bordercolor=DARK["border"])
+    style.configure("TLabelframe.Label", background=DARK["bg"],
+                    foreground=DARK["fg"])
+    style.configure("TLabel",
+                    background=DARK["bg"],
+                    foreground=DARK["fg"])
+    style.configure("TRadiobutton",
+                    background=DARK["bg"],
+                    foreground=DARK["fg"])
+    style.map("TRadiobutton",
+              background=[("active", DARK["bg"])],
+              foreground=[("disabled", DARK["disabled_fg"])])
+    style.configure("TEntry",
+                    fieldbackground=DARK["surface"],
+                    foreground=DARK["fg"],
+                    insertcolor=DARK["fg"],
+                    bordercolor=DARK["border"],
+                    lightcolor=DARK["border"],
+                    darkcolor=DARK["border"])
+    style.map("TEntry",
+              fieldbackground=[("disabled", DARK["disabled_bg"])],
+              foreground=[("disabled", DARK["disabled_fg"])])
+    style.configure("TScrollbar",
+                    background=DARK["btn_bg"],
+                    troughcolor=DARK["bg"],
+                    bordercolor=DARK["border"],
+                    arrowcolor=DARK["fg"],
+                    relief="flat")
+    style.map("TScrollbar",
+              background=[("active", DARK["border"])])
+    style.configure("TButton",
+                    background=DARK["btn_bg"],
+                    foreground=DARK["btn_fg"],
+                    bordercolor=DARK["border"],
+                    lightcolor=DARK["border"],
+                    darkcolor=DARK["border"],
+                    relief="flat",
+                    padding=(8, 4))
+    style.map("TButton",
+              background=[("active", DARK["border"]),
+                          ("disabled", DARK["disabled_bg"])],
+              foreground=[("disabled", DARK["disabled_fg"])])
+    style.configure("Accent.TButton",
+                    background=DARK["accent"],
+                    foreground="#ffffff",
+                    bordercolor=DARK["accent"],
+                    lightcolor=DARK["accent"],
+                    darkcolor=DARK["accent"],
+                    relief="flat",
+                    padding=(8, 4))
+    style.map("Accent.TButton",
+              background=[("active", DARK["accent_hover"]),
+                          ("disabled", DARK["disabled_bg"])],
+              foreground=[("disabled", DARK["disabled_fg"])])
+
+
 class CodIntSelectorApp(object):
     def __init__(self, root, datos, out_path):
         self.root = root
@@ -43,7 +124,16 @@ class CodIntSelectorApp(object):
         frame1.rowconfigure(2, weight=1)
         frame_list.rowconfigure(0, weight=1)
         frame_list.columnconfigure(0, weight=1)
-        self.listbox = tk.Listbox(frame_list, height=6, exportselection=False)
+        self.listbox = tk.Listbox(
+            frame_list, height=6, exportselection=False,
+            bg=DARK["surface"], fg=DARK["fg"],
+            selectbackground=DARK["select_bg"],
+            selectforeground=DARK["select_fg"],
+            highlightbackground=DARK["border"],
+            highlightcolor=DARK["accent"],
+            highlightthickness=1,
+            relief="flat"
+        )
         self.listbox.grid(row=0, column=0, sticky='nsew')
         scroll = ttk.Scrollbar(frame_list, orient='vertical', command=self.listbox.yview)
         scroll.grid(row=0, column=1, sticky='ns')
@@ -59,18 +149,25 @@ class CodIntSelectorApp(object):
         frame_btn.pack(fill='x', pady=(10, 0))
         frame_btn.columnconfigure(0, weight=1)
         ttk.Button(frame_btn, text='Cancelar', command=self.on_cancelar).grid(row=0, column=1, sticky='e', padx=(0, 5))
-        ttk.Button(frame_btn, text='Aceptar', command=self.on_aceptar).grid(row=0, column=2, sticky='e')
+        ttk.Button(frame_btn, text='Aceptar', command=self.on_aceptar,
+                   style='Accent.TButton').grid(row=0, column=2, sticky='e')
 
     def _actualizar_estado_renglones(self, *args):
         op = self.opcion_var.get()
         if op == 'by_codint':
             self.entry_filt.configure(state='normal')
-            self.listbox.configure(state='normal')
+            self.listbox.configure(
+                state='normal',
+                bg=DARK["surface"], fg=DARK["fg"]
+            )
             self.rb_asig.configure(state='disabled')
             self.rb_noasig.configure(state='disabled')
         else:
             self.entry_filt.configure(state='disabled')
-            self.listbox.configure(state='disabled')
+            self.listbox.configure(
+                state='disabled',
+                bg=DARK["disabled_bg"], fg=DARK["disabled_fg"]
+            )
             self.rb_asig.configure(state='normal')
             self.rb_noasig.configure(state='normal')
 
@@ -124,6 +221,7 @@ def main():
         return
     root = tk.Tk()
     root.resizable(True, True)
+    _aplicar_tema_dark(root)
     CodIntSelectorApp(root, datos, out_path)
     root.mainloop()
 
