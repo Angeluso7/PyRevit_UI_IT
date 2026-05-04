@@ -2403,3 +2403,877 @@ subprocess.CalledProcessError: Command '['C:\\Users\\Zbook HP\\AppData\\Local\\P
 [2026-04-22 10:24:40] exportar: comparacion.json -> C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\output\comparacion.json
 [2026-04-22 10:24:48] exportar: Excel OK -> D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\planilla-modelo_20260422_1024.xlsx
 [2026-04-22 10:24:54] ==== Fin ui_comparacion.py ====
+[2026-05-03 17:42:48] ==== Inicio ui_comparacion.py ====
+[2026-05-03 17:42:48] Args: script_json=C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json | csv=C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\output\CODIGO.csv | data_output=C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\output | formatear=C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\scripts_cpython\formatear_tablas_excel.py | xlsx=D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\Exportaciones\planilla-modelo_20260503_1742.xlsx | python=C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe | modelo=C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\output\modelo_codint_por_cm.json
+[2026-05-03 17:42:48] leer_script_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json
+[2026-05-03 17:42:48] leer_csv_codigos: 431 filas desde C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\output\CODIGO.csv
+[2026-05-03 17:42:48] construir_excel_por_planilla: planilla_a_cm={'carga_masiva_subestaciones': 'CM01', 'carga_masiva_elementos-comunes-ssee': 'CM02', 'carga_masiva_patios-subestaciones': 'CM03', 'carga_masiva_elementos-comunes-patio': 'CM04', 'carga_masiva_barras': 'CM05', 'carga_masiva_panos': 'CM06', 'carga_masiva_elementos-comunes-panos': 'CM07', 'carga_masiva_transformadores-2d': 'CM08', 'carga_masiva_transformadores-3d': 'CM09', 'carga_masiva_interruptores': 'CM10', 'carga_masiva_desconectadores': 'CM11', 'carga_masiva_transformadores-corriente': 'CM12', 'carga_masiva_transformadores-potencial': 'CM13', 'carga_masiva_transformadores-ssaa': 'CM14', 'carga_masiva_pararrayos': 'CM15', 'carga_masiva_trampas-ondas': 'CM16', 'carga_masiva_aisladores': 'CM17', 'carga_masiva_medidores': 'CM18', 'carga_masiva_condensadores-asincronos': 'CM19', 'carga_masiva_compensadores-activos': 'CM20', 'carga_masiva_compensadores-series': 'CM21', 'carga_masiva_compensadores-estaticos-reactivos': 'CM22', 'carga_masiva_condensadores-acoplamiento': 'CM23', 'carga_masiva_banco-condensadores': 'CM24', 'carga_masiva_reactores': 'CM25', 'carga_masiva_dispositivos-reconexion': 'CM26', 'carga_masiva_celdas': 'CM27', 'carga_masiva_paneles-antirruido': 'CM28', 'carga_masiva_servidumbres': 'CM29', 'carga_masiva_casas-servicios-generales-y-casetas': 'CM30', 'carga_masiva_bancos-baterias': 'CM31', 'carga_masiva_generadores-energia': 'CM32', 'carga_masiva_tableros': 'CM33', 'carga_masiva_elementos-comunes-ssgg-casetas': 'CM34', 'carga_masiva_armarios': 'CM35', 'carga_masiva_multiplexadores': 'CM36', 'carga_masiva_equipos-principales-comunicación': 'CM37', 'carga_masiva_otros-elementos-telecomunicaciones': 'CM38', 'carga_masiva_reles-proteccion': 'CM39', 'carga_masiva_otros_elementos-sistemas-proteccion': 'CM40', 'carga_masiva_controladores-bahia': 'CM41', 'carga_masiva_otros_elementos-sistemas-control': 'CM42', 'carga_masiva_elementos-comunes-armarios': 'CM43', 'carga_masiva_sistemas-respaldo-energía': 'CM44', 'carga_masiva_estaciones-repetidoras': 'CM45', 'carga_masiva_lineas': 'CM46', 'carga_masiva_circuitos': 'CM47', 'carga_masiva_tramos': 'CM48', 'carga_masiva_vanos': 'CM49', 'carga_masiva_accesorios-vanos': 'CM50', 'carga_masiva_tuneles': 'CM51', 'carga_masiva_estructuras-subestaciones': 'CM52', 'carga_masiva_accesorios-estructuras-subestaciones': 'CM53', 'carga_masiva_estructuras-lineas': 'CM54', 'carga_masiva_torres': 'CM55', 'carga_masiva_marcos-lineas': 'CM56', 'carga_masiva_accesorios-estructuras-lineas-aéreas': 'CM57', 'carga_masiva_camaras': 'CM58', 'carga_masiva_accesorios-estructuras-lineas-subterráneas': 'CM59', 'carga_masiva_patios-mufas': 'CM60', 'carga_masiva_mufas': 'CM61', 'carga_masiva_pararrayos-mufas': 'CM62', 'carga_masiva_oocc': 'CM63', 'carga_masiva_tipos-oocc': 'CM64', 'carga_masiva_estudios-impacto-ambiental': 'CM65', 'carga_masiva_mitigaciones-ambientales': 'CM66'}
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 33 headers para carga_masiva_elementos-comunes-ssee::CM02
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 40 headers para carga_masiva_transformadores-corriente::CM12
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 40 headers para carga_masiva_transformadores-corriente::CM12
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 33 headers para carga_masiva_elementos-comunes-ssee::CM02
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 33 headers para carga_masiva_elementos-comunes-ssee::CM02
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 33 headers para carga_masiva_elementos-comunes-ssee::CM02
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 33 headers para carga_masiva_elementos-comunes-ssee::CM02
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 33 headers para carga_masiva_elementos-comunes-ssee::CM02
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 33 headers para carga_masiva_elementos-comunes-ssee::CM02
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 33 headers para carga_masiva_elementos-comunes-ssee::CM02
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 33 headers para carga_masiva_elementos-comunes-ssee::CM02
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 33 headers para carga_masiva_elementos-comunes-ssee::CM02
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 33 headers para carga_masiva_elementos-comunes-ssee::CM02
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 33 headers para carga_masiva_elementos-comunes-ssee::CM02
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 33 headers para carga_masiva_elementos-comunes-ssee::CM02
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 33 headers para carga_masiva_elementos-comunes-ssee::CM02
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 33 headers para carga_masiva_elementos-comunes-ssee::CM02
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 33 headers para carga_masiva_elementos-comunes-ssee::CM02
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 33 headers para carga_masiva_elementos-comunes-ssee::CM02
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 33 headers para carga_masiva_elementos-comunes-ssee::CM02
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 33 headers para carga_masiva_elementos-comunes-ssee::CM02
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 33 headers para carga_masiva_elementos-comunes-ssee::CM02
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 33 headers para carga_masiva_elementos-comunes-ssee::CM02
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 33 headers para carga_masiva_elementos-comunes-ssee::CM02
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 33 headers para carga_masiva_elementos-comunes-ssee::CM02
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 33 headers para carga_masiva_elementos-comunes-ssee::CM02
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 31 headers para carga_masiva_barras::CM05
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 31 headers para carga_masiva_barras::CM05
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 31 headers para carga_masiva_barras::CM05
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 31 headers para carga_masiva_barras::CM05
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 31 headers para carga_masiva_barras::CM05
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 31 headers para carga_masiva_barras::CM05
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 31 headers para carga_masiva_barras::CM05
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 31 headers para carga_masiva_barras::CM05
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_panos::CM06
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 36 headers para carga_masiva_desconectadores::CM11
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 40 headers para carga_masiva_transformadores-corriente::CM12
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 40 headers para carga_masiva_transformadores-corriente::CM12
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 40 headers para carga_masiva_transformadores-corriente::CM12
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 40 headers para carga_masiva_transformadores-corriente::CM12
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 40 headers para carga_masiva_transformadores-corriente::CM12
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 40 headers para carga_masiva_transformadores-corriente::CM12
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 40 headers para carga_masiva_transformadores-corriente::CM12
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 40 headers para carga_masiva_transformadores-corriente::CM12
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 40 headers para carga_masiva_transformadores-corriente::CM12
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 40 headers para carga_masiva_transformadores-corriente::CM12
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 40 headers para carga_masiva_transformadores-corriente::CM12
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 40 headers para carga_masiva_transformadores-corriente::CM12
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 40 headers para carga_masiva_transformadores-corriente::CM12
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 40 headers para carga_masiva_transformadores-corriente::CM12
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 40 headers para carga_masiva_transformadores-corriente::CM12
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 40 headers para carga_masiva_transformadores-corriente::CM12
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 40 headers para carga_masiva_transformadores-corriente::CM12
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 40 headers para carga_masiva_transformadores-corriente::CM12
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 40 headers para carga_masiva_transformadores-corriente::CM12
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 40 headers para carga_masiva_transformadores-corriente::CM12
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 39 headers para carga_masiva_transformadores-potencial::CM13
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 39 headers para carga_masiva_transformadores-potencial::CM13
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 39 headers para carga_masiva_transformadores-potencial::CM13
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 39 headers para carga_masiva_transformadores-potencial::CM13
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 27 headers para carga_masiva_pararrayos::CM15
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 26 headers para carga_masiva_aisladores::CM17
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 26 headers para carga_masiva_aisladores::CM17
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 26 headers para carga_masiva_aisladores::CM17
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 26 headers para carga_masiva_aisladores::CM17
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 26 headers para carga_masiva_aisladores::CM17
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 26 headers para carga_masiva_aisladores::CM17
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 26 headers para carga_masiva_aisladores::CM17
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 26 headers para carga_masiva_aisladores::CM17
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 26 headers para carga_masiva_aisladores::CM17
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 26 headers para carga_masiva_aisladores::CM17
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 31 headers para carga_masiva_banco-condensadores::CM24
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 31 headers para carga_masiva_reactores::CM25
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: sin headers para carga_masiva_dispositivos-reconexion::CM26
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: sin headers para carga_masiva_dispositivos-reconexion::CM26
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: sin headers para carga_masiva_dispositivos-reconexion::CM26
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 51 headers para carga_masiva_celdas::CM27
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 51 headers para carga_masiva_celdas::CM27
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 51 headers para carga_masiva_celdas::CM27
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 51 headers para carga_masiva_celdas::CM27
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 51 headers para carga_masiva_celdas::CM27
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 51 headers para carga_masiva_celdas::CM27
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 51 headers para carga_masiva_celdas::CM27
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 51 headers para carga_masiva_celdas::CM27
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 51 headers para carga_masiva_celdas::CM27
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 51 headers para carga_masiva_celdas::CM27
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 51 headers para carga_masiva_celdas::CM27
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 51 headers para carga_masiva_celdas::CM27
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 51 headers para carga_masiva_celdas::CM27
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 51 headers para carga_masiva_celdas::CM27
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 51 headers para carga_masiva_celdas::CM27
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 51 headers para carga_masiva_celdas::CM27
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 51 headers para carga_masiva_celdas::CM27
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 51 headers para carga_masiva_celdas::CM27
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 51 headers para carga_masiva_celdas::CM27
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 51 headers para carga_masiva_celdas::CM27
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 51 headers para carga_masiva_celdas::CM27
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 51 headers para carga_masiva_celdas::CM27
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 51 headers para carga_masiva_celdas::CM27
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 51 headers para carga_masiva_celdas::CM27
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 51 headers para carga_masiva_celdas::CM27
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 51 headers para carga_masiva_celdas::CM27
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 51 headers para carga_masiva_celdas::CM27
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 51 headers para carga_masiva_celdas::CM27
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 51 headers para carga_masiva_celdas::CM27
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 51 headers para carga_masiva_celdas::CM27
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 51 headers para carga_masiva_celdas::CM27
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 20 headers para carga_masiva_casas-servicios-generales-y-casetas::CM30
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 20 headers para carga_masiva_casas-servicios-generales-y-casetas::CM30
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 22 headers para carga_masiva_bancos-baterias::CM31
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 22 headers para carga_masiva_bancos-baterias::CM31
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 25 headers para carga_masiva_armarios::CM35
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 18 headers para carga_masiva_otros-elementos-telecomunicaciones::CM38
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 18 headers para carga_masiva_otros-elementos-telecomunicaciones::CM38
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: sin headers para carga_masiva_otros_elementos-sistemas-proteccion::CM40
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: sin headers para carga_masiva_otros_elementos-sistemas-proteccion::CM40
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: sin headers para carga_masiva_otros_elementos-sistemas-proteccion::CM40
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: sin headers para carga_masiva_otros_elementos-sistemas-proteccion::CM40
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: sin headers para carga_masiva_otros_elementos-sistemas-proteccion::CM40
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: sin headers para carga_masiva_otros_elementos-sistemas-proteccion::CM40
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: sin headers para carga_masiva_otros_elementos-sistemas-proteccion::CM40
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 18 headers para carga_masiva_controladores-bahia::CM41
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 18 headers para carga_masiva_controladores-bahia::CM41
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 18 headers para carga_masiva_controladores-bahia::CM41
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 18 headers para carga_masiva_controladores-bahia::CM41
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: sin headers para carga_masiva_otros_elementos-sistemas-control::CM42
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: sin headers para carga_masiva_otros_elementos-sistemas-control::CM42
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: sin headers para carga_masiva_sistemas-respaldo-energía::CM44
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: sin headers para carga_masiva_sistemas-respaldo-energía::CM44
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 22 headers para carga_masiva_lineas::CM46
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 15 headers para carga_masiva_circuitos::CM47
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 15 headers para carga_masiva_circuitos::CM47
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 47 headers para carga_masiva_estructuras-subestaciones::CM52
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 47 headers para carga_masiva_estructuras-subestaciones::CM52
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 47 headers para carga_masiva_estructuras-subestaciones::CM52
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 47 headers para carga_masiva_estructuras-subestaciones::CM52
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 47 headers para carga_masiva_estructuras-subestaciones::CM52
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 47 headers para carga_masiva_estructuras-subestaciones::CM52
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 47 headers para carga_masiva_estructuras-subestaciones::CM52
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 47 headers para carga_masiva_estructuras-subestaciones::CM52
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 47 headers para carga_masiva_estructuras-subestaciones::CM52
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 47 headers para carga_masiva_estructuras-subestaciones::CM52
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 47 headers para carga_masiva_estructuras-subestaciones::CM52
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 47 headers para carga_masiva_estructuras-subestaciones::CM52
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 47 headers para carga_masiva_estructuras-subestaciones::CM52
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 47 headers para carga_masiva_estructuras-subestaciones::CM52
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 47 headers para carga_masiva_estructuras-subestaciones::CM52
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 47 headers para carga_masiva_estructuras-subestaciones::CM52
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 47 headers para carga_masiva_estructuras-subestaciones::CM52
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 47 headers para carga_masiva_estructuras-subestaciones::CM52
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 47 headers para carga_masiva_estructuras-subestaciones::CM52
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 47 headers para carga_masiva_estructuras-subestaciones::CM52
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 47 headers para carga_masiva_estructuras-subestaciones::CM52
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 47 headers para carga_masiva_estructuras-subestaciones::CM52
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 47 headers para carga_masiva_estructuras-subestaciones::CM52
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 47 headers para carga_masiva_estructuras-subestaciones::CM52
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 47 headers para carga_masiva_estructuras-subestaciones::CM52
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 47 headers para carga_masiva_estructuras-subestaciones::CM52
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 47 headers para carga_masiva_estructuras-subestaciones::CM52
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 16 headers para carga_masiva_marcos-lineas::CM56
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 16 headers para carga_masiva_marcos-lineas::CM56
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 23 headers para carga_masiva_patios-mufas::CM60
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 23 headers para carga_masiva_patios-mufas::CM60
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 23 headers para carga_masiva_patios-mufas::CM60
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 23 headers para carga_masiva_patios-mufas::CM60
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 23 headers para carga_masiva_patios-mufas::CM60
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 23 headers para carga_masiva_patios-mufas::CM60
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 21 headers para carga_masiva_mufas::CM61
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 21 headers para carga_masiva_mufas::CM61
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 21 headers para carga_masiva_mufas::CM61
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 21 headers para carga_masiva_mufas::CM61
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 65 headers para carga_masiva_transformadores-2d::CM08
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 65 headers para carga_masiva_transformadores-2d::CM08
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 65 headers para carga_masiva_transformadores-2d::CM08
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 65 headers para carga_masiva_transformadores-2d::CM08
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 48 headers para carga_masiva_interruptores::CM10
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 48 headers para carga_masiva_interruptores::CM10
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 48 headers para carga_masiva_interruptores::CM10
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 48 headers para carga_masiva_interruptores::CM10
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 48 headers para carga_masiva_interruptores::CM10
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 48 headers para carga_masiva_interruptores::CM10
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 45 headers para carga_masiva_oocc::CM63
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 23 headers para carga_masiva_reles-proteccion::CM39
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 23 headers para carga_masiva_reles-proteccion::CM39
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 23 headers para carga_masiva_reles-proteccion::CM39
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 23 headers para carga_masiva_reles-proteccion::CM39
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 23 headers para carga_masiva_reles-proteccion::CM39
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 23 headers para carga_masiva_reles-proteccion::CM39
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 23 headers para carga_masiva_reles-proteccion::CM39
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 23 headers para carga_masiva_reles-proteccion::CM39
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 23 headers para carga_masiva_reles-proteccion::CM39
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 23 headers para carga_masiva_reles-proteccion::CM39
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 23 headers para carga_masiva_reles-proteccion::CM39
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 23 headers para carga_masiva_reles-proteccion::CM39
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 23 headers para carga_masiva_reles-proteccion::CM39
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 23 headers para carga_masiva_reles-proteccion::CM39
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 23 headers para carga_masiva_reles-proteccion::CM39
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 23 headers para carga_masiva_reles-proteccion::CM39
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 23 headers para carga_masiva_reles-proteccion::CM39
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 23 headers para carga_masiva_reles-proteccion::CM39
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 23 headers para carga_masiva_reles-proteccion::CM39
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 23 headers para carga_masiva_reles-proteccion::CM39
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 23 headers para carga_masiva_reles-proteccion::CM39
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 23 headers para carga_masiva_reles-proteccion::CM39
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 23 headers para carga_masiva_reles-proteccion::CM39
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 23 headers para carga_masiva_reles-proteccion::CM39
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 23 headers para carga_masiva_reles-proteccion::CM39
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 23 headers para carga_masiva_reles-proteccion::CM39
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\planillas_headers_order.json
+[2026-05-03 17:42:48] cargar_headers_planilla: 49 headers para carga_masiva_elementos-comunes-armarios::CM43
+[2026-05-03 17:42:48] construir_excel_por_planilla: 31 planillas
+[2026-05-03 17:42:48] leer_modelo_por_cm: CMs=['CM11', 'CM08', 'CM13', 'CM02', 'CM27', 'CM10', 'CM39', 'CM30', 'CM52', 'CM35', 'CM25', 'CM63'] desde C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\output\modelo_codint_por_cm.json
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\config_proyecto_activo.json
+[2026-05-03 17:42:48] cargar_repo_activo: ruta=C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-05-03 17:42:48] cargar_json OK: C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-05-03 17:42:48] cargar_repo_activo: 0 registros
+[2026-05-03 17:42:48] construir_tabla_comparativa: 31 planillas
+[2026-05-03 17:42:48] main: 31 planillas en datos_comparacion
+[2026-05-03 17:45:29] ==== Fin ui_comparacion.py ====

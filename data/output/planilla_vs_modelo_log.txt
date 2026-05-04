@@ -54,3 +54,49 @@ C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\ou
 [2026-04-22 10:24:22] llamar_ui_comparacion: salida=D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\planilla-modelo_20260422_1024.xlsx
 [2026-04-22 10:24:56] Excel generado OK: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\planilla-modelo_20260422_1024.xlsx
 [2026-04-22 10:24:56] ==== Fin: Planilla vs Modelo ====
+[2026-05-03 17:41:09] ==== Inicio: Planilla vs Modelo ====
+[2026-05-03 17:41:09] EXT_ROOT     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-05-03 17:41:09] DATA_MASTER  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master
+[2026-05-03 17:41:09] SCRIPT_JSON  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json
+[2026-05-03 17:41:09] python3_exe via fallback: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-05-03 17:41:22] get_repo_activo: 0 registros desde C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-05-03 17:41:22] get_all_docs: 3 documentos
+[2026-05-03 17:41:32] modelo_codint_por_cm.json OK. Elems=895, CMs=['CM11', 'CM08', 'CM13', 'CM02', 'CM27', 'CM10', 'CM39', 'CM30', 'CM52', 'CM35', 'CM25', 'CM63']
+[2026-05-03 17:41:40] leer_xlsm salida:
+C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\output\CODIGO.csv
+
+[2026-05-03 17:42:48] llamar_ui_comparacion: salida=D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\Exportaciones\planilla-modelo_20260503_1742.xlsx
+[2026-05-03 17:45:34] Excel generado OK: D:\SAESA\1.-PROYECTOS\32.- SE RECOLETA\3. INFORMACIÓN\Exportaciones\planilla-modelo_20260503_1742.xlsx
+[2026-05-03 17:45:34] ==== Fin: Planilla vs Modelo ====
+[2026-05-03 17:45:39] ==== Inicio: Planilla vs Modelo ====
+[2026-05-03 17:45:39] EXT_ROOT     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-05-03 17:45:39] DATA_MASTER  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master
+[2026-05-03 17:45:39] SCRIPT_JSON  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json
+[2026-05-03 17:45:39] python3_exe via fallback: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-05-03 17:45:47] get_repo_activo: 0 registros desde C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-05-03 17:45:47] get_all_docs: 3 documentos
+[2026-05-03 17:45:58] modelo_codint_por_cm.json OK. Elems=895, CMs=['CM11', 'CM08', 'CM13', 'CM02', 'CM27', 'CM10', 'CM39', 'CM30', 'CM52', 'CM35', 'CM25', 'CM63']
+[2026-05-03 17:46:05] leer_xlsm salida:
+C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\output\CODIGO.csv
+
+[2026-05-03 17:46:15] llamar_ui_comparacion: carpeta cancelada
+[2026-05-03 17:46:15] ==== Fin: Planilla vs Modelo ====
+[2026-05-03 17:46:35] ==== Inicio: Planilla vs Modelo ====
+[2026-05-03 17:46:35] EXT_ROOT     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-05-03 17:46:35] DATA_MASTER  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master
+[2026-05-03 17:46:35] SCRIPT_JSON  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json
+[2026-05-03 17:46:35] python3_exe via fallback: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-05-03 17:46:53] Selección xlsm cancelada
+[2026-05-03 17:47:28] ==== Inicio: Planilla vs Modelo ====
+[2026-05-03 17:47:28] EXT_ROOT     : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension
+[2026-05-03 17:47:28] DATA_MASTER  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master
+[2026-05-03 17:47:28] SCRIPT_JSON  : C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\master\script.json
+[2026-05-03 17:47:28] python3_exe via fallback: C:\Users\Zbook HP\AppData\Local\Programs\Python\Python313\python.exe
+[2026-05-03 17:47:31] get_repo_activo: 0 registros desde C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\proyectos\repositorio_datos_CNE.OF.ORD. N 569-2020.json
+[2026-05-03 17:47:32] get_all_docs: 3 documentos
+[2026-05-03 17:47:41] modelo_codint_por_cm.json OK. Elems=895, CMs=['CM11', 'CM08', 'CM13', 'CM02', 'CM27', 'CM10', 'CM39', 'CM30', 'CM52', 'CM35', 'CM25', 'CM63']
+[2026-05-03 17:47:49] leer_xlsm salida:
+C:\Users\Zbook HP\AppData\Roaming\MyPyRevitExtention\PyRevitIT.extension\data\output\CODIGO.csv
+
+[2026-05-03 17:48:04] llamar_ui_comparacion: carpeta cancelada
+[2026-05-03 17:48:04] ==== Fin: Planilla vs Modelo ====

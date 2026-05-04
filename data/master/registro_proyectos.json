@@ -61,6 +61,14 @@
       "24069-ISEP-AR1-ZZZ-AG-EE-D-003.rvt": "2539fea1-6f09-4bbe-82b9-f4f413b326ca-0000747b"
     },
     "fecha_creacion": "2026-04-21T15:34:06",
-    "fecha_modificacion": "2026-04-21T15:34:06"
+    "fecha_modificacion": "2026-04-21T15:34:06",
+    "tipo_codigo": "CM01",
+    "tipo_texto": "Subestaciones",
+    "fecha_entrada": "2012/12/01",
+    "fecha_salida": "",
+    "propietario": "SOCIEDAD TRANSMISORA METROPOLITANA S.A.",
+    "estado": "En Operación",
+    "comuna": "Huechuraba",
+    "descripcion": "Digitalización de SE a sistema IT."
   }
 }
